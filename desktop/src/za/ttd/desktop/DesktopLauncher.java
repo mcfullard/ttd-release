@@ -8,7 +8,7 @@ import za.ttd.ttd;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		// this line should only be used during development - remove on release
-		TexturePacker.process("core/assets/sprites/in", "core/assets/sprites/out", "sprites");
+		TexturePacker.process("core/assets/img/sprites/in", "core/assets/img/sprites/out", "sprites");
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = ttd.WIDTH;
