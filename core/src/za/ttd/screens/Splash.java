@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
  * @author minnaar
  * @since 18 July 2015
  *
- * Splash screen class displayed once the game starts up
+ * Splash screen displayed once the game starts up
  *
  */
 public class Splash implements Screen {
@@ -29,7 +29,7 @@ public class Splash implements Screen {
                 Actions.fadeIn(0.5f),
                 Actions.delay(2),
                 Actions.run(() -> {
-                    ((Game)Gdx.app.getApplicationListener()).setScreen(new Splash());
+                    ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenu());
                 })
         ));
     }
