@@ -2,8 +2,10 @@ package za.ttd;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,21 +15,17 @@ import com.badlogic.gdx.utils.Timer;
 public class ttd extends ApplicationAdapter implements InputProcessor {
 	private SpriteBatch batch;
 	private TextureAtlas textureAtlas;
-	private Animation animation;
-	private float elapsedTime = 0;
+	private Sprite sprite;
 
 	@Override
 	public void create() {
+		float w = Gdx.graphics.getWidth();
+		float h = Gdx.graphics.getHeight();
+
 		batch = new SpriteBatch();
-		textureAtlas = new TextureAtlas(Gdx.files.internal(
-				"core/assets/sprites/out/sprites.atlas"
-		));
-		animation = new Animation(
-				1/10f,
-				textureAtlas.findRegion("characters/decayLeft"),
-				textureAtlas.findRegion("characters/decayFull"),
-				textureAtlas.findRegion("characters/decayRight")
-		);
+		textureAtlas = new TextureAtlas(Gdx.files.internal("core/assets/sprites/out/sprites.atlas"));
+		sprite = new Sprite(textureAtlas.findRegion("characters/thomLeft"));
+		sprite.setPosition(w/2 - sprite.getWidth()/2, h/2 - sprite.getHeight()/2);
 	}
 
 	@Override
@@ -40,9 +38,37 @@ public class ttd extends ApplicationAdapter implements InputProcessor {
 	public void render() {
 		Gdx.gl20.glClearColor(0,0,0,1);
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+			if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
+				sprite.translateX(-1f);
+			else
+				sprite.translateX(-10f);
+		}
+
+		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+			if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
+				sprite.translateX(1f);
+			else
+				sprite.translateX(10f);
+		}
+
+		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+			if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
+				sprite.translateY(1f);
+			else
+				sprite.translateY(10f);
+		}
+
+		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+			if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT))
+				sprite.translateY(-1f);
+			else
+				sprite.translateY(-10f);
+		}
+
 		batch.begin();
-		elapsedTime += Gdx.graphics.getDeltaTime();
-		batch.draw(animation.getKeyFrame(elapsedTime, true), 0,0);
+		sprite.draw(batch);
 		batch.end();
 	}
 
