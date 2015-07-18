@@ -1,99 +1,15 @@
 package za.ttd;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.Game;
+import za.ttd.screens.Splash;
 
-public class ttd extends ApplicationAdapter implements InputProcessor {
-	private SpriteBatch batch;
-	private TextureAtlas textureAtlas;
-	private Sprite sprite;
+public class ttd extends Game {
+
+	public static final String TITLE = "The Wrath of Thomas the Dentist";
+	public static final int WIDTH = 600, HEIGHT = 800;
 
 	@Override
 	public void create() {
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
-
-		batch = new SpriteBatch();
-		textureAtlas = new TextureAtlas(Gdx.files.internal("core/assets/sprites/out/sprites.atlas"));
-		sprite = new Sprite(textureAtlas.findRegion("characters/thomLeft"));
-		sprite.setPosition(w/2 - sprite.getWidth()/2, h/2 - sprite.getHeight()/2);
-	}
-
-	@Override
-	public void dispose() {
-		batch.dispose();
-		textureAtlas.dispose();
-	}
-
-	@Override
-	public void render() {
-		Gdx.gl20.glClearColor(0,0,0,1);
-		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-			sprite.setPosition(
-					Gdx.input.getX() - sprite.getWidth()/2,
-					Gdx.graphics.getHeight() - Gdx.input.getY() - sprite.getHeight()/2
-			);
-		}
-		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-			sprite.setPosition(
-					Gdx.graphics.getWidth()/2 - sprite.getWidth()/2,
-					Gdx.graphics.getHeight()/2 - sprite.getHeight()/2
-			);
-		}
-
-		batch.begin();
-		sprite.draw(batch);
-		batch.end();
-	}
-
-	@Override
-	public boolean keyDown(int keycode) {
-		return false;
-	}
-
-	@Override
-	public boolean keyUp(int keycode) {
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int amount) {
-		return false;
+		setScreen(new Splash());
 	}
 }

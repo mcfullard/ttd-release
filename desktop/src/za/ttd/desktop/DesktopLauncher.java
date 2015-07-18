@@ -11,6 +11,8 @@ public class DesktopLauncher {
 		TexturePacker.process("core/assets/sprites/in", "core/assets/sprites/out", "sprites");
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.width = ttd.WIDTH;
+		config.height = ttd.HEIGHT;
 		new LwjglApplication(new ttd(), config);
 	}
 }
