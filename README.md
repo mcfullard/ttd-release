@@ -6,8 +6,8 @@
 You've made it to the repo! Congratulations. Follow the breadcrumbs...
 
 ###Git
-*Download and install [git](https://git-scm.com/downloads).
-*I recommend that you read this quick [tutorial](http://rogerdudler.github.io/git-guide/) on git,
+* Download and install [git](https://git-scm.com/downloads).
+* I recommend that you read this quick [tutorial](http://rogerdudler.github.io/git-guide/) on git,
 since we'll be using it all the time.
 
 ###Import the project
