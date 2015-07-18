@@ -26,7 +26,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="4"
      inkscape:cx="8.6800893"
-     inkscape:cy="306.73432"
+     inkscape:cy="326.73432"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -103,7 +103,8 @@
     </g>
     <g
        id="mouthWash"
-       inkscape:label="#g3120">
+       inkscape:label="#g3120"
+       transform="translate(28.25,-4.75)">
       <path
          style="fill:#000000;fill-opacity:1;stroke:none"
          d="m -97.363136,736.28161 0,51.7608 51.760766,0 0,-51.7608 -51.760766,0 z"
@@ -112,7 +113,7 @@
       <path
          inkscape:label="#path3036"
          transform="matrix(0.36835341,0,0,0.36835341,-104.63456,610.26699)"
-         d="m 110,412.36218 c 0,11.0457 -8.95431,20 -20,20 -11.045695,0 -20,-8.9543 -20,-20 0,-11.04569 8.954305,-20 20,-20 11.04569,0 20,8.95431 20,20 z"
+         d="m 110,412.36218 a 20,20 0 1 1 -40,0 20,20 0 1 1 40,0 z"
          sodipodi:ry="20"
          sodipodi:rx="20"
          sodipodi:cy="412.36218"
@@ -559,7 +560,7 @@
     <g
        transform="translate(9.3691646,0)"
        inkscape:label="#g3128"
-       id="g4179">
+       id="decayRight">
       <path
          inkscape:connector-curvature="0"
          id="path4181"
@@ -594,7 +595,7 @@
          transform="translate(-9.3691646,1020.3622)" />
     </g>
     <g
-       id="g4191"
+       id="decayLeft"
        inkscape:label="#g3128"
        transform="translate(64.369164,0)">
       <path
