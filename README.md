@@ -25,6 +25,7 @@ You should have a consistent internet connection for this step to work properly,
 
 ###Third Party Software
 If you're going to be creating graphics and maps you might want to install the following:
+
 * [Inkscape](https://inkscape.org/en/download/) --- A vector graphics program
 * [Tiled](http://www.mapeditor.org/download.html) --- A map editor
 
