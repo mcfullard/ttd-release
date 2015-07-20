@@ -13,15 +13,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
  * @author minnaar
  * @since 18 July 2015
  *
- * Splash screen displayed once the game starts up
+ * SplashScreen screen displayed once the game starts up
  *
  */
-public class Splash extends AbstractScreen {
+public class SplashScreen extends AbstractScreen {
     private Texture texture = new Texture(Gdx.files.internal("core/assets/img/screens/splash.png"));
     private Image splashImage = new Image(texture);
     private Stage stage = new Stage();
 
-    public Splash(Game game) { super(game); }
+    public SplashScreen(Game game) { super(game); }
 
     @Override
     public void show() {

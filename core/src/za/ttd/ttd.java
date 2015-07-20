@@ -1,7 +1,7 @@
 package za.ttd;
 
 import com.badlogic.gdx.Game;
-import za.ttd.screens.Splash;
+import za.ttd.screens.SplashScreen;
 
 public class ttd extends Game {
 
@@ -10,6 +10,6 @@ public class ttd extends Game {
 
 	@Override
 	public void create() {
-		setScreen(new Splash(this));
+		setScreen(new SplashScreen(this));
 	}
 }
