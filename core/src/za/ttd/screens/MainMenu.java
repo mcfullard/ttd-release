@@ -19,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
  * The main menu that contains buttons to sub-menus and other actions.
  *
  */
-public class MainMenu implements Screen {
+public class MainMenu extends AbstractScreen {
     private Stage stage = new Stage();
     private Table table = new Table();
     private Skin skin = new Skin(Gdx.files.internal("core/assets/skins/menuSkin.json"));
@@ -32,12 +32,14 @@ public class MainMenu implements Screen {
     private TextButton buttonExit = new TextButton("Exit", skin);
     private Label title = new Label("Main Menu", skin);
 
+    public MainMenu(Game game) { super(game); }
+
     @Override
     public void show() {
         buttonContinue.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new Splash());
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new Splash(game));
             }
         });
 
@@ -69,26 +71,6 @@ public class MainMenu implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
     }
 
     @Override

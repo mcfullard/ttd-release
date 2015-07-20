@@ -16,10 +16,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
  * Splash screen displayed once the game starts up
  *
  */
-public class Splash implements Screen {
+public class Splash extends AbstractScreen {
     private Texture texture = new Texture(Gdx.files.internal("core/assets/img/screens/splash.png"));
     private Image splashImage = new Image(texture);
     private Stage stage = new Stage();
+
+    public Splash(Game game) { super(game); }
 
     @Override
     public void show() {
@@ -29,7 +31,7 @@ public class Splash implements Screen {
                 Actions.fadeIn(0.5f),
                 Actions.delay(2),
                 Actions.run(() -> {
-                    ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenu());
+                    ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenu(game));
                 })
         ));
     }
@@ -40,21 +42,6 @@ public class Splash implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
     }
 
     @Override
