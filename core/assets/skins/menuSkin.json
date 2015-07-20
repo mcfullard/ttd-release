@@ -1,0 +1,26 @@
+{
+  "com.badlogic.gdx.graphics.g2d.BitmapFont": {
+    "serif": {
+      "file": "core/assets/fonts/serifWhite.fnt"
+    }
+  },
+  "com.badlogic.gdx.graphics.Color": {
+    "white": { "r": 1, "g": 1, "b": 1, "a": 1 },
+    "black": { "r": 0, "g": 0, "b": 0, "a": 1 },
+    "darkRed": { "r": 0.45, "g": 0, "b": 0, "a": 1 },
+    "lightRed": { "r": 1, "g": 0.867, "b": 0.867, "a": 1 }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
+    "default": {
+      "font": "serif",
+      "fontColor": "lightRed",
+      "pressedOffsetY": -4
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+    "default": {
+      "font": "serif",
+      "fontColor": "darkRed"
+    }
+  }
+}

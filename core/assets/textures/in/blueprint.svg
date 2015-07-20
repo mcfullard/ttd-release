@@ -24,9 +24,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4"
-     inkscape:cx="8.6800893"
-     inkscape:cy="326.73432"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="-47.388646"
+     inkscape:cy="126.58235"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -62,7 +62,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -103,8 +103,7 @@
     </g>
     <g
        id="mouthWash"
-       inkscape:label="#g3120"
-       transform="translate(28.25,-4.75)">
+       inkscape:label="#g3120">
       <path
          style="fill:#000000;fill-opacity:1;stroke:none"
          d="m -97.363136,736.28161 0,51.7608 51.760766,0 0,-51.7608 -51.760766,0 z"
@@ -113,7 +112,7 @@
       <path
          inkscape:label="#path3036"
          transform="matrix(0.36835341,0,0,0.36835341,-104.63456,610.26699)"
-         d="m 110,412.36218 a 20,20 0 1 1 -40,0 20,20 0 1 1 40,0 z"
+         d="m 110,412.36218 c 0,11.0457 -8.95431,20 -20,20 -11.045695,0 -20,-8.9543 -20,-20 0,-11.04569 8.954305,-20 20,-20 11.04569,0 20,8.95431 20,20 z"
          sodipodi:ry="20"
          sodipodi:rx="20"
          sodipodi:cy="412.36218"
@@ -560,7 +559,7 @@
     <g
        transform="translate(9.3691646,0)"
        inkscape:label="#g3128"
-       id="decayRight">
+       id="g4179">
       <path
          inkscape:connector-curvature="0"
          id="path4181"
@@ -595,7 +594,7 @@
          transform="translate(-9.3691646,1020.3622)" />
     </g>
     <g
-       id="decayLeft"
+       id="g4191"
        inkscape:label="#g3128"
        transform="translate(64.369164,0)">
       <path
@@ -629,5 +628,15 @@
          d="m 63.363041,775.46289 -18.037838,-2.65165 0,2.65165 z"
          style="fill:#000000;fill-opacity:1;stroke:none" />
     </g>
+    <path
+       sodipodi:type="arc"
+       style="fill:#550000;fill-opacity:1;stroke:none"
+       id="path5548"
+       sodipodi:cx="-404.46509"
+       sodipodi:cy="-149.72644"
+       sodipodi:rx="53.033009"
+       sodipodi:ry="60.104076"
+       d="m -351.43208,-149.72644 a 53.033009,60.104076 0 1 1 -106.06602,0 53.033009,60.104076 0 1 1 106.06602,0 z"
+       transform="translate(0,1020.3622)" />
   </g>
 </svg>
