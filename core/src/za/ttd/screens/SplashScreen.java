@@ -2,7 +2,6 @@ package za.ttd.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -31,7 +30,7 @@ public class SplashScreen extends AbstractScreen {
                 Actions.fadeIn(0.5f),
                 Actions.delay(2),
                 Actions.run(() -> {
-                    ((Game) Gdx.app.getApplicationListener()).setScreen(new MainMenu(game));
+                    game.setScreen(new MainMenu(game));
                 })
         ));
     }
