@@ -1,4 +1,4 @@
-package za.ttd.MapGeneration;
+package za.ttd.mapgen;
 
 import java.util.Set;
 import java.util.HashSet;

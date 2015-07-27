@@ -1,4 +1,4 @@
-package za.ttd.MapGeneration;
+package za.ttd.mapgen;
 
 /**
  * @author minnaar
