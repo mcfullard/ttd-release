@@ -1,6 +1,5 @@
 package za.ttd.mapgen;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,7 +9,7 @@ import java.util.Set;
  */
 public class Coordinate extends Point {
     private Coordinate parent = null;
-    protected Set<Coordinate> children = null;
+    protected Set<Coordinate> children = new HashSet<>();
 
     public Coordinate(int row, int col) {
         super(row, col);
@@ -25,7 +24,10 @@ public class Coordinate extends Point {
         return (HashSet<Coordinate>)children;
     }
 
-    public void add(Coordinate... children) { Collections.addAll(this.children, children); }
+    public void add(Coordinate... children) {
+        for(Coordinate coordinate : children)
+            this.children.add(coordinate);
+    }
 
     public void negateCol() { this.c = -this.c; }
 
