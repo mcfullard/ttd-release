@@ -1,9 +1,11 @@
 package za.ttd.MapGeneration;
 
+import java.util.Set;
+import java.util.HashSet;
+
 /**
  * A Block is a data structure that describes a Tetris-like block. Blocks
- * can be rotated relative to the origin coordinate. The defualt rotation
- * of a block is ZERO degrees.
+ * can be rotated relative to the origin coordinate.
  *
  * @author minnaar
  * @since 2015/07/21.
@@ -12,65 +14,56 @@ package za.ttd.MapGeneration;
 public class Block {
     protected Coordinate origin;
 
-    public Block(int[] origin, Shape shape) {
-        this.origin = new Coordinate(origin);
+    public Block(int row, int col, Shape shape) {
+        this.origin = new Coordinate(row, col);
         initShape(shape);
     }
+
+    public Coordinate getOrigin() { return this.origin; }
 
     private void initShape(Shape shape) {
         switch (shape) {
             case I:
-                origin.add(new Coordinate(new int[]{0, 1}));
+                origin.add(new Coordinate(0, 1, origin));
             case L:
-                origin.add(new Coordinate(new int[]{0, 2}));
-                origin.add(new Coordinate(new int[]{1, 2}));
+                origin.add(new Coordinate(0, 2, origin));
+                origin.add(new Coordinate(1, 2, origin));
                 break;
             case CORNER:
-                origin.add(new Coordinate(new int[]{1, 1}));
+                origin.add(new Coordinate(1, 1, origin));
+            case BOX:
+                origin.add(new Coordinate(1, 0, origin));
             case T:
-                origin.add(new Coordinate(new int[]{0, 2}));
+                origin.add(new Coordinate(0, 2, origin));
                 break;
         }
     }
 
-    public void rotate(Rotation rotation) {
-        switch (rotation) {
-            case NINETY:
-                recursiveAction(
-                    origin,
-                    coordinate -> {
-                        coordinate.switchRowCol();
-                        coordinate.negateRow();
-                    }
-                );
-                break;
-            case ONE_EIGHTY:
-                recursiveAction(
-                    origin,
-                    coordinate -> {
-                        coordinate.negateRow();
-                        coordinate.negateCol();
-                    }
-                );
-                break;
-            case TWO_SEVENTY:
-                recursiveAction(
-                    origin,
-                    coordinate -> {
-                        coordinate.switchRowCol();
-                        coordinate.negateCol();
-                    }
-                );
-                break;
-        }
-    }
-
-    private void recursiveAction(Coordinate coordinate, CoordinateAction action) {
-        while(coordinate.getDescendants() != null) {
-            for(Coordinate descendant : coordinate.getDescendants()) {
-                action.doAction(descendant);
-                recursiveAction(descendant, action);
+    public void rotate() {
+        while(origin.getChildren() != null) {
+            for(Coordinate descendant : origin.getChildren()) {
+                descendant.switchRowCol();
+                descendant.negateCol();
             }
         }
+    }
+
+    public boolean equals(Block other) {
+        if(other.getOrigin().equals(origin))
+            return true;
+        for(Coordinate otherCoord : other.getOrigin().getChildren()) {
+            for(Coordinate coord : origin.getChildren())
+                if(coord.equals(otherCoord))
+                    return true;
+        }
+        return false;
+    }
+
+    public Set<Point> getPositions() {
+        Set<Point> positions = new HashSet<>();
+        positions.add(origin.getAbsoluteValue());;
+        for(Coordinate coord : origin.getChildren())
+            positions.add(coord.getAbsoluteValue());
+        return positions;
     }
 }

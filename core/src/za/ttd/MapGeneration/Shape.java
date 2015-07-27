@@ -5,5 +5,5 @@ package za.ttd.MapGeneration;
  * @since 2015/07/24.
  */
 public enum Shape {
-    CORNER, L, I, T
+    CORNER, L, I, T, BOX
 }
