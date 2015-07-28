@@ -1,5 +1,8 @@
 package za.ttd.mapgen;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import java.util.Set;
 import java.util.HashSet;
 
@@ -24,39 +27,37 @@ public class Block {
     private void initShape(Shape shape) {
         switch (shape) {
             case I:
-                origin.add(new Coordinate(0, 1, origin));
+                origin.addChild(new Coordinate(0, 1, origin));
+                break;
             case L:
-                origin.add(new Coordinate(0, 2, origin));
-                origin.add(new Coordinate(1, 2, origin));
+                origin.addChild(new Coordinate(0, 1, origin));
+                origin.addChild(new Coordinate(0, 2, origin));
+                origin.addChild(new Coordinate(1, 2, origin));
                 break;
             case CORNER:
-                origin.add(new Coordinate(1, 1, origin));
+                origin.addChild(new Coordinate(0, 1, origin));
+                origin.addChild(new Coordinate(1, 1, origin));
+                break;
             case BOX:
-                origin.add(new Coordinate(1, 0, origin));
+                origin.addChild(new Coordinate(0, 1, origin));
+                origin.addChild(new Coordinate(1, 1, origin));
+                origin.addChild(new Coordinate(1, 0, origin));
+                break;
             case T:
-                origin.add(new Coordinate(0, 2, origin));
+                origin.addChild(new Coordinate(0, 1, origin));
+                origin.addChild(new Coordinate(1, 1, origin));
+                origin.addChild(new Coordinate(0, 2, origin));
                 break;
         }
     }
 
     public void rotate() {
-        while(origin.getChildren() != null) {
+        if(origin.getChildren() != null) {
             for(Coordinate descendant : origin.getChildren()) {
                 descendant.switchRowCol();
                 descendant.negateCol();
             }
         }
-    }
-
-    public boolean equals(Block other) {
-        if(other.getOrigin().equals(origin))
-            return true;
-        for(Coordinate otherCoord : other.getOrigin().getChildren()) {
-            for(Coordinate coord : origin.getChildren())
-                if(coord.equals(otherCoord))
-                    return true;
-        }
-        return false;
     }
 
     public Set<Point> getPositions() {
@@ -65,5 +66,32 @@ public class Block {
         for(Coordinate coord : origin.getChildren())
             positions.add(coord.getAbsoluteValue());
         return positions;
+    }
+
+    @Override
+    public String toString() {
+        return origin.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) { return false; }
+        if (obj == this) { return true; }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        Block rhs = (Block)obj;
+        return new EqualsBuilder()
+                .append(this.origin, rhs.getOrigin())
+                .append(this.origin.getChildren().hashCode(), rhs.getOrigin().getChildren().hashCode())
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(7, 23)
+                .append(this.origin)
+                .append(this.origin.getChildren())
+                .toHashCode();
     }
 }

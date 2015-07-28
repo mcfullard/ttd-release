@@ -14,10 +14,8 @@ import java.util.Set;
  */
 public class Grid {
     private static final int ROTATE_NUMBER = 3;
-    private static final int BLOCK_AREA = 2;
     private int POS_GUESSES;
-    private int MAX_BLOCKS;
-
+    private final int INIT_OPEN_SPACES;
     private Set<Point> available = new HashSet<>();
     private Set<Block> blocks = new HashSet<>();
     private int rows, cols;
@@ -31,7 +29,7 @@ public class Grid {
             cols = 3;
         this.rows = rows;
         this.cols = cols;
-        MAX_BLOCKS = rows * cols / BLOCK_AREA;
+        INIT_OPEN_SPACES = rows * cols - 4;
         POS_GUESSES = rows * cols;
         this.random = new Random(seed);
         this.shapeChooser = new RandomEnum<>(Shape.class, random);
@@ -73,24 +71,25 @@ public class Grid {
         blocks.add(block);
     }
 
-    private void setRandomOrigin(Block block) {
+    public void setRandomOrigin(Block block) {
         block.getOrigin().r = random.nextInt(rows);
         block.getOrigin().c = random.nextInt(cols);
     }
 
-    private boolean isCollision(Block block) {
+    public boolean isCollision(Block block) {
         for (Point point : block.getPositions())
             if (!available.contains(point))
                 return true;
         return false;
     }
 
-    public void populateGrid() {
-        while (blocks.size() < MAX_BLOCKS) {
+    public void populateGrid(double maxOpenPercentage) {
+        while (available.size()/(double)INIT_OPEN_SPACES >= maxOpenPercentage) {
             Block block = new Block(0,0, shapeChooser.random());
             setRandomOrigin(block);
             tryPlace(block);
         }
     }
 
+    public Set<Point> getAvailable() {return this.available;}
 }

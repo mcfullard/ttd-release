@@ -1,5 +1,8 @@
 package za.ttd.mapgen;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,7 +27,7 @@ public class Coordinate extends Point {
         return (HashSet<Coordinate>)children;
     }
 
-    public void add(Coordinate... children) {
+    public void addChild(Coordinate... children) {
         for(Coordinate coordinate : children)
             this.children.add(coordinate);
     }
@@ -43,7 +46,31 @@ public class Coordinate extends Point {
         return new Point(this.r, this.c);
     }
 
-    public boolean equals(Coordinate other) {
-        return this.getAbsoluteValue().equals(other.getAbsoluteValue());
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder(getAbsoluteValue().toString());
+        for(Coordinate c : children)
+            stringBuilder.append(String.format(", %s", c.getAbsoluteValue().toString()));
+        return stringBuilder.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) { return false; }
+        if (obj == this) { return true; }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        Coordinate rhs = (Coordinate) obj;
+        return new EqualsBuilder()
+                .append(getAbsoluteValue(), rhs.getAbsoluteValue())
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(13,43)
+            .append(getAbsoluteValue())
+            .toHashCode();
     }
 }
