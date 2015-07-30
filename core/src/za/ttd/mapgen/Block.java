@@ -69,7 +69,10 @@ public class Block {
         return positions;
     }
 
-    public void populateDirectionPoints(Set<Point> right, Set<Point> down, Set<Point> both) {
+    public void populateDirectionPoints(Set<Point> right,
+                                        Set<Point> down,
+                                        Set<Point> both,
+                                        Set<Point> neither) {
         Object[] positions = getPositions().toArray();
         for(int i = 0; i < positions.length; i++) {
             Point point = (Point)positions[i];
@@ -92,6 +95,8 @@ public class Block {
                 right.add(point);
             else if(hasDown)
                 down.add(point);
+            else
+                neither.add(point);
         }
     }
 
