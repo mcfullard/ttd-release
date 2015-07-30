@@ -69,10 +69,30 @@ public class Block {
         return positions;
     }
 
-    public Set<Point> getHasRight() {
-        Set<Point> positions = getPositions();
-        Set<Point> hasRight = new HashSet<>();
-        return null;
+    public void populateDirectionPoints(Set<Point> right, Set<Point> down, Set<Point> both) {
+        Object[] positions = getPositions().toArray();
+        for(int i = 0; i < positions.length; i++) {
+            Point point = (Point)positions[i];
+            boolean hasRight = false;
+            boolean hasDown = false;
+            for(int j = 0; j < positions.length; j++) {
+                Point other = (Point)positions[j];
+                if(j != i) {
+                    if(point.isRight(other))
+                        hasRight = true;
+                    if(point.isDown(other))
+                        hasDown = true;
+                    if(hasRight && hasDown)
+                        break;
+                }
+            }
+            if(hasRight && hasDown)
+                both.add(point);
+            else if(hasRight)
+                right.add(point);
+            else if(hasDown)
+                down.add(point);
+        }
     }
 
     @Override
