@@ -46,7 +46,7 @@ public class GridTest {
     @Test
     public void testPopulateGrid() throws Exception {
         int row = 8, col = 5;
-        double p = 0.12;
+        double p = 0.14;
         Grid g1 = new Grid(row,col,123456);
         g1.populateGrid(p);
         assertTrue(g1.getBlocks().size() > 1);
@@ -56,5 +56,12 @@ public class GridTest {
     public void testGetMap() {
         Grid grid = new Grid(8, 5, 123456);
         fail();
+    }
+
+    @Test
+    public void testUseAvailable() {
+        Grid g1 = new Grid(8,5, 123456);
+        g1.populateGrid(0.14);
+        assertTrue(g1.getAvailable().size() == 0);
     }
 }
