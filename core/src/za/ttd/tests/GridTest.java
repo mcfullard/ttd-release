@@ -53,7 +53,7 @@ public class GridTest {
     }
 
     @Test
-    public int[][] testConvertToMap() {
-        return null;
+    public void testConvertToMap() {
+        fail();
     }
 }
