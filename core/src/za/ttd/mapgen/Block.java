@@ -18,38 +18,48 @@ import java.util.HashSet;
 public class Block {
     protected Coordinate origin;
 
-    public Block(int row, int col, Shape shape) {
+    public Block(int row, int col, Object shape) {
         this.origin = new Coordinate(row, col);
         initShape(shape);
     }
 
     public Coordinate getOrigin() { return this.origin; }
 
-    private void initShape(Shape shape) {
-        switch (shape) {
-            case I:
-                origin.addChild(new Coordinate(0, 1, origin));
-                break;
-            case L:
-                origin.addChild(new Coordinate(0, 1, origin));
-                origin.addChild(new Coordinate(0, 2, origin));
-                origin.addChild(new Coordinate(1, 2, origin));
-                break;
-            case CORNER:
-                origin.addChild(new Coordinate(0, 1, origin));
-                origin.addChild(new Coordinate(1, 1, origin));
-                break;
-            case BOX:
-                origin.addChild(new Coordinate(0, 1, origin));
-                origin.addChild(new Coordinate(1, 1, origin));
-                origin.addChild(new Coordinate(1, 0, origin));
-                break;
-            case T:
-                origin.addChild(new Coordinate(0, 1, origin));
-                origin.addChild(new Coordinate(1, 1, origin));
-                origin.addChild(new Coordinate(0, 2, origin));
-                break;
+    private void initShape(Object shape) {
+        if(shape instanceof Shape) {
+            Shape ordinaryShape = (Shape)shape;
+            switch (ordinaryShape) {
+                case I:
+                    origin.addChild(new Coordinate(0, 1, origin));
+                    break;
+                case L:
+                    origin.addChild(new Coordinate(0, 1, origin));
+                    origin.addChild(new Coordinate(0, 2, origin));
+                    origin.addChild(new Coordinate(1, 2, origin));
+                    break;
+                case CORNER:
+                    origin.addChild(new Coordinate(0, 1, origin));
+                    origin.addChild(new Coordinate(1, 1, origin));
+                    break;
+                case T:
+                    origin.addChild(new Coordinate(0, 1, origin));
+                    origin.addChild(new Coordinate(1, 1, origin));
+                    origin.addChild(new Coordinate(0, 2, origin));
+                    break;
+            }
+        } else if(shape instanceof SpecialShape) {
+            SpecialShape specialShape = (SpecialShape)shape;
+            switch (specialShape) {
+                case BOX:
+                    origin.addChild(new Coordinate(0, 1, origin));
+                    origin.addChild(new Coordinate(1, 1, origin));
+                    origin.addChild(new Coordinate(1, 0, origin));
+                    break;
+                case SMALL_BOX:
+                    break;
+            }
         }
+
     }
 
     public void rotate() {

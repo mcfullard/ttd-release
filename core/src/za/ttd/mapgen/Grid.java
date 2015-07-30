@@ -45,7 +45,7 @@ public class Grid {
 
     private void initPlaceHolders() {
         int top = rows/2;
-        Block box = new Block(top, 0, Shape.BOX);
+        Block box = new Block(top, 0, SpecialShape.BOX);
         tryPlace(box);
     }
 
@@ -91,7 +91,19 @@ public class Grid {
         }
     }
 
+    private void useAvailable() {
+
+    }
+
     public Set<Point> getAvailable() {return this.available;}
 
     public Set<Block> getBlocks() {return this.blocks;}
+
+    public class Map {
+        private int[][] mesh;
+
+        public Map(int scaleFactor) {
+            mesh = new int[rows * scaleFactor][cols * scaleFactor];
+        }
+    }
 }

@@ -53,7 +53,8 @@ public class GridTest {
     }
 
     @Test
-    public void testConvertToMap() {
+    public void testGetMap() {
+        Grid grid = new Grid(8, 5, 123456);
         fail();
     }
 }
