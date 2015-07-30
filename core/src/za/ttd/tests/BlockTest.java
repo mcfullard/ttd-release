@@ -2,6 +2,7 @@ package za.ttd.tests;
 
 import org.junit.Test;
 import za.ttd.mapgen.Block;
+import za.ttd.mapgen.Coordinate;
 import za.ttd.mapgen.Point;
 import za.ttd.mapgen.Shape;
 
@@ -19,6 +20,25 @@ public class BlockTest {
     @Test
     public void testConstructor() throws Exception {
         Block b1 = new Block(0, 1, Shape.L);
+    }
+
+    @Test
+    public void testGetHasRight() throws Exception {
+        Block b1 = new Block(0,0,Shape.CORNER);
+        Coordinate c1 = new Coordinate(0,0);
+        Set<Coordinate> s1 = new HashSet<>();
+        s1.add(c1);
+        assertEquals(s1, b1.getHasRight());
+        b1.rotate();
+        Coordinate c2 = new Coordinate(1,-1);
+        Set<Coordinate> s2 = new HashSet<>();
+        s2.add(c2);
+        assertEquals(c2, b1.getHasRight());
+    }
+
+    @Test
+    public void testGetHasDown() throws Exception {
+
     }
 
     @Test

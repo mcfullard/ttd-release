@@ -1,6 +1,7 @@
 package za.ttd.tests;
 
 import org.junit.Test;
+import za.ttd.mapgen.Coordinate;
 import za.ttd.mapgen.Point;
 
 import static org.junit.Assert.*;
@@ -10,6 +11,20 @@ import static org.junit.Assert.*;
  * @since 2015/07/27.
  */
 public class PointTest {
+    @Test
+    public void testIsRight() throws Exception {
+        Point p1 = new Point(0,0);
+        Point p2 = new Point(0,1);
+        assertTrue(p1.isRight(p2));
+    }
+
+    @Test
+    public void testIsDown() throws Exception {
+        Point p1 = new Point(0,0);
+        Point p2 = new Point(1,0);
+        assertTrue(p1.isDown(p2));
+    }
+
     @Test
     public void testEquals() throws Exception {
         Point p1 = new Point(0,0);
