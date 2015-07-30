@@ -3,6 +3,7 @@ package za.ttd.mapgen;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import java.util.Iterator;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -66,6 +67,12 @@ public class Block {
         for(Coordinate coord : origin.getChildren())
             positions.add(coord.getAbsoluteValue());
         return positions;
+    }
+
+    public Set<Point> getHasRight() {
+        Set<Point> positions = getPositions();
+        Set<Point> hasRight = new HashSet<>();
+        return null;
     }
 
     @Override
