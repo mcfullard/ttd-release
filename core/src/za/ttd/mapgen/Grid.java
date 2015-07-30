@@ -92,4 +92,6 @@ public class Grid {
     }
 
     public Set<Point> getAvailable() {return this.available;}
+
+    public Set<Block> getBlocks() {return this.blocks;}
 }

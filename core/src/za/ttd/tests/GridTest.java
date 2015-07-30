@@ -49,6 +49,11 @@ public class GridTest {
         double p = 0.12;
         Grid g1 = new Grid(row,col,123456);
         g1.populateGrid(p);
-        assertTrue(g1.getAvailable().size() <= (row * col - 4) * p);
+        assertTrue(g1.getBlocks().size() > 1);
+    }
+
+    @Test
+    public int[][] testConvertToMap() {
+        return null;
     }
 }
