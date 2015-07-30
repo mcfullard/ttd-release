@@ -88,6 +88,7 @@ public class Block {
             Point point = (Point)positions[i];
             boolean hasRight = false;
             boolean hasDown = false;
+            boolean hasDiag = false;
             for(int j = 0; j < positions.length; j++) {
                 Point other = (Point)positions[j];
                 if(j != i) {
@@ -95,11 +96,13 @@ public class Block {
                         hasRight = true;
                     if(point.isDown(other))
                         hasDown = true;
-                    if(hasRight && hasDown)
-                        break;
+                    if(point.isDiag(other))
+                        hasDiag = true;
                 }
             }
-            if(hasRight && hasDown)
+            if(hasRight && hasDown && hasDiag)
+                hasDiag = false;
+            else if(hasRight && hasDown)
                 both.add(point);
             else if(hasRight)
                 right.add(point);

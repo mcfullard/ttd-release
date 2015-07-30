@@ -53,15 +53,17 @@ public class GridTest {
     }
 
     @Test
-    public void testGetMap() {
-        Grid grid = new Grid(8, 5, 123456);
-        fail();
+    public void testUseAvailable() {
+        Grid g1 = new Grid(5,3, 12);
+        g1.populateGrid(0.1);
+        assertTrue(g1.getAvailable().size() == 0);
     }
 
     @Test
-    public void testUseAvailable() {
-        Grid g1 = new Grid(8,5, 123456);
+    public void testDrawEdges() {
+        Grid g1 = new Grid(8,8, 1234);
         g1.populateGrid(0.14);
-        assertTrue(g1.getAvailable().size() == 0);
+        g1.drawEdges();
+        g1.getMap().displayMap();
     }
 }

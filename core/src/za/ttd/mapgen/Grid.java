@@ -22,6 +22,7 @@ public class Grid {
     private int rows, cols;
     private Random random;
     private RandomEnum<Shape> shapeChooser;
+    private Map map;
 
     public Grid(int rows, int cols, long seed) {
         if(rows < 5)
@@ -30,6 +31,7 @@ public class Grid {
             cols = 3;
         this.rows = rows;
         this.cols = cols;
+        this.map = new Map(rows, cols, 2);
         INIT_OPEN_SPACES = rows * cols - 4;
         POS_GUESSES = rows * cols;
         this.random = new Random(seed);
@@ -101,78 +103,28 @@ public class Grid {
         }
     }
 
+    public void drawEdges() {
+        blocks.forEach(this::drawBlockEdges);
+    }
+
+    private void drawBlockEdges(Block block) {
+        Set<Point> hasRight = new HashSet<>(),
+                hasDown = new HashSet<>(),
+                hasBoth = new HashSet<>(),
+                hasNeither = new HashSet<>();
+        block.populateDirectionPoints(hasRight, hasDown, hasBoth, hasNeither);
+        hasDown.forEach(map::drawRightEdge);
+        hasRight.forEach(map::drawBottomEdge);
+        for(Point point : hasNeither) {
+            map.drawRightEdge(point);
+            map.drawBottomEdge(point);
+        }
+        hasBoth.forEach(map::drawRightBottomCell);
+    }
+
     public Set<Point> getAvailable() {return this.available;}
 
     public Set<Block> getBlocks() {return this.blocks;}
 
-    public class Map {
-        private int[][] map;
-        private int SCALE_FACTOR;
-        public static final int WALL = 0;
-        public static final int PATH = 1;
-
-        public Map(int scaleFactor) {
-            this.SCALE_FACTOR = scaleFactor;
-            map = new int[rows * scaleFactor][cols * scaleFactor];
-            initMap();
-        }
-
-        private void initMap() {
-            for(int r = 0; r < map.length; r++)
-                for(int c = 0; c < map[0].length; c++)
-                    map[r][c] = WALL;
-        }
-
-        public void drawRightEdge(Point point) {
-            fillRectangle(
-                    lowerBound(point.r),
-                    upperBound(point.r),
-                    upperBound(point.c),
-                    upperBound(point.c)
-            );
-        }
-
-        public void drawBottomEdge(Point point) {
-            fillRectangle(
-                    upperBound(point.r),
-                    upperBound(point.r),
-                    lowerBound(point.c),
-                    upperBound(point.c)
-            );
-        }
-
-        public void drawLeftEdge(Point point) {
-            fillRectangle(
-                    lowerBound(point.r),
-                    upperBound(point.r),
-                    lowerBound(point.c),
-                    lowerBound(point.c)
-            );
-        }
-
-        public void drawRightBottomCell(Point point) {
-            fillRectangle(
-                    upperBound(point.r),
-                    upperBound(point.r),
-                    upperBound(point.c),
-                    upperBound(point.c)
-            );
-        }
-
-        private int lowerBound(int x) {
-            return SCALE_FACTOR * x;
-        }
-
-        private int upperBound(int x) {
-            return SCALE_FACTOR * (x + 1) - 1;
-        }
-
-        private void fillRectangle(int rowStart, int rowEnd, int colStart, int colEnd) {
-            for (int r = rowStart; r <= rowEnd; r++) {
-                for (int c = colStart; c <= colEnd; c++) {
-                    map[r][c] = PATH;
-                }
-            }
-        }
-    }
+    public Map getMap() { return map; }
 }

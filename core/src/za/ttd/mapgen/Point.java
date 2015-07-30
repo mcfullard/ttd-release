@@ -28,6 +28,13 @@ public class Point {
         return clone.equals(down);
     }
 
+    public boolean isDiag(Point diag) {
+        Point clone = clone();
+        clone.r++;
+        clone.c++;
+        return clone.equals(diag);
+    }
+
     public Point clone() {
         return new Point(this.r, this.c);
     }
