@@ -105,14 +105,19 @@ public class Grid {
 
     public void drawEdges() {
         blocks.forEach(this::drawBlockEdges);
+        map.insertRow(Map.fillIntArray((map.getMap())[0].length, Map.PATH), 0);
+        map.insertRow(Map.fillIntArray((map.getMap())[0].length, Map.WALL), 0);
+        map.insertRow(Map.fillIntArray((map.getMap())[0].length, Map.WALL), (map.getMap()).length);
+        map.insertCol(Map.fillIntArray(map.getMap().length, Map.WALL), map.getMap()[0].length);
     }
 
     private void drawBlockEdges(Block block) {
         Set<Point> hasRight = new HashSet<>(),
                 hasDown = new HashSet<>(),
                 hasBoth = new HashSet<>(),
-                hasNeither = new HashSet<>();
-        block.populateDirectionPoints(hasRight, hasDown, hasBoth, hasNeither);
+                hasNeither = new HashSet<>(),
+                hasDiag = new HashSet<>();
+        block.populateDirectionPoints(hasRight, hasDown, hasBoth, hasNeither, hasDiag);
         hasDown.forEach(map::drawRightEdge);
         hasRight.forEach(map::drawBottomEdge);
         for(Point point : hasNeither) {
@@ -120,6 +125,10 @@ public class Grid {
             map.drawBottomEdge(point);
         }
         hasBoth.forEach(map::drawRightBottomCell);
+        for(Point point: hasDiag) {
+            map.drawLeftEdge(point);
+            map.drawBottomEdge(point);
+        }
     }
 
     public Set<Point> getAvailable() {return this.available;}

@@ -1,5 +1,7 @@
 package za.ttd.mapgen;
 
+import static java.lang.System.arraycopy;
+
 /**
  * @author minnaar
  * @since 2015/07/30.
@@ -18,10 +20,20 @@ public class Map {
 
     public int[][] getMap() { return map; }
 
+    public void verticalMirror() {
+        int[][] mirrored = new int[map.length][map[0].length * 2];
+        for(int r = 0; r < map.length; r++) {
+            for(int c = 0; c < map[0].length; c++) {
+                mirrored[r][c + map[r].length] = map[r][c];
+                mirrored[r][map[r].length - 1 - c] = map[r][c];
+            }
+        }
+        map = mirrored;
+    }
+
     private void initMap() {
         for(int r = 0; r < map.length; r++)
-            for(int c = 0; c < map[0].length; c++)
-                map[r][c] = WALL;
+            map[r] = fillIntArray(map[0].length, WALL);
     }
 
     public void drawRightEdge(Point point) {
@@ -29,7 +41,8 @@ public class Map {
                 lowerBound(point.r),
                 upperBound(point.r),
                 upperBound(point.c),
-                upperBound(point.c)
+                upperBound(point.c),
+                PATH
         );
     }
 
@@ -38,7 +51,8 @@ public class Map {
                 upperBound(point.r),
                 upperBound(point.r),
                 lowerBound(point.c),
-                upperBound(point.c)
+                upperBound(point.c),
+                PATH
         );
     }
 
@@ -47,7 +61,8 @@ public class Map {
                 lowerBound(point.r),
                 upperBound(point.r),
                 lowerBound(point.c),
-                lowerBound(point.c)
+                lowerBound(point.c),
+                PATH
         );
     }
 
@@ -56,7 +71,8 @@ public class Map {
                 upperBound(point.r),
                 upperBound(point.r),
                 upperBound(point.c),
-                upperBound(point.c)
+                upperBound(point.c),
+                PATH
         );
     }
 
@@ -68,12 +84,19 @@ public class Map {
         return SCALE_FACTOR * (x + 1) - 1;
     }
 
-    private void fillRectangle(int rowStart, int rowEnd, int colStart, int colEnd) {
+    private void fillRectangle(int rowStart, int rowEnd, int colStart, int colEnd, int type) {
         for (int r = rowStart; r <= rowEnd; r++) {
             for (int c = colStart; c <= colEnd; c++) {
-                map[r][c] = PATH;
+                map[r][c] = type;
             }
         }
+    }
+
+    public static int[] fillIntArray(int length, int fill) {
+        int[] result = new int[length];
+        for(int i = 0; i < length; i++)
+            result[i] = fill;
+        return result;
     }
 
     public void displayMap() {
@@ -83,5 +106,23 @@ public class Map {
             }
             System.out.print("\n");
         }
+    }
+
+    public void insertRow(int[] row, int pos) throws IndexOutOfBoundsException {
+        int[][] newMap = new int[map.length + 1][map[0].length];
+        arraycopy(map, 0, newMap, 0, pos);
+        newMap[pos] = row;
+        arraycopy(map, pos, newMap, pos + 1, map.length - pos);
+        map = newMap;
+    }
+
+    public void insertCol(int[] col, int pos) throws IndexOutOfBoundsException {
+        int[][] newMap = new int[map.length][map[0].length + 1];
+        for(int r = 0; r < map.length; r++) {
+            arraycopy(map[r], 0, newMap[r], 0, pos);
+            newMap[r][pos] = col[r];
+            arraycopy(map[r], pos, newMap[r], pos + 1, map[r].length - pos);
+        }
+        map = newMap;
     }
 }

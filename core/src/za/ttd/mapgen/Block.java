@@ -82,7 +82,8 @@ public class Block {
     public void populateDirectionPoints(Set<Point> right,
                                         Set<Point> down,
                                         Set<Point> both,
-                                        Set<Point> neither) {
+                                        Set<Point> neither,
+                                        Set<Point> diag) {
         Object[] positions = getPositions().toArray();
         for(int i = 0; i < positions.length; i++) {
             Point point = (Point)positions[i];
@@ -101,7 +102,7 @@ public class Block {
                 }
             }
             if(hasRight && hasDown && hasDiag)
-                hasDiag = false;
+                diag.add(point);
             else if(hasRight && hasDown)
                 both.add(point);
             else if(hasRight)

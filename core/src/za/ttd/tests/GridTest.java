@@ -64,6 +64,7 @@ public class GridTest {
         Grid g1 = new Grid(8,8, 1234);
         g1.populateGrid(0.14);
         g1.drawEdges();
+        g1.getMap().verticalMirror();
         g1.getMap().displayMap();
     }
 }
