@@ -1,6 +1,7 @@
 package za.ttd.mapgen;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
@@ -21,6 +22,7 @@ public class Grid {
     private int rows, cols;
     private Random random;
     private RandomEnum<Shape> shapeChooser;
+    private Map map;
 
     public Grid(int rows, int cols, long seed) {
         if(rows < 5)
@@ -29,6 +31,7 @@ public class Grid {
             cols = 3;
         this.rows = rows;
         this.cols = cols;
+        this.map = new Map(rows, cols, 2);
         INIT_OPEN_SPACES = rows * cols - 4;
         POS_GUESSES = rows * cols;
         this.random = new Random(seed);
@@ -45,7 +48,7 @@ public class Grid {
 
     private void initPlaceHolders() {
         int top = rows/2;
-        Block box = new Block(top, 0, Shape.BOX);
+        Block box = new Block(top, 0, SpecialShape.BOX);
         tryPlace(box);
     }
 
@@ -89,7 +92,48 @@ public class Grid {
             setRandomOrigin(block);
             tryPlace(block);
         }
+        useAvailable();
+    }
+
+    private void useAvailable() {
+        for(Iterator<Point> iter = available.iterator(); iter.hasNext(); ) {
+            Point point = iter.next();
+            blocks.add(new Block(point.r, point.c, SpecialShape.SMALL_BOX));
+            iter.remove();
+        }
+    }
+
+    public void drawEdges() {
+        blocks.forEach(this::drawBlockEdges);
+        map.insertRow(Map.fillIntArray((map.getMap())[0].length, Map.PATH), 0);
+        map.insertRow(Map.fillIntArray((map.getMap())[0].length, Map.WALL), 0);
+        map.insertRow(Map.fillIntArray((map.getMap())[0].length, Map.WALL), (map.getMap()).length);
+        map.insertCol(Map.fillIntArray(map.getMap().length, Map.WALL), map.getMap()[0].length);
+    }
+
+    private void drawBlockEdges(Block block) {
+        Set<Point> hasRight = new HashSet<>(),
+                hasDown = new HashSet<>(),
+                hasBoth = new HashSet<>(),
+                hasNeither = new HashSet<>(),
+                hasDiag = new HashSet<>();
+        block.populateDirectionPoints(hasRight, hasDown, hasBoth, hasNeither, hasDiag);
+        hasDown.forEach(map::drawRightEdge);
+        hasRight.forEach(map::drawBottomEdge);
+        for(Point point : hasNeither) {
+            map.drawRightEdge(point);
+            map.drawBottomEdge(point);
+        }
+        hasBoth.forEach(map::drawRightBottomCell);
+        for(Point point: hasDiag) {
+            map.drawLeftEdge(point);
+            map.drawBottomEdge(point);
+        }
     }
 
     public Set<Point> getAvailable() {return this.available;}
+
+    public Set<Block> getBlocks() {return this.blocks;}
+
+    public Map getMap() { return map; }
 }

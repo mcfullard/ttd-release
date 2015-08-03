@@ -2,7 +2,6 @@ package za.ttd.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.tools.hiero.Hiero;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import za.ttd.ttd;
 

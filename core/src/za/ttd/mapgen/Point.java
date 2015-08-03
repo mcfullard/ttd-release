@@ -16,6 +16,29 @@ public class Point {
         this.c = c;
     }
 
+    public boolean isRight(Point right) {
+        Point clone = clone();
+        clone.c++;
+        return clone.equals(right);
+    }
+
+    public boolean isDown(Point down) {
+        Point clone = clone();
+        clone.r++;
+        return clone.equals(down);
+    }
+
+    public boolean isDiag(Point diag) {
+        Point clone = clone();
+        clone.r++;
+        clone.c++;
+        return clone.equals(diag);
+    }
+
+    public Point clone() {
+        return new Point(this.r, this.c);
+    }
+
     @Override
     public String toString() {
         return String.format("(%d, %d)", r, c);
