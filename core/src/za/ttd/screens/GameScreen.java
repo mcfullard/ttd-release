@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import za.ttd.MapDraw.MazeRenderer;
+import za.ttd.mapgen.Map;
 
 /**
  * @author minnaar
@@ -20,7 +21,30 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void show() {
 
-        int[][] maze = new int[][]{
+
+        Map map = new Map(20, 50, 1);
+
+        int[] column = new int[20];
+        int[] row = new int[52];
+
+        for (int i = 0; i < 20; i++) {
+            column[i]  = 0;
+        }
+
+        for (int i = 0; i < 52; i++) {
+            row[i] = 0;
+        }
+
+        map.insertCol(column, 0);
+        map.insertCol(column, map.getMap()[0].length-1);
+
+        map.insertRow(row, 0);
+        map.insertRow(row, map.getMap().length-1);
+
+        int[][] maze = map.getMap();
+
+
+        /*int[][] maze = new int[][]{
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                 {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
                 {0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
@@ -29,7 +53,7 @@ public class GameScreen extends AbstractScreen {
                 {0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
                 {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-        };
+        };*/
         renderer = new MazeRenderer(maze);
 
     }
