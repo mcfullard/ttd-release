@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class MazeRenderer implements ApplicationListener{
 
@@ -40,20 +41,22 @@ public class MazeRenderer implements ApplicationListener{
         /*Here we load the images for each level before the level shows up
           Images are 32X32 pixels*/
 
-        tocWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/walls/tocWall.png"));
-        rocWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/walls/rocWall.png"));
-        bocWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/walls/bocWall.png"));
-        locWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/walls/locWall.png"));
-        hocWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/walls/hocWall.png"));
-        vocWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/walls/vocWall.png"));
-        tveWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/walls/tveWall.png"));
-        rheWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/walls/rheWall.png"));
-        bveWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/walls/bveWall.png"));
-        lheWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/walls/lheWall.png"));
-        tlcWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/walls/tlcWall.png"));
-        blcWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/walls/blcWall.png"));
-        trcWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/walls/trcWall.png"));
-        brcWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/walls/brcWall.png"));
+        TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("core/assets/textures/out/texture.atlas"));
+
+        tocWall = textureAtlas.findRegion("map/tocWall").getTexture();
+        rocWall = textureAtlas.findRegion("map/rocWall").getTexture();
+        bocWall = textureAtlas.findRegion("map/bocWall").getTexture();
+        locWall = textureAtlas.findRegion("map/locWall").getTexture();
+        hocWall = textureAtlas.findRegion("map/hocWall").getTexture();
+        vocWall = textureAtlas.findRegion("map/vocWall").getTexture();
+        tveWall = textureAtlas.findRegion("map/tveWall").getTexture();
+        rheWall = textureAtlas.findRegion("map/rheWall").getTexture();
+        bveWall = textureAtlas.findRegion("map/bveWall").getTexture();
+        lheWall = textureAtlas.findRegion("map/lheWall").getTexture();
+        tlcWall = textureAtlas.findRegion("map/tlcWall").getTexture();
+        blcWall = textureAtlas.findRegion("map/blcWall").getTexture();
+        trcWall = textureAtlas.findRegion("map/trcWall").getTexture();
+        brcWall = textureAtlas.findRegion("map/brcWall").getTexture();
 
         //Create new camera
         camera = new OrthographicCamera();
