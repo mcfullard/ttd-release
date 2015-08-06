@@ -107,10 +107,36 @@ public class MazeRenderer implements ApplicationListener{
                 /* 1 = wall
                 *  0 = path*/
                 if (curCell == 1) {
-                    int top = maze[i-1][j];
-                    int right = maze[i][j+1];
-                    int bottom = maze[i+1][j];
-                    int left = maze[i][j-1];
+
+                    int top;
+                    int right;
+                    int bottom;
+                    int left;
+
+                    try {
+                       top = maze[i-1][j];
+                    }
+                    catch(IndexOutOfBoundsException e){
+                        top = 0;
+                    }
+                    try {
+                        right = maze[i][j+1];
+                    }
+                    catch(IndexOutOfBoundsException e){
+                        right = 0;
+                    }
+                    try {
+                        bottom = maze[i+1][j];
+                    }
+                    catch(IndexOutOfBoundsException e){
+                        bottom = 0;
+                    }
+                    try {
+                        left = maze[i][j-1];
+                    }
+                    catch(IndexOutOfBoundsException e){
+                        left = 0;
+                    }
 
                     //Wall type checker
                     if (top == 1 && right == 1 && bottom == 0 && left == 1)

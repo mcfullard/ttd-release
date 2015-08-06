@@ -26,7 +26,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1.4142136"
      inkscape:cx="-47.388646"
-     inkscape:cy="197.94083"
+     inkscape:cy="83.473566"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -62,7 +62,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -140,7 +140,7 @@
        id="g3959"
        transform="translate(392.50885,103.73723)" />
     <g
-       id="deadEndUp"
+       id="tveWall"
        transform="matrix(0.3137016,0,0,0.3137016,-122.18567,671.22271)"
        inkscape:label="#g4002">
       <g
@@ -163,7 +163,7 @@
     </g>
     <g
        transform="matrix(0,0.3137016,-0.3137016,0,131.98126,918.89964)"
-       id="deadEndRight"
+       id="rheWall"
        inkscape:label="#g4011">
       <g
          inkscape:label="#g4284"
@@ -184,7 +184,7 @@
          inkscape:connector-curvature="0" />
     </g>
     <g
-       id="deadEndDown"
+       id="bveWall"
        transform="matrix(-0.3137016,0,0,-0.3137016,-118.83298,1173.0666)"
        inkscape:label="#g4015">
       <g
@@ -207,7 +207,7 @@
     </g>
     <g
        transform="matrix(0,-0.3137016,0.3137016,0,-372.99989,928.52664)"
-       id="deadEndLeft"
+       id="lheWall"
        inkscape:label="#g4019">
       <g
          inkscape:label="#g4284"
@@ -228,7 +228,7 @@
          inkscape:connector-curvature="0" />
     </g>
     <g
-       id="cornerLeftUp"
+       id="tlcWall"
        transform="matrix(0.3137016,0,0,0.3137016,31.528121,673.57951)"
        inkscape:label="#g4023">
       <g
@@ -251,7 +251,7 @@
     </g>
     <g
        transform="matrix(0,0.3137016,-0.3137016,0,357.84643,845.96832)"
-       id="cornerRightUp"
+       id="trcWall"
        inkscape:label="#g4032">
       <g
          inkscape:label="#g4284"
@@ -272,7 +272,7 @@
          inkscape:connector-curvature="0" />
     </g>
     <g
-       id="cornerRightDown"
+       id="brcWall"
        transform="matrix(-0.3137016,0,0,-0.3137016,185.45756,1173.0666)"
        inkscape:label="#g4036">
       <g
@@ -295,7 +295,7 @@
     </g>
     <g
        transform="matrix(0,-0.3137016,0.3137016,0,-68.709346,1082.2404)"
-       id="cornerLeftDown"
+       id="blcWall"
        inkscape:label="#g4040">
       <g
          inkscape:label="#g4284"
@@ -453,7 +453,7 @@
     <g
        inkscape:label="#g3837"
        transform="matrix(0.3137016,0,0,0.3137016,-202.75273,828.80651)"
-       id="wallUp">
+       id="bocWall">
       <path
          style="fill:#000000;fill-opacity:1;stroke:none"
          d="M -129.71875 -4.15625 L -194.03125 -4.15625 L -194.03125 53.875 L -129.71875 53.875 L -129.71875 -4.15625 z "
@@ -466,7 +466,7 @@
          transform="matrix(3.1877427,0,0,3.1877427,646.32354,610.63026)" />
     </g>
     <g
-       id="wallRight"
+       id="locWall"
        transform="matrix(0,0.3137016,-0.3137016,0,131.39944,1001.2032)"
        inkscape:label="#g3837">
       <path
@@ -485,7 +485,7 @@
     <g
        inkscape:label="#g3837"
        transform="matrix(-0.3137016,0,0,-0.3137016,-122.78298,1333.5697)"
-       id="wallDown">
+       id="tocWall">
       <path
          inkscape:connector-curvature="0"
          style="fill:#000000;fill-opacity:1;stroke:none"
@@ -500,7 +500,7 @@
          transform="matrix(3.1877427,0,0,3.1877427,646.32354,610.63026)" />
     </g>
     <g
-       id="wallLeft"
+       id="rocWall"
        transform="matrix(0,-0.3137016,0.3137016,0,-294.79229,1161.173)"
        inkscape:label="#g3837">
       <path
@@ -519,7 +519,7 @@
     <g
        inkscape:label="#g3837"
        transform="matrix(0.3137016,0,0,0.3137016,-40.623249,747.9943)"
-       id="wallVert">
+       id="vocWall">
       <path
          style="fill:#00ccff;fill-opacity:1;stroke:none"
          d="M 26.15625 -26.9375 L 32.40625 -26.9375 L 32.40625 -91.25 L 26.15625 -91.25 L 26.15625 -26.9375 z "
@@ -537,7 +537,7 @@
          transform="matrix(3.1877427,0,0,3.1877427,129.49647,868.2388)" />
     </g>
     <g
-       id="wallHor"
+       id="hocWall"
        transform="matrix(0.3137016,0,0,0.3137016,31.097582,747.9943)"
        inkscape:label="#g3837">
       <path

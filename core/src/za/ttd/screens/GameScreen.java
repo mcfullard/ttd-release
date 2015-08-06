@@ -22,9 +22,9 @@ public class GameScreen extends AbstractScreen {
     public void show() {
 
 
-        Map map = new Map(20, 50, 1);
+        Map map = new Map(20, 50, 2);
 
-        int[] column = new int[20];
+        /*int[] column = new int[20];
         int[] row = new int[52];
 
         for (int i = 0; i < 20; i++) {
@@ -41,7 +41,7 @@ public class GameScreen extends AbstractScreen {
         map.insertRow(row, 0);
         map.insertRow(row, map.getMap().length-1);
 
-        int[][] maze = map.getMap();
+        int[][] maze = map.getMap();*/
 
 
         /*int[][] maze = new int[][]{
@@ -54,7 +54,7 @@ public class GameScreen extends AbstractScreen {
                 {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
         };*/
-        renderer = new MazeRenderer(maze);
+        renderer = new MazeRenderer(map.getMap());
 
     }
 
