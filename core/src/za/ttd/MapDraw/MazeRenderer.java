@@ -25,6 +25,8 @@ public class MazeRenderer implements ApplicationListener{
     private Texture trcWall; //tre: Top Right Corner
     private Texture brcWall; //bre: Bottom Right Corner
 
+    private int wall = 1, path = 0;
+
     int imgScale = 64;
 
     private OrthographicCamera camera;
@@ -41,9 +43,9 @@ public class MazeRenderer implements ApplicationListener{
         /*Here we load the images for each level before the level shows up
           Images are 32X32 pixels*/
 
-        TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("core/assets/textures/out/texture.atlas"));
+        //TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("core/assets/textures/out/texture.atlas"));
 
-        tocWall = textureAtlas.findRegion("map/tocWall").getTexture();
+        /*tocWall = textureAtlas.findRegion("map/tocWall").getTexture();
         rocWall = textureAtlas.findRegion("map/rocWall").getTexture();
         bocWall = textureAtlas.findRegion("map/bocWall").getTexture();
         locWall = textureAtlas.findRegion("map/locWall").getTexture();
@@ -56,7 +58,22 @@ public class MazeRenderer implements ApplicationListener{
         tlcWall = textureAtlas.findRegion("map/tlcWall").getTexture();
         blcWall = textureAtlas.findRegion("map/blcWall").getTexture();
         trcWall = textureAtlas.findRegion("map/trcWall").getTexture();
-        brcWall = textureAtlas.findRegion("map/brcWall").getTexture();
+        brcWall = textureAtlas.findRegion("map/brcWall").getTexture();*/
+
+        tocWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/tocWall.png"));
+        rocWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/rocWall.png"));
+        bocWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/bocWall.png"));
+        locWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/locWall.png"));
+        hocWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/hocWall.png"));
+        vocWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/vocWall.png"));
+        tveWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/tveWall.png"));
+        rheWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/rheWall.png"));
+        bveWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/bveWall.png"));
+        lheWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/lheWall.png"));
+        tlcWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/tlcWall.png"));
+        blcWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/blcWall.png"));
+        trcWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/trcWall.png"));
+        brcWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/brcWall.png"));
 
         //Create new camera
         camera = new OrthographicCamera();
@@ -120,55 +137,55 @@ public class MazeRenderer implements ApplicationListener{
                        top = maze[i-1][j];
                     }
                     catch(IndexOutOfBoundsException e){
-                        top = 0;
+                        top = path;
                     }
                     try {
                         right = maze[i][j+1];
                     }
                     catch(IndexOutOfBoundsException e){
-                        right = 0;
+                        right = path;
                     }
                     try {
                         bottom = maze[i+1][j];
                     }
                     catch(IndexOutOfBoundsException e){
-                        bottom = 0;
+                        bottom = path;
                     }
                     try {
                         left = maze[i][j-1];
                     }
                     catch(IndexOutOfBoundsException e){
-                        left = 0;
+                        left = path;
                     }
 
                     //Wall type checker
-                    if (top == 1 && right == 1 && bottom == 0 && left == 1)
+                    if (top == wall && right == wall && bottom == path && left == wall)
                         batch.draw(tocWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == 1 && right == 1 && bottom == 1 && left == 0)
+                    else if (top == wall && right == wall && bottom == wall && left == path)
                         batch.draw(rocWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == 0 && right == 1 && bottom == 1 && left == 1)
+                    else if (top == path && right == wall && bottom == wall && left == wall)
                         batch.draw(bocWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == 1 && right == 0 && bottom == 1 && left == 1)
+                    else if (top == wall && right == path && bottom == wall && left == wall)
                         batch.draw(locWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == 0 && right == 1 && bottom == 0 && left == 1)
+                    else if (top == path && right == wall && bottom == path && left == wall)
                         batch.draw(hocWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == 1 && right == 0 && bottom == 1 && left == 0)
+                    else if (top == wall && right == path && bottom == wall && left == path)
                         batch.draw(vocWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == 1 && right == 0 && bottom == 0 && left == 0)
+                    else if (top == wall && right == path && bottom == path && left == path)
                         batch.draw(bveWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == 0 && right == 1 && bottom == 0 && left == 0)
+                    else if (top == path && right == wall && bottom == path && left == path)
                         batch.draw(lheWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == 0 && right == 0 && bottom == 1 && left == 0)
+                    else if (top == path && right == path && bottom == wall && left == path)
                         batch.draw(tveWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == 0 && right == 0 && bottom == 0 && left == 1)
+                    else if (top == path && right == path && bottom == path && left == wall)
                         batch.draw(rheWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == 0 && right == 1 && bottom == 1 && left == 0)
+                    else if (top == path && right == wall && bottom == wall && left == path)
                         batch.draw(tlcWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == 1 && right == 1 && bottom == 0 && left == 0)
+                    else if (top == wall && right == wall && bottom == path && left == path)
                         batch.draw(blcWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == 0 && right == 0 && bottom == 1 && left == 1)
+                    else if (top == path && right == path && bottom == wall && left == wall)
                         batch.draw(trcWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == 1 && right == 0 && bottom == 0 && left == 1)
+                    else if (top == wall && right == path && bottom == path && left == wall)
                         batch.draw(brcWall, j * imgScale, (row - i) * imgScale);
                 }
             }

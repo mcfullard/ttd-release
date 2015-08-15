@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import za.ttd.MapDraw.MazeRenderer;
+import za.ttd.mapgen.Grid;
 import za.ttd.mapgen.Map;
 
 /**
@@ -22,39 +23,24 @@ public class GameScreen extends AbstractScreen {
     public void show() {
 
 
-        /*Map map = new Map(20, 50, 2);
+        Grid grid = new Grid(8,8,12);
+        grid.populateGrid(0.15);
+        grid.drawEdges();
+        grid.getMap().verticalMirror();
 
-        int[] column = new int[20];
-        int[] row = new int[52];
-
-        for (int i = 0; i < 20; i++) {
-            column[i]  = 0;
-        }
-
-        for (int i = 0; i < 52; i++) {
-            row[i] = 0;
-        }
-
-        map.insertCol(column, 0);
-        map.insertCol(column, map.getMap()[0].length-1);
-
-        map.insertRow(row, 0);
-        map.insertRow(row, map.getMap().length-1);
-
-        int[][] maze = map.getMap();*/
-
-
-        int[][] maze = new int[][]{
+        /*int[][] maze = new int[][]{
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                //{0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
-                {0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                /*{0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+                {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
+                {0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+                {0,1,0,0,0,1,1,1,0,0,1,1,0,0,0,1,0,0,1,0},
+                {0,1,0,0,0,0,1,0,0,0,1,1,0,1,1,1,0,0,1,0},
                 {0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
-                {0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
-                {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},*/
+                {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-        };
-        renderer = new MazeRenderer(maze);
+        };*/
+
+
+        renderer = new MazeRenderer(grid.getMap().getMap());
 
     }
 

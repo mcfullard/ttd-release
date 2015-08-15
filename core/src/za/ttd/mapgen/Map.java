@@ -9,8 +9,8 @@ import static java.lang.System.arraycopy;
 public class Map {
     private int[][] map;
     private int SCALE_FACTOR;
-    public static final int WALL = 0;
-    public static final int PATH = 1;
+    public static final int WALL = 1;
+    public static final int PATH = 0;
 
     public Map(int rows, int cols, int scaleFactor) {
         this.SCALE_FACTOR = scaleFactor;
