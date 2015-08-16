@@ -15,6 +15,7 @@ import java.util.Set;
  */
 public class Grid {
     private static final int ROTATE_NUMBER = 3;
+    private static final double ABSOLUTE_DIFFERENCE = 0.001;
     private int POS_GUESSES;
     private final int INIT_OPEN_SPACES;
     private Set<Point> available = new HashSet<>();
@@ -86,13 +87,20 @@ public class Grid {
         return false;
     }
 
-    public void populateGrid(double maxOpenPercentage) {
-        while (available.size()/(double)INIT_OPEN_SPACES >= maxOpenPercentage) {
+    // keep trying to place blocks until the open space percentage stops differing by a predefined amount
+    public void populateGrid() {
+        double openPercentage;
+        do {
+            openPercentage = available.size()/(double)INIT_OPEN_SPACES;
             Block block = new Block(0,0, shapeChooser.random());
             setRandomOrigin(block);
             tryPlace(block);
-        }
+        } while (absoluteDifference(available.size()/(double)INIT_OPEN_SPACES, openPercentage) >= ABSOLUTE_DIFFERENCE);
         useAvailable();
+    }
+
+    private double absoluteDifference(double first, double second) {
+        return Math.abs(first - second);
     }
 
     private void useAvailable() {
@@ -136,4 +144,12 @@ public class Grid {
     public Set<Block> getBlocks() {return this.blocks;}
 
     public Map getMap() { return map; }
+
+    public static int[][] generateMap(int rows, int cols, long seed) {
+        Grid grid = new Grid(rows, cols, seed);
+        grid.populateGrid();
+        grid.drawEdges();
+        grid.getMap().verticalMirror();
+        return grid.getMap().getMap();
+    }
 }

@@ -23,10 +23,6 @@ public class GameScreen extends AbstractScreen {
     public void show() {
 
 
-        Grid grid = new Grid(8,8,12);
-        grid.populateGrid(0.15);
-        grid.drawEdges();
-        grid.getMap().verticalMirror();
 
         /*int[][] maze = new int[][]{
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -40,7 +36,7 @@ public class GameScreen extends AbstractScreen {
         };*/
 
 
-        renderer = new MazeRenderer(grid.getMap().getMap());
+        renderer = new MazeRenderer(Grid.generateMap(8,8,1));
 
     }
 
