@@ -24,6 +24,7 @@ public class MazeRenderer implements ApplicationListener{
     private Texture trcWall; //tre: Top Right Corner
     private Texture brcWall; //bre: Bottom Right Corner
     private Texture blkWall; //bre: Block
+    private Texture empWall; //bre: empty
 
     private int wall = 1, path = 0;
 
@@ -75,6 +76,7 @@ public class MazeRenderer implements ApplicationListener{
         trcWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/trcWall.png"));
         brcWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/brcWall.png"));
         blkWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/blkWall.png"));
+        empWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/empWall.png"));
 
         //Create new camera
         camera = new OrthographicCamera();
@@ -190,6 +192,8 @@ public class MazeRenderer implements ApplicationListener{
                         batch.draw(brcWall, j * imgScale, (row - i) * imgScale);
                     else if(top == path && right == path && bottom == path && left == path)
                         batch.draw(blkWall, j * imgScale, (row - i) * imgScale);
+                    else if(top == wall && right == wall && bottom == wall && left == wall)
+                        batch.draw(empWall, j * imgScale, (row - i) * imgScale);
                 }
             }
         }
@@ -210,6 +214,7 @@ public class MazeRenderer implements ApplicationListener{
         blcWall.dispose();
         trcWall.dispose();
         brcWall.dispose();
+        blkWall.dispose();
 
         batch.dispose();
     }
