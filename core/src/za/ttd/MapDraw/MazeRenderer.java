@@ -30,7 +30,7 @@ public class MazeRenderer implements ApplicationListener{
 
     int imgScale = 64;
 
-    private OrthographicCamera camera;
+    //private OrthographicCamera camera;
     private SpriteBatch batch;
 
     private int[][] maze;
@@ -79,8 +79,8 @@ public class MazeRenderer implements ApplicationListener{
         empWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/empWall.png"));
 
         //Create new camera
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 2400, 2400);
+        //camera = new OrthographicCamera();
+        //camera.setToOrtho(false, 2400, 2400);
 
         //Sprite Batch for drawing images
         batch = new SpriteBatch();
@@ -97,10 +97,10 @@ public class MazeRenderer implements ApplicationListener{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //Update camera matrices
-        camera.update();
+        //camera.update();
 
         //Tell SpriteBatch to render in the co-ordinate system specified by the camera
-        batch.setProjectionMatrix(camera.combined);
+        batch.getProjectionMatrix().setToOrtho2D(-200,-100,1850,2400);
 
         //Begin a new batch and draw the maze
         batch.begin();
@@ -110,6 +110,7 @@ public class MazeRenderer implements ApplicationListener{
 
     @Override
     public void pause() {
+
 
     }
 

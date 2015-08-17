@@ -35,7 +35,7 @@ public class GameScreen extends AbstractScreen {
         };*/
 
 
-        renderer = new MazeRenderer(Grid.generateMap(9,9,3));
+        renderer = new MazeRenderer(Grid.generateMap(15,5,3));
 
     }
 
