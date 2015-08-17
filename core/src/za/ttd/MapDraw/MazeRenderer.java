@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class MazeRenderer implements ApplicationListener{
 
@@ -24,6 +23,7 @@ public class MazeRenderer implements ApplicationListener{
     private Texture blcWall; //ble: Bottom Left Corner
     private Texture trcWall; //tre: Top Right Corner
     private Texture brcWall; //bre: Bottom Right Corner
+    private Texture blkWall; //bre: Block
 
     private int wall = 1, path = 0;
 
@@ -74,6 +74,7 @@ public class MazeRenderer implements ApplicationListener{
         blcWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/blcWall.png"));
         trcWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/trcWall.png"));
         brcWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/brcWall.png"));
+        blkWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/blkWall.png"));
 
         //Create new camera
         camera = new OrthographicCamera();
@@ -187,6 +188,8 @@ public class MazeRenderer implements ApplicationListener{
                         batch.draw(trcWall, j * imgScale, (row - i) * imgScale);
                     else if (top == wall && right == path && bottom == path && left == wall)
                         batch.draw(brcWall, j * imgScale, (row - i) * imgScale);
+                    else if(top == path && right == path && bottom == path && left == path)
+                        batch.draw(blkWall, j * imgScale, (row - i) * imgScale);
                 }
             }
         }
