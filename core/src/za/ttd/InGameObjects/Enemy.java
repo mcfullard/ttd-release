@@ -9,4 +9,8 @@ public abstract class Enemy extends Actor {
     static final int PASSIVE = 3;
     static final int RETREAT = 4;
     static final int VULNERABLE = 5;
+
+    public Enemy(Position position) {
+        super(position);
+    }
 }
