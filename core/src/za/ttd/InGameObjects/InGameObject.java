@@ -10,6 +10,10 @@ public class InGameObject {
     static final int ALIVE = 1;
     static final int DEAD = 0;
 
+    public InGameObject(Position position) {
+        this.position = position;
+    }
+
     public int getMovementSpeed() {
         return movementSpeed;
     }
