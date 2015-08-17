@@ -1,7 +1,10 @@
 package za.ttd.screens;
 
 import com.badlogic.gdx.Game;
-import za.ttd.level.Level;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import za.ttd.MapDraw.MazeRenderer;
+import za.ttd.mapgen.Grid;
 
 /**
  * @author minnaar
@@ -9,26 +12,41 @@ import za.ttd.level.Level;
  */
 public class GameScreen extends AbstractScreen {
 
-    private Level level;
+    private MazeRenderer renderer;
 
     public GameScreen(Game game) {
         super(game);
-        level = new Level();
     }
 
     @Override
     public void show() {
+
+
+
+        /*int[][] maze = new int[][]{
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
+                {0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+                {0,1,0,0,0,1,1,1,0,0,1,1,0,0,0,1,0,0,1,0},
+                {0,1,0,0,0,0,1,0,0,0,1,1,0,1,1,1,0,0,1,0},
+                {0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0},
+                {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
+                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+        };*/
+
+
+        renderer = new MazeRenderer(Grid.generateMap(15,5,3));
 
     }
 
     @Override
     public void render(float delta) {
 
-        /*//Clear screen with black colour
+        //Clear screen with black colour
         Gdx.gl.glClearColor(0,0,0,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);*/
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        level.render();
+        renderer.render();
     }
 
     @Override
