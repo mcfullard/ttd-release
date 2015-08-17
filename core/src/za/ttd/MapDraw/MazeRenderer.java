@@ -78,7 +78,7 @@ public class MazeRenderer implements ApplicationListener{
 
         //Create new camera
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 2400, 1800);
+        camera.setToOrtho(false, 2400, 2400);
 
         //Sprite Batch for drawing images
         batch = new SpriteBatch();
