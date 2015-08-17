@@ -42,24 +42,7 @@ public class MazeRenderer implements ApplicationListener{
 
     public void create() {
         /*Here we load the images for each level before the level shows up
-          Images are 32X32 pixels*/
-
-        //TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("core/assets/textures/out/texture.atlas"));
-
-        /*tocWall = textureAtlas.findRegion("map/tocWall").getTexture();
-        rocWall = textureAtlas.findRegion("map/rocWall").getTexture();
-        bocWall = textureAtlas.findRegion("map/bocWall").getTexture();
-        locWall = textureAtlas.findRegion("map/locWall").getTexture();
-        hocWall = textureAtlas.findRegion("map/hocWall").getTexture();
-        vocWall = textureAtlas.findRegion("map/vocWall").getTexture();
-        tveWall = textureAtlas.findRegion("map/tveWall").getTexture();
-        rheWall = textureAtlas.findRegion("map/rheWall").getTexture();
-        bveWall = textureAtlas.findRegion("map/bveWall").getTexture();
-        lheWall = textureAtlas.findRegion("map/lheWall").getTexture();
-        tlcWall = textureAtlas.findRegion("map/tlcWall").getTexture();
-        blcWall = textureAtlas.findRegion("map/blcWall").getTexture();
-        trcWall = textureAtlas.findRegion("map/trcWall").getTexture();
-        brcWall = textureAtlas.findRegion("map/brcWall").getTexture();*/
+          Images are 64X64 pixels*/
 
         tocWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/tocWall.png"));
         rocWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/rocWall.png"));
@@ -77,6 +60,10 @@ public class MazeRenderer implements ApplicationListener{
         brcWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/brcWall.png"));
         blkWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/blkWall.png"));
         empWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/empWall.png"));
+
+
+
+
 
         //Create new camera
         camera = new OrthographicCamera();
@@ -215,6 +202,7 @@ public class MazeRenderer implements ApplicationListener{
         trcWall.dispose();
         brcWall.dispose();
         blkWall.dispose();
+        empWall.dispose();
 
         batch.dispose();
     }
