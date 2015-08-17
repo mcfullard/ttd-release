@@ -5,6 +5,9 @@ package za.ttd.InGameObjects;
  */
 public abstract class Collectible extends InGameObject {
 
+    public Collectible(Position position) {
+        super(position);
+    }
 
     public void Pickup() {
 
