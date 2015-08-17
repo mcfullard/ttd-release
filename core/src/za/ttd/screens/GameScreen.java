@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import za.ttd.MapDraw.MazeRenderer;
 import za.ttd.mapgen.Grid;
-import za.ttd.mapgen.Map;
 
 /**
  * @author minnaar
@@ -36,7 +35,7 @@ public class GameScreen extends AbstractScreen {
         };*/
 
 
-        renderer = new MazeRenderer(Grid.generateMap(8,8,1));
+        renderer = new MazeRenderer(Grid.generateMap(9,9,3));
 
     }
 
