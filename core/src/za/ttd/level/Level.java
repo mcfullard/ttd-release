@@ -2,7 +2,7 @@ package za.ttd.level;
 
 import za.ttd.InGameObjects.InGameObject;
 import za.ttd.InGameObjects.Position;
-import za.ttd.MapDraw.MazeRenderer;
+import za.ttd.Renderers.MazeRenderer;
 import za.ttd.mapgen.Grid;
 import za.ttd.mapgen.Map;
 

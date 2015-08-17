@@ -1,4 +1,4 @@
-package za.ttd.MapDraw;
+package za.ttd.Renderers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;

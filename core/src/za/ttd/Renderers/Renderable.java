@@ -1,13 +1,13 @@
 package za.ttd.Renderers;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Animation;
 
 public interface Renderable {
 
     public Texture getTexture();
 
-    public SpriteBatch getAnimation();
+    public Animation getAnimation();
 
     public int getX();
 
