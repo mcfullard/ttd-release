@@ -6,9 +6,8 @@ package za.ttd.InGameObjects;
 public class BadBreath extends Enemy {
     static final int score = 100;
 
-    public BadBreath(float x, float y, int speed) {
-        this.setPosX(x);
-        this.setPosY(y);
+    public BadBreath(Position position, int speed) {
+        super(position);
         this.setMovementSpeed(speed);
     }
 }

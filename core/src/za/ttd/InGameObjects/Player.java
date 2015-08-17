@@ -8,9 +8,8 @@ public class Player extends Actor {
     static final int AWESOME = 6;
     static final int NOT_AWESOME = 7;
 
-    public Player(float x, float y, int speed) {
-        setPosX(x);
-        setPosY(y);
+    public Player(Position position, int speed) {
+        super(position);
         setMovementSpeed(speed);
     }
 }

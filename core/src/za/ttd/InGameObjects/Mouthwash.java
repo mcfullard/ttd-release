@@ -6,9 +6,8 @@ package za.ttd.InGameObjects;
 public class Mouthwash extends Collectible {
     static final int score = 50;
 
-    public Mouthwash(float x, float y, int speed){
-        setPosX(x);
-        setPosY(y);
+    public Mouthwash(Position position, int speed){
+        super(position);
         setMovementSpeed(speed);
     }
 }
