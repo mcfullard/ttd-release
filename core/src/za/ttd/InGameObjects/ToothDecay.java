@@ -6,10 +6,8 @@ package za.ttd.InGameObjects;
 public class ToothDecay extends Enemy {
     static final int score = 1000;
 
-    public ToothDecay(float x, float y, int speed){
-        setPosX(x);
-        setPosY(y);
+    public ToothDecay(Position position, int speed){
+        super(position);
         this.setMovementSpeed(speed);
-
     }
 }

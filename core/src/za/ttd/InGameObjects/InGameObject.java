@@ -12,6 +12,7 @@ public class InGameObject {
 
     public InGameObject(Position position) {
         this.position = position;
+        this.movementSpeed = 0;
     }
 
     public int getMovementSpeed() {

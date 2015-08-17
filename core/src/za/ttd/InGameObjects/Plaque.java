@@ -6,8 +6,7 @@ package za.ttd.InGameObjects;
 public class Plaque extends Collectible {
     static final int score = 5;
 
-    public Plaque(float x, float y) {
-        setPosX(x);
-        setPosY(y);
+    public Plaque(Position position) {
+        super(position);
     }
 }
