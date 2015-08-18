@@ -10,7 +10,7 @@ public abstract class Actor extends InGameObject implements Renderable {
     protected TryUpdateListener tryUpdateListener;
 
     public interface TryUpdateListener {
-        public boolean tryUpdate(Position position);
+        public boolean tryUpdate(Position before, Position after);
     }
 
     public Actor(Position position, TryUpdateListener listener) {
