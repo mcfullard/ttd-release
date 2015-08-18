@@ -20,17 +20,16 @@ public class Map {
 
     public int[][] getMap() { return map; }
 
-    public boolean isWall(int row, int col) {
-        row = map.length - 1 - row;
-        if(row >= map.length)
-            row = map.length - 1;
-        if(row < 0)
-            row = 1;
-        if(col >= map[0].length)
-            col = map[0].length;
-        if(col < 0)
-            col = 1;
-        return map[row][col] == WALL;
+    public boolean isWall(int x, int y) {
+        if(x >= map[0].length)
+            x = map[0].length - 1;
+        if(x < 0)
+            x = 0;
+        if(y >= map.length)
+            y = map.length - 1;
+        if(y < 0)
+            y = 0;
+        return map[y][x] == WALL;
     }
 
     public void verticalMirror() {

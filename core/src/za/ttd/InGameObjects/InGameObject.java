@@ -5,7 +5,7 @@ package za.ttd.InGameObjects;
  */
 public class InGameObject {
     protected Position position;
-    protected int movementSpeed;
+    protected float movementSpeed;
 
     static final int ALIVE = 1;
     static final int DEAD = 0;
@@ -15,10 +15,10 @@ public class InGameObject {
         this.movementSpeed = 0;
     }
 
-    public int getMovementSpeed() {
+    public float getMovementSpeed() {
         return movementSpeed;
     }
-    public void setMovementSpeed(int movementSpeed) {
+    public void setMovementSpeed(float movementSpeed) {
         this.movementSpeed = movementSpeed;
     }
 
