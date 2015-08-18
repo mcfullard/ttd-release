@@ -25,11 +25,11 @@ public class Map {
         if(row >= map.length)
             row = map.length - 1;
         if(row < 0)
-            row = 0;
+            row = 1;
         if(col >= map[0].length)
             col = map[0].length;
         if(col < 0)
-            col = 0;
+            col = 1;
         return map[row][col] == WALL;
     }
 
