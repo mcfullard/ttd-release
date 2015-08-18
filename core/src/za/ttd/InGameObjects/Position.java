@@ -1,9 +1,5 @@
 package za.ttd.InGameObjects;
 
-import javafx.geometry.Pos;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
 /**
  * @author minnaar
  * @since 2015/08/17.
