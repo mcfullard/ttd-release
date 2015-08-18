@@ -1,9 +1,6 @@
 package za.ttd.level;
 
-import za.ttd.InGameObjects.Actor;
-import za.ttd.InGameObjects.InGameObject;
-import za.ttd.InGameObjects.Player;
-import za.ttd.InGameObjects.Position;
+import za.ttd.InGameObjects.*;
 import za.ttd.Renderers.CharacterRenderer;
 import za.ttd.Renderers.MazeRenderer;
 import za.ttd.Renderers.Renderable;
@@ -33,7 +30,7 @@ public class Level implements Actor.TryMoveListener {
 
     public Level() {
         this.imgScale = 64;
-        this.seed = 666;
+        this.seed = 4;
         map = Grid.generateMap(15,5,seed);
         gameObjects = new HashMap<>();
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
@@ -77,6 +74,8 @@ public class Level implements Actor.TryMoveListener {
     private void initGameObjects() {
         Player thomas = new Player(new Position(1, 1), this, 1);
         gameObjects.put(thomas.getPosition(), thomas);
+        //Mouthwash p1 = new Mouthwash(new Position(1,1), 0);
+        //gameObjects.put(p1.getPosition(), p1);
     }
 
     /**
@@ -84,6 +83,8 @@ public class Level implements Actor.TryMoveListener {
      */
     @Override
     public boolean tryMove(Position before, Position after) {
+        if(gameObjects.get(after) instanceof Mouthwash)
+            gameObjects.remove(after);
         if(map.isWall(after.getIntX(), after.getIntY())) {
             return false;
         }

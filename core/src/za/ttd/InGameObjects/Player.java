@@ -7,14 +7,14 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class Player extends Actor {
 
-    protected static final String THOM_FULL = "core/assets/textures/in/characters/thomFull.jpg";
+    protected static final String FILENAME = "core/assets/textures/in/characters/thomFull.jpg";
     protected Texture thomas;
     protected Direction direction = Direction.NONE;
 
     public Player(Position position, TryMoveListener listener, int speed) {
         super(position, listener);
         setMovementSpeed(speed);
-        thomas = new Texture(Gdx.files.internal(THOM_FULL));
+        thomas = new Texture(Gdx.files.internal(FILENAME));
     }
 
     @Override
