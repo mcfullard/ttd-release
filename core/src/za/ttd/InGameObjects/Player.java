@@ -34,4 +34,6 @@ public class Player extends Actor {
     public int getY() {
         return position.getIntY();
     }
+
+
 }
