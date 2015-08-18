@@ -28,4 +28,6 @@ public class InGameObject {
     public void moveY(float y){
         position.increaseY(y);
     }
+
+    public Position getPosition() {return position;}
 }
