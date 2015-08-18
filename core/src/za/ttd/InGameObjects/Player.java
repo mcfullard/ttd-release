@@ -12,4 +12,6 @@ public class Player extends Actor {
         super(position);
         setMovementSpeed(speed);
     }
+
+
 }

@@ -1,6 +1,7 @@
 package za.ttd.level;
 
 import za.ttd.InGameObjects.InGameObject;
+import za.ttd.InGameObjects.Player;
 import za.ttd.InGameObjects.Position;
 import za.ttd.Renderers.CharacterRenderer;
 import za.ttd.Renderers.MazeRenderer;
@@ -8,6 +9,7 @@ import za.ttd.Renderers.Renderable;
 import za.ttd.mapgen.Grid;
 import za.ttd.mapgen.Map;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,11 +33,12 @@ public class Level {
         this.imgScale = 64;
         this.seed = 3;
         map = Grid.generateMap(15,5,seed);
+        gameObjects = new HashMap<>();
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
         charRendered = new CharacterRenderer(map.getMap(), imgScale);
     }
 
-    public void render(float delta) {
+    public void render() {
         mazeRenderer.render();
         charRendered.render(getRenderables(gameObjects.values()));
     }
@@ -54,6 +57,5 @@ public class Level {
      * This should be replaced by a reading procedure where initial data is read from a json file or something
      */
     private void initGameObjects() {
-
     }
 }

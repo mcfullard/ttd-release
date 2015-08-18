@@ -27,9 +27,6 @@ public class CharacterRenderer{
 
     public void render(List<Renderable> renderables) {
         this.renderables = renderables;
-        //Clear screen with black colour
-        Gdx.gl.glClearColor(0,0,0,0);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //Tell SpriteBatch to render in the co-ordinate system specified by screen
         batch.getProjectionMatrix().setToOrtho2D(-200,-100,1850,2400);
