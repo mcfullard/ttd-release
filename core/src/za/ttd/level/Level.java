@@ -22,7 +22,7 @@ import java.util.List;
  * @author minnaar
  * @since 2015/08/17.
  */
-public class Level implements Actor.TryUpdateListener {
+public class Level implements Actor.TryMoveListener {
     private Map map;
     private long seed;
     private java.util.Map<Position, InGameObject> gameObjects;
@@ -43,7 +43,22 @@ public class Level implements Actor.TryUpdateListener {
 
     public void render(){
         mazeRenderer.render();
+        update();
         charRendered.render(getRenderables(gameObjects.values()));
+    }
+
+    private void update() {
+        for(Actor actor : getActors(gameObjects.values()))
+            actor.update();
+    }
+
+    private List<Actor> getActors(Collection<InGameObject> characters) {
+        List<Actor> actors = new LinkedList<>();
+        for(InGameObject character: characters) {
+            if(character instanceof Actor)
+                actors.add((Actor)character);
+        }
+        return actors;
     }
 
     private List<Renderable> getRenderables(Collection<InGameObject> characters) {
@@ -60,7 +75,7 @@ public class Level implements Actor.TryUpdateListener {
      * This should be replaced by a reading procedure where initial data is read from a json file or something
      */
     private void initGameObjects() {
-        Player thomas = new Player(new Position(19,(float)10.5), this, 1);
+        Player thomas = new Player(new Position(10.5f, 14), this, 1);
         gameObjects.put(thomas.getPosition(), thomas);
     }
 
@@ -68,7 +83,10 @@ public class Level implements Actor.TryUpdateListener {
      * !!!!!!!!!!!!!!!!!!!!!!!   PROPER IMPLEMENTATION REQUIRED  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      */
     @Override
-    public boolean tryUpdate(Position before, Position after) {
+    public boolean tryMove(Position before, Position after) {
+        if(map.isWall(after.getIntX(), after.getIntY())) {
+            return false;
+        }
         return true;
     }
 }

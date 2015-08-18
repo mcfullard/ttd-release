@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 public class BadBreath extends Enemy {
     static final int score = 100;
 
-    public BadBreath(Position position, TryUpdateListener listener, int speed) {
+    public BadBreath(Position position, TryMoveListener listener, int speed) {
         super(position, listener);
         this.setMovementSpeed(speed);
     }

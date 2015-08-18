@@ -19,4 +19,7 @@ public class Position {
     public void setY(float y) {this.y = y;}
     public void increaseX(float x) {this.x += x;}
     public void increaseY(float y) {this.y += y;}
+    public Position clone() {
+        return new Position(this.x, this.y);
+    }
 }

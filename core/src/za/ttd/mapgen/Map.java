@@ -20,6 +20,19 @@ public class Map {
 
     public int[][] getMap() { return map; }
 
+    public boolean isWall(int row, int col) {
+        row = map.length - 1 - row;
+        if(row >= map.length)
+            row = map.length - 1;
+        if(row < 0)
+            row = 0;
+        if(col >= map[0].length)
+            col = map[0].length;
+        if(col < 0)
+            col = 0;
+        return map[row][col] == WALL;
+    }
+
     public void verticalMirror() {
         int[][] mirrored = new int[map.length][map[0].length * 2];
         for(int r = 0; r < map.length; r++) {

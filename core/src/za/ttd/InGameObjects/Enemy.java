@@ -10,7 +10,7 @@ public abstract class Enemy extends Actor {
     static final int RETREAT = 4;
     static final int VULNERABLE = 5;
 
-    public Enemy(Position position, TryUpdateListener listener) {
+    public Enemy(Position position, TryMoveListener listener) {
         super(position, listener);
     }
 }

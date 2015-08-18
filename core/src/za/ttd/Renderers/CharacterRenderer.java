@@ -50,9 +50,9 @@ public class CharacterRenderer{
             Animation characterAnimation = curRenderable.getAnimation();
 
             if (characterStill != null)
-                batch.draw(characterStill, y * imgScale, (maze.length - x )* imgScale);
+                batch.draw(characterStill, x * imgScale, y * imgScale);
             else {
-                batch.draw(characterAnimation.getKeyFrame(elapsedTime, true), y * imgScale, (maze.length - x) * imgScale);
+                batch.draw(characterAnimation.getKeyFrame(elapsedTime, true), x * imgScale, y * imgScale);
             }
         }
     }
