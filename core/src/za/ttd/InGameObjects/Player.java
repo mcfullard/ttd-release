@@ -6,13 +6,17 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class Player extends Actor {
 
-    private  Texture thomas;
+    private static final String THOM_FULL = "core/assets/textures/in/characters/thomFull.jpg";
+    private Texture thomas;
 
-    public Player(Position position, int speed) {
-        super(position);
+    public Player(Position position, TryUpdateListener listener, int speed) {
+        super(position, listener);
         setMovementSpeed(speed);
+        thomas = new Texture(Gdx.files.internal(THOM_FULL));
+    }
 
-        thomas = new Texture(Gdx.files.internal("core/assets/textures/in/characters/thomFull.jpg"));
+    @Override
+    public void update() {
     }
 
     @Override

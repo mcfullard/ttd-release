@@ -57,5 +57,6 @@ public class Level {
      * This should be replaced by a reading procedure where initial data is read from a json file or something
      */
     private void initGameObjects() {
+
     }
 }
