@@ -18,15 +18,15 @@ public class CharacterRenderer{
     private List<Renderable> renderables;
     private float elapsedTime;
 
-    public CharacterRenderer(int[][] maze, int imgScale, List<Renderable> renderables) {
+    public CharacterRenderer(int[][] maze, int imgScale) {
         this.maze = maze;
         this.imgScale = imgScale;
-        this.renderables = renderables;
         this.batch = new SpriteBatch();
         this.elapsedTime = 0;
     }
 
-    public void render() {
+    public void render(List<Renderable> renderables) {
+        this.renderables = renderables;
         //Clear screen with black colour
         Gdx.gl.glClearColor(0,0,0,0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
