@@ -33,7 +33,7 @@ public class Level implements Actor.TryMoveListener {
 
     public Level() {
         this.imgScale = 64;
-        this.seed = 12;
+        this.seed = 666;
         map = Grid.generateMap(15,5,seed);
         gameObjects = new HashMap<>();
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
@@ -75,7 +75,7 @@ public class Level implements Actor.TryMoveListener {
      * This should be replaced by a reading procedure where initial data is read from a json file or something
      */
     private void initGameObjects() {
-        Player thomas = new Player(new Position(1, 1), this, .1f);
+        Player thomas = new Player(new Position(1, 1), this, 1);
         gameObjects.put(thomas.getPosition(), thomas);
     }
 
