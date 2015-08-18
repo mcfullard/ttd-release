@@ -145,11 +145,11 @@ public class Grid {
 
     public Map getMap() { return map; }
 
-    public static int[][] generateMap(int rows, int cols, long seed) {
+    public static Map generateMap(int rows, int cols, long seed) {
         Grid grid = new Grid(rows, cols, seed);
         grid.populateGrid();
         grid.drawEdges();
         grid.getMap().verticalMirror();
-        return grid.getMap().getMap();
+        return grid.getMap();
     }
 }
