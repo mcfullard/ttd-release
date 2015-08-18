@@ -75,7 +75,7 @@ public class Level implements Actor.TryMoveListener {
      * This should be replaced by a reading procedure where initial data is read from a json file or something
      */
     private void initGameObjects() {
-        Player thomas = new Player(new Position(10.5f, 14), this, 1);
+        Player thomas = new Player(new Position(1, 1), this, 1);
         gameObjects.put(thomas.getPosition(), thomas);
     }
 
