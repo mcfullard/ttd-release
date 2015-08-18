@@ -63,16 +63,16 @@ public class Player extends Actor {
         Position next = position.clone();
         switch (direction) {
             case UP:
-                next.increaseX(movementSpeed);
+                next.increaseY(-movementSpeed);
                 break;
             case DOWN:
-                next.increaseX(-movementSpeed);
-                break;
-            case LEFT:
                 next.increaseY(movementSpeed);
                 break;
+            case LEFT:
+                next.increaseX(-movementSpeed);
+                break;
             case RIGHT:
-                next.increaseY(-movementSpeed);
+                next.increaseX(movementSpeed);
                 break;
             default:
                 break;
