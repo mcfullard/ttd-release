@@ -1,6 +1,8 @@
 package za.ttd.level;
 
+import za.ttd.InGameObjects.Actor;
 import za.ttd.InGameObjects.InGameObject;
+import za.ttd.InGameObjects.Player;
 import za.ttd.InGameObjects.Position;
 import za.ttd.Renderers.CharacterRenderer;
 import za.ttd.Renderers.MazeRenderer;
@@ -20,7 +22,7 @@ import java.util.List;
  * @author minnaar
  * @since 2015/08/17.
  */
-public class Level {
+public class Level implements Actor.TryUpdateListener {
     private Map map;
     private long seed;
     private java.util.Map<Position, InGameObject> gameObjects;
@@ -36,6 +38,7 @@ public class Level {
         gameObjects = new HashMap<>();
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
         charRendered = new CharacterRenderer(map.getMap(), imgScale);
+        initGameObjects();
     }
 
     public void render() {
@@ -57,6 +60,12 @@ public class Level {
      * This should be replaced by a reading procedure where initial data is read from a json file or something
      */
     private void initGameObjects() {
+        Player thomas = new Player(new Position(1,1), this, 1);
+        gameObjects.put(thomas.getPosition(), thomas);
+    }
 
+    @Override
+    public boolean tryUpdate(Position before, Position after) {
+        return true;
     }
 }
