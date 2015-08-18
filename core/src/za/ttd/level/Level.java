@@ -1,13 +1,13 @@
 package za.ttd.level;
 
 import za.ttd.InGameObjects.InGameObject;
-import za.ttd.InGameObjects.Player;
 import za.ttd.InGameObjects.Position;
 import za.ttd.Renderers.CharacterRenderer;
 import za.ttd.Renderers.MazeRenderer;
 import za.ttd.Renderers.Renderable;
 import za.ttd.mapgen.Grid;
 import za.ttd.mapgen.Map;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -31,7 +31,7 @@ public class Level {
 
     public Level() {
         this.imgScale = 64;
-        this.seed = 3;
+        this.seed = 257;
         map = Grid.generateMap(15,5,seed);
         gameObjects = new HashMap<>();
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
