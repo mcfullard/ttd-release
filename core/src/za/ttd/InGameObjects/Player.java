@@ -25,6 +25,7 @@ public class Player extends Actor {
             position.setX(next.getX());
             position.setY(next.getY());
         }
+        direction = Direction.NONE;
     }
 
     @Override
