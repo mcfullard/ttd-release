@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 public class ToothDecay extends Enemy {
     static final int score = 1000;
 
-    public ToothDecay(Position position, int speed){
-        super(position);
+    public ToothDecay(Position position, TryUpdateListener listener, int speed){
+        super(position, listener);
         this.setMovementSpeed(speed);
     }
 

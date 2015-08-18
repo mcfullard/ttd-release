@@ -31,7 +31,7 @@ public class Level {
 
     public Level() {
         this.imgScale = 64;
-        this.seed = 257;
+        this.seed = 999;
         map = Grid.generateMap(15,5,seed);
         gameObjects = new HashMap<>();
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
@@ -57,5 +57,6 @@ public class Level {
      * This should be replaced by a reading procedure where initial data is read from a json file or something
      */
     private void initGameObjects() {
+
     }
 }
