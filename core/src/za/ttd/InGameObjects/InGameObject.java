@@ -4,8 +4,8 @@ package za.ttd.InGameObjects;
  * Created by s213391244 on 7/30/2015.
  */
 public class InGameObject {
-    private Position position;
-    private int movementSpeed;
+    protected Position position;
+    protected int movementSpeed;
 
     static final int ALIVE = 1;
     static final int DEAD = 0;

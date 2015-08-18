@@ -35,7 +35,7 @@ public class Level {
         charRendered = new CharacterRenderer(map.getMap(), imgScale);
     }
 
-    public void render(float delta) {
+    public void render() {
         mazeRenderer.render();
         charRendered.render(getRenderables(gameObjects.values()));
     }
