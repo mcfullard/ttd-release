@@ -43,19 +43,17 @@ public class CharacterRenderer{
 
         for (Renderable curRenderable : renderables) {
 
-            int x = curRenderable.getX();
-            int y = curRenderable.getY();
+            float x = curRenderable.getX();
+            float y = curRenderable.getY();
 
             Texture characterStill = curRenderable.getTexture();
             Animation characterAnimation = curRenderable.getAnimation();
 
-
-            if (maze[x][y] == path)
-                if (characterStill != null)
-                    batch.draw(characterStill, y * imgScale, (maze.length - x )* imgScale);
-                else {
-                    batch.draw(characterAnimation.getKeyFrame(elapsedTime, true), y * imgScale, (maze.length - x) * imgScale);
-                }
+            if (characterStill != null)
+                batch.draw(characterStill, y * imgScale, (maze.length - x )* imgScale);
+            else {
+                batch.draw(characterAnimation.getKeyFrame(elapsedTime, true), y * imgScale, (maze.length - x) * imgScale);
+            }
         }
     }
 }

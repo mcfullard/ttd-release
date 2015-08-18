@@ -25,12 +25,12 @@ public class ToothDecay extends Enemy {
     }
 
     @Override
-    public int getX() {
+    public float getX() {
         return 0;
     }
 
     @Override
-    public int getY() {
+    public float getY() {
         return 0;
     }
 }

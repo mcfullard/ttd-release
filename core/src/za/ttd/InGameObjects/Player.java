@@ -30,13 +30,13 @@ public class Player extends Actor {
     }
 
     @Override
-    public int getX() {
-        return position.getIntX();
+    public float getX() {
+        return position.getX();
     }
 
     @Override
-    public int getY() {
-        return position.getIntY();
+    public float getY() {
+        return position.getY();
     }
 
 

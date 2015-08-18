@@ -9,7 +9,7 @@ public interface Renderable {
 
     public Animation getAnimation();
 
-    public int getX();
+    public float getX();
 
-    public int getY();
+    public float getY();
 }
