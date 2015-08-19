@@ -15,8 +15,8 @@ public class Position {
         this.x = x;
         this.y = y;
     }
-    public int getIntX() {return (int)x;}
-    public int getIntY() {return (int)y;}
+    public int getIntX() {return Math.round(x);}
+    public int getIntY() {return Math.round(y);}
     public float getX() {return x;}
     public float getY() {return y;}
     public void setX(float x) {this.x = x;}

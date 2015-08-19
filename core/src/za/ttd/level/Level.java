@@ -19,7 +19,7 @@ import java.util.List;
  * @author minnaar
  * @since 2015/08/17.
  */
-public class Level implements Actor.TryMoveListener {
+public class Level {
     private Map map;
     private long seed;
     private java.util.Map<Position, InGameObject> gameObjects;
@@ -72,22 +72,10 @@ public class Level implements Actor.TryMoveListener {
      * This should be replaced by a reading procedure where initial data is read from a json file or something
      */
     private void initGameObjects() {
-        Player thomas = new Player(new Position(1, 1), this, 1);
+        Player thomas = new Player(new Position(1, 1), .1f);
+        thomas.setMovementMap(map);
         gameObjects.put(thomas.getPosition(), thomas);
         //Mouthwash p1 = new Mouthwash(new Position(1,1), 0);
         //gameObjects.put(p1.getPosition(), p1);
-    }
-
-    /**
-     * !!!!!!!!!!!!!!!!!!!!!!!   PROPER IMPLEMENTATION REQUIRED  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     */
-    @Override
-    public boolean tryMove(Position before, Position after) {
-        if(gameObjects.get(after) instanceof Mouthwash)
-            gameObjects.remove(after);
-        if(map.isWall(after.getIntX(), after.getIntY())) {
-            return false;
-        }
-        return true;
     }
 }
