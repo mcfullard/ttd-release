@@ -23,7 +23,7 @@ public class Movement {
     }
 
     public void moveUp() {
-        int y = (int)Math.ceil((double)position.getY());
+        int y = (int)Math.ceil((double)position.getY() - speed);
         int x = position.getIntX();
 
         if (tryMove(x, y));
@@ -31,7 +31,7 @@ public class Movement {
     }
 
     public void moveDown() {
-        int y = (int)Math.floor((double) position.getY());
+        int y = (int)Math.floor((double) position.getY() + speed);
         int x = position.getIntX();
 
         if (tryMove(x, y));
@@ -40,7 +40,7 @@ public class Movement {
 
     public void moveLeft() {
         int y = position.getIntY();
-        int x = (int)Math.floor((double) position.getX());
+        int x = (int)Math.floor((double) position.getX() - speed);
 
         if (tryMove(x, y));
             position.increaseX(-speed);
@@ -48,7 +48,7 @@ public class Movement {
 
     public void moveRight() {
         int y = position.getIntY();
-        int x = (int)Math.ceil((double) position.getX());
+        int x = (int)Math.ceil((double) position.getX() + speed);
 
         if (tryMove(x, y));
             position.increaseX(speed);
