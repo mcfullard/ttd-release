@@ -21,6 +21,7 @@ public class Map {
     public int[][] getMap() { return map; }
 
     public boolean isWall(int x, int y) {
+
         return map[y][x] == WALL;
     }
 

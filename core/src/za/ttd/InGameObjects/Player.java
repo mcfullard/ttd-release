@@ -52,11 +52,11 @@ public class Player extends Actor {
     private void processKeys() {
         if(Gdx.input.isKeyPressed(Input.Keys.UP))
             movement.moveUp();
-        else if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
             movement.moveDown();
-        else if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
             movement.moveLeft();
-        else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
             movement.moveRight();
     }
 }
