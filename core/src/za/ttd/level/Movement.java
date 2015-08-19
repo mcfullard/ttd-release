@@ -28,8 +28,6 @@ public class Movement {
 
         if (tryMove(x, y))
             position.increaseY(-speed);
-        else
-            position.setY((float) Math.floor(position.getY()));
     }
 
     public void moveDown() {
@@ -38,8 +36,6 @@ public class Movement {
 
         if (tryMove(x, y))
             position.increaseY(speed);
-        else
-            position.setY((float) Math.ceil(position.getY()));
     }
 
     public void moveLeft() {
@@ -48,8 +44,6 @@ public class Movement {
 
         if (tryMove(x, y))
             position.increaseX(-speed);
-        else
-            position.setX((float)Math.floor(position.getX()));
     }
 
     public void moveRight() {
@@ -58,8 +52,6 @@ public class Movement {
 
         if (tryMove(x, y))
             position.increaseX(speed);
-        else
-            position.setX((float) Math.ceil(position.getX()));
     }
 
     private boolean tryMove(int x, int y) {
