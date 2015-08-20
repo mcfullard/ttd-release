@@ -1,9 +1,6 @@
 package za.ttd.level;
 
-import za.ttd.InGameObjects.Actor;
-import za.ttd.InGameObjects.InGameObject;
-import za.ttd.InGameObjects.Player;
-import za.ttd.InGameObjects.Position;
+import za.ttd.InGameObjects.*;
 import za.ttd.Renderers.CharacterRenderer;
 import za.ttd.Renderers.MazeRenderer;
 import za.ttd.Renderers.Renderable;
@@ -22,7 +19,7 @@ import java.util.List;
  * @author minnaar
  * @since 2015/08/17.
  */
-public class Level implements Actor.TryMoveListener {
+public class Level {
     private Map map;
     private long seed;
     private java.util.Map<Position, InGameObject> gameObjects;
@@ -33,7 +30,7 @@ public class Level implements Actor.TryMoveListener {
 
     public Level() {
         this.imgScale = 64;
-        this.seed = 666;
+        this.seed = 4;
         map = Grid.generateMap(15,5,seed);
         gameObjects = new HashMap<>();
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
@@ -75,18 +72,10 @@ public class Level implements Actor.TryMoveListener {
      * This should be replaced by a reading procedure where initial data is read from a json file or something
      */
     private void initGameObjects() {
-        Player thomas = new Player(new Position(1, 1), this, .1f);
+        Player thomas = new Player(new Position(1, 1), .1f);
+        thomas.setMovementMap(map);
         gameObjects.put(thomas.getPosition(), thomas);
-    }
-
-    /**
-     * !!!!!!!!!!!!!!!!!!!!!!!   PROPER IMPLEMENTATION REQUIRED  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     */
-    @Override
-    public boolean tryMove(Position before, Position after) {
-        if(map.isWall(after.getIntX(), after.getIntY())) {
-            return false;
-        }
-        return true;
+        //Mouthwash p1 = new Mouthwash(new Position(1,1), 0);
+        //gameObjects.put(p1.getPosition(), p1);
     }
 }

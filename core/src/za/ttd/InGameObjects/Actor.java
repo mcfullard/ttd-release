@@ -7,15 +7,8 @@ import za.ttd.Renderers.Renderable;
  */
 public abstract class Actor extends InGameObject implements Renderable {
 
-    protected TryMoveListener tryMoveListener;
-
-    public interface TryMoveListener {
-        public boolean tryMove(Position before, Position after);
-    }
-
-    public Actor(Position position, TryMoveListener listener) {
+    public Actor(Position position) {
         super(position);
-        tryMoveListener = listener;
     }
 
     public void update() {

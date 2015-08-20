@@ -21,14 +21,7 @@ public class Map {
     public int[][] getMap() { return map; }
 
     public boolean isWall(int x, int y) {
-        /*if(x >= map[0].length)
-            x = map[0].length - 1;
-        if(x < 0)
-            x = 0;
-        if(y >= map.length)
-            y = map.length - 1;
-        if(y < 0)
-            y = 0;*/
+
         return map[y][x] == WALL;
     }
 
