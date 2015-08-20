@@ -1,5 +1,6 @@
 package za.ttd.level;
 
+import za.ttd.InGameObjects.Direction;
 import za.ttd.InGameObjects.Position;
 import za.ttd.mapgen.Map;
 
@@ -26,32 +27,111 @@ public class Movement {
         int y = (int)Math.floor((double)position.getY() - speed);
         int x = position.getIntX();
 
-        if (tryMove(x, y))
+        if (tryMove(x, y)) {
             position.increaseY(-speed);
+            position.setX(position.getIntX());
+        }
+        else
+            position.increaseY(position.getIntY() - position.getY());
     }
 
     public void moveDown() {
         int y = (int)Math.ceil((double) position.getY() + speed);
         int x = position.getIntX();
 
-        if (tryMove(x, y))
+        if (tryMove(x, y)) {
             position.increaseY(speed);
+            position.setX(position.getIntX());
+        }
+        else
+            position.increaseY(position.getIntY()- position.getY());
     }
 
     public void moveLeft() {
         int y = position.getIntY();
         int x = (int)Math.floor((double) position.getX() - speed);
 
-        if (tryMove(x, y))
+        if (tryMove(x, y)) {
             position.increaseX(-speed);
+            position.setY(position.getIntY());
+        }
+        else
+            position.increaseX(position.getIntX() - position.getX());
     }
 
     public void moveRight() {
         int y = position.getIntY();
         int x = (int)Math.ceil((double) position.getX() + speed);
 
-        if (tryMove(x, y))
+        if (tryMove(x, y)) {
             position.increaseX(speed);
+            position.setY(position.getIntY());
+        }
+        else
+            position.increaseX(position.getIntX()-position.getX());
+    }
+
+
+    public boolean tryMoveUp(Direction dir) {
+        int y = (int)Math.floor((double)position.getY() - speed);
+        int x; // = position.getIntX();
+
+        if (dir == Direction.LEFT)
+            x = (int)Math.ceil((double)position.getX());
+        else
+            x = (int)Math.floor((double) position.getX());
+
+
+        if (tryMove(x, y))
+            return true;
+        else
+            return false;
+    }
+
+    public boolean tryMoveDown(Direction dir) {
+        int y = (int)Math.ceil((double) position.getY() + speed);
+        int x; // = position.getIntX();
+
+        if (dir == Direction.LEFT)
+            x = (int)Math.ceil((double)position.getX());
+        else
+            x = (int)Math.floor((double)position.getX());
+
+        if (tryMove(x, y))
+            return true;
+        else
+            return false;
+    }
+
+    public boolean tryMoveLeft(Direction dir) {
+        int y; // = position.getIntY();
+        int x = (int)Math.floor((double) position.getX() - speed);
+
+
+        if (dir == Direction.UP)
+            y = (int)Math.ceil((double) position.getY());
+        else
+            y = (int)Math.floor((double) position.getY());
+
+        if (tryMove(x, y))
+            return true;
+        else
+            return false;
+    }
+
+    public boolean tryMoveRight(Direction dir) {
+        int y; // = position.getIntY();
+        int x = (int)Math.ceil((double) position.getX() + speed);
+
+        if (dir == Direction.UP)
+            y = (int)Math.ceil((double)position.getY());
+        else
+            y = (int)Math.floor((double)position.getY());
+
+        if (tryMove(x, y))
+            return true;
+        else
+            return false;
     }
 
     private boolean tryMove(int x, int y) {

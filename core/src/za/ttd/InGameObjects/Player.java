@@ -12,12 +12,15 @@ public class Player extends Actor {
     protected static final String FILENAME = "core/assets/textures/in/characters/thomFull.jpg";
     protected Texture thomas;
     private  Movement movement;
+    protected Direction curDirection, nextDirection;
 
     public Player(Position position, float speed) {
         super(position);
         setMovementSpeed(speed);
         thomas = new Texture(Gdx.files.internal(FILENAME));
         this.movement = new Movement(null, position, speed);
+        curDirection = Direction.NONE;
+        nextDirection = Direction.NONE;
     }
 
     public void setMovementMap(Map map) {
@@ -27,6 +30,7 @@ public class Player extends Actor {
     @Override
     public void update() {
         processKeys();
+        Move();
     }
 
     @Override
@@ -51,12 +55,55 @@ public class Player extends Actor {
 
     private void processKeys() {
         if(Gdx.input.isKeyPressed(Input.Keys.UP))
-            movement.moveUp();
+            nextDirection = Direction.UP;
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
-            movement.moveDown();
+            nextDirection = Direction.DOWN;
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
-            movement.moveLeft();
+            nextDirection = Direction.LEFT;
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            movement.moveRight();
+            nextDirection = Direction.RIGHT;
+
+        if (curDirection == Direction.NONE)
+            curDirection = nextDirection;
+    }
+
+    private void Move() {
+        switch (nextDirection) {
+            case UP:
+                if(movement.tryMoveUp(curDirection))
+                    curDirection = nextDirection;
+                break;
+            case DOWN:
+                if(movement.tryMoveDown(curDirection))
+                    curDirection = nextDirection;
+                break;
+            case LEFT:
+                if(movement.tryMoveLeft(curDirection))
+                    curDirection = nextDirection;
+                break;
+            case RIGHT:
+                if(movement.tryMoveRight(curDirection))
+                    curDirection = nextDirection;
+                break;
+            default:
+                break;
+        }
+
+        switch (curDirection) {
+            case UP:
+                movement.moveUp();
+                break;
+            case DOWN:
+                movement.moveDown();
+                break;
+            case LEFT:
+                movement.moveLeft();
+                break;
+            case RIGHT:
+                movement.moveRight();
+                break;
+            default:
+                break;
+        }
     }
 }

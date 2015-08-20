@@ -30,7 +30,7 @@ public class Level {
 
     public Level() {
         this.imgScale = 64;
-        this.seed = 4;
+        this.seed = 1264;
         map = Grid.generateMap(15,5,seed);
         gameObjects = new HashMap<>();
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
