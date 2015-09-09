@@ -18,6 +18,7 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void show() {
+        level.renderMap();
     }
 
     @Override
