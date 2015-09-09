@@ -135,10 +135,7 @@ public class Movement {
     }
 
     private boolean tryMove(int x, int y) {
-        if(map.isWall(x, y))
-            return false;
-        else
-            return true;
+        return !map.isWall(x,y);
     }
 
 
