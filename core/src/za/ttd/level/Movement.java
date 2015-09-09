@@ -81,11 +81,7 @@ public class Movement {
         else
             x = (int)Math.floor((double) position.getX());
 
-
-        if (tryMove(x, y))
-            return true;
-        else
-            return false;
+        return tryMove(x,y);
     }
 
     public boolean tryMoveDown(Direction dir) {
@@ -97,10 +93,7 @@ public class Movement {
         else
             x = (int)Math.floor((double)position.getX());
 
-        if (tryMove(x, y))
-            return true;
-        else
-            return false;
+        return tryMove(x,y);
     }
 
     public boolean tryMoveLeft(Direction dir) {
@@ -113,10 +106,7 @@ public class Movement {
         else
             y = (int)Math.floor((double) position.getY());
 
-        if (tryMove(x, y))
-            return true;
-        else
-            return false;
+        return tryMove(x,y);
     }
 
     public boolean tryMoveRight(Direction dir) {
@@ -128,10 +118,7 @@ public class Movement {
         else
             y = (int)Math.floor((double)position.getY());
 
-        if (tryMove(x, y))
-            return true;
-        else
-            return false;
+        return tryMove(x,y);
     }
 
     private boolean tryMove(int x, int y) {
