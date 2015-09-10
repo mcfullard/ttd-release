@@ -1,9 +1,10 @@
 package za.ttd.level;
 
-import za.ttd.InGameObjects.*;
-import za.ttd.Renderers.CharacterRenderer;
-import za.ttd.Renderers.MazeRenderer;
-import za.ttd.Renderers.Renderable;
+import za.ttd.characters.*;
+import za.ttd.characters.objects.Position;
+import za.ttd.renderers.CharacterRenderer;
+import za.ttd.renderers.MazeRenderer;
+import za.ttd.renderers.Renderable;
 import za.ttd.mapgen.Grid;
 import za.ttd.mapgen.Map;
 
