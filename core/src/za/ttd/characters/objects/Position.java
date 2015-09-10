@@ -1,5 +1,8 @@
 package za.ttd.characters.objects;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 /**
  * @author minnaar
  * @since 2015/08/17.
@@ -30,6 +33,27 @@ public class Position {
     public void increaseY(float y) {this.y += y;}
     public Position clone() {
         return new Position(this.x, this.y);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) { return false; }
+        if (obj == this) { return true; }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        Position rhs = (Position) obj;
+        return new EqualsBuilder()
+                .append(x, rhs.getX())
+                .append(y, rhs.getY())
+                .isEquals();
+    }
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(13,47)
+                .append(x)
+                .append(y)
+                .toHashCode();
     }
 
 }
