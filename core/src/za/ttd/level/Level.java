@@ -39,11 +39,8 @@ public class Level {
         initGameObjects();
     }
 
-    public void renderMap() {
-        mazeRenderer.render();
-    }
-
     public void render(){
+        mazeRenderer.render();
         update();
         charRendered.render(getRenderables(gameObjects.values()));
     }
@@ -79,5 +76,7 @@ public class Level {
         Player thomas = new Player(new Position(1, 1), .1f);
         thomas.setMovementMap(map);
         gameObjects.put(thomas.getPosition(), thomas);
+        //Mouthwash p1 = new Mouthwash(new Position(1,1), 0);
+        //gameObjects.put(p1.getPosition(), p1);
     }
 }
