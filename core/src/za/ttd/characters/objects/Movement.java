@@ -1,7 +1,7 @@
-package za.ttd.level;
+package za.ttd.characters.objects;
 
-import za.ttd.InGameObjects.Direction;
-import za.ttd.InGameObjects.Position;
+import za.ttd.characters.objects.Direction;
+import za.ttd.characters.objects.Position;
 import za.ttd.mapgen.Map;
 
 /**

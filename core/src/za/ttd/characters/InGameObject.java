@@ -1,4 +1,6 @@
-package za.ttd.InGameObjects;
+package za.ttd.characters;
+
+import za.ttd.characters.objects.Position;
 
 /**
  * Created by s213391244 on 7/30/2015.

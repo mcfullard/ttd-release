@@ -1,7 +1,8 @@
-package za.ttd.InGameObjects;
+package za.ttd.characters;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import za.ttd.characters.objects.Position;
 
 public class BadBreath extends Enemy {
     static final int score = 100;

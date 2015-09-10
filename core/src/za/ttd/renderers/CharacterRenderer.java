@@ -1,4 +1,4 @@
-package za.ttd.Renderers;
+package za.ttd.renderers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

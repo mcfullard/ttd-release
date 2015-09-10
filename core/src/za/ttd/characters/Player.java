@@ -1,10 +1,12 @@
-package za.ttd.InGameObjects;
+package za.ttd.characters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import za.ttd.level.Movement;
+import za.ttd.characters.objects.Direction;
+import za.ttd.characters.objects.Position;
+import za.ttd.characters.objects.Movement;
 import za.ttd.mapgen.Map;
 
 public class Player extends Actor {

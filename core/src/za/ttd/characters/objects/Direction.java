@@ -1,4 +1,4 @@
-package za.ttd.InGameObjects;
+package za.ttd.characters.objects;
 
 /**
  * @author minnaar
