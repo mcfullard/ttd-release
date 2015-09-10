@@ -24,7 +24,7 @@ public class Movement {
     }
 
     public void moveUp() {
-        int y = (int)Math.floor((double)position.getY() - speed);
+        int y = position.getChangedFloorY(-speed);
         int x = position.getIntX();
 
         if (tryMove(x, y)) {
@@ -36,7 +36,7 @@ public class Movement {
     }
 
     public void moveDown() {
-        int y = (int)Math.ceil((double) position.getY() + speed);
+        int y = position.getChangedCeilY(speed);
         int x = position.getIntX();
 
         if (tryMove(x, y)) {
@@ -49,7 +49,7 @@ public class Movement {
 
     public void moveLeft() {
         int y = position.getIntY();
-        int x = (int)Math.floor((double) position.getX() - speed);
+        int x = position.getChangedFloorX(-speed);
 
         if (tryMove(x, y)) {
             position.increaseX(-speed);
@@ -61,7 +61,7 @@ public class Movement {
 
     public void moveRight() {
         int y = position.getIntY();
-        int x = (int)Math.ceil((double) position.getX() + speed);
+        int x = position.getChangedCeilX(speed);
 
         if (tryMove(x, y)) {
             position.increaseX(speed);
@@ -73,50 +73,50 @@ public class Movement {
 
 
     public boolean tryMoveUp(Direction dir) {
-        int y = (int)Math.floor((double)position.getY() - speed);
+        int y = position.getChangedFloorY(-speed);
         int x; // = position.getIntX();
 
         if (dir == Direction.LEFT)
-            x = (int)Math.ceil((double)position.getX());
+            x = position.getCeilX();
         else
-            x = (int)Math.floor((double) position.getX());
+            x = position.getFloorX();
 
         return tryMove(x,y);
     }
 
     public boolean tryMoveDown(Direction dir) {
-        int y = (int)Math.ceil((double) position.getY() + speed);
+        int y = position.getChangedCeilY(speed);
         int x; // = position.getIntX();
 
         if (dir == Direction.LEFT)
-            x = (int)Math.ceil((double)position.getX());
+            x = position.getCeilX();
         else
-            x = (int)Math.floor((double)position.getX());
+            x = position.getFloorX();
 
         return tryMove(x,y);
     }
 
     public boolean tryMoveLeft(Direction dir) {
         int y; // = position.getIntY();
-        int x = (int)Math.floor((double) position.getX() - speed);
+        int x = position.getChangedFloorX(-speed);
 
 
         if (dir == Direction.UP)
-            y = (int)Math.ceil((double) position.getY());
+            y = position.getCeilY();
         else
-            y = (int)Math.floor((double) position.getY());
+            y = position.getFloorY();
 
         return tryMove(x,y);
     }
 
     public boolean tryMoveRight(Direction dir) {
         int y; // = position.getIntY();
-        int x = (int)Math.ceil((double) position.getX() + speed);
+        int x = position.getChangedCeilX(speed);
 
         if (dir == Direction.UP)
-            y = (int)Math.ceil((double)position.getY());
+            y = position.getCeilY();
         else
-            y = (int)Math.floor((double)position.getY());
+            y = position.getFloorY();
 
         return tryMove(x,y);
     }
