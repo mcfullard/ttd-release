@@ -25,9 +25,13 @@ public class Level {
     private long seed;
     private java.util.Map<Position, InGameObject> gameObjects;
 
+
     private int imgScale;
     private MazeRenderer mazeRenderer;
     private CharacterRenderer charRendered;
+
+    private Player thomas;
+    private ScoringSystem scoring;
 
     public Level() {
         this.imgScale = 64;
@@ -37,6 +41,7 @@ public class Level {
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
         charRendered = new CharacterRenderer(map.getMap(), imgScale);
         initGameObjects();
+        scoring = new ScoringSystem();
     }
 
     public void render(){
@@ -48,6 +53,7 @@ public class Level {
     private void update() {
         for(Actor actor : getActors(gameObjects.values()))
             actor.update();
+        checkCollection();
     }
 
     private List<Actor> getActors(Collection<InGameObject> characters) {
@@ -69,12 +75,48 @@ public class Level {
         return renderables;
     }
 
-    /**
-     * This should be replaced by a reading procedure where initial data is read from a json file or something
-     */
+
+    /*
+    * Create initial values for in game objects that will be placed in the level
+    * Work through map to figure out initial positions of collectibles
+    * */
     private void initGameObjects() {
-        Player thomas = new Player(new Position(1, 1), .1f);
+        //Place collectibles
+        for (int r = 0; r < map.getMap().length; r++) {
+            for (int c = 0; c < map.getMap()[0].length; c++) {
+                if (map.isPath(c,r)) {
+                    Position position = new Position(c,r);
+                    //NB Change map data so that it accommodates where pac-man will be placed as well as power up's, boss and ghosts
+                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    gameObjects.put(position, new Plaque(position));
+                }
+            }
+        }
+
+        thomas = new Player(new Position(1, 1), .1f);
         thomas.setMovementMap(map);
         gameObjects.put(thomas.getPosition(), thomas);
+
+    }
+
+    private void checkCollection() {
+
+
+
+        try {
+            Position position = new Position(thomas.getPosition().getIntX(), thomas.getPosition().getIntY());
+
+            if (gameObjects.get(position).getClass() == Plaque.class) {
+                gameObjects.remove(position);
+                scoring.incScoreCollectible();
+            }
+
+            if (gameObjects.get(position).getClass() == Mouthwash.class) {
+                gameObjects.remove(position);
+
+            }
+
+        } catch (Exception e) {}
+
     }
 }

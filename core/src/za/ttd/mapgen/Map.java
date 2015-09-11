@@ -30,6 +30,10 @@ public class Map {
         return map[r][c] == WALL;
     }
 
+    public boolean isPath(int c, int r) {
+        return map[r][c] == PATH;
+    }
+
     /**
      * @param c Column or positive X
      * @param r Row or positive Y
