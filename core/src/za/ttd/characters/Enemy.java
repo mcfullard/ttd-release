@@ -2,9 +2,6 @@ package za.ttd.characters;
 
 import za.ttd.characters.objects.Position;
 
-/**
- * Created by s213391244 on 7/24/2015.
- */
 public abstract class Enemy extends Actor {
     //"Ghost" states- fairly self-explanatory
     static final int AGGRESSIVE = 2;
@@ -32,6 +29,12 @@ public abstract class Enemy extends Actor {
             this.setMovementSpeed(defaultSpeed*.9f);
         else
             this.setMovementSpeed(defaultSpeed);
+    }
+
+    /*
+    * @return the current state of enemies vulnerability*/
+    public boolean getVulnerability() {
+        return vulnerable;
     }
 
     public void slow() {

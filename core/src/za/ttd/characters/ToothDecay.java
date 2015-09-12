@@ -8,7 +8,6 @@ import za.ttd.characters.objects.Position;
  * Created by s213391244 on 7/24/2015.
  */
 public class ToothDecay extends Enemy {
-    private float defaultSpeed;
 
     public ToothDecay(Position position, int speed){
         super(position,speed);

@@ -8,19 +8,16 @@ import za.ttd.renderers.Renderable;
  */
 public abstract class Actor extends InGameObject implements Renderable {
 
+    private final float x, y;
+
     public Actor(Position position) {
         super(position);
+        x = position.getX();
+        y = position.getY();
     }
 
     public void update() {
 
-    }
-
-    public void kill() {
-
-    }
-
-    public void die() {
     }
 
     public float getX() {
@@ -37,5 +34,10 @@ public abstract class Actor extends InGameObject implements Renderable {
 
     public int getIntY() {
         return position.getIntY();
+    }
+
+    public void resetPositions() {
+        position.setX(x);
+        position.setY(y);
     }
 }
