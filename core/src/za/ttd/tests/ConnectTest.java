@@ -10,7 +10,7 @@ public class ConnectTest {
     public void TestRunSQL()throws Exception
     {
         ConnectDB p= new ConnectDB();
-        p.RunSQL("INSERT INTO HIGHSCORE VALUES (4,'In','Ass',5)");
+        p.RunSQL("INSERT INTO HIGHSCORE VALUES (5,'In','Ass',5)");
 
 
     }
