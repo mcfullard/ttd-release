@@ -1,6 +1,5 @@
 package za.ttd.pathfinding;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 import za.ttd.characters.objects.Position;
@@ -17,17 +16,19 @@ public class PathFinder {
 
     public PathFinder(za.ttd.mapgen.Map map) {
         this.map = map;
-        populateNodes();
-        attachEdges();
+        //populateNodes();
+        //attachEdges();
+        //initDistanceVectors();
+        //updateDistanceVectors();
     }
 
-    private void populateNodes() {
+    public void populateNodes() {
         nodes = new HashMap<>();
         for(Node node : getNodesFromMap())
             nodes.put(node.getOrigin(), node);
     }
 
-    private Set<Node> getNodesFromMap() {
+    public Set<Node> getNodesFromMap() {
         Set<Node> nodes = new HashSet<>();
         for(int r = 0; r < map.getMap().length; r++) {
             for(int c = 0; c < map.getMap()[0].length; c++) {
@@ -39,7 +40,7 @@ public class PathFinder {
         return nodes;
     }
 
-    private void attachEdges() {
+    public void attachEdges() {
         Set<Node> checked = new HashSet<>();
         for(Node node : nodes.values()) {
             for(Node adjacent : getAdjacentNodes(node)) {
@@ -53,7 +54,7 @@ public class PathFinder {
         }
     }
 
-    private Set<Node> getAdjacentNodes(Node node) {
+    public Set<Node> getAdjacentNodes(Node node) {
         Set<Node> adjacent = new HashSet<>();
         Position origin = node.getOrigin();
         Position up = getUpPosition(origin);
@@ -61,38 +62,56 @@ public class PathFinder {
         Position left = getLeftPosition(origin);
         Position right = getRightPosition(origin);
         if(up != null)
-            adjacent.add(new Node(up));
+            adjacent.add(nodes.get(up));
         if(down != null)
-            adjacent.add(new Node(down));
+            adjacent.add(nodes.get(down));
         if(left != null)
-            adjacent.add(new Node(left));
+            adjacent.add(nodes.get(left));
         if(right != null)
-            adjacent.add(new Node(right));
+            adjacent.add(nodes.get(right));
         return adjacent;
     }
 
-    private Position getLeftPosition(Position pos) {
+    public Position getLeftPosition(Position pos) {
         if(map.pathLeft(pos.getIntX(), pos.getIntY()))
             return new Position(pos.getIntX() - 1, pos.getIntY());
         return null;
     }
 
-    private Position getRightPosition(Position pos) {
+    public Position getRightPosition(Position pos) {
         if(map.pathRight(pos.getIntX(), pos.getIntY()))
             return new Position(pos.getIntX() + 1, pos.getIntY());
         return null;
     }
 
-    private Position getUpPosition(Position pos) {
+    public Position getUpPosition(Position pos) {
         if(map.pathUp(pos.getIntX(), pos.getIntY()))
             return new Position(pos.getIntX(), pos.getIntY() - 1);
         return null;
     }
 
-    private Position getDownPosition(Position pos) {
+    public Position getDownPosition(Position pos) {
         if(map.pathDown(pos.getIntX(), pos.getIntY()))
             return new Position(pos.getIntX(), pos.getIntY() + 1);
         return null;
+    }
+
+    private void initDistanceVectors() {
+        for(Node node: nodes.values()) {
+            node.initDistanceVector(nodes.values());
+        }
+    }
+
+    private void updateDistanceVectors() {
+        for(int i = 0; i < nodes.size() - 1; i++) {
+            for (Node node : nodes.values()) {
+                node.updateDistanceVector(nodes.values());
+            }
+        }
+    }
+
+    public Map<Position, Node> getNodes() {
+        return nodes;
     }
 
 }
