@@ -20,7 +20,7 @@ public class HudRenderer {
 
         batch.begin();
         lblLvlScore.draw(batch, "LEVEL SCORE: " + lvlScore, 10, 750);
-        lblPlayTime.draw(batch, "TIME: " , 50, 750);
+        lblPlayTime.draw(batch, "TIME: " , 300, 750);
         batch.end();
     }
 
