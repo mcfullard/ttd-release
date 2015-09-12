@@ -12,7 +12,33 @@ public abstract class Enemy extends Actor {
     static final int RETREAT = 4;
     static final int VULNERABLE = 5;
 
-    public Enemy(Position position) {
+    protected float defaultSpeed;
+    protected boolean vulnerable;
+
+    public Enemy(Position position, float speed) {
         super(position);
+        this.defaultSpeed = speed;
+        vulnerable = false;
+    }
+
+    /*
+    * Make object to vulnerable or no longer vulnerable,
+    * make it move slower/or reset to original speed,
+    * being allows tomas to kill it*/
+    public void setVulnerable(boolean vulnerable) {
+        this.vulnerable = vulnerable;
+
+        if (vulnerable)
+            this.setMovementSpeed(defaultSpeed*.9f);
+        else
+            this.setMovementSpeed(defaultSpeed);
+    }
+
+    public void slow() {
+        this.setMovementSpeed(defaultSpeed*.9f);
+    }
+
+    public void normalSpeed() {
+        this.setMovementSpeed(defaultSpeed);
     }
 }

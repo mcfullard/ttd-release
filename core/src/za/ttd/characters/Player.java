@@ -11,8 +11,8 @@ import za.ttd.mapgen.Map;
 
 public class Player extends Actor {
 
-    protected static final String FILENAME = "core/assets/textures/in/characters/ThomL1.png";
-    protected Texture thomas;
+    private final String FILENAME = "core/assets/textures/in/characters/ThomL1.png";
+    private Texture thomas;
     private  Movement movement;
     protected Direction curDirection, nextDirection;
 
@@ -45,14 +45,9 @@ public class Player extends Actor {
         return null;
     }
 
-    @Override
-    public float getX() {
-        return position.getX();
-    }
-
-    @Override
-    public float getY() {
-        return position.getY();
+    public void reset(float x, float y) {
+        position.setX(x);
+        position.setY(y);
     }
 
     /*
