@@ -3,6 +3,7 @@ package za.ttd.level;
 import za.ttd.characters.*;
 import za.ttd.characters.objects.Position;
 import za.ttd.renderers.CharacterRenderer;
+import za.ttd.renderers.HudRenderer;
 import za.ttd.renderers.MazeRenderer;
 import za.ttd.renderers.Renderable;
 import za.ttd.mapgen.Grid;
@@ -32,20 +33,23 @@ public class Level {
 
     private Player thomas;
     private ScoringSystem scoring;
+    private HudRenderer hudRenderer;
 
     public Level() {
         this.imgScale = 32;
         this.seed = 1264;
-        map = Grid.generateMap(15,5,seed);
+        map = Grid.generateMap(12,4,seed);
         gameObjects = new HashMap<>();
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
         charRendered = new CharacterRenderer(map.getMap(), imgScale);
         initGameObjects();
         scoring = new ScoringSystem();
+        hudRenderer = new HudRenderer();
     }
 
     public void render(){
         mazeRenderer.render();
+        hudRenderer.render(scoring.getLvlScore());
         update();
         charRendered.render(getRenderables(gameObjects.values()));
     }

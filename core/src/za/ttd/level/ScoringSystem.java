@@ -2,19 +2,23 @@ package za.ttd.level;
 
 public class ScoringSystem {
 
-    private int score;
+    private int lvlScore;
     final int collectibleValue = 5;
 
     public ScoringSystem() {
-        score = 0;
+        lvlScore = 0;
     }
 
     public void incScoreCollectible() {
-        score += collectibleValue;
+        lvlScore += collectibleValue;
     }
 
     public void resetScore() {
-        score = 0;
+        lvlScore = 0;
+    }
+
+    public int getLvlScore() {
+        return lvlScore;
     }
 
 }

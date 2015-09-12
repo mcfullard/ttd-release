@@ -10,9 +10,8 @@ import java.util.List;
 
 public class CharacterRenderer{
 
-    private Texture thomFull;
     private int[][] maze;
-    private int path = 0, imgScale;
+    private int imgScale;
     private Batch batch;
     private List<Renderable> renderables;
     private float elapsedTime;
@@ -22,13 +21,13 @@ public class CharacterRenderer{
         this.imgScale = imgScale;
         this.batch = new SpriteBatch();
         this.elapsedTime = 0;
+
+        //Tell SpriteBatch to render in the co-ordinate system specified by screen
+        batch.getProjectionMatrix().setToOrtho2D(-200,-100,925,1200);
     }
 
     public void render(List<Renderable> renderables) {
         this.renderables = renderables;
-
-        //Tell SpriteBatch to render in the co-ordinate system specified by screen
-        batch.getProjectionMatrix().setToOrtho2D(-200,-100,1850,2400);
 
         //Begin a new batch and draw the maze
         batch.begin();

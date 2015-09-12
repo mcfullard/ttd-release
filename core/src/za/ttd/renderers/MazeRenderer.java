@@ -62,15 +62,14 @@ public class MazeRenderer {
 
         //Sprite Batch for drawing images
         batch = new SpriteBatch();
+        //Tell SpriteBatch to render in the co-ordinate system specified by screen
+        batch.getProjectionMatrix().setToOrtho2D(-200,-100,925,1200);
     }
 
     public void render() {
         //Clear screen with black colour
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        //Tell SpriteBatch to render in the co-ordinate system specified by screen
-        batch.getProjectionMatrix().setToOrtho2D(-200,-100,1850,2400);
 
         //Begin a new batch and draw the maze
         batch.begin();
