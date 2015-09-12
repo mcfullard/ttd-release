@@ -55,6 +55,8 @@ public class Player extends Actor {
         return position.getY();
     }
 
+    /*
+    * Get input from user*/
     private void processKeys() {
         if(Gdx.input.isKeyPressed(Input.Keys.UP))
             nextDirection = Direction.UP;
@@ -69,6 +71,8 @@ public class Player extends Actor {
             curDirection = nextDirection;
     }
 
+    /*
+    * Control movement of character, can remember next key presses*/
     private void Move() {
         switch (nextDirection) {
             case UP:
