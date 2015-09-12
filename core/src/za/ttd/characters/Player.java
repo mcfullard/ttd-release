@@ -11,7 +11,7 @@ import za.ttd.mapgen.Map;
 
 public class Player extends Actor {
 
-    protected static final String FILENAME = "core/assets/textures/in/characters/thomFull.jpg";
+    protected static final String FILENAME = "core/assets/textures/in/characters/ThomL1.png";
     protected Texture thomas;
     private  Movement movement;
     protected Direction curDirection, nextDirection;

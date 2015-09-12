@@ -34,7 +34,7 @@ public class Level {
     private ScoringSystem scoring;
 
     public Level() {
-        this.imgScale = 64;
+        this.imgScale = 32;
         this.seed = 1264;
         map = Grid.generateMap(15,5,seed);
         gameObjects = new HashMap<>();
@@ -100,9 +100,6 @@ public class Level {
     }
 
     private void checkCollection() {
-
-
-
         try {
             Position position = new Position(thomas.getPosition().getIntX(), thomas.getPosition().getIntY());
 
@@ -113,10 +110,26 @@ public class Level {
 
             if (gameObjects.get(position).getClass() == Mouthwash.class) {
                 gameObjects.remove(position);
-
+                powerUp();
             }
 
         } catch (Exception e) {}
-
     }
+
+
+    private void powerUp() {
+        for(BadBreath badBreath : getBadBreath(gameObjects.values())) {
+            badBreath.setVulnerable();
+        }
+    }
+
+    private List<BadBreath> getBadBreath(Collection<InGameObject> characters) {
+        List<BadBreath> badBreath = new LinkedList<>();
+        for(InGameObject character: characters) {
+            if(character instanceof BadBreath)
+                badBreath.add((BadBreath)character);
+        }
+        return badBreath;
+    }
+
 }
