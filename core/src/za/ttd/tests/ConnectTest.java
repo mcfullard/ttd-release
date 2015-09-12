@@ -1,7 +1,7 @@
 package za.ttd.tests;
 
 import org.junit.Test;
-import za.ttd.connecttodatabase.ConnectDB;
+import za.ttd.database.ConnectDB;
 
 
 public class ConnectTest {
