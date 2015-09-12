@@ -32,4 +32,8 @@ public class InGameObject {
     }
 
     public Position getPosition() {return position;}
+
+    public boolean compareBase(InGameObject other) {
+        return this.position.compareBase(other.getPosition());
+    }
 }
