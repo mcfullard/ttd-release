@@ -36,6 +36,15 @@ public class Position {
     }
 
     @Override
+    public String toString() {
+        return String.format(
+                "(%f, %f)",
+                x,
+                y
+        );
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) { return false; }
         if (obj == this) { return true; }
