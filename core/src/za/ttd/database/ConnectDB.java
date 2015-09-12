@@ -1,4 +1,4 @@
-package za.ttd.connecttodatabase;
+package za.ttd.database;
 
 import java.net.URISyntaxException;
 import java.sql.*;
