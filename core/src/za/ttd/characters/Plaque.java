@@ -9,7 +9,7 @@ import za.ttd.characters.objects.Position;
  * Created by s213391244 on 7/24/2015.
  */
 public class Plaque extends Collectible {
-    private String textureFilePath = "core/assets/textures/in/items/Plaque.png";
+    private final String textureFilePath = "core/assets/textures/in/items/Plaque.png";
     private Texture texture;
 
     public Plaque(Position position) {
@@ -27,13 +27,5 @@ public class Plaque extends Collectible {
         return null;
     }
 
-    @Override
-    public float getX() {
-        return position.getX();
-    }
 
-    @Override
-    public float getY() {
-        return position.getY();
-    }
 }

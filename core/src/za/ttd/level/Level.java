@@ -43,13 +43,13 @@ public class Level {
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
         charRendered = new CharacterRenderer(map.getMap(), imgScale);
         initGameObjects();
-        scoring = new ScoringSystem();
+        scoring = new ScoringSystem(0, 3);
         hudRenderer = new HudRenderer();
     }
 
     public void render(){
         mazeRenderer.render();
-        hudRenderer.render(scoring.getLvlScore());
+        hudRenderer.render(scoring.getLvlScore(), scoring.getElapsedTime());
         update();
         charRendered.render(getRenderables(gameObjects.values()));
     }
@@ -105,26 +105,52 @@ public class Level {
 
     private void checkCollection() {
         try {
-            Position position = new Position(thomas.getPosition().getIntX(), thomas.getPosition().getIntY());
+            Position position = new Position(thomas.getIntX(), thomas.getIntY());
 
-            if (gameObjects.get(position).getClass() == Plaque.class) {
+            if (gameObjects.get(position) instanceof Plaque) {
                 gameObjects.remove(position);
-                scoring.incScoreCollectible();
+                scoring.collectibleFound();
             }
 
-            if (gameObjects.get(position).getClass() == Mouthwash.class) {
+            if (gameObjects.get(position) instanceof Mouthwash) {
                 gameObjects.remove(position);
+                scoring.powerUsed();
                 powerUp();
             }
 
-        } catch (Exception e) {}
+            if (gameObjects.get(position) instanceof BadBreath) {
+                BadBreath badBreath = (BadBreath)gameObjects.get(position);
+
+                if (badBreath.getVulnerability()) {
+                    gameObjects.remove(position);
+                    scoring.killedPlaque();
+                }
+                else if(scoring.getLives() > 1) {
+                    scoring.lifeUsed();
+                    thomas.reset(1,1);
+                }
+                else {
+                    //Thomas is dead and the level needs to be redone
+                }
+            }
+
+            if (gameObjects.get(position) instanceof Toothbrush) {
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
     private void powerUp() {
-        for(BadBreath badBreath : getBadBreath(gameObjects.values())) {
-            badBreath.setVulnerable();
-        }
+        for(BadBreath badBreath : getBadBreath(gameObjects.values()))
+            badBreath.setVulnerable(true);
+
+        ToothDecay toothDecay = getToothDecay(gameObjects.values());
+        toothDecay.slow();
+
     }
 
     private List<BadBreath> getBadBreath(Collection<InGameObject> characters) {
@@ -136,4 +162,11 @@ public class Level {
         return badBreath;
     }
 
+    private ToothDecay getToothDecay(Collection<InGameObject> characters) {
+        for(InGameObject character:characters)
+            if (character instanceof ToothDecay)
+                return (ToothDecay)character;
+
+        return null;
+    }
 }

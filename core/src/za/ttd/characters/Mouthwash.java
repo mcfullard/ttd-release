@@ -9,8 +9,7 @@ import za.ttd.characters.objects.Position;
  * Created by s213391244 on 7/24/2015.
  */
 public class Mouthwash extends Collectible {
-    static final int score = 50;
-    static final String FILENAME = "core/assets/textures/in/characters/mouthWash.png";
+    private final String FILENAME = "core/assets/textures/in/items/MintyMouthwash.png";
     private Texture texture;
 
     public Mouthwash(Position position, int speed){

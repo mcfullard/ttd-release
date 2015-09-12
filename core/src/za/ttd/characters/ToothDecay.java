@@ -8,10 +8,10 @@ import za.ttd.characters.objects.Position;
  * Created by s213391244 on 7/24/2015.
  */
 public class ToothDecay extends Enemy {
-    static final int score = 1000;
+    private float defaultSpeed;
 
     public ToothDecay(Position position, int speed){
-        super(position);
+        super(position,speed);
         this.setMovementSpeed(speed);
     }
 
@@ -23,15 +23,5 @@ public class ToothDecay extends Enemy {
     @Override
     public Animation getAnimation() {
         return null;
-    }
-
-    @Override
-    public float getX() {
-        return 0;
-    }
-
-    @Override
-    public float getY() {
-        return 0;
     }
 }

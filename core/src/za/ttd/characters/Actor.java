@@ -23,4 +23,19 @@ public abstract class Actor extends InGameObject implements Renderable {
     public void die() {
     }
 
+    public float getX() {
+        return position.getX();
+    }
+
+    public float getY() {
+        return position.getY();
+    }
+
+    public int getIntX() {
+        return position.getIntX();
+    }
+
+    public int getIntY() {
+        return position.getIntY();
+    }
 }

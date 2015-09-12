@@ -16,11 +16,11 @@ public class HudRenderer {
         batch.getProjectionMatrix().setToOrtho2D(0,0,600,800);
     }
 
-    public void render(int lvlScore) {
+    public void render(int lvlScore, long time) {
 
         batch.begin();
         lblLvlScore.draw(batch, "LEVEL SCORE: " + lvlScore, 10, 750);
-        lblPlayTime.draw(batch, "TIME: " , 300, 750);
+        lblPlayTime.draw(batch, String.format("TIME %s:%s", time/60, time%60), 300, 750);
         batch.end();
     }
 
