@@ -2,12 +2,12 @@ package za.ttd.level;
 
 import za.ttd.characters.*;
 import za.ttd.characters.objects.Position;
+import za.ttd.mapgen.Grid;
+import za.ttd.mapgen.Map;
 import za.ttd.renderers.CharacterRenderer;
 import za.ttd.renderers.HudRenderer;
 import za.ttd.renderers.MazeRenderer;
 import za.ttd.renderers.Renderable;
-import za.ttd.mapgen.Grid;
-import za.ttd.mapgen.Map;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -57,7 +57,7 @@ public class Level {
     private void update() {
         for(Actor actor : getActors(gameObjects.values()))
             actor.update();
-        checkCollection();
+        checkCollisions();
     }
 
     private List<Actor> getActors(Collection<InGameObject> characters) {
@@ -103,43 +103,47 @@ public class Level {
 
     }
 
-    private void checkCollection() {
-        try {
-            Position position = new Position(thomas.getIntX(), thomas.getIntY());
+    private void checkCollisions() {
 
-            if (gameObjects.get(position) instanceof Plaque) {
+        Position position = new Position(thomas.getIntX(), thomas.getIntY());
+
+        if (gameObjects.get(position) instanceof Plaque) {
+            gameObjects.remove(position);
+            scoring.collectibleFound();
+        }
+
+        if (gameObjects.get(position) instanceof Mouthwash) {
+            gameObjects.remove(position);
+            scoring.powerUsed();
+            powerUp();
+        }
+
+        if (gameObjects.get(position) instanceof BadBreath) {
+            BadBreath badBreath = (BadBreath)gameObjects.get(position);
+
+            if (badBreath.getVulnerability()) {
                 gameObjects.remove(position);
-                scoring.collectibleFound();
+                scoring.killedPlaque();
             }
+            else if(scoring.getLives() > 1) {
+                scoring.lifeUsed();
+                thomas.resetPositions();
+                List<BadBreath> badBreaths = getBadBreath(gameObjects.values());
+                for (BadBreath bad : badBreaths) {
+                    bad.resetPositions();
+                }
+            }
+            else {
+                //Thomas is dead and the level needs to be redone
+            }
+        }
 
-            if (gameObjects.get(position) instanceof Mouthwash) {
+        if (gameObjects.get(position) instanceof Toothbrush) {
+            ToothDecay toothDecay = (ToothDecay)gameObjects.get(position);
+
+            if (toothDecay.getVulnerability()) {
                 gameObjects.remove(position);
-                scoring.powerUsed();
-                powerUp();
             }
-
-            if (gameObjects.get(position) instanceof BadBreath) {
-                BadBreath badBreath = (BadBreath)gameObjects.get(position);
-
-                if (badBreath.getVulnerability()) {
-                    gameObjects.remove(position);
-                    scoring.killedPlaque();
-                }
-                else if(scoring.getLives() > 1) {
-                    scoring.lifeUsed();
-                    thomas.reset(1,1);
-                }
-                else {
-                    //Thomas is dead and the level needs to be redone
-                }
-            }
-
-            if (gameObjects.get(position) instanceof Toothbrush) {
-
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

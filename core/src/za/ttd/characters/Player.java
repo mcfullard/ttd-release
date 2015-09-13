@@ -45,11 +45,6 @@ public class Player extends Actor {
         return null;
     }
 
-    public void reset(float x, float y) {
-        position.setX(x);
-        position.setY(y);
-    }
-
     /*
     * Get input from user*/
     private void processKeys() {

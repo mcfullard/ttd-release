@@ -34,6 +34,9 @@ public class Position {
     public Position clone() {
         return new Position(this.x, this.y);
     }
+    public boolean compareBase(Position other) {
+        return getIntX() == other.getIntX() && getIntY() == other.getIntY();
+    }
 
     @Override
     public String toString() {

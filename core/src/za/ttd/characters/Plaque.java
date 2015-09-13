@@ -5,9 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import za.ttd.characters.objects.Position;
 
-/**
- * Created by s213391244 on 7/24/2015.
- */
 public class Plaque extends Collectible {
     private final String textureFilePath = "core/assets/textures/in/items/Plaque.png";
     private Texture texture;
@@ -26,6 +23,4 @@ public class Plaque extends Collectible {
     public Animation getAnimation() {
         return null;
     }
-
-
 }

@@ -47,7 +47,6 @@ public class PathFinder {
                 if (!checked.contains(node)) {
                     Edge edge = new Edge(node, adjacent);
                     node.addEdges(edge);
-                    adjacent.addEdges(edge);
                 }
             }
             checked.add(node);
