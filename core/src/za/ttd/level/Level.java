@@ -107,7 +107,7 @@ public class Level {
 
         Position position = new Position(thomas.getIntX(), thomas.getIntY());
 
-        if (gameObjects.get(thomas.getPosition()) instanceof Plaque) {
+        if (gameObjects.get(position) instanceof Plaque) {
             gameObjects.remove(position);
             scoring.collectibleFound();
         }
