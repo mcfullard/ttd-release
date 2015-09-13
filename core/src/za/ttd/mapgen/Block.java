@@ -83,7 +83,7 @@ public class Block {
                                         Set<Point> down,
                                         Set<Point> both,
                                         Set<Point> neither,
-                                        Set<Point> diag) {
+                                        Set<Point> diagAndBoth) {
         Object[] positions = getPositions().toArray();
         for(int i = 0; i < positions.length; i++) {
             Point point = (Point)positions[i];
@@ -102,7 +102,7 @@ public class Block {
                 }
             }
             if(hasRight && hasDown && hasDiag)
-                diag.add(point);
+                diagAndBoth.add(point);
             else if(hasRight && hasDown)
                 both.add(point);
             else if(hasRight)
