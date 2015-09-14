@@ -12,8 +12,8 @@ public abstract class Enemy extends Actor {
     protected float defaultSpeed;
     protected boolean vulnerable;
 
-    public Enemy(Position position, float speed) {
-        super(position);
+    public Enemy(Position position, float speed, String actorName) {
+        super(position, actorName);
         this.defaultSpeed = speed;
         vulnerable = false;
     }

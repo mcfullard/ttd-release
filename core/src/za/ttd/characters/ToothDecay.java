@@ -10,7 +10,7 @@ import za.ttd.characters.objects.Position;
 public class ToothDecay extends Enemy {
 
     public ToothDecay(Position position, int speed){
-        super(position,speed);
+        super(position,speed, "ToothDecay");
         this.setMovementSpeed(speed);
     }
 

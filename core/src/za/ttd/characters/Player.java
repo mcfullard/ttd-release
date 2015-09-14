@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import za.ttd.characters.objects.Direction;
 import za.ttd.characters.objects.Movement;
 import za.ttd.characters.objects.Position;
-import za.ttd.mapgen.Map;
 
 public class Player extends Actor {
 
@@ -21,13 +20,15 @@ public class Player extends Actor {
     private Direction curDirection, nextDirection;
 
     public Player(Position position, float speed) {
-        super(position);
+        super(position, "Thom");
         setMovementSpeed(speed);
-        textureAtlas = new TextureAtlas(Gdx.files.internal(atlasFilePath));
-        this.movement = new Movement(null, position, speed);
-        curDirection = Direction.NONE;
+        //this.movement = new Movement(null, position, speed);
+       /* curDirection = Direction.NONE;
         nextDirection = Direction.NONE;
+        super.curDirection = curDirection;
+        super.nextDirection = nextDirection;*/
 
+        /*textureAtlas = new TextureAtlas(Gdx.files.internal(atlasFilePath));
         stillTexture = textureAtlas.findRegion("characters/ThomL1");
         //create animations
         currentAnimation = null; //Will change depending on direction of player
@@ -52,21 +53,22 @@ public class Player extends Actor {
                 textureAtlas.findRegion("characters/ThomR1"),
                 textureAtlas.findRegion("characters/ThomR2"),
                 textureAtlas.findRegion("characters/ThomR3"),
-                textureAtlas.findRegion("characters/ThomR4"));
+                textureAtlas.findRegion("characters/ThomR4"));*/
     }
 
-    public void setMovementMap(Map map) {
+    /*public void setMovementMap(Map map) {
         movement.setMap(map);
-    }
+    }*/
 
     @Override
     public void update() {
         processKeys();
-        Move();
-        chooseAnimation();
+        super.update();
+
+        //chooseAnimation();
     }
 
-    @Override
+    /*@Override
     public TextureRegion getTexture() {
         return stillTexture;
     }
@@ -74,26 +76,26 @@ public class Player extends Actor {
     @Override
     public Animation getAnimation() {
         return currentAnimation;
-    }
+    }*/
 
     /*
     * Get input from user*/
     private void processKeys() {
         if(Gdx.input.isKeyPressed(Input.Keys.UP))
-            nextDirection = Direction.UP;
+            super.nextDirection = Direction.UP;
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
-            nextDirection = Direction.DOWN;
+            super.nextDirection = Direction.DOWN;
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
-            nextDirection = Direction.LEFT;
+            super.nextDirection = Direction.LEFT;
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            nextDirection = Direction.RIGHT;
+            super.nextDirection = Direction.RIGHT;
 
-        if (curDirection == Direction.NONE)
-            curDirection = nextDirection;
+        if (super.curDirection == Direction.NONE)
+            super.curDirection = super.nextDirection;
     }
 
     /*
-    * Control movement of character, can remember next key presses*/
+    * Control movement of character, can remember next key presses*//*
     private void Move() {
         switch (nextDirection) {
             case UP:
@@ -136,10 +138,10 @@ public class Player extends Actor {
             default:
                 break;
         }
-    }
+    }*/
 
     /*
-    * Change the current animation depending on the direction the character is moving*/
+    * Change the current animation depending on the direction the character is moving*//*
     private void chooseAnimation() {
         switch (curDirection) {
             case UP: currentAnimation = animationU;
@@ -153,5 +155,5 @@ public class Player extends Actor {
             default: currentAnimation = null;
                 break;
         }
-    }
+    }*/
 }

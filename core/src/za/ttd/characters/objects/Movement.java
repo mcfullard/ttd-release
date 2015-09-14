@@ -10,11 +10,63 @@ public class Movement {
     protected Position position;
     private float speed;
     private Map map;
+    private boolean moving;
 
-    public Movement(Map map, Position position, float speed) {
+    public Movement(Map map) {
+        this.map = map;
+        moving = false;
+    }
+
+    public boolean Move(Position position, float speed, Direction curDirection, Direction nextDirection) {
         this.position = position;
         this.speed = speed;
-        this.map = map;
+
+        moving = true;
+        switch (nextDirection) {
+            case UP:
+                if(tryMoveUp(curDirection))
+                    curDirection = nextDirection;
+                break;
+            case DOWN:
+                if(tryMoveDown(curDirection))
+                    curDirection = nextDirection;
+                break;
+            case LEFT:
+                if(tryMoveLeft(curDirection))
+                    curDirection = nextDirection;
+                break;
+            case RIGHT:
+                if(tryMoveRight(curDirection))
+                    curDirection = nextDirection;
+                break;
+            default:
+                moving = false;
+                break;
+        }
+
+        switch (curDirection) {
+            case UP:
+                if (!moveUp())
+                    moving = false;
+                break;
+            case DOWN:
+                if (!moveDown())
+                    moving = false;
+                break;
+            case LEFT:
+                if (!moveLeft())
+                    moving = false;
+                break;
+            case RIGHT:
+                if (!moveRight())
+                    moving = false;
+                break;
+            default:
+                moving = false;
+                break;
+        }
+
+        return moving;
     }
 
     public void setMap(Map map) {

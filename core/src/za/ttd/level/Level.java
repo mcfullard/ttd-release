@@ -1,6 +1,7 @@
 package za.ttd.level;
 
 import za.ttd.characters.*;
+import za.ttd.characters.objects.Movement;
 import za.ttd.characters.objects.Position;
 import za.ttd.mapgen.Grid;
 import za.ttd.mapgen.Map;
@@ -35,6 +36,8 @@ public class Level {
     private ScoringSystem scoring;
     private HudRenderer hudRenderer;
 
+    private Movement movement;
+
     public Level() {
         this.imgScale = 32;
         this.seed = 1264;
@@ -42,6 +45,7 @@ public class Level {
         gameObjects = new HashMap<>();
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
         charRendered = new CharacterRenderer(map.getMap(), imgScale);
+        movement = new Movement(map);
         initGameObjects();
         scoring = new ScoringSystem(0, 3);
         hudRenderer = new HudRenderer();
@@ -55,8 +59,10 @@ public class Level {
     }
 
     private void update() {
-        for(Actor actor : getActors(gameObjects.values()))
+        for(Actor actor : getActors(gameObjects.values())) {
             actor.update();
+            movement.Move(actor.getPosition(), actor.getMovementSpeed(), actor.getCurDirection(), actor.getNextDirection());
+        }
         checkCollisions();
     }
 
@@ -105,7 +111,7 @@ public class Level {
         }
 
         thomas = new Player(new Position(1, 1), .1f);
-        thomas.setMovementMap(map);
+        /*thomas.setMovementMap(map);*/
         gameObjects.put(thomas.getPosition(), thomas);
 
     }

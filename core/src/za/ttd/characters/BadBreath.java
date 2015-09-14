@@ -1,5 +1,6 @@
 package za.ttd.characters;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,10 +12,36 @@ public class BadBreath extends Enemy {
     private TextureAtlas textureAtlas;
     private Animation currentAnimation, animationR, animationL, animationU, animationD;
 
-    public BadBreath(Position position, float speed) {
-        super(position, speed);
+    public BadBreath(Position position, float speed, String actorName) {
+        super(position, speed, actorName);
         this.setMovementSpeed(speed);
-        stillTexture = null;
+
+        textureAtlas = new TextureAtlas(Gdx.files.internal(atlasFilePath));
+        stillTexture = textureAtlas.findRegion("characters/BadBreath0");
+        //create animations
+        currentAnimation = null; //Will change depending on direction of player
+
+        //Replace up and down references with correct for up and down (currently don't exist)
+        animationU = new Animation(1/4f,
+                textureAtlas.findRegion("characters/BadBreath0"),
+                textureAtlas.findRegion("characters/BadBreath0"),
+                textureAtlas.findRegion("characters/BadBreath0"),
+                textureAtlas.findRegion("characters/BadBreath0"));
+        animationD = new Animation(1/4f,
+                textureAtlas.findRegion("characters/BadBreath0"),
+                textureAtlas.findRegion("characters/BadBreath0"),
+                textureAtlas.findRegion("characters/BadBreath0"),
+                textureAtlas.findRegion("characters/BadBreath0"));
+        animationL = new Animation(1/4f,
+                textureAtlas.findRegion("characters/BadBreath0"),
+                textureAtlas.findRegion("characters/BadBreath0"),
+                textureAtlas.findRegion("characters/BadBreath0"),
+                textureAtlas.findRegion("characters/BadBreath0"));
+        animationR = new Animation(1/4f,
+                textureAtlas.findRegion("characters/BadBreath0"),
+                textureAtlas.findRegion("characters/BadBreath0"),
+                textureAtlas.findRegion("characters/BadBreath0"),
+                textureAtlas.findRegion("characters/BadBreath0"));
     }
 
     @Override
@@ -24,7 +51,7 @@ public class BadBreath extends Enemy {
 
     @Override
     public Animation getAnimation() {
-        return null;
+        return currentAnimation;
     }
 
     public void incSpeed() {
