@@ -124,8 +124,8 @@ public class Grid {
                 hasDown = new HashSet<>(),
                 hasBoth = new HashSet<>(),
                 hasNeither = new HashSet<>(),
-                hasDiag = new HashSet<>();
-        block.populateDirectionPoints(hasRight, hasDown, hasBoth, hasNeither, hasDiag);
+                hasDiagAndBoth = new HashSet<>();
+        block.populateDirectionPoints(hasRight, hasDown, hasBoth, hasNeither, hasDiagAndBoth);
         hasDown.forEach(map::drawRightEdge);
         hasRight.forEach(map::drawBottomEdge);
         for(Point point : hasNeither) {
@@ -133,7 +133,7 @@ public class Grid {
             map.drawBottomEdge(point);
         }
         hasBoth.forEach(map::drawRightBottomCell);
-        for(Point point: hasDiag) {
+        for(Point point: hasDiagAndBoth) {
             map.drawLeftEdge(point);
             map.drawBottomEdge(point);
         }
