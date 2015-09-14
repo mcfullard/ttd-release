@@ -1,10 +1,10 @@
 package za.ttd.renderers;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import java.util.List;
 
@@ -45,10 +45,10 @@ public class CharacterRenderer{
             float x = curRenderable.getX();
             float y = curRenderable.getY();
 
-            Texture characterStill = curRenderable.getTexture();
+            TextureRegion characterStill = curRenderable.getTexture();
             Animation characterAnimation = curRenderable.getAnimation();
 
-            if (characterStill != null)
+            if (characterAnimation == null)
                 batch.draw(characterStill, x * imgScale, (maze.length - y) * imgScale);
             else {
                 batch.draw(characterAnimation.getKeyFrame(elapsedTime, true), x * imgScale, (maze.length - y) * imgScale);

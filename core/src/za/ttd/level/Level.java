@@ -88,12 +88,19 @@ public class Level {
         //Place collectibles
         for (int r = 0; r < map.getMap().length; r++) {
             for (int c = 0; c < map.getMap()[0].length; c++) {
-                if (map.isPath(c,r)) {
-                    Position position = new Position(c,r);
-                    //NB Change map data so that it accommodates where pac-man will be placed as well as power up's, boss and ghosts
-                    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                Position position = new Position(c,r);
+                if (map.isPath(c,r))
                     gameObjects.put(position, new Plaque(position));
+               /* if(map.isThomas(c,r)) {
+                    gameObjects.put(position, new Player(position, .1f));
+                    ++c;
                 }
+                if(map.isBadBreath(c, r))
+                    gameObjects.put(position, new BadBreath(position, .1f));
+                if(map.isMouthwash(c, r)) {
+                    gameObjects.put(position, new Mouthwash(position));
+                    ++c;
+                }*/
             }
         }
 
@@ -107,7 +114,7 @@ public class Level {
 
         Position position = new Position(thomas.getIntX(), thomas.getIntY());
 
-        if (gameObjects.get(thomas.getPosition()) instanceof Plaque) {
+        if (gameObjects.get(position) instanceof Plaque) {
             gameObjects.remove(position);
             scoring.collectibleFound();
         }

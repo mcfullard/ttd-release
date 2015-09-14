@@ -1,7 +1,7 @@
 package za.ttd.characters;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import za.ttd.characters.objects.Position;
 
 /**
@@ -13,22 +13,12 @@ public class Toothbrush extends Collectible {
     }
 
     @Override
-    public Texture getTexture() {
+    public TextureRegion getTexture() {
         return null;
     }
 
     @Override
     public Animation getAnimation() {
         return null;
-    }
-
-    @Override
-    public float getX() {
-        return 0;
-    }
-
-    @Override
-    public float getY() {
-        return 0;
     }
 }

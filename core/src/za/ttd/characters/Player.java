@@ -2,27 +2,57 @@ package za.ttd.characters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import za.ttd.characters.objects.Direction;
-import za.ttd.characters.objects.Position;
 import za.ttd.characters.objects.Movement;
+import za.ttd.characters.objects.Position;
 import za.ttd.mapgen.Map;
 
 public class Player extends Actor {
 
-    private final String FILENAME = "core/assets/textures/in/characters/ThomL1.png";
-    private Texture thomas;
-    private  Movement movement;
-    protected Direction curDirection, nextDirection;
+    private final String atlasFilePath = "core/assets/textures/out/texture.atlas";
+    private TextureRegion stillTexture;
+    private TextureAtlas textureAtlas;
+    private Animation currentAnimation, animationR, animationL, animationU, animationD;
+
+    private Movement movement;
+    private Direction curDirection, nextDirection;
 
     public Player(Position position, float speed) {
         super(position);
         setMovementSpeed(speed);
-        thomas = new Texture(Gdx.files.internal(FILENAME));
+        textureAtlas = new TextureAtlas(Gdx.files.internal(atlasFilePath));
         this.movement = new Movement(null, position, speed);
         curDirection = Direction.NONE;
         nextDirection = Direction.NONE;
+
+        stillTexture = textureAtlas.findRegion("characters/ThomL1");
+        //create animations
+        currentAnimation = null; //Will change depending on direction of player
+
+        //Replace up and down references with correct for up and down (currently don't exist)
+        animationU = new Animation(1/4f,
+                textureAtlas.findRegion("characters/ThomL1"),
+                textureAtlas.findRegion("characters/ThomL1"),
+                textureAtlas.findRegion("characters/ThomL1"),
+                textureAtlas.findRegion("characters/ThomL1"));
+        animationD = new Animation(1/4f,
+                textureAtlas.findRegion("characters/ThomL1"),
+                textureAtlas.findRegion("characters/ThomL1"),
+                textureAtlas.findRegion("characters/ThomL1"),
+                textureAtlas.findRegion("characters/ThomL1"));
+        animationL = new Animation(1/4f,
+                textureAtlas.findRegion("characters/ThomL1"),
+                textureAtlas.findRegion("characters/ThomL2"),
+                textureAtlas.findRegion("characters/ThomL3"),
+                textureAtlas.findRegion("characters/ThomL4"));
+        animationR = new Animation(1/4f,
+                textureAtlas.findRegion("characters/ThomR1"),
+                textureAtlas.findRegion("characters/ThomR2"),
+                textureAtlas.findRegion("characters/ThomR3"),
+                textureAtlas.findRegion("characters/ThomR4"));
     }
 
     public void setMovementMap(Map map) {
@@ -33,16 +63,17 @@ public class Player extends Actor {
     public void update() {
         processKeys();
         Move();
+        chooseAnimation();
     }
 
     @Override
-    public Texture getTexture() {
-        return thomas;
+    public TextureRegion getTexture() {
+        return stillTexture;
     }
 
     @Override
     public Animation getAnimation() {
-        return null;
+        return currentAnimation;
     }
 
     /*
@@ -87,18 +118,39 @@ public class Player extends Actor {
 
         switch (curDirection) {
             case UP:
-                movement.moveUp();
+                if (!movement.moveUp())
+                    curDirection = Direction.NONE;
                 break;
             case DOWN:
-                movement.moveDown();
+                if (!movement.moveDown())
+                    curDirection = Direction.NONE;
                 break;
             case LEFT:
-                movement.moveLeft();
+                if (!movement.moveLeft())
+                    curDirection = Direction.NONE;
                 break;
             case RIGHT:
-                movement.moveRight();
+                if (!movement.moveRight())
+                    curDirection = Direction.NONE;
                 break;
             default:
+                break;
+        }
+    }
+
+    /*
+    * Change the current animation depending on the direction the character is moving*/
+    private void chooseAnimation() {
+        switch (curDirection) {
+            case UP: currentAnimation = animationU;
+                break;
+            case DOWN: currentAnimation = animationD;
+                break;
+            case LEFT: currentAnimation = animationL;
+                break;
+            case RIGHT: currentAnimation = animationR;
+                break;
+            default: currentAnimation = null;
                 break;
         }
     }

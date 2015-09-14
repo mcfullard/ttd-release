@@ -1,7 +1,7 @@
 package za.ttd.characters;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import za.ttd.characters.objects.Position;
 
 /**
@@ -15,7 +15,7 @@ public class ToothDecay extends Enemy {
     }
 
     @Override
-    public Texture getTexture() {
+    public TextureRegion getTexture() {
         return null;
     }
 

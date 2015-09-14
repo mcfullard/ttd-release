@@ -1,40 +1,25 @@
 package za.ttd.characters;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import za.ttd.characters.objects.Position;
 
-/**
- * Created by s213391244 on 7/24/2015.
- */
 public class Mouthwash extends Collectible {
     private final String FILENAME = "core/assets/textures/in/items/MintyMouthwash.png";
-    private Texture texture;
+    private TextureRegion texture;
 
-    public Mouthwash(Position position, int speed){
+    public Mouthwash(Position position){
         super(position);
-        setMovementSpeed(speed);
-        texture = new Texture(Gdx.files.internal(FILENAME));
+        texture = null;
     }
 
     @Override
-    public Texture getTexture() {
+    public TextureRegion getTexture() {
         return texture;
     }
 
     @Override
     public Animation getAnimation() {
         return null;
-    }
-
-    @Override
-    public float getX() {
-        return position.getX();
-    }
-
-    @Override
-    public float getY() {
-        return position.getY();
     }
 }

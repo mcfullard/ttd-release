@@ -1,22 +1,26 @@
 package za.ttd.characters;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import za.ttd.characters.objects.Position;
 
 public class Plaque extends Collectible {
-    private final String textureFilePath = "core/assets/textures/in/items/Plaque.png";
-    private Texture texture;
+    private final String atlasFilePath = "core/assets/textures/out/texture.atlas";
+    private TextureAtlas textureAtlas;
+    private TextureRegion plaqueTexture;
 
     public Plaque(Position position) {
         super(position);
-        texture = new Texture(Gdx.files.internal(textureFilePath));
+
+        textureAtlas = new TextureAtlas(Gdx.files.internal(atlasFilePath));
+        plaqueTexture = textureAtlas.findRegion("items/Plaque");
     }
 
     @Override
-    public Texture getTexture() {
-        return texture;
+    public TextureRegion getTexture() {
+        return plaqueTexture;
     }
 
     @Override

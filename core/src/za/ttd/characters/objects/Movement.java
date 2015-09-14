@@ -1,7 +1,5 @@
 package za.ttd.characters.objects;
 
-import za.ttd.characters.objects.Direction;
-import za.ttd.characters.objects.Position;
 import za.ttd.mapgen.Map;
 
 /**
@@ -23,52 +21,64 @@ public class Movement {
         this.map = map;
     }
 
-    public void moveUp() {
+    public boolean moveUp() {
         int y = position.getChangedFloorY(-speed);
         int x = position.getIntX();
 
         if (tryMove(x, y)) {
             position.increaseY(-speed);
             position.setX(position.getIntX());
+            return true;
         }
         else
             position.increaseY(position.getIntY() - position.getY());
+
+        return false;
     }
 
-    public void moveDown() {
+    public boolean moveDown() {
         int y = position.getChangedCeilY(speed);
         int x = position.getIntX();
 
         if (tryMove(x, y)) {
             position.increaseY(speed);
             position.setX(position.getIntX());
+            return true;
         }
         else
             position.increaseY(position.getIntY()- position.getY());
+
+        return false;
     }
 
-    public void moveLeft() {
+    public boolean moveLeft() {
         int y = position.getIntY();
         int x = position.getChangedFloorX(-speed);
 
         if (tryMove(x, y)) {
             position.increaseX(-speed);
             position.setY(position.getIntY());
+            return true;
         }
         else
             position.increaseX(position.getIntX() - position.getX());
+
+        return false;
     }
 
-    public void moveRight() {
+    public boolean moveRight() {
         int y = position.getIntY();
         int x = position.getChangedCeilX(speed);
 
         if (tryMove(x, y)) {
             position.increaseX(speed);
             position.setY(position.getIntY());
+            return true;
         }
         else
             position.increaseX(position.getIntX()-position.getX());
+
+        return false;
     }
 
 

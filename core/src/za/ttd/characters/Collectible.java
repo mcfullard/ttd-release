@@ -12,7 +12,6 @@ public abstract class Collectible extends InGameObject implements Renderable {
         super(position);
     }
 
-
     public float getX() {
         return position.getX();
     }
