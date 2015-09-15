@@ -105,7 +105,7 @@ public class Level {
         for (int r = 0; r < map.getMap().length; r++) {
             for (int c = 0; c < map.getMap()[0].length; c++) {
                 Position position = new Position(c,r);
-                if (map.isPath(c,r))
+                if (map.isType(c, r, Map.PATH))
                     gameObjects.put(position, new Plaque(position));
                /* if(map.isThomas(c,r)) {
                     gameObjects.put(position, new Player(position, .1f));

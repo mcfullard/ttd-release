@@ -33,16 +33,15 @@ public class Map {
     public int[][] getMap() { return map; }
 
     /**
-     * @param c Column or positive X
+     * A generic method to test different types of map regions. This will replace isWall, isPath
+     *
+     * @param c Column of positive X
      * @param r Row or positive Y
-     * @return True if there is a wall at the respective coordinate
+     * @param type Any of the integer types defined in Map class
+     * @return True if the value at respective coordinate is of that type
      */
-    public boolean isWall(int c, int r) {
-        return map[r][c] == WALL;
-    }
-
-    public boolean isPath(int c, int r) {
-        return map[r][c] == PATH;
+    public boolean isType(int c, int r, int type) {
+        return map[r][c] == type;
     }
 
     public boolean isMouthwash(int c, int r) {
@@ -76,7 +75,7 @@ public class Map {
      */
     public boolean pathLeft(int c, int r) {
         if(withinBounds(c - 1, r))
-            if(!isWall(c - 1, r))
+            if(!isType(c - 1, r, Map.WALL))
                 return true;
         return false;
     }
@@ -88,7 +87,7 @@ public class Map {
      */
     public boolean pathRight(int c, int r) {
         if(withinBounds(c + 1, r))
-            if(!isWall(c + 1, r))
+            if(!isType(c + 1, r, Map.WALL))
                 return true;
         return false;
     }
@@ -100,7 +99,7 @@ public class Map {
      */
     public boolean pathUp(int c, int r) {
         if(withinBounds(c, r - 1))
-            if(!isWall(c, r - 1))
+            if(!isType(c, r - 1, Map.WALL))
                 return true;
         return false;
     }
@@ -112,7 +111,7 @@ public class Map {
      */
     public boolean pathDown(int c, int r) {
         if(withinBounds(c, r + 1))
-            if(!isWall(c, r + 1))
+            if(!isType(c, r + 1, Map.WALL))
                 return true;
         return false;
     }

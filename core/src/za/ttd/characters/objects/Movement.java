@@ -170,7 +170,7 @@ public class Movement {
     }
 
     private boolean tryMove(int x, int y) {
-        return !map.isWall(x,y);
+        return !map.isType(x, y, Map.WALL);
     }
 
 
