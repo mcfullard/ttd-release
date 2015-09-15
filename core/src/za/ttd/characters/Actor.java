@@ -16,7 +16,7 @@ public abstract class Actor extends InGameObject implements Renderable {
     private Animation currentAnimation, animationR, animationL, animationU, animationD;
     protected float movementSpeed;
 
-    protected Direction curDirection, nextDirection;
+    protected Direction direction;
 
     private final float defaultX, defaultY;
 
@@ -27,8 +27,7 @@ public abstract class Actor extends InGameObject implements Renderable {
 
         this.movementSpeed = movementSpeed;
 
-        curDirection = Direction.NONE;
-        nextDirection = Direction.NONE;
+        direction = Direction.NONE;
 
         textureAtlas = new TextureAtlas(Gdx.files.internal(atlasFilePath));
         stillTexture = textureAtlas.findRegion(String.format("characters/%sL1", actorName));
@@ -37,15 +36,15 @@ public abstract class Actor extends InGameObject implements Renderable {
 
         //Replace up and down references with correct for up and down (currently don't exist)
         animationU = new Animation(1/4f,
-                textureAtlas.findRegion(String.format("characters/%sL1", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sL2", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sL3", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sL4", actorName)));
+                textureAtlas.findRegion(String.format("characters/%sU1", actorName)),
+                textureAtlas.findRegion(String.format("characters/%sU2", actorName)),
+                textureAtlas.findRegion(String.format("characters/%sU3", actorName)),
+                textureAtlas.findRegion(String.format("characters/%sU4", actorName)));
         animationD = new Animation(1/4f,
-                textureAtlas.findRegion(String.format("characters/%sL1", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sL2", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sL3", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sL4", actorName)));
+                textureAtlas.findRegion(String.format("characters/%sD1", actorName)),
+                textureAtlas.findRegion(String.format("characters/%sD2", actorName)),
+                textureAtlas.findRegion(String.format("characters/%sD3", actorName)),
+                textureAtlas.findRegion(String.format("characters/%sD4", actorName)));
         animationL = new Animation(1/4f,
                 textureAtlas.findRegion(String.format("characters/%sL1", actorName)),
                 textureAtlas.findRegion(String.format("characters/%sL2", actorName)),
@@ -64,19 +63,12 @@ public abstract class Actor extends InGameObject implements Renderable {
 
     //Getter and Setter methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public Direction getCurDirection() {
-        if (curDirection == Direction.NONE)
-            curDirection = nextDirection;
-
-        return curDirection;
+    public Direction getDirection() {
+        return direction;
     }
 
-    public Direction getNextDirection() {
-        return nextDirection;
-    }
-
-    public void setNextDirection(Direction nextDirection) {
-        this.nextDirection = nextDirection;
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     public float getMovementSpeed() {
@@ -110,15 +102,10 @@ public abstract class Actor extends InGameObject implements Renderable {
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   /* public void isMoving(boolean moving) {
-        if (!moving)
-            curDirection = Direction.NONE;
-    }*/
-
     /*
     * Change the current animation depending on the direction the character is moving*/
     private void chooseAnimation() {
-        switch (curDirection) {
+        switch (direction) {
             case UP: currentAnimation = animationU;
                 break;
             case DOWN: currentAnimation = animationD;

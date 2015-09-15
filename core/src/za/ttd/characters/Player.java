@@ -5,7 +5,7 @@ import za.ttd.characters.objects.Position;
 public class Player extends Actor {
 
     public Player(Position position, float speed) {
-        super(position, speed, "Thom");
+        super(position, speed, "Thomas");
     }
 
     @Override

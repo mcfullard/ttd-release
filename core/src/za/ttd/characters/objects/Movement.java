@@ -14,7 +14,7 @@ public class Movement {
         moving = false;
     }
 
-    public boolean Move(Position position, float speed, Direction curDirection, Direction nextDirection) {
+    public Direction Move(Position position, float speed, Direction curDirection, Direction nextDirection) {
         this.position = position;
         this.speed = speed;
 
@@ -56,7 +56,10 @@ public class Movement {
                 break;
         }
 
-        return moving;
+        if(moving)
+            return curDirection;
+        else
+            return Direction.NONE;
     }
 
     private void moveUp() {
@@ -68,25 +71,25 @@ public class Movement {
             position.setX(position.getIntX());
             moving = true;
         }
-        else
+        else {
             position.increaseY(position.getIntY() - position.getY());
-
-        moving = false;
+            moving = false;
+        }
     }
 
-    private boolean moveDown() {
+    private void moveDown() {
         int y = position.getChangedCeilY(speed);
         int x = position.getIntX();
 
         if (tryMove(x, y)) {
             position.increaseY(speed);
             position.setX(position.getIntX());
-            return true;
+            moving = true;
         }
-        else
-            position.increaseY(position.getIntY()- position.getY());
-
-        return false;
+        else {
+            position.increaseY(position.getIntY() - position.getY());
+            moving = false;
+        }
     }
 
     private void moveLeft() {
@@ -98,10 +101,10 @@ public class Movement {
             position.setY(position.getIntY());
             moving = true;
         }
-        else
+        else {
             position.increaseX(position.getIntX() - position.getX());
-
-        moving = false;
+            moving = false;
+        }
     }
 
     private void moveRight() {
@@ -113,10 +116,10 @@ public class Movement {
             position.setY(position.getIntY());
             moving = true;
         }
-        else
-            position.increaseX(position.getIntX()-position.getX());
-
-        moving = false;
+        else {
+            position.increaseX(position.getIntX() - position.getX());
+            moving = false;
+        }
     }
 
 

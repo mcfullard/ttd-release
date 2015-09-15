@@ -67,10 +67,10 @@ public class Level {
 
     private void update() {
         controls.update();
-        thomas.setNextDirection(controls.getNextDirection());
+
+        thomas.setDirection(movement.Move(thomas.getPosition(), thomas.getMovementSpeed(), thomas.getDirection(), controls.getDirection()));
 
         for (Actor actor : getActors(gameObjects.values())) {
-            movement.Move(actor.getPosition(), actor.getMovementSpeed(), actor.getCurDirection(), actor.getNextDirection());
             actor.update();
         }
 
@@ -104,24 +104,40 @@ public class Level {
         //Place collectibles
         for (int r = 0; r < map.getMap().length; r++) {
             for (int c = 0; c < map.getMap()[0].length; c++) {
-                Position position = new Position(c,r);
-                if (map.isType(c, r, Map.PATH))
-                    gameObjects.put(position, new Plaque(position));
-               /* if(map.isThomas(c,r)) {
-                    gameObjects.put(position, new Player(position, .1f));
+                Position position = new Position(c, r);
+
+                if (r == 1 && c == (map.getMap()[0].length / 2)-1) {
+                    position.setX(position.getX() + .5f);
+                    gameObjects.put(position, new ToothDecay(position, .1f));
                     ++c;
                 }
-                if(map.isBadBreath(c, r))
-                    gameObjects.put(position, new BadBreath(position, .1f));
-                if(map.isMouthwash(c, r)) {
-                    gameObjects.put(position, new Mouthwash(position));
+                else if (map.isType(c, r, Map.PATH))
+                    gameObjects.put(position, new Plaque(position));
+                if (map.isType(c, r, Map.THOMAS)) {
+                    position.setX(position.getX() + .5f);
+                    thomas = new Player(position, .1f);
+                    gameObjects.put(position, thomas);
                     ++c;
-                }*/
+                }
+                if (map.isType(c, r, map.BAD_BREATH)) {
+                    gameObjects.put(position, new BadBreath(position, .1f, "BadBreath"));
+                }
+                if (map.isType(c, r, map.MOUTHWASH)) {
+                        gameObjects.put(position, new Mouthwash(position));
+                }
+                if (map.isType(c, r, map.TOOTH_DECAY)) {
+                    position.setX(position.getX()+.5f);
+                    gameObjects.put(position, new ToothDecay(position, .1f));
+                    ++c;
+                    break;
+                }
+                if (map.isType(c, r, map.BRUSH)) {
+                    position.setX(position.getX() + .5f);
+                    gameObjects.put(position, new Toothbrush(position));
+                    ++c;
+                }
             }
         }
-
-        thomas = new Player(new Position(1, 1), .1f);
-        gameObjects.put(thomas.getPosition(), thomas);
     }
 
     private void checkCollisions() {

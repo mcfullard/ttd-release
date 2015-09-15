@@ -6,10 +6,10 @@ import za.ttd.characters.objects.Direction;
 
 public class Controls {
 
-    Direction nextDirection;
+    Direction direction;
 
     public Controls() {
-        nextDirection = Direction.NONE;
+        direction = Direction.NONE;
     }
 
     public void update() {
@@ -20,16 +20,16 @@ public class Controls {
     * Get input from user*/
     private void processKeys() {
         if(Gdx.input.isKeyPressed(Input.Keys.UP))
-            nextDirection = Direction.UP;
+            direction = Direction.UP;
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
-            nextDirection = Direction.DOWN;
+            direction = Direction.DOWN;
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
-            nextDirection = Direction.LEFT;
+            direction = Direction.LEFT;
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            nextDirection = Direction.RIGHT;
+            direction = Direction.RIGHT;
     }
 
-    public Direction getNextDirection() {
-        return nextDirection;
+    public Direction getDirection() {
+        return direction;
     }
 }
