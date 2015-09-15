@@ -108,26 +108,26 @@ public class Level {
 
                 if (r == 1 && c == (map.getMap()[0].length / 2)-1) {
                     position.setX(position.getX() + .5f);
-                    gameObjects.put(position, new ToothDecay(position, .1f));
+                    gameObjects.put(position, new ToothDecay(position, .07f));
                     ++c;
                 }
                 else if (map.isType(c, r, Map.PATH))
                     gameObjects.put(position, new Plaque(position));
                 if (map.isType(c, r, Map.THOMAS)) {
                     position.setX(position.getX() + .5f);
-                    thomas = new Player(position, .1f);
+                    thomas = new Player(position, .07f);
                     gameObjects.put(position, thomas);
                     ++c;
                 }
                 if (map.isType(c, r, map.BAD_BREATH)) {
-                    gameObjects.put(position, new BadBreath(position, .1f, "BadBreath"));
+                    gameObjects.put(position, new BadBreath(position, .07f, "BadBreath"));
                 }
                 if (map.isType(c, r, map.MOUTHWASH)) {
                         gameObjects.put(position, new Mouthwash(position));
                 }
                 if (map.isType(c, r, map.TOOTH_DECAY)) {
                     position.setX(position.getX()+.5f);
-                    gameObjects.put(position, new ToothDecay(position, .1f));
+                    gameObjects.put(position, new ToothDecay(position, .07f));
                     ++c;
                     break;
                 }

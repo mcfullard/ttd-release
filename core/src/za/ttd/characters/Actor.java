@@ -35,22 +35,22 @@ public abstract class Actor extends InGameObject implements Renderable {
         currentAnimation = null; //Will change depending on direction of player
 
         //Replace up and down references with correct for up and down (currently don't exist)
-        animationU = new Animation(1/4f,
+        animationU = new Animation(1/8f,
                 textureAtlas.findRegion(String.format("characters/%sU1", actorName)),
                 textureAtlas.findRegion(String.format("characters/%sU2", actorName)),
                 textureAtlas.findRegion(String.format("characters/%sU3", actorName)),
                 textureAtlas.findRegion(String.format("characters/%sU4", actorName)));
-        animationD = new Animation(1/4f,
+        animationD = new Animation(1/8f,
                 textureAtlas.findRegion(String.format("characters/%sD1", actorName)),
                 textureAtlas.findRegion(String.format("characters/%sD2", actorName)),
                 textureAtlas.findRegion(String.format("characters/%sD3", actorName)),
                 textureAtlas.findRegion(String.format("characters/%sD4", actorName)));
-        animationL = new Animation(1/4f,
+        animationL = new Animation(1/8f,
                 textureAtlas.findRegion(String.format("characters/%sL1", actorName)),
                 textureAtlas.findRegion(String.format("characters/%sL2", actorName)),
                 textureAtlas.findRegion(String.format("characters/%sL3", actorName)),
                 textureAtlas.findRegion(String.format("characters/%sL4", actorName)));
-        animationR = new Animation(1/4f,
+        animationR = new Animation(1/8f,
                 textureAtlas.findRegion(String.format("characters/%sR1", actorName)),
                 textureAtlas.findRegion(String.format("characters/%sR2", actorName)),
                 textureAtlas.findRegion(String.format("characters/%sR3", actorName)),
