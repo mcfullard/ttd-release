@@ -67,13 +67,13 @@ public class Level {
 
     private void update() {
         controls.update();
-        thomas.setCurDirection(controls.getCurDirection());
         thomas.setNextDirection(controls.getNextDirection());
 
-        for(Actor actor : getActors(gameObjects.values())) {
-            actor.isMoving(movement.Move(actor.getPosition(), actor.getMovementSpeed(), actor.getCurDirection(), null));
+        for (Actor actor : getActors(gameObjects.values())) {
+            movement.Move(actor.getPosition(), actor.getMovementSpeed(), actor.getCurDirection(), actor.getNextDirection());
             actor.update();
         }
+
         checkCollisions();
     }
 

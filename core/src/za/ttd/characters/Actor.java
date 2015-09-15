@@ -65,15 +65,14 @@ public abstract class Actor extends InGameObject implements Renderable {
     //Getter and Setter methods
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public Direction getCurDirection() {
+        if (curDirection == Direction.NONE)
+            curDirection = nextDirection;
+
         return curDirection;
     }
 
     public Direction getNextDirection() {
         return nextDirection;
-    }
-
-    public void setCurDirection(Direction curDirection) {
-        this.curDirection = curDirection;
     }
 
     public void setNextDirection(Direction nextDirection) {
@@ -111,10 +110,10 @@ public abstract class Actor extends InGameObject implements Renderable {
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void isMoving(boolean moving) {
+   /* public void isMoving(boolean moving) {
         if (!moving)
             curDirection = Direction.NONE;
-    }
+    }*/
 
     /*
     * Change the current animation depending on the direction the character is moving*/

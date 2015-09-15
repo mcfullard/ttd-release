@@ -18,7 +18,7 @@ public class Movement {
         this.position = position;
         this.speed = speed;
 
-        /*switch (nextDirection) {
+        switch (nextDirection) {
             case UP:
                 if(tryMoveUp(curDirection))
                     curDirection = nextDirection;
@@ -37,7 +37,7 @@ public class Movement {
                 break;
             default:
                 break;
-        }*/
+        }
 
         switch (curDirection) {
             case UP:
@@ -169,8 +169,9 @@ public class Movement {
         return tryMove(x,y);
     }
 
+    //This will only work with thomas, need to see what we can do for enemies
     private boolean tryMove(int x, int y) {
-        return !map.isType(x, y, Map.WALL);
+        return !map.isType(x, y, Map.WALL) && !map.isType(x, y, Map.DOOR);
     }
 
 

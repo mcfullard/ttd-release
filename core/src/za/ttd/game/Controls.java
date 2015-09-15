@@ -6,10 +6,9 @@ import za.ttd.characters.objects.Direction;
 
 public class Controls {
 
-    Direction curDirection, nextDirection;
+    Direction nextDirection;
 
     public Controls() {
-        curDirection = Direction.NONE;
         nextDirection = Direction.NONE;
     }
 
@@ -28,13 +27,6 @@ public class Controls {
             nextDirection = Direction.LEFT;
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
             nextDirection = Direction.RIGHT;
-
-        if (curDirection == Direction.NONE)
-            curDirection = nextDirection;
-    }
-
-    public Direction getCurDirection() {
-        return curDirection;
     }
 
     public Direction getNextDirection() {
