@@ -45,6 +45,30 @@ public class Map {
         return map[r][c] == PATH;
     }
 
+    public boolean isMouthwash(int c, int r) {
+        return map[r][c] == MOUTHWASH;
+    }
+
+    public boolean isBrush(int c, int r) {
+        return map[r][c] == BRUSH;
+    }
+
+    public boolean isBadBreath(int c, int r) {
+        return map[r][c] == BAD_BREATH;
+    }
+
+    public boolean isThomas(int c, int r) {
+        return map[r][c] == THOMAS;
+    }
+
+    public boolean isDoor(int c, int r) {
+        return map[r][c] == DOOR;
+    }
+
+    public boolean isToothDecay(int c, int r) {
+        return map[r][c] == TOOTH_DECAY;
+    }
+
     /**
      * @param c Column or positive X
      * @param r Row or positive Y

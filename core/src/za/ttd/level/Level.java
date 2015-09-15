@@ -71,7 +71,7 @@ public class Level {
         thomas.setNextDirection(controls.getNextDirection());
 
         for(Actor actor : getActors(gameObjects.values())) {
-            actor.isMoving(movement.Move(actor.getPosition(), actor.getMovementSpeed(), actor.getCurDirection(), actor.getNextDirection()));
+            actor.isMoving(movement.Move(actor.getPosition(), actor.getMovementSpeed(), actor.getCurDirection(), null));
             actor.update();
         }
         checkCollisions();

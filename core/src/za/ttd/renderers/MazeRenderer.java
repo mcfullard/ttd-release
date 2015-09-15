@@ -121,35 +121,35 @@ public class MazeRenderer {
                     }
 
                     //Wall type checker
-                    if (top == wall && right == wall && bottom == path && left == wall)
+                    if (top == wall && right == wall && bottom != wall && left == wall)
                         batch.draw(tocWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == wall && right == wall && bottom == wall && left == path)
+                    else if (top == wall && right == wall && bottom == wall && left != wall)
                         batch.draw(rocWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == path && right == wall && bottom == wall && left == wall)
+                    else if (top != wall && right == wall && bottom == wall && left == wall)
                         batch.draw(bocWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == wall && right == path && bottom == wall && left == wall)
+                    else if (top == wall && right != wall && bottom == wall && left == wall)
                         batch.draw(locWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == path && right == wall && bottom == path && left == wall)
+                    else if (top != wall && right == wall && bottom != wall && left == wall)
                         batch.draw(hocWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == wall && right == path && bottom == wall && left == path)
+                    else if (top == wall && right != wall && bottom == wall && left != wall)
                         batch.draw(vocWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == wall && right == path && bottom == path && left == path)
+                    else if (top == wall && right != wall && bottom != wall && left != wall)
                         batch.draw(bveWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == path && right == wall && bottom == path && left == path)
+                    else if (top != wall && right == wall && bottom != wall && left != wall)
                         batch.draw(lheWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == path && right == path && bottom == wall && left == path)
+                    else if (top != wall && right != wall && bottom == wall && left != wall)
                         batch.draw(tveWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == path && right == path && bottom == path && left == wall)
+                    else if (top != wall && right != wall && bottom != wall && left == wall)
                         batch.draw(rheWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == path && right == wall && bottom == wall && left == path)
+                    else if (top != wall && right == wall && bottom == wall && left != wall)
                         batch.draw(tlcWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == wall && right == wall && bottom == path && left == path)
+                    else if (top == wall && right == wall && bottom != wall && left != wall)
                         batch.draw(blcWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == path && right == path && bottom == wall && left == wall)
+                    else if (top != wall && right != wall && bottom == wall && left == wall)
                         batch.draw(trcWall, j * imgScale, (row - i) * imgScale);
-                    else if (top == wall && right == path && bottom == path && left == wall)
+                    else if (top == wall && right != wall && bottom != wall && left == wall)
                         batch.draw(brcWall, j * imgScale, (row - i) * imgScale);
-                    else if(top == path && right == path && bottom == path && left == path)
+                    else if(top != wall && right != wall && bottom != wall && left != wall)
                         batch.draw(blkWall, j * imgScale, (row - i) * imgScale);
                     else if(top == wall && right == wall && bottom == wall && left == wall)
                         batch.draw(empWall, j * imgScale, (row - i) * imgScale);

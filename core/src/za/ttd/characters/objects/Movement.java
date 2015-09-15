@@ -18,7 +18,7 @@ public class Movement {
         this.position = position;
         this.speed = speed;
 
-        switch (nextDirection) {
+        /*switch (nextDirection) {
             case UP:
                 if(tryMoveUp(curDirection))
                     curDirection = nextDirection;
@@ -37,7 +37,7 @@ public class Movement {
                 break;
             default:
                 break;
-        }
+        }*/
 
         switch (curDirection) {
             case UP:
