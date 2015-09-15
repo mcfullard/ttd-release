@@ -14,15 +14,18 @@ public abstract class Actor extends InGameObject implements Renderable {
     private TextureRegion stillTexture;
     private TextureAtlas textureAtlas;
     private Animation currentAnimation, animationR, animationL, animationU, animationD;
+    protected float movementSpeed;
 
     protected Direction curDirection, nextDirection;
 
-    private final float x, y;
+    private final float defaultX, defaultY;
 
-    public Actor(Position position, String actorName) {
+    public Actor(Position position, float movementSpeed, String actorName) {
         super(position);
-        x = position.getX();
-        y = position.getY();
+        defaultX = position.getX();
+        defaultY = position.getY();
+
+        this.movementSpeed = movementSpeed;
 
         curDirection = Direction.NONE;
         nextDirection = Direction.NONE;
@@ -59,12 +62,26 @@ public abstract class Actor extends InGameObject implements Renderable {
         chooseAnimation();
     }
 
+    //Getter and Setter methods
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public Direction getCurDirection() {
         return curDirection;
     }
 
     public Direction getNextDirection() {
         return nextDirection;
+    }
+
+    public void setCurDirection(Direction curDirection) {
+        this.curDirection = curDirection;
+    }
+
+    public void setNextDirection(Direction nextDirection) {
+        this.nextDirection = nextDirection;
+    }
+
+    public float getMovementSpeed() {
+        return movementSpeed;
     }
 
     public float getX() {
@@ -92,6 +109,12 @@ public abstract class Actor extends InGameObject implements Renderable {
     public Animation getAnimation() {
         return currentAnimation;
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void isMoving(boolean moving) {
+        if (!moving)
+            curDirection = Direction.NONE;
+    }
 
     /*
     * Change the current animation depending on the direction the character is moving*/
@@ -110,8 +133,9 @@ public abstract class Actor extends InGameObject implements Renderable {
         }
     }
 
+    /*Reset the position of the actor to it's default position*/
     public void resetPositions() {
-        position.setX(x);
-        position.setY(y);
+        position.setX(defaultX);
+        position.setY(defaultY);
     }
 }

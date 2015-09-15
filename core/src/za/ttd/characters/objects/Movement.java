@@ -2,9 +2,6 @@ package za.ttd.characters.objects;
 
 import za.ttd.mapgen.Map;
 
-/**
- * Created by Bas on 19/08/2015.
- */
 public class Movement {
 
     protected Position position;
@@ -21,7 +18,6 @@ public class Movement {
         this.position = position;
         this.speed = speed;
 
-        moving = true;
         switch (nextDirection) {
             case UP:
                 if(tryMoveUp(curDirection))
@@ -40,55 +36,45 @@ public class Movement {
                     curDirection = nextDirection;
                 break;
             default:
-                moving = false;
                 break;
         }
 
         switch (curDirection) {
             case UP:
-                if (!moveUp())
-                    moving = false;
+                moveUp();
                 break;
             case DOWN:
-                if (!moveDown())
-                    moving = false;
+                moveDown();
                 break;
             case LEFT:
-                if (!moveLeft())
-                    moving = false;
+                moveLeft();
                 break;
             case RIGHT:
-                if (!moveRight())
-                    moving = false;
+                moveRight();
                 break;
             default:
-                moving = false;
                 break;
         }
 
         return moving;
     }
 
-    public void setMap(Map map) {
-        this.map = map;
-    }
-
-    public boolean moveUp() {
+    private void moveUp() {
         int y = position.getChangedFloorY(-speed);
         int x = position.getIntX();
 
         if (tryMove(x, y)) {
             position.increaseY(-speed);
             position.setX(position.getIntX());
-            return true;
+            moving = true;
         }
         else
             position.increaseY(position.getIntY() - position.getY());
 
-        return false;
+        moving = false;
     }
 
-    public boolean moveDown() {
+    private boolean moveDown() {
         int y = position.getChangedCeilY(speed);
         int x = position.getIntX();
 
@@ -103,38 +89,38 @@ public class Movement {
         return false;
     }
 
-    public boolean moveLeft() {
+    private void moveLeft() {
         int y = position.getIntY();
         int x = position.getChangedFloorX(-speed);
 
         if (tryMove(x, y)) {
             position.increaseX(-speed);
             position.setY(position.getIntY());
-            return true;
+            moving = true;
         }
         else
             position.increaseX(position.getIntX() - position.getX());
 
-        return false;
+        moving = false;
     }
 
-    public boolean moveRight() {
+    private void moveRight() {
         int y = position.getIntY();
         int x = position.getChangedCeilX(speed);
 
         if (tryMove(x, y)) {
             position.increaseX(speed);
             position.setY(position.getIntY());
-            return true;
+            moving = true;
         }
         else
             position.increaseX(position.getIntX()-position.getX());
 
-        return false;
+        moving = false;
     }
 
 
-    public boolean tryMoveUp(Direction dir) {
+    private boolean tryMoveUp(Direction dir) {
         int y = position.getChangedFloorY(-speed);
         int x; // = position.getIntX();
 
@@ -146,7 +132,7 @@ public class Movement {
         return tryMove(x,y);
     }
 
-    public boolean tryMoveDown(Direction dir) {
+    private boolean tryMoveDown(Direction dir) {
         int y = position.getChangedCeilY(speed);
         int x; // = position.getIntX();
 
@@ -158,7 +144,7 @@ public class Movement {
         return tryMove(x,y);
     }
 
-    public boolean tryMoveLeft(Direction dir) {
+    private boolean tryMoveLeft(Direction dir) {
         int y; // = position.getIntY();
         int x = position.getChangedFloorX(-speed);
 
@@ -171,7 +157,7 @@ public class Movement {
         return tryMove(x,y);
     }
 
-    public boolean tryMoveRight(Direction dir) {
+    private boolean tryMoveRight(Direction dir) {
         int y; // = position.getIntY();
         int x = position.getChangedCeilX(speed);
 

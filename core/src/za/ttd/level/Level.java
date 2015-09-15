@@ -3,6 +3,7 @@ package za.ttd.level;
 import za.ttd.characters.*;
 import za.ttd.characters.objects.Movement;
 import za.ttd.characters.objects.Position;
+import za.ttd.game.Controls;
 import za.ttd.mapgen.Grid;
 import za.ttd.mapgen.Map;
 import za.ttd.renderers.CharacterRenderer;
@@ -38,6 +39,8 @@ public class Level {
 
     private Movement movement;
 
+    private Controls controls;
+
     public Level() {
         this.imgScale = 32;
         this.seed = 1264;
@@ -45,10 +48,14 @@ public class Level {
         gameObjects = new HashMap<>();
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
         charRendered = new CharacterRenderer(map.getMap(), imgScale);
+
         movement = new Movement(map);
         initGameObjects();
+
         scoring = new ScoringSystem(0, 3);
         hudRenderer = new HudRenderer();
+
+        controls = new Controls();
     }
 
     public void render(){
@@ -59,9 +66,13 @@ public class Level {
     }
 
     private void update() {
+        controls.update();
+        thomas.setCurDirection(controls.getCurDirection());
+        thomas.setNextDirection(controls.getNextDirection());
+
         for(Actor actor : getActors(gameObjects.values())) {
+            actor.isMoving(movement.Move(actor.getPosition(), actor.getMovementSpeed(), actor.getCurDirection(), actor.getNextDirection()));
             actor.update();
-            movement.Move(actor.getPosition(), actor.getMovementSpeed(), actor.getCurDirection(), actor.getNextDirection());
         }
         checkCollisions();
     }
@@ -84,7 +95,6 @@ public class Level {
         }
         return renderables;
     }
-
 
     /*
     * Create initial values for in game objects that will be placed in the level
@@ -111,9 +121,7 @@ public class Level {
         }
 
         thomas = new Player(new Position(1, 1), .1f);
-        /*thomas.setMovementMap(map);*/
         gameObjects.put(thomas.getPosition(), thomas);
-
     }
 
     private void checkCollisions() {

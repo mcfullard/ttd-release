@@ -13,7 +13,7 @@ public abstract class Enemy extends Actor {
     protected boolean vulnerable;
 
     public Enemy(Position position, float speed, String actorName) {
-        super(position, actorName);
+        super(position, speed, actorName);
         this.defaultSpeed = speed;
         vulnerable = false;
     }
@@ -26,9 +26,9 @@ public abstract class Enemy extends Actor {
         this.vulnerable = vulnerable;
 
         if (vulnerable)
-            this.setMovementSpeed(defaultSpeed*.9f);
+            super.movementSpeed = defaultSpeed*.9f;
         else
-            this.setMovementSpeed(defaultSpeed);
+            super.movementSpeed = defaultSpeed;
     }
 
     /*
@@ -38,10 +38,10 @@ public abstract class Enemy extends Actor {
     }
 
     public void slow() {
-        this.setMovementSpeed(defaultSpeed*.9f);
+        super.movementSpeed = defaultSpeed*.9f;
     }
 
     public void normalSpeed() {
-        this.setMovementSpeed(defaultSpeed);
+        super.movementSpeed = defaultSpeed;
     }
 }
