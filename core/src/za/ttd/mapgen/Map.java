@@ -9,11 +9,22 @@ import static java.lang.System.arraycopy;
  */
 public class Map {
     private int[][] map;
+    private int r;
+    private int c;
     private int SCALE_FACTOR;
-    public static final int WALL = 1;
+    private int FIRST_ADDED_ROWS = 2;
     public static final int PATH = 0;
+    public static final int WALL = 1;
+    public static final int MOUTHWASH = 2;
+    public static final int BRUSH = 3;
+    public static final int THOMAS = 4;
+    public static final int BAD_BREATH = 5;
+    public static final int TOOTH_DECAY = 6;
+    public static final int DOOR = 7;
 
     public Map(int rows, int cols, int scaleFactor) {
+        this.r = rows;
+        this.c = cols;
         this.SCALE_FACTOR = scaleFactor;
         map = new int[rows * scaleFactor][cols * scaleFactor];
         initMap();
@@ -200,4 +211,30 @@ public class Map {
         map = newMap;
     }
 
+    public int getDenDoorRow() { return lowerBound((r-1)/2) + FIRST_ADDED_ROWS; }
+
+    public void drawDenDoor() {
+        fillRectangle(getDenDoorRow(), getDenDoorRow(), 0, 0, DOOR);
+    }
+
+    public void drawDen() {
+        fillRectangle(getDenDoorRow() + 1, getDenDoorRow() + 1, 0, 1, BAD_BREATH);
+    }
+
+    public void drawAboveDen() {
+        fillRectangle(getDenDoorRow() - 1, getDenDoorRow() - 1, 0, 0, BRUSH);
+    }
+
+    public void drawBelowDen() {
+        fillRectangle(getDenDoorRow() + 3, getDenDoorRow() + 3, 0, 0, THOMAS);
+    }
+
+    public void drawTopRight() {
+        fillRectangle(1, 1, upperBound(c - 1), upperBound(c - 1), MOUTHWASH);
+    }
+
+    public void drawBottomRight() {
+        int row = upperBound(r - 1) + FIRST_ADDED_ROWS;
+        fillRectangle(row, row, upperBound(c - 1), upperBound(c - 1), MOUTHWASH);
+    }
 }

@@ -3,6 +3,7 @@ package za.ttd.tests;
 import org.junit.Test;
 import za.ttd.mapgen.Block;
 import za.ttd.mapgen.Grid;
+import za.ttd.mapgen.Map;
 import za.ttd.mapgen.Shape;
 
 import static org.junit.Assert.*;
@@ -65,5 +66,11 @@ public class GridTest {
         g1.drawEdges();
         g1.getMap().verticalMirror();
         g1.getMap().displayMap();
+    }
+
+    @Test
+    public void testGenerateMap() {
+        Map map = Grid.generateMap(5,3,1);
+        map.displayMap();
     }
 }

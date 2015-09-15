@@ -139,6 +139,15 @@ public class Grid {
         }
     }
 
+    public void drawRegions() {
+        map.drawDenDoor();
+        map.drawDen();
+        map.drawAboveDen();
+        map.drawBelowDen();
+        map.drawTopRight();
+        map.drawBottomRight();
+    }
+
     public Set<Point> getAvailable() {return this.available;}
 
     public Set<Block> getBlocks() {return this.blocks;}
@@ -149,6 +158,7 @@ public class Grid {
         Grid grid = new Grid(rows, cols, seed);
         grid.populateGrid();
         grid.drawEdges();
+        grid.drawRegions();
         grid.getMap().verticalMirror();
         return grid.getMap();
     }
