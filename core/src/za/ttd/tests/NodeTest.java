@@ -1,8 +1,11 @@
 package za.ttd.tests;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import za.ttd.characters.objects.Position;
+import za.ttd.exceptions.AllPathsNotExploredException;
 import za.ttd.pathfinding.Edge;
 import za.ttd.pathfinding.EdgeContainer;
 import za.ttd.pathfinding.Node;
@@ -20,6 +23,9 @@ public class NodeTest {
     private Node n1, n2, n3, n4, n5, n6;
     private Edge e1, e2, e3, e4, e5, e6;
     private List<Node> nodes;
+
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
 
     @Before
     public void initObjects() {
@@ -75,6 +81,7 @@ public class NodeTest {
         nodes.forEach(node -> node.updateDistanceVector(nodes));
         assertEquals(2, n1.getDistanceVector().get(n3.getOrigin()).distance.intValue());
         assertEquals(n2, n1.getDistanceVector().get(n3.getOrigin()).edge.getAdjacent(n1));
+        assertEquals(null, n1.getDistanceVector().get(n4.getOrigin()).edge);
     }
 
     @Test
@@ -87,5 +94,8 @@ public class NodeTest {
         n6.addEdges(e5, e6);
         nodes.forEach(node -> node.initDistanceVector(nodes));
         nodes.forEach(node -> node.updateDistanceVector(nodes));
+        assertEquals(n2.getOrigin(), n1.shortestPathTo(n3.getOrigin()));
+        exception.expect(AllPathsNotExploredException.class);
+        n1.shortestPathTo(n4.getOrigin());
     }
 }

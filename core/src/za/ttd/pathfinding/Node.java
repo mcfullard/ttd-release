@@ -3,6 +3,7 @@ package za.ttd.pathfinding;
 import java.util.*;
 
 import za.ttd.characters.objects.Position;
+import za.ttd.exceptions.AllPathsNotExploredException;
 
 /**
  * Data structure similar to vertex of graph, but with the added property of a distance vector.
@@ -78,7 +79,14 @@ public class Node {
     }
 
     public Position shortestPathTo(Position destination) {
-        return distanceVector.get(destination).edge.getAdjacent(this).getOrigin();
+        Edge edge = distanceVector.get(destination).edge;
+        if(edge != null)
+            return edge.getAdjacent(this).getOrigin();
+        throw new AllPathsNotExploredException(String.format(
+                "The path from %s to %s has not been catalogued by the PathFinder algorithm. Please check implementation.",
+                origin.toString(),
+                destination.toString()
+        ));
     }
 
     public Set<Edge> getEdges() {
