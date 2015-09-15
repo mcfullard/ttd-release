@@ -19,10 +19,10 @@ public class MapTest {
         map.drawRightEdge(p1);
         assertArrayEquals(
                 new int[][]{
-                        new int[]{0, 1, 0, 0},
-                        new int[]{0, 1, 0, 0},
-                        new int[]{0, 0, 0, 0},
-                        new int[]{0, 0, 0, 0},
+                        new int[]{Map.WALL, Map.PATH, Map.WALL, Map.WALL},
+                        new int[]{Map.WALL, Map.PATH, Map.WALL, Map.WALL},
+                        new int[]{Map.WALL, Map.WALL, Map.WALL, Map.WALL},
+                        new int[]{Map.WALL, Map.WALL, Map.WALL, Map.WALL},
                 },
                 map.getMap()
         );
@@ -35,10 +35,10 @@ public class MapTest {
         map.drawBottomEdge(p1);
         assertArrayEquals(
                 new int[][]{
-                        new int[]{0, 0, 0, 0},
-                        new int[]{0, 0, 1, 1},
-                        new int[]{0, 0, 0, 0},
-                        new int[]{0, 0, 0, 0},
+                        new int[]{Map.WALL, Map.WALL, Map.WALL, Map.WALL},
+                        new int[]{Map.WALL, Map.WALL, Map.PATH, Map.PATH},
+                        new int[]{Map.WALL, Map.WALL, Map.WALL, Map.WALL},
+                        new int[]{Map.WALL, Map.WALL, Map.WALL, Map.WALL},
                 },
                 map.getMap()
         );
@@ -51,10 +51,10 @@ public class MapTest {
         map.drawLeftEdge(p1);
         assertArrayEquals(
                 new int[][]{
-                        new int[]{0, 0, 0, 0},
-                        new int[]{0, 0, 0, 0},
-                        new int[]{0, 0, 1, 0},
-                        new int[]{0, 0, 1, 0},
+                        new int[]{Map.WALL, Map.WALL, Map.WALL, Map.WALL},
+                        new int[]{Map.WALL, Map.WALL, Map.WALL, Map.WALL},
+                        new int[]{Map.WALL, Map.WALL, Map.PATH, Map.WALL},
+                        new int[]{Map.WALL, Map.WALL, Map.PATH, Map.WALL},
                 },
                 map.getMap()
         );
@@ -69,10 +69,10 @@ public class MapTest {
         map.drawRightBottomCell(p2);
         assertArrayEquals(
                 new int[][]{
-                        new int[]{0, 0, 0, 0},
-                        new int[]{0, 1, 0, 0},
-                        new int[]{0, 0, 0, 0},
-                        new int[]{0, 0, 0, 1},
+                        new int[]{Map.WALL, Map.WALL, Map.WALL, Map.WALL},
+                        new int[]{Map.WALL, Map.PATH, Map.WALL, Map.WALL},
+                        new int[]{Map.WALL, Map.WALL, Map.WALL, Map.WALL},
+                        new int[]{Map.WALL, Map.WALL, Map.WALL, Map.PATH},
                 },
                 map.getMap()
         );
