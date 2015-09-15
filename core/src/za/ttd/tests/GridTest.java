@@ -70,7 +70,7 @@ public class GridTest {
 
     @Test
     public void testGenerateMap() {
-        Map map = Grid.generateMap(5,3,1);
+        Map map = Grid.generateMap(12,4,1264);
         map.displayMap();
     }
 }

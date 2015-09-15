@@ -9,8 +9,8 @@ import static java.lang.System.arraycopy;
  */
 public class Map {
     private int[][] map;
-    private int r;
-    private int c;
+    private final int r;
+    private final int c;
     private int SCALE_FACTOR;
     private int FIRST_ADDED_ROWS = 2;
     public static final int PATH = 0;
@@ -210,7 +210,7 @@ public class Map {
         map = newMap;
     }
 
-    public int getDenDoorRow() { return lowerBound((r-1)/2) + FIRST_ADDED_ROWS; }
+    public int getDenDoorRow() { return lowerBound(r/2) + FIRST_ADDED_ROWS; }
 
     public void drawDenDoor() {
         fillRectangle(getDenDoorRow(), getDenDoorRow(), 0, 0, DOOR);
