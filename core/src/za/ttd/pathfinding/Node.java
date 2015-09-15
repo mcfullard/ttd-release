@@ -13,7 +13,7 @@ import za.ttd.characters.objects.Position;
  */
 public class Node {
     private Position origin;
-    private List<Edge> edges = new LinkedList<>();
+    private Set<Edge> edges = new HashSet<>();
     private Map<Position, EdgeContainer> distanceVector = new HashMap<>();
 
     public Position getOrigin() {
@@ -38,13 +38,17 @@ public class Node {
             distanceVector.put(
                     edge.getAdjacentPosition(this),
                     new EdgeContainer(edge.clone(), edge.getWeight())
+                    /**
+                     * you want containers to have cloned edges because the container's
+                     * edges may change during the distance vector update
+                     */
             );
         }
         for(Node node : allNodes) {
             if(distanceVector.get(node.getOrigin()) == null) {
                 distanceVector.put(
                     node.getOrigin(),
-                    new EdgeContainer(null, Integer.MAX_VALUE)
+                    new EdgeContainer(null, EdgeContainer.LARGE)
                 );
             }
         }
@@ -60,7 +64,9 @@ public class Node {
                         .getDistanceVector()
                         .get(other.getOrigin())
                         .distance;
+                // if it's shorter via the adjacent edge to the other node
                 if(distanceViaAdjacent + edge.getWeight() < directDistance) {
+                    // update the new distance and change the edge in the container
                     container.distance = edge.getWeight() + distanceViaAdjacent;
                     if(container.edge != null)
                         container.edge.setAdjacent(this, adjacent);
@@ -73,5 +79,9 @@ public class Node {
 
     public Position shortestPathTo(Position destination) {
         return distanceVector.get(destination).edge.getAdjacent(this).getOrigin();
+    }
+
+    public Set<Edge> getEdges() {
+        return edges;
     }
 }
