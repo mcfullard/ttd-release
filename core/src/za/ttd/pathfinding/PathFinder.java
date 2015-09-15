@@ -1,8 +1,10 @@
 package za.ttd.pathfinding;
 
 import java.util.*;
+import java.util.Map;
 
 import za.ttd.characters.objects.Position;
+import za.ttd.mapgen.*;
 
 /**
  * This class encapsulates all path generation and position finding based thereon.
@@ -16,10 +18,13 @@ public class PathFinder {
 
     public PathFinder(za.ttd.mapgen.Map map) {
         this.map = map;
-        //populateNodes();
-        //attachEdges();
-        //initDistanceVectors();
-        //updateDistanceVectors();
+    }
+
+    public void initialize() {
+        populateNodes();
+        attachEdges();
+        initDistanceVectors();
+        updateDistanceVectors();
     }
 
     public void populateNodes() {
@@ -32,7 +37,7 @@ public class PathFinder {
         Set<Node> nodes = new HashSet<>();
         for(int r = 0; r < map.getMap().length; r++) {
             for(int c = 0; c < map.getMap()[0].length; c++) {
-                if(map.getMap()[r][c] == za.ttd.mapgen.Map.PATH) {
+                if(!map.isType(c, r, za.ttd.mapgen.Map.WALL)) {
                     nodes.add(new Node(new Position(c, r)));
                 }
             }
