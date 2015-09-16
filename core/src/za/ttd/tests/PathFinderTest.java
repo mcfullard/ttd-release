@@ -4,6 +4,7 @@ import org.junit.Test;
 import za.ttd.characters.objects.Position;
 import za.ttd.mapgen.Grid;
 import za.ttd.mapgen.Map;
+import za.ttd.pathfinding.Edge;
 import za.ttd.pathfinding.Node;
 import za.ttd.pathfinding.PathFinder;
 
@@ -21,6 +22,7 @@ public class PathFinderTest {
     public void testConstructor() throws Exception {
         Map map = Grid.generateMap(15,5,1264);
         PathFinder pf = new PathFinder(map);
+        pf.initialize();
         Position p1 = new Position(1,1);
         Position p2 = new Position(1,2);
         Position p3 = new Position(1,3);
@@ -111,6 +113,13 @@ public class PathFinderTest {
         adjacent.add(left);
         adjacent.add(right);
         assertEquals(adjacent, pf.getAdjacentNodes(node));
+        node = new Node(new Position(3,3));
+        left = pf.getNodes().get(new Position(2,3));
+        bottom = pf.getNodes().get(new Position(3,4));
+        adjacent.clear();
+        adjacent.add(left);
+        adjacent.add(bottom);
+        assertEquals(adjacent, pf.getAdjacentNodes(node));
     }
 
     @Test
@@ -119,7 +128,58 @@ public class PathFinderTest {
         PathFinder pf = new PathFinder(map);
         pf.populateNodes();
         pf.attachEdges();
-        fail();
+        Position p1 = new Position(3,3);
+        Position p2 = new Position(2,3);
+        Position p3 = new Position(3,4);
+        Node node = pf.getNodes().get(p1);
+        Set<Edge> edges = node.getEdges();
+        int match = 0;
+        for(Edge edge: edges){
+            if(edge.getAdjacent(node).getOrigin().equals(p2)) {
+                match++;
+            }
+            else if(edge.getAdjacent(node).getOrigin().equals(p3)){
+                match++;
+            }
+        }
+        assertEquals(2, match);
+        assertEquals(match, edges.size());
+
+        p1 = new Position(2,3);
+        p2 = new Position(1,3);
+        p3 = new Position(3,3);
+        node = pf.getNodes().get(p1);
+        edges = node.getEdges();
+        match = 0;
+        for(Edge edge: edges){
+            if(edge.getAdjacent(node).getOrigin().equals(p2)) {
+                match++;
+            }
+            else if(edge.getAdjacent(node).getOrigin().equals(p3)){
+                match++;
+            }
+        }
+        assertEquals(2, match);
+        assertEquals(match, edges.size());
+
+        p1 = new Position(1,5);
+        p2 = new Position(1,4);
+        p3 = new Position(1,6);
+        Position p4 = new Position(2,5);
+        node = pf.getNodes().get(p1);
+        edges = node.getEdges();
+        match = 0;
+        for(Edge edge: edges) {
+            if(edge.getAdjacent(node).getOrigin().equals(p2)) {
+                match++;
+            } else if(edge.getAdjacent(node).getOrigin().equals(p3)){
+                match++;
+            } else if(edge.getAdjacent(node).getOrigin().equals(p4)){
+                match++;
+            }
+        }
+        assertEquals(3, match);
+        assertEquals(match, edges.size());
     }
 
 }
