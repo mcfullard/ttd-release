@@ -149,6 +149,12 @@ public class Level {
             scoring.collectibleFound();
         }
 
+        if (gameObjects.get(position) instanceof Mouthwash){
+            gameObjects.remove(position);
+            scoring.powerUsed();
+            //Hinder tooth decay and slow all enemies
+        }
+
         if (gameObjects.get(position) instanceof Mouthwash) {
             gameObjects.remove(position);
             scoring.powerUsed();
@@ -175,6 +181,23 @@ public class Level {
             }
         }
 
+        if (gameObjects.get(position) instanceof ToothDecay) {
+            ToothDecay toothDecay = (ToothDecay)gameObjects.get(position);
+
+            if (toothDecay.getVulnerability()) {
+                gameObjects.remove(position);
+                //scoring.killedToothDecay();
+            }
+            else {
+                thomas.resetPositions();
+                toothDecay.resetPositions();
+                List<BadBreath> badBreaths = getBadBreath(gameObjects.values());
+                for (BadBreath bad : badBreaths) {
+                    bad.resetPositions();
+                }
+            }
+        }
+
         if (gameObjects.get(position) instanceof Toothbrush) {
             ToothDecay toothDecay = (ToothDecay)gameObjects.get(position);
 
@@ -184,7 +207,9 @@ public class Level {
         }
     }
 
-
+    /*
+    * Thomas has picked up a minty mouthwash item
+    * Hinder the applicable characters*/
     private void powerUp() {
         for(BadBreath badBreath : getBadBreath(gameObjects.values()))
             badBreath.setVulnerable(true);
