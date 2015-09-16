@@ -2,11 +2,13 @@ package za.ttd.level;
 
 import com.badlogic.gdx.utils.TimeUtils;
 import za.ttd.characters.*;
+import za.ttd.characters.objects.Direction;
 import za.ttd.characters.objects.Movement;
 import za.ttd.characters.objects.Position;
 import za.ttd.game.Controls;
 import za.ttd.mapgen.Grid;
 import za.ttd.mapgen.Map;
+import za.ttd.pathfinding.PathFinder;
 import za.ttd.renderers.CharacterRenderer;
 import za.ttd.renderers.HudRenderer;
 import za.ttd.renderers.MazeRenderer;
@@ -26,16 +28,15 @@ import java.util.List;
  * @since 2015/08/17.
  */
 public class Level {
-    private Map map;
-    private boolean status;
-    private endGameListener endGame;
-
-    private java.util.Map<Position, InGameObject> gameObjects;
-
     public interface endGameListener {
         void endGameListener(boolean status);
     }
 
+    private Map map;
+    private endGameListener endGame;
+
+    private java.util.Map<Position, InGameObject> gameObjects;
+    private PathFinder pathFinder;
     private int imgScale;
     private MazeRenderer mazeRenderer;
     private CharacterRenderer charRendered;
@@ -62,6 +63,7 @@ public class Level {
         charRendered = new CharacterRenderer(map.getMap(), imgScale);
 
         movement = new Movement(map);
+        pathFinder = new PathFinder(map);
         initGameObjects();
         this.lives = lives;
 
@@ -96,6 +98,10 @@ public class Level {
         thomas.setDirection(movement.Move(thomas.getPosition(), thomas.getMovementSpeed(), thomas.getDirection(), controls.getDirection()));
 
         for (Actor actor : getActors(gameObjects.values())) {
+            if (actor instanceof Enemy) {
+                actor.setDirection(pathFinder.shortestPathTo(actor.getPosition(), thomas.getPosition()));
+                actor.setDirection(movement.Move(actor.getPosition(), actor.getMovementSpeed(), actor.getDirection(), Direction.NONE));
+            }
             actor.update();
         }
         checkVulnerability();
