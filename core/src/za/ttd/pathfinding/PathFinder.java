@@ -3,8 +3,8 @@ package za.ttd.pathfinding;
 import java.util.*;
 import java.util.Map;
 
+import za.ttd.characters.objects.Direction;
 import za.ttd.characters.objects.Position;
-import za.ttd.mapgen.*;
 
 /**
  * This class encapsulates all path generation and position finding based thereon.
@@ -116,6 +116,10 @@ public class PathFinder {
 
     public Map<Position, Node> getNodes() {
         return nodes;
+    }
+
+    public Direction shortestPathTo(Position source, Position destination) {
+        return source.getDirectionTo(nodes.get(source).shortestPathTo(destination));
     }
 
 }
