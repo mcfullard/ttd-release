@@ -5,8 +5,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class ScoringSystem {
 
     private int lvlScore, lvlTotScore, totPlayerScore, totPowersUsed, totLivesUsed, totCollectiblesFound, totBadBreathKilled;
-    private final int collectibleValue = 5, powerUpValue = 10, badBreathValue = 100, lifeValue = 200, maxLives = 3;
-    private int powersUsed, badBreathKilled, collectiblesFound, livesUsed;
+    private final int collectibleValue = 5, powerUpValue = 10, badBreathValue = 100, lifeValue = 200, toothDecayValue = 300;
+    private int powersUsed, badBreathKilled, collectiblesFound, livesUsed, toothDecayDestroyed;
     private long startTime, elapsedTime, overtime;
 
     public ScoringSystem(int totPlayerScore) {
@@ -36,6 +36,10 @@ public class ScoringSystem {
     public void killedBadBreath() {
         ++badBreathKilled;
         ++totBadBreathKilled;
+    }
+
+    public void killedToothDecay() {
+        ++toothDecayDestroyed;
     }
 
     public void lifeUsed() {
@@ -85,6 +89,7 @@ public class ScoringSystem {
     private void calcLvlScore() {
         lvlScore = collectibleValue*collectiblesFound
                 + badBreathValue * badBreathKilled
+                + toothDecayDestroyed * toothDecayValue
                 - powerUpValue*powersUsed
                 - livesUsed*lifeValue;
 
@@ -100,7 +105,12 @@ public class ScoringSystem {
     /*
     * calculate the total score for the level taking in the time it took to complete the level*/
     private void calcLvlTotScore() {
-        lvlTotScore = lvlScore + (int)(1000/(elapsedTime/60000));
+
+        int timePenalty = (int)elapsedTime/60000;
+        if (timePenalty > 0)
+            lvlTotScore = lvlScore + (1000/timePenalty);
+        else
+            lvlTotScore = lvlScore;
     }
 
     /*used to calculate the time passed when in the pause menu*/

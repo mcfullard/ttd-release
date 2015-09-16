@@ -1,16 +1,18 @@
 package za.ttd.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
+import za.ttd.ttd;
 
 /**
  * @author minnaar
  * @since 20 July 2015
  */
 public abstract class AbstractScreen implements Screen {
-    protected Game game;
+    protected ttd game;
 
-    public AbstractScreen(Game game) { this.game = game; }
+    public AbstractScreen(ttd game) {
+        this.game = game;
+    }
 
     @Override
     public void resize (int width, int height) {

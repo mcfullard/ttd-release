@@ -1,7 +1,7 @@
 package za.ttd.screens;
 
-import com.badlogic.gdx.Game;
 import za.ttd.level.Level;
+import za.ttd.ttd;
 
 /**
  * @author minnaar
@@ -10,10 +10,11 @@ import za.ttd.level.Level;
 public class GameScreen extends AbstractScreen {
 
     private Level level;
-
-    public GameScreen(Game game) {
+    
+    public GameScreen(ttd game) {
         super(game);
-        level = new Level();
+
+        this.level = game.getLevel();
     }
 
     @Override

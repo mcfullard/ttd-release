@@ -11,6 +11,7 @@ import za.ttd.renderers.CharacterRenderer;
 import za.ttd.renderers.HudRenderer;
 import za.ttd.renderers.MazeRenderer;
 import za.ttd.renderers.Renderable;
+import za.ttd.ttd;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,9 +27,14 @@ import java.util.List;
  */
 public class Level {
     private Map map;
-    private long seed;
+    private boolean status;
+    private endGameListener endGame;
+
     private java.util.Map<Position, InGameObject> gameObjects;
 
+    public interface endGameListener {
+        void endGameListener(boolean status);
+    }
 
     private int imgScale;
     private MazeRenderer mazeRenderer;
@@ -39,14 +45,17 @@ public class Level {
     private HudRenderer hudRenderer;
     private final long powerTime = 30;
     private long startPowerTime;
+    private int lives;
 
     private Movement movement;
 
     private Controls controls;
 
-    public Level() {
+    private ttd game;
+
+    public Level(long seed, int totScore, ttd game, int lives) {
+        this.game = game;
         this.imgScale = 32;
-        this.seed = 1264;
         map = Grid.generateMap(12,4,seed);
         gameObjects = new HashMap<>();
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
@@ -54,17 +63,30 @@ public class Level {
 
         movement = new Movement(map);
         initGameObjects();
+        this.lives = lives;
 
-        scoring = new ScoringSystem(0);
+        scoring = new ScoringSystem(totScore);
         hudRenderer = new HudRenderer();
-
         controls = new Controls();
+        endGame =  game;
+    }
+
+    public void start() {
+        render();
+    }
+
+    private void pause() {
+
+    }
+
+    public int getLives() {
+        return lives;
     }
 
     public void render(){
         mazeRenderer.render();
         update();
-        hudRenderer.render(scoring.getLvlScore(), scoring.getElapsedTime());
+        hudRenderer.render(scoring.getLvlScore(), scoring.getElapsedTime(), game.getLevelNumber());
         charRendered.render(getRenderables(gameObjects.values()));
     }
 
@@ -173,31 +195,27 @@ public class Level {
                 gameObjects.remove(position);
                 scoring.killedBadBreath();
             }
-            else if(scoring.getTotLivesUsed() <= 3) {
+            else if(scoring.getTotLivesUsed() < lives) {
                 scoring.lifeUsed();
                 reset();
             }
-            else {
-                //Thomas is dead and the level needs to be redone
-                //need to do this in the game loop
-            }
+            else
+                endGame.endGameListener(false);
         }
 
         if (gameObjects.get(position) instanceof ToothDecay) {
             ToothDecay toothDecay = (ToothDecay)gameObjects.get(position);
 
             if (toothDecay.getVulnerability()) {
-                gameObjects.remove(position);
-                //scoring.killedToothDecay();
+                scoring.killedToothDecay();
+                endGame.endGameListener(true);
             }
-            else if(scoring.getTotLivesUsed() <= 3) {
+            else if(scoring.getTotLivesUsed() < lives) {
                 scoring.lifeUsed();
                 reset();
             }
-            else {
-                //Thomas is dead and the level needs to be redone
-                //need to do this in the game loop
-            }
+            else
+                endGame.endGameListener(false);
         }
 
         /*
@@ -281,6 +299,10 @@ public class Level {
 
         ToothDecay toothDecay = getToothDecay(gameObjects.values());
         toothDecay.reset();
+    }
+
+    public int getTotLevelScore() {
+        return scoring.getLvlTotScore();
     }
 
     private List<BadBreath> getBadBreath(Collection<InGameObject> characters) {

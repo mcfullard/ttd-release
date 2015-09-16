@@ -1,12 +1,12 @@
 package za.ttd.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import za.ttd.ttd;
 
 /**
  * @author minnaar
@@ -20,7 +20,7 @@ public class SplashScreen extends AbstractScreen {
     private Image splashImage = new Image(texture);
     private Stage stage = new Stage();
 
-    public SplashScreen(Game game) { super(game); }
+    public SplashScreen(ttd game) { super(game); }
 
     @Override
     public void show() {
