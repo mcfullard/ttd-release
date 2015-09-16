@@ -2,6 +2,9 @@ package za.ttd.characters.objects;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import za.ttd.mapgen.RandomEnum;
+
+import java.util.Random;
 
 /**
  * @author minnaar
@@ -68,4 +71,30 @@ public class Position {
                 .toHashCode();
     }
 
+    public Direction getDirectionTo(Position destination) {
+        // remember that x is positive to the right and y is positive down
+        float changeX = destination.x - this.x;
+        float changeY = destination.y - this.y;
+        // if one or no axes have change
+        if(changeX == 0f) {
+            if(changeY == 0f) {
+                return Direction.NONE;
+            } else if(changeY > 0f) {
+                return Direction.DOWN;
+            } else {
+                return Direction.UP;
+            }
+        } else if(changeX > 0f) {
+            if(changeY == 0f) {
+                return Direction.RIGHT;
+            }
+        } else {
+            if(changeY == 0f) {
+                return Direction.LEFT;
+            }
+        }
+        // if both axes have change
+        RandomEnum<Direction> randomDirection = new RandomEnum<Direction>(Direction.class, new Random());
+        return randomDirection.random();
+    }
 }

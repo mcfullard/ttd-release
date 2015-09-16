@@ -22,7 +22,6 @@ public class PathFinderTest {
     public void testConstructor() throws Exception {
         Map map = Grid.generateMap(15,5,1264);
         PathFinder pf = new PathFinder(map);
-        pf.initialize();
         Position p1 = new Position(1,1);
         Position p2 = new Position(1,2);
         Position p3 = new Position(1,3);
@@ -91,7 +90,6 @@ public class PathFinderTest {
     public void testGetNodesFromMap() throws Exception {
         Map map = Grid.generateMap(15,5,1264);
         PathFinder pf = new PathFinder(map);
-        pf.populateNodes();
         java.util.Map<Position, Node> nodes = pf.getNodes();
         assertEquals(new Position(1,1), nodes.get(new Position(1,1)).getOrigin());
         assertEquals(new Position(1,9), nodes.get(new Position(1,9)).getOrigin());
@@ -101,7 +99,6 @@ public class PathFinderTest {
     public void testGetAdjacentNodes() throws Exception {
         Map map = Grid.generateMap(15,5,1264);
         PathFinder pf = new PathFinder(map);
-        pf.populateNodes();
         Node node = new Node(new Position(3,5));
         Node top = pf.getNodes().get(new Position(3,4));
         Node bottom = pf.getNodes().get(new Position(3,6));
@@ -126,8 +123,6 @@ public class PathFinderTest {
     public void testAttachEdges() throws Exception {
         Map map = Grid.generateMap(15,5,1264);
         PathFinder pf = new PathFinder(map);
-        pf.populateNodes();
-        pf.attachEdges();
         Position p1 = new Position(3,3);
         Position p2 = new Position(2,3);
         Position p3 = new Position(3,4);
