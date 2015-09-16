@@ -30,7 +30,7 @@ public abstract class Actor extends InGameObject implements Renderable {
         direction = Direction.NONE;
 
         textureAtlas = new TextureAtlas(Gdx.files.internal(atlasFilePath));
-        stillTexture = textureAtlas.findRegion(String.format("characters/%sL1", actorName));
+        stillTexture = textureAtlas.findRegion(String.format("characters/%s0", actorName));
         //create animations
         currentAnimation = null; //Will change depending on direction of player
 
@@ -38,23 +38,19 @@ public abstract class Actor extends InGameObject implements Renderable {
         animationU = new Animation(1/8f,
                 textureAtlas.findRegion(String.format("characters/%sU1", actorName)),
                 textureAtlas.findRegion(String.format("characters/%sU2", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sU3", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sU4", actorName)));
+                textureAtlas.findRegion(String.format("characters/%sU3", actorName)));
         animationD = new Animation(1/8f,
                 textureAtlas.findRegion(String.format("characters/%sD1", actorName)),
                 textureAtlas.findRegion(String.format("characters/%sD2", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sD3", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sD4", actorName)));
+                textureAtlas.findRegion(String.format("characters/%sD3", actorName)));
         animationL = new Animation(1/8f,
                 textureAtlas.findRegion(String.format("characters/%sL1", actorName)),
                 textureAtlas.findRegion(String.format("characters/%sL2", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sL3", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sL4", actorName)));
+                textureAtlas.findRegion(String.format("characters/%sL3", actorName)));
         animationR = new Animation(1/8f,
                 textureAtlas.findRegion(String.format("characters/%sR1", actorName)),
                 textureAtlas.findRegion(String.format("characters/%sR2", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sR3", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sR4", actorName)));
+                textureAtlas.findRegion(String.format("characters/%sR3", actorName)));
     }
 
     public void update() {
@@ -120,8 +116,10 @@ public abstract class Actor extends InGameObject implements Renderable {
     }
 
     /*Reset the position of the actor to it's default position*/
-    public void resetPositions() {
+    public void reset() {
         position.setX(defaultX);
         position.setY(defaultY);
+        currentAnimation = null;
+        direction = Direction.NONE;
     }
 }

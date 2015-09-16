@@ -7,7 +7,6 @@ public abstract class Enemy extends Actor {
     static final int AGGRESSIVE = 2;
     static final int PASSIVE = 3;
     static final int RETREAT = 4;
-    static final int VULNERABLE = 5;
 
     protected float defaultSpeed;
     protected boolean vulnerable;
@@ -25,8 +24,10 @@ public abstract class Enemy extends Actor {
     public void setVulnerable(boolean vulnerable) {
         this.vulnerable = vulnerable;
 
-        if (vulnerable)
-            super.movementSpeed = defaultSpeed*.9f;
+        if (vulnerable) {
+            super.movementSpeed = defaultSpeed * .9f;
+            //Play different animations
+        }
         else
             super.movementSpeed = defaultSpeed;
     }
@@ -38,10 +39,21 @@ public abstract class Enemy extends Actor {
     }
 
     public void slow() {
-        super.movementSpeed = defaultSpeed*.9f;
+        super.movementSpeed = defaultSpeed*.8f;
     }
 
     public void normalSpeed() {
-        super.movementSpeed = defaultSpeed;
+
+        if (vulnerable)
+            slow();
+        else
+            super.movementSpeed = defaultSpeed;
+    }
+
+    public void speedUp() {
+        if (vulnerable)
+            super.movementSpeed = defaultSpeed;
+        else
+            super.movementSpeed = defaultSpeed*1.1f;
     }
 }

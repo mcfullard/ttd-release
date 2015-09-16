@@ -32,4 +32,8 @@ public class Controls {
     public Direction getDirection() {
         return direction;
     }
+
+    public void reset() {
+        direction = direction.NONE;
+    }
 }
