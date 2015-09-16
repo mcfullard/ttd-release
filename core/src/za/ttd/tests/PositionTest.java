@@ -1,6 +1,7 @@
 package za.ttd.tests;
 
 import org.junit.Test;
+import za.ttd.characters.objects.Direction;
 import za.ttd.characters.objects.Position;
 
 import static org.junit.Assert.*;
@@ -10,6 +11,20 @@ import static org.junit.Assert.*;
  * @since 2015/09/10.
  */
 public class PositionTest {
+
+    @Test
+    public void testGetDirection() throws Exception {
+        Position p1 = new Position(1,1);
+        Position p2 = new Position(1,2);
+        Position p3 = new Position(1.3f, 2);
+        Position p4 = new Position(4,2);
+        assertEquals(Direction.DOWN, p1.getDirectionTo(p2));
+        assertEquals(Direction.UP, p2.getDirectionTo(p1));
+        assertEquals(Direction.RIGHT, p2.getDirectionTo(p4));
+        assertEquals(Direction.LEFT, p4.getDirectionTo(p2));
+        assertEquals(Direction.RIGHT, p2.getDirectionTo(p3));
+        assertEquals(Direction.LEFT, p3.getDirectionTo(p2));
+    }
 
     @Test
     public void testGetIntX() throws Exception {
