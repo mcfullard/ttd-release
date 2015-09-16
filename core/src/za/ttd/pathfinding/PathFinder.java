@@ -18,22 +18,23 @@ public class PathFinder {
 
     public PathFinder(za.ttd.mapgen.Map map) {
         this.map = map;
+        initialize();
     }
 
-    public void initialize() {
+    private void initialize() {
         populateNodes();
         attachEdges();
         initDistanceVectors();
         updateDistanceVectors();
     }
 
-    public void populateNodes() {
+    private void populateNodes() {
         nodes = new HashMap<>();
         for(Node node : getNodesFromMap())
             nodes.put(node.getOrigin(), node);
     }
 
-    public Set<Node> getNodesFromMap() {
+    private Set<Node> getNodesFromMap() {
         Set<Node> nodes = new HashSet<>();
         for(int r = 0; r < map.getMap().length; r++) {
             for(int c = 0; c < map.getMap()[0].length; c++) {
@@ -45,7 +46,7 @@ public class PathFinder {
         return nodes;
     }
 
-    public void attachEdges() {
+    private void attachEdges() {
         Set<Node> checked = new HashSet<>();
         for(Node node : nodes.values()) {
             for(Node adjacent : getAdjacentNodes(node)) {
