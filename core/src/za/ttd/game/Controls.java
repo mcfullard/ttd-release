@@ -29,11 +29,15 @@ public class Controls {
             direction = Direction.RIGHT;
     }
 
+    public boolean keyPressed() {
+        return direction != Direction.NONE;
+    }
+
     public Direction getDirection() {
         return direction;
     }
 
     public void reset() {
-        direction = direction.NONE;
+        direction = Direction.NONE;
     }
 }

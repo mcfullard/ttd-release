@@ -9,12 +9,13 @@ public abstract class Enemy extends Actor {
     static final int RETREAT = 4;
 
     protected float defaultSpeed;
-    protected boolean vulnerable;
+    protected boolean vulnerable, kill;
 
     public Enemy(Position position, float speed, String actorName) {
         super(position, speed, actorName);
         this.defaultSpeed = speed;
         vulnerable = false;
+        kill = false;
     }
 
     /*
@@ -25,7 +26,7 @@ public abstract class Enemy extends Actor {
         this.vulnerable = vulnerable;
 
         if (vulnerable) {
-            super.movementSpeed = defaultSpeed * .9f;
+            slow();
             //Play different animations
         }
         else
@@ -36,6 +37,14 @@ public abstract class Enemy extends Actor {
     * @return the current state of enemies vulnerability*/
     public boolean getVulnerability() {
         return vulnerable;
+    }
+
+    public boolean getKill() {
+        return kill;
+    }
+
+    public void setKill(boolean kill) {
+        this.kill = kill;
     }
 
     public void slow() {
@@ -54,6 +63,6 @@ public abstract class Enemy extends Actor {
         if (vulnerable)
             super.movementSpeed = defaultSpeed;
         else
-            super.movementSpeed = defaultSpeed*1.1f;
+            super.movementSpeed = defaultSpeed*1.2f;
     }
 }
