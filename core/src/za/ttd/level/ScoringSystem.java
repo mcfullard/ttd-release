@@ -4,36 +4,43 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class ScoringSystem {
 
-    private int lvlScore, lvlTotScore, totPlayerScore;
-    private final int collectibleValue = 5, powerUpValue = 10, plaqueValue = 100, lifeValue = 200, maxLives = 3;
-    private int powersUsed, plaqueKilled, collectiblesFound, lives, livesUsed;
+    private int lvlScore, lvlTotScore, totPlayerScore, totPowersUsed, totLivesUsed, totCollectiblesFound, totBadBreathKilled;
+    private final int collectibleValue = 5, powerUpValue = 10, badBreathValue = 100, lifeValue = 200, maxLives = 3;
+    private int powersUsed, badBreathKilled, collectiblesFound, livesUsed;
     private long startTime, elapsedTime, overtime;
 
-    public ScoringSystem(int totPlayerScore, int lives) {
+    public ScoringSystem(int totPlayerScore) {
+        this.totPlayerScore = totPlayerScore;
+
         lvlScore = 0;
         lvlTotScore = 0;
-        this.totPlayerScore = totPlayerScore;
         powersUsed = 0;
-        plaqueKilled = 0;
+        badBreathKilled = 0;
         collectiblesFound = 0;
-        this.lives = lives;
+        totLivesUsed = 0;
+        totBadBreathKilled = 0;
+        totCollectiblesFound = 0;
         startTime = TimeUtils.millis();
     }
 
     public void collectibleFound() {
         ++collectiblesFound;
+        ++totCollectiblesFound;
     }
 
     public void powerUsed() {
         ++powersUsed;
+        ++totPowersUsed;
     }
 
-    public void killedPlaque() {
-        ++plaqueKilled;
+    public void killedBadBreath() {
+        ++badBreathKilled;
+        ++totBadBreathKilled;
     }
 
     public void lifeUsed() {
         ++livesUsed;
+        ++totLivesUsed;
     }
 
     /*
@@ -57,20 +64,37 @@ public class ScoringSystem {
         return lvlTotScore;
     }
 
-    public int getLives() {
-        return lives;
+    public int getTotLivesUsed() {
+        return totLivesUsed;
+    }
+
+    public int getTotCollectiblesFound() {
+        return totCollectiblesFound;
+    }
+
+    public int getTotBadBreathKilled() {
+        return totBadBreathKilled;
+    }
+
+    public int getTotPowersUsed() {
+        return totPowersUsed;
     }
 
     /*
-    * calculate to score for the current level*/
+        * calculate to score for the current level*/
     private void calcLvlScore() {
         lvlScore = collectibleValue*collectiblesFound
-                + plaqueValue*plaqueKilled
+                + badBreathValue * badBreathKilled
                 - powerUpValue*powersUsed
                 - livesUsed*lifeValue;
 
-        if (lvlScore < 0)
+        if (lvlScore < 0) {
             lvlScore = 0;
+            livesUsed = 0;
+            powersUsed = 0;
+            collectiblesFound = 0;
+            badBreathKilled = 0;
+        }
     }
 
     /*

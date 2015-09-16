@@ -116,8 +116,10 @@ public abstract class Actor extends InGameObject implements Renderable {
     }
 
     /*Reset the position of the actor to it's default position*/
-    public void resetPositions() {
+    public void reset() {
         position.setX(defaultX);
         position.setY(defaultY);
+        currentAnimation = null;
+        direction = Direction.NONE;
     }
 }

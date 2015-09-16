@@ -56,15 +56,15 @@ public class Position {
         }
         Position rhs = (Position) obj;
         return new EqualsBuilder()
-                .append(x, rhs.getX())
-                .append(y, rhs.getY())
+                .append(Math.round(x), rhs.getIntX())
+                .append(Math.round(y), rhs.getIntY())
                 .isEquals();
     }
     @Override
     public int hashCode() {
         return new HashCodeBuilder(13,47)
-                .append(x)
-                .append(y)
+                .append(Math.round(x))
+                .append(Math.round(y))
                 .toHashCode();
     }
 
