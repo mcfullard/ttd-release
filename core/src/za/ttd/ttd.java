@@ -41,8 +41,8 @@ public class ttd extends Game implements Level.endGameListener {
     }
 
     @Override
-    public void endGameListener(boolean status) {
-        if (status) {
+    public void endGameListener(boolean levelComplete) {
+        if (levelComplete) {
             gamer.incHighestLevel();
             gamer.setTotScore(level.getTotLevelScore());
             gamer.setLives(level.getLives());

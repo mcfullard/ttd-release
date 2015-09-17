@@ -39,7 +39,7 @@ public class Level {
     private PathFinder pathFinder;
     private int imgScale;
     private MazeRenderer mazeRenderer;
-    private CharacterRenderer charRendered;
+    private CharacterRenderer charRenderer;
 
     private Player thomas;
     private ScoringSystem scoring;
@@ -60,7 +60,7 @@ public class Level {
         map = Grid.generateMap(12,4,seed);
         gameObjects = new HashMap<>();
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
-        charRendered = new CharacterRenderer(map.getMap(), imgScale);
+        charRenderer = new CharacterRenderer(map.getMap(), imgScale);
 
         movement = new Movement(map);
         pathFinder = new PathFinder(map);
@@ -84,7 +84,7 @@ public class Level {
     public void render(){
         mazeRenderer.render();
         hudRenderer.render(scoring.getLvlScore(), scoring.getElapsedTime(), game.getLevelNumber());
-        charRendered.render(getRenderables(gameObjects.values()));
+        charRenderer.render(getRenderables(gameObjects.values()));
         update();
     }
 
@@ -95,7 +95,7 @@ public class Level {
         for (Actor actor : getActors(gameObjects.values())) {
             if (controls.keyPressed() && actor instanceof Enemy) {
                 actor.setDirection(pathFinder.shortestPathTo(actor.getPosition(), thomas.getPosition()));
-                actor.setDirection(movement.Move(actor.getPosition(), actor.getMovementSpeed(), actor.getDirection(), Direction.NONE));
+                movement.Move(actor.getPosition(), actor.getMovementSpeed(), actor.getDirection(), Direction.NONE);
             }
             actor.update();
         }
