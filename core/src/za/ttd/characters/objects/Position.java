@@ -59,15 +59,15 @@ public class Position {
         }
         Position rhs = (Position) obj;
         return new EqualsBuilder()
-                .append(Math.round(x), rhs.getIntX())
-                .append(Math.round(y), rhs.getIntY())
+                .append(getIntX(), rhs.getIntX())
+                .append(getIntY(), rhs.getIntY())
                 .isEquals();
     }
     @Override
     public int hashCode() {
         return new HashCodeBuilder(13,47)
-                .append(Math.round(x))
-                .append(Math.round(y))
+                .append(getIntX())
+                .append(getIntY())
                 .toHashCode();
     }
 
