@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import za.ttd.game.Gamer;
 import za.ttd.level.Level;
 import za.ttd.screens.GameScreen;
+import za.ttd.screens.LoadingScreen;
 import za.ttd.screens.MainMenu;
 import za.ttd.screens.SplashScreen;
 
@@ -20,16 +21,16 @@ public class ttd extends Game implements Level.endGameListener {
 	}
 
     public void newGame(String name) {
-        gamer = new Gamer(name, 0, 1, 3);
-        level = new Level(0, 1, this, 3);
+        gamer = new Gamer(name, 0, 1, 2);
+        level = new Level(0, 1, this, 2);
         setScreen(new GameScreen(this));
     }
 
     public void continueGame(String name) {
         //Run method to find the users game data so they can continue from where they left off
-        gamer = new Gamer(name, 0, 1, 3);
+        gamer = new Gamer(name, 0, 1, 2);
         level = new Level(gamer.getHighestLevel(), gamer.getTotScore(), this,  gamer.getLives());
-        setScreen(new GameScreen(this));
+        setScreen(new LoadingScreen(this));
     }
 
     public Level getLevel() {

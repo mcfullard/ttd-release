@@ -24,13 +24,22 @@ import java.util.*;
  * @author minnaar
  * @since 2015/08/17.
  */
-public class Level {
+public class Level implements Controls.startLevelListener {
+    @Override
+    public void startLevel(boolean status) {
+        if (status)
+            beginLevel = true;
+        else
+            beginLevel = false;
+
+    }
+
     public interface endGameListener {
         void endGameListener(boolean status);
     }
 
     private Map map;
-    private endGameListener endGame;
+    private endGameListener endGameListener;
 
     private java.util.Map<Position, InGameObject> gameItems;
     private ArrayList<Enemy> enemies;
@@ -45,15 +54,16 @@ public class Level {
     private final long powerTime = 15;
     private long startPowerTime;
     private int lives;
+    private boolean beginLevel;
 
     private Movement movement;
-
     private Controls controls;
-
     private ttd game;
 
     public Level(long seed, int totScore, ttd game, int lives) {
         this.game = game;
+        endGameListener =  game;
+
         this.imgScale = 32;
         map = Grid.generateMap(12,4,seed);
         gameItems = new HashMap<>();
@@ -68,12 +78,7 @@ public class Level {
 
         scoring = new ScoringSystem(totScore);
         hudRenderer = new HudRenderer();
-        controls = new Controls();
-        endGame =  game;
-    }
-
-    private void pause() {
-
+        controls = new Controls(scoring);
     }
 
     public int getLives() {
@@ -81,14 +86,17 @@ public class Level {
     }
 
     public void render(){
+
         mazeRenderer.render();
         hudRenderer.render(scoring.getLvlScore(), scoring.getElapsedTime(), game.getLevelNumber());
         charRenderer.render(getRenderables(gameItems.values()));
-        update();
+        controls.update();
+
+        if (beginLevel)
+            update();
     }
 
     private void update() {
-        controls.update();
         thomas.setDirection(movement.Move(thomas.getPosition(), thomas.getMovementSpeed(), thomas.getDirection(), controls.getDirection()));
         thomas.update();
 
@@ -99,10 +107,6 @@ public class Level {
             }
             enemy.update();
         }
-
-        /*for (Collectible collectible : getItems(gameItems.values())) {
-            collectible.update();
-        }*/
 
         checkVulnerability();
         checkCollisions();
@@ -191,7 +195,7 @@ public class Level {
                         scoring.killedBadBreath();
                     else {
                         scoring.killedToothDecay();
-                        endGame.endGameListener(true);
+                        endGameListener.endGameListener(true);
                     }
                 }
                 else {
@@ -200,7 +204,7 @@ public class Level {
                         reset();
                     }
                     else {
-                        endGame.endGameListener(false);
+                        endGameListener.endGameListener(false);
                     }
                 }
             }

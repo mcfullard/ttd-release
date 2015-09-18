@@ -1,13 +1,14 @@
 package za.ttd.level;
 
 import com.badlogic.gdx.utils.TimeUtils;
+import za.ttd.game.Controls;
 
-public class ScoringSystem {
+public class ScoringSystem implements Controls.startLevelListener {
 
     private int lvlScore, lvlTotScore, totPlayerScore, totPowersUsed, totLivesUsed, totCollectiblesFound, totBadBreathKilled;
     private final int collectibleValue = 5, powerUpValue = 10, badBreathValue = 100, lifeValue = 200, toothDecayValue = 300;
     private int powersUsed, badBreathKilled, collectiblesFound, livesUsed, toothDecayDestroyed;
-    private long startTime, elapsedTime, overtime;
+    private long startTime, elapsedTime, pauseTime, overTime;
 
     public ScoringSystem(int totPlayerScore) {
         this.totPlayerScore = totPlayerScore;
@@ -20,7 +21,10 @@ public class ScoringSystem {
         totLivesUsed = 0;
         totBadBreathKilled = 0;
         totCollectiblesFound = 0;
-        startTime = TimeUtils.millis();
+        startTime = 0;
+        overTime = 0;
+        pauseTime = 0;
+        elapsedTime = 0;
     }
 
     public void collectibleFound() {
@@ -57,7 +61,7 @@ public class ScoringSystem {
     /*
     * @return a long value of the time in seconds */
     public long getElapsedTime() {
-        elapsedTime = TimeUtils.timeSinceMillis(startTime); //- TimeUtils.timeSinceMillis(overtime);
+        elapsedTime = overTime;
         return elapsedTime/1000;
     }
 
@@ -105,7 +109,6 @@ public class ScoringSystem {
     /*
     * calculate the total score for the level taking in the time it took to complete the level*/
     private void calcLvlTotScore() {
-
         int timePenalty = (int)elapsedTime/60000;
         if (timePenalty > 0)
             lvlTotScore = lvlScore + (1000/timePenalty);
@@ -114,7 +117,20 @@ public class ScoringSystem {
     }
 
     /*used to calculate the time passed when in the pause menu*/
-    public void pauseTime() {
-        overtime = TimeUtils.millis();
+    public void pauseTimer() {
+        pauseTime = TimeUtils.millis();
+    }
+
+    public void resumeTimer() {
+        overTime = TimeUtils.timeSinceMillis(pauseTime);
+        pauseTime = 0;
+    }
+
+    @Override
+    public void startLevel(boolean status) {
+        if (status)
+            this.resumeTimer();
+        else
+            this.pauseTimer();
     }
 }
