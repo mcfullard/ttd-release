@@ -4,19 +4,19 @@ import za.ttd.characters.objects.Position;
 
 public abstract class Enemy extends Actor {
     protected float defaultSpeed;
-    protected boolean vulnerable, kill;
+    protected boolean vulnerable, killable;
 
     public Enemy(Position position, float speed, String actorName) {
         super(position, speed, actorName);
         this.defaultSpeed = speed;
         vulnerable = false;
-        kill = false;
+        killable = false;
     }
 
     /*
     * Make object to vulnerable or no longer vulnerable,
     * make it move slower/or reset to original speed,
-    * being allows tomas to kill it*/
+    * being allows tomas to killable it*/
     public void setVulnerable(boolean vulnerable) {
         this.vulnerable = vulnerable;
 
@@ -34,12 +34,12 @@ public abstract class Enemy extends Actor {
         return vulnerable;
     }
 
-    public boolean getKill() {
-        return kill;
+    public boolean getKillable() {
+        return killable;
     }
 
-    public void setKill(boolean kill) {
-        this.kill = kill;
+    public void setKillable(boolean killable) {
+        this.killable = killable;
     }
 
     public void slow() {
@@ -63,5 +63,12 @@ public abstract class Enemy extends Actor {
 
     public boolean collided(Position checkPos) {
         return checkPos.getIntX() == position.getIntX() && checkPos.getIntY() == position.getIntY();
+    }
+
+    @Override
+    public void reset() {
+        super.reset();
+        this.vulnerable = false;
+        this.killable = false;
     }
 }

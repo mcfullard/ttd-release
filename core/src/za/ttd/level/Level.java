@@ -1,6 +1,8 @@
 package za.ttd.level;
 
 import com.badlogic.gdx.utils.TimeUtils;
+import za.ttd.Interfaces.EndLevelListener;
+import za.ttd.Interfaces.LevelLoadingListener;
 import za.ttd.characters.*;
 import za.ttd.characters.objects.Direction;
 import za.ttd.characters.objects.Movement;
@@ -25,12 +27,10 @@ import java.util.*;
  * @since 2015/08/17.
  */
 public class Level {
-    public interface endGameListener {
-        void endGameListener(boolean status);
-    }
-
     private Map map;
-    private endGameListener endGame;
+
+    private EndLevelListener endLevelListener;
+    private LevelLoadingListener levelLoadingListener;
 
     private java.util.Map<Position, InGameObject> gameItems;
     private ArrayList<Enemy> enemies;
@@ -54,6 +54,7 @@ public class Level {
 
     public Level(long seed, int totScore, ttd game, int lives) {
         this.game = game;
+        levelLoadingListener = game;
         this.imgScale = 32;
         map = Grid.generateMap(12,4,seed);
         gameItems = new HashMap<>();
@@ -69,7 +70,7 @@ public class Level {
         scoring = new ScoringSystem(totScore);
         hudRenderer = new HudRenderer();
         controls = new Controls();
-        endGame =  game;
+        endLevelListener = game;
     }
 
     private void pause() {
@@ -84,6 +85,7 @@ public class Level {
         mazeRenderer.render();
         hudRenderer.render(scoring.getLvlScore(), scoring.getElapsedTime(), game.getLevelNumber());
         charRenderer.render(getRenderables(gameItems.values()));
+        levelLoadingListener.LevelLoadingListener(true);
         update();
     }
 
@@ -99,10 +101,6 @@ public class Level {
             }
             enemy.update();
         }
-
-        /*for (Collectible collectible : getItems(gameItems.values())) {
-            collectible.update();
-        }*/
 
         checkVulnerability();
         checkCollisions();
@@ -185,13 +183,13 @@ public class Level {
                 enemy.normalSpeed();
 
             if (enemy.collided(thomas.getPosition())) {
-                if (enemy.getKill()) {
+                if (enemy.getKillable()) {
                     enemy.kill();
                     if (enemy instanceof BadBreath)
                         scoring.killedBadBreath();
                     else {
                         scoring.killedToothDecay();
-                        endGame.endGameListener(true);
+                        endLevelListener.EndGameListener(true);
                     }
                 }
                 else {
@@ -200,7 +198,7 @@ public class Level {
                         reset();
                     }
                     else {
-                        endGame.endGameListener(false);
+                        endLevelListener.EndGameListener(false);
                     }
                 }
             }
@@ -212,12 +210,9 @@ public class Level {
     * Hinder the applicable characters*/
     private void toothBrushPower() {
         for(Enemy enemy:enemies) {
-            if (enemy instanceof BadBreath)
-                enemy.setVulnerable(true);
-            else {
-                enemy.setVulnerable(true);
-                enemy.setKill(true);
-            }
+            if (enemy instanceof ToothDecay)
+                enemy.setKillable(true);
+            enemy.setVulnerable(true);
         }
     }
 
@@ -230,7 +225,7 @@ public class Level {
         for(Enemy enemy : enemies) {
             if (enemy instanceof BadBreath) {
                 enemy.setVulnerable(true);
-                enemy.setKill(true);
+                enemy.setKillable(true);
             }
             else
                 enemy.setVulnerable(true);
@@ -243,7 +238,7 @@ public class Level {
         for(Enemy enemy:enemies) {
             if (enemy instanceof BadBreath) {
                 enemy.setVulnerable(false);
-                enemy.setKill(false);
+                enemy.setKillable(false);
             }
             else
                 enemy.setVulnerable(false);

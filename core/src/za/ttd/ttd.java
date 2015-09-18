@@ -1,15 +1,19 @@
 package za.ttd;
 
 import com.badlogic.gdx.Game;
+import za.ttd.Interfaces.EndLevelListener;
+import za.ttd.Interfaces.LevelLoadingListener;
 import za.ttd.game.Gamer;
 import za.ttd.level.Level;
 import za.ttd.screens.GameScreen;
+import za.ttd.screens.LoadingScreen;
 import za.ttd.screens.MainMenu;
 import za.ttd.screens.SplashScreen;
 
-public class ttd extends Game implements Level.endGameListener {
+public class ttd extends Game implements EndLevelListener, LevelLoadingListener {
     private Level level;
     private Gamer gamer;
+    private boolean loaded;
 
 	public static final String TITLE = "The Wrath of Thomas the Dentist";
 	public static final int WIDTH = 600, HEIGHT = 800;
@@ -17,17 +21,20 @@ public class ttd extends Game implements Level.endGameListener {
 	@Override
 	public void create() {
 		setScreen(new SplashScreen(this));
+        loaded = false;
 	}
 
     public void newGame(String name) {
-        gamer = new Gamer(name, 0, 1, 3);
-        level = new Level(0, 1, this, 3);
-        setScreen(new GameScreen(this));
+        setScreen(new LoadingScreen(this));
+
+        gamer = new Gamer(name, 0, 1, 2);
+        level = new Level(0, 1, this, 2);
+        level.render();
     }
 
     public void continueGame(String name) {
         //Run method to find the users game data so they can continue from where they left off
-        gamer = new Gamer(name, 0, 1, 3);
+        gamer = new Gamer(name, 0, 1, 2);
         level = new Level(gamer.getHighestLevel(), gamer.getTotScore(), this,  gamer.getLives());
         setScreen(new GameScreen(this));
     }
@@ -41,8 +48,8 @@ public class ttd extends Game implements Level.endGameListener {
     }
 
     @Override
-    public void endGameListener(boolean levelComplete) {
-        if (levelComplete) {
+    public void EndGameListener(boolean levelPassed) {
+        if (levelPassed) {
             gamer.incHighestLevel();
             gamer.setTotScore(level.getTotLevelScore());
             gamer.setLives(level.getLives());
@@ -56,5 +63,11 @@ public class ttd extends Game implements Level.endGameListener {
             //show game OverScreen//
             setScreen(new MainMenu(this));
         }
+    }
+
+    @Override
+    public void LevelLoadingListener(boolean loaded) {
+            if (loaded)
+                setScreen(new GameScreen(this));
     }
 }
