@@ -65,4 +65,8 @@ public abstract class Enemy extends Actor {
         else
             super.movementSpeed = defaultSpeed*1.2f;
     }
+
+    public boolean collided(Position checkPos) {
+        return checkPos.getIntX() == position.getIntX() && checkPos.getIntY() == position.getIntY();
+    }
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import za.ttd.characters.InGameObject;
 
 import java.util.List;
 
@@ -41,17 +42,18 @@ public class CharacterRenderer{
         elapsedTime += Gdx.graphics.getDeltaTime();
 
         for (Renderable curRenderable : renderables) {
+            if (((InGameObject)curRenderable).isAlive()) {
+                float x = curRenderable.getX();
+                float y = curRenderable.getY();
 
-            float x = curRenderable.getX();
-            float y = curRenderable.getY();
+                TextureRegion characterStill = curRenderable.getTexture();
+                Animation characterAnimation = curRenderable.getAnimation();
 
-            TextureRegion characterStill = curRenderable.getTexture();
-            Animation characterAnimation = curRenderable.getAnimation();
-
-            if (characterAnimation == null)
-                batch.draw(characterStill, x * imgScale, (maze.length - y) * imgScale);
-            else {
-                batch.draw(characterAnimation.getKeyFrame(elapsedTime, true), x * imgScale, (maze.length - y) * imgScale);
+                if (characterAnimation == null)
+                    batch.draw(characterStill, x * imgScale, (maze.length - y) * imgScale);
+                else {
+                    batch.draw(characterAnimation.getKeyFrame(elapsedTime, true), x * imgScale, (maze.length - y) * imgScale);
+                }
             }
         }
     }

@@ -15,10 +15,7 @@ import za.ttd.renderers.MazeRenderer;
 import za.ttd.renderers.Renderable;
 import za.ttd.ttd;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -35,7 +32,8 @@ public class Level {
     private Map map;
     private endGameListener endGame;
 
-    private java.util.Map<Position, InGameObject> gameObjects;
+    private java.util.Map<Position, InGameObject> gameItems;
+    private ArrayList<Enemy> enemies;
     private PathFinder pathFinder;
     private int imgScale;
     private MazeRenderer mazeRenderer;
@@ -58,7 +56,8 @@ public class Level {
         this.game = game;
         this.imgScale = 32;
         map = Grid.generateMap(12,4,seed);
-        gameObjects = new HashMap<>();
+        gameItems = new HashMap<>();
+        enemies = new ArrayList<>();
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
         charRenderer = new CharacterRenderer(map.getMap(), imgScale);
 
@@ -84,21 +83,26 @@ public class Level {
     public void render(){
         mazeRenderer.render();
         hudRenderer.render(scoring.getLvlScore(), scoring.getElapsedTime(), game.getLevelNumber());
-        charRenderer.render(getRenderables(gameObjects.values()));
+        charRenderer.render(getRenderables(gameItems.values()));
         update();
     }
 
     private void update() {
         controls.update();
         thomas.setDirection(movement.Move(thomas.getPosition(), thomas.getMovementSpeed(), thomas.getDirection(), controls.getDirection()));
+        thomas.update();
 
-        for (Actor actor : getActors(gameObjects.values())) {
-            if (controls.keyPressed() && actor instanceof Enemy) {
-                actor.setDirection(pathFinder.shortestPathTo(actor.getPosition(), thomas.getPosition()));
-                movement.Move(actor.getPosition(), actor.getMovementSpeed(), actor.getDirection(), Direction.NONE);
+        for (Enemy enemy:enemies) {
+            if (controls.keyPressed() && enemy instanceof Enemy) {
+                enemy.setDirection(pathFinder.shortestPathTo(enemy.getPosition(), thomas.getPosition()));
+                movement.Move(enemy.getPosition(), enemy.getMovementSpeed(), enemy.getDirection(), Direction.NONE);
             }
-            actor.update();
+            enemy.update();
         }
+
+        /*for (Collectible collectible : getItems(gameItems.values())) {
+            collectible.update();
+        }*/
 
         checkVulnerability();
         checkCollisions();
@@ -116,32 +120,32 @@ public class Level {
 
                 if (r == 1 && c == (map.getMap()[0].length / 2)-1) {
                     position.setX(position.getX() + .5f);
-                    gameObjects.put(position, new ToothDecay(position, .07f));
+                    enemies.add(new ToothDecay(position, .07f));
                     ++c;
                 }
                 else if (map.isType(c, r, Map.PATH))
-                    gameObjects.put(position, new Plaque(position));
+                    gameItems.put(position, new Plaque(position));
+
                 if (map.isType(c, r, Map.THOMAS)) {
                     position.setX(position.getX() + .5f);
                     thomas = new Player(position, .07f);
-                    gameObjects.put(position, thomas);
                     ++c;
                 }
                 if (map.isType(c, r, map.BAD_BREATH)) {
-                    gameObjects.put(position, new BadBreath(position, .07f, "BadBreath"));
+                    enemies.add(new BadBreath(position, .07f, "BadBreath"));
                 }
                 if (map.isType(c, r, map.MOUTHWASH)) {
-                        gameObjects.put(position, new Mouthwash(position));
+                        gameItems.put(position, new Mouthwash(position));
                 }
                 if (map.isType(c, r, map.TOOTH_DECAY)) {
                     position.setX(position.getX()+.5f);
-                    gameObjects.put(position, new ToothDecay(position, .07f));
+                    enemies.add(new ToothDecay(position, .07f));
                     ++c;
                     break;
                 }
                 if (map.isType(c, r, map.BRUSH)) {
                     position.setX(position.getX() + .5f);
-                    gameObjects.put(position, new Toothbrush(position));
+                    gameItems.put(position, new Toothbrush(position));
                     ++c;
                 }
             }
@@ -155,86 +159,66 @@ public class Level {
 
         Position position = thomas.getPosition();
 
-        if (gameObjects.get(position) instanceof Plaque) {
-            gameObjects.remove(position);
+        if (gameItems.get(position) instanceof Plaque) {
+            gameItems.remove(position);
             scoring.collectibleFound();
         }
 
-        if (gameObjects.get(position) instanceof Mouthwash) {
-            gameObjects.remove(position);
+        if (gameItems.get(position) instanceof Mouthwash) {
+            gameItems.remove(position);
             scoring.powerUsed();
             powerUp();
         }
 
-        if (gameObjects.get(position) instanceof Toothbrush){
-            gameObjects.remove(position);
+        if (gameItems.get(position) instanceof Toothbrush){
+            gameItems.remove(position);
             toothBrushPower();
         }
 
-        if (gameObjects.get(position) instanceof BadBreath) {
-            BadBreath badBreath = (BadBreath)gameObjects.get(position);
+        for (Enemy enemy:enemies) {
 
-            if (badBreath.getKill()) {
-                gameObjects.remove(position);
-                scoring.killedBadBreath();
-            }
-            else if(scoring.getTotLivesUsed() < lives) {
-                scoring.lifeUsed();
-                reset();
-            }
+            /* Check whether enemies are walking over plaque, if so increase there speed
+            * else set there speed to the normal speed*/
+            if (gameItems.get(enemy.getPosition()) instanceof Plaque)
+                enemy.speedUp();
             else
-                endGame.endGameListener(false);
-        }
+                enemy.normalSpeed();
 
-        if (gameObjects.get(position) instanceof ToothDecay) {
-            ToothDecay toothDecay = (ToothDecay)gameObjects.get(position);
-
-            if (toothDecay.getKill()) {
-                scoring.killedToothDecay();
-                endGame.endGameListener(true);
+            if (enemy.collided(thomas.getPosition())) {
+                if (enemy.getKill()) {
+                    enemy.kill();
+                    if (enemy instanceof BadBreath)
+                        scoring.killedBadBreath();
+                    else {
+                        scoring.killedToothDecay();
+                        endGame.endGameListener(true);
+                    }
+                }
+                else {
+                    if (scoring.getTotLivesUsed() < lives) {
+                        scoring.lifeUsed();
+                        reset();
+                    }
+                    else {
+                        endGame.endGameListener(false);
+                    }
+                }
             }
-            else if(scoring.getTotLivesUsed() < lives) {
-                scoring.lifeUsed();
-                reset();
-            }
-            else
-                endGame.endGameListener(false);
         }
-
-        /*
-        * Check whether enemies are walking over plaque, if so increase there speed
-        * else set there speed to the normal speed*/
-        List<BadBreath> badBreaths = getBadBreath(gameObjects.values());
-        for (BadBreath bad : badBreaths) {
-            if (gameObjects.get(bad.getPosition()) instanceof Plaque) {
-                bad.speedUp();
-            }
-            else
-                bad.normalSpeed();
-        }
-
-        ToothDecay toothDecay = getToothDecay(gameObjects.values());
-        if (gameObjects.get(toothDecay.getPosition()) instanceof Plaque)
-            toothDecay.speedUp();
-        else
-            toothDecay.normalSpeed();
     }
 
     /*
     * Thomas has picked up a minty mouthwash item
     * Hinder the applicable characters*/
     private void toothBrushPower() {
-        for(BadBreath badBreath : getBadBreath(gameObjects.values())) {
-            badBreath.setVulnerable(true);
-            //Change their states so that they protect tooth-decay and try to kill thomas
-            //Do this by making two find the shortest path to tooth decay and circle that area
-            //and the other two work on killing thomas
+        for(Enemy enemy:enemies) {
+            if (enemy instanceof BadBreath)
+                enemy.setVulnerable(true);
+            else {
+                enemy.setVulnerable(true);
+                enemy.setKill(true);
+            }
         }
-
-        ToothDecay toothDecay = getToothDecay(gameObjects.values());
-        toothDecay.setVulnerable(true);
-        toothDecay.setKill(true);
-
     }
 
     /*
@@ -243,26 +227,27 @@ public class Level {
     private void powerUp() {
         startPowerTime = TimeUtils.millis();
 
-        for(BadBreath badBreath : getBadBreath(gameObjects.values())) {
-            badBreath.setVulnerable(true);
-            badBreath.setKill(true);
+        for(Enemy enemy : enemies) {
+            if (enemy instanceof BadBreath) {
+                enemy.setVulnerable(true);
+                enemy.setKill(true);
+            }
+            else
+                enemy.setVulnerable(true);
         }
-
-        ToothDecay toothDecay = getToothDecay(gameObjects.values());
-        toothDecay.setVulnerable(true);
-
     }
 
     /*
     * Time is up for the power used therefore change enemies back to original states*/
     private void powerDown() {
-        for(BadBreath badBreath : getBadBreath(gameObjects.values())) {
-            badBreath.setVulnerable(false);
-            badBreath.setKill(false);
+        for(Enemy enemy:enemies) {
+            if (enemy instanceof BadBreath) {
+                enemy.setVulnerable(false);
+                enemy.setKill(false);
+            }
+            else
+                enemy.setVulnerable(false);
         }
-
-        ToothDecay toothDecay = getToothDecay(gameObjects.values());
-        toothDecay.setVulnerable(false);
     }
 
     private void checkVulnerability() {
@@ -281,43 +266,22 @@ public class Level {
         thomas.reset();
         controls.reset();
 
-        List<BadBreath> badBreaths = getBadBreath(gameObjects.values());
-        for (BadBreath bad : badBreaths) {
-            bad.reset();
+        for (Enemy enemy:enemies) {
+            enemy.reset();
         }
-
-        ToothDecay toothDecay = getToothDecay(gameObjects.values());
-        toothDecay.reset();
     }
 
     public int getTotLevelScore() {
         return scoring.getLvlTotScore();
     }
 
-    private List<BadBreath> getBadBreath(Collection<InGameObject> characters) {
-        List<BadBreath> badBreath = new LinkedList<>();
-        for(InGameObject character: characters) {
-            if(character instanceof BadBreath)
-                badBreath.add((BadBreath)character);
+    private List<Collectible> getItems(Collection<InGameObject> items) {
+        List<Collectible> collectibles = new LinkedList<>();
+        for(InGameObject item: items) {
+            if(item instanceof Collectible)
+                collectibles.add((Collectible)item);
         }
-        return badBreath;
-    }
-
-    private ToothDecay getToothDecay(Collection<InGameObject> characters) {
-        for(InGameObject character:characters)
-            if (character instanceof ToothDecay)
-                return (ToothDecay)character;
-
-        return null;
-    }
-
-    private List<Actor> getActors(Collection<InGameObject> characters) {
-        List<Actor> actors = new LinkedList<>();
-        for(InGameObject character: characters) {
-            if(character instanceof Actor)
-                actors.add((Actor)character);
-        }
-        return actors;
+        return collectibles;
     }
 
     private List<Renderable> getRenderables(Collection<InGameObject> characters) {
@@ -327,6 +291,12 @@ public class Level {
                 renderables.add((Renderable)character);
             }
         }
+
+        for (Enemy enemy:enemies)
+            renderables.add(enemy);
+
+        renderables.add(thomas);
+
         return renderables;
     }
 }

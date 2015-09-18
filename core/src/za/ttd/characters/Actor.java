@@ -121,5 +121,6 @@ public abstract class Actor extends InGameObject implements Renderable {
         position.setY(defaultY);
         currentAnimation = null;
         direction = Direction.NONE;
+        alive = true;
     }
 }
