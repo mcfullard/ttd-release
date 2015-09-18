@@ -3,11 +3,6 @@ package za.ttd.characters;
 import za.ttd.characters.objects.Position;
 
 public abstract class Enemy extends Actor {
-    //"Ghost" states- fairly self-explanatory
-    static final int AGGRESSIVE = 2;
-    static final int PASSIVE = 3;
-    static final int RETREAT = 4;
-
     protected float defaultSpeed;
     protected boolean vulnerable, kill;
 
