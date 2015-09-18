@@ -51,6 +51,9 @@ public class ttd extends Game implements Level.endGameListener {
         }
         else {
             //level = new Level(gamer.getHighestLevel(), gamer.getTotScore(), this, gamer.getLives());
+
+            //add stats to db//
+            //show game OverScreen//
             setScreen(new MainMenu(this));
         }
     }
