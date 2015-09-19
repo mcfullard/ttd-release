@@ -89,7 +89,7 @@ public class Level {
         thomas.update();
 
         for (Enemy enemy:enemies) {
-            if (controls.keyPressed() && enemy instanceof Enemy) {
+            if (controls.keyPressed()) {
                 enemy.setDirection(pathFinder.shortestPathTo(enemy.getPosition(), thomas.getPosition()));
                 movement.Move(enemy.getPosition(), enemy.getMovementSpeed(), enemy.getDirection(), Direction.NONE);
             }
