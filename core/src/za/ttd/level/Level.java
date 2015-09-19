@@ -1,8 +1,8 @@
 package za.ttd.level;
 
 import com.badlogic.gdx.utils.TimeUtils;
-import za.ttd.Interfaces.EndLevelListener;
-import za.ttd.Interfaces.LevelLoadingListener;
+import za.ttd.interfaces.EndLevelListener;
+import za.ttd.interfaces.LevelLoadingListener;
 import za.ttd.characters.*;
 import za.ttd.characters.objects.Direction;
 import za.ttd.characters.objects.Movement;
@@ -189,7 +189,7 @@ public class Level {
                         scoring.killedBadBreath();
                     else {
                         scoring.killedToothDecay();
-                        endLevelListener.EndGameListener(true);
+                        endLevelListener.EndLevelListener(true);
                     }
                 }
                 else {
@@ -198,7 +198,7 @@ public class Level {
                         reset();
                     }
                     else {
-                        endLevelListener.EndGameListener(false);
+                        endLevelListener.EndLevelListener(false);
                     }
                 }
             }
