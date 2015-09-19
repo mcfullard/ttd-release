@@ -3,7 +3,6 @@ package za.ttd.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.*;
-import za.ttd.Interfaces.LevelLoadingListener;
 import za.ttd.ttd;
 
 public class LoadingScreen extends AbstractScreen {
