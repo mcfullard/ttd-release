@@ -1,5 +1,6 @@
 package za.ttd.characters.objects;
 
+import za.ttd.characters.Actor;
 import za.ttd.mapgen.Map;
 
 public class Movement {
@@ -15,10 +16,11 @@ public class Movement {
         moving = false;
     }
 
-    public Direction Move(Position position, float speed, Direction curDirection, Direction nextDirection) {
-        this.position = position;
-        this.speed = speed;
+    public Direction move(Actor actor, Direction nextDirection) {
+        this.position = actor.getPosition();
+        this.speed = actor.getMovementSpeed();
         this.nextDirection = nextDirection;
+        Direction curDirection = actor.getDirection();
 
         switch (nextDirection) {
             case UP:

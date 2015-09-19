@@ -85,13 +85,13 @@ public class Level {
 
     private void update() {
         controls.processKeys();
-        thomas.setDirection(movement.Move(thomas.getPosition(), thomas.getMovementSpeed(), thomas.getDirection(), controls.getDirection()));
+        thomas.setDirection(movement.move(thomas, controls.getDirection()));
         thomas.update();
 
         for (Enemy enemy:enemies) {
             if (controls.keyPressed()) {
                 enemy.setDirection(pathFinder.shortestPathTo(enemy.getPosition(), thomas.getPosition()));
-                movement.Move(enemy.getPosition(), enemy.getMovementSpeed(), enemy.getDirection(), Direction.NONE);
+                movement.move(enemy, Direction.NONE);
             }
             enemy.update();
         }
