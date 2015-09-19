@@ -149,21 +149,21 @@ public class Level {
     * Depending on who or what he collides with, do the related methods*/
     private void checkCollisions() {
 
-        Position position = thomas.getPosition();
+        Position thomPos = thomas.getPosition();
 
-        if (gameItems.get(position) instanceof Plaque) {
-            gameItems.remove(position);
+        if (gameItems.get(thomPos) instanceof Plaque) {
+            gameItems.remove(thomPos);
             scoring.collectibleFound();
         }
 
-        if (gameItems.get(position) instanceof Mouthwash) {
-            gameItems.remove(position);
+        if (gameItems.get(thomPos) instanceof Mouthwash) {
+            gameItems.remove(thomPos);
             scoring.powerUsed();
             powerUp();
         }
 
-        if (gameItems.get(position) instanceof Toothbrush){
-            gameItems.remove(position);
+        if (gameItems.get(thomPos) instanceof Toothbrush){
+            gameItems.remove(thomPos);
             toothBrushPower();
         }
 
