@@ -99,4 +99,10 @@ public class Position {
         RandomEnum<Direction> randomDirection = new RandomEnum<Direction>(Direction.class, new Random());
         return randomDirection.random();
     }
+
+    public float getDistanceTo(Position destination) {
+        float changeX = destination.x - this.x;
+        float changeY = destination.y - this.y;
+        return (float)Math.sqrt(Math.pow(changeX, 2) + Math.pow(changeY, 2));
+    }
 }
