@@ -52,7 +52,6 @@ public class MainMenu extends AbstractScreen {
         buttonNewGame.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //game.setScreen(new GameScreen(game));
                 game.newGame("Bas");
             }
         });

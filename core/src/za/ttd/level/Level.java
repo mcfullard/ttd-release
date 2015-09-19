@@ -1,6 +1,8 @@
 package za.ttd.level;
 
 import com.badlogic.gdx.utils.TimeUtils;
+import za.ttd.gameInterfaces.EndLevelListener;
+import za.ttd.gameInterfaces.LevelLoadingListener;
 import za.ttd.characters.*;
 import za.ttd.characters.objects.Direction;
 import za.ttd.characters.objects.Movement;
@@ -24,22 +26,11 @@ import java.util.*;
  * @author minnaar
  * @since 2015/08/17.
  */
-public class Level implements Controls.startLevelListener {
-    @Override
-    public void startLevel(boolean status) {
-        if (status)
-            beginLevel = true;
-        else
-            beginLevel = false;
-
-    }
-
-    public interface endGameListener {
-        void endGameListener(boolean status);
-    }
-
+public class Level {
     private Map map;
-    private endGameListener endGameListener;
+
+    private EndLevelListener endLevelListener;
+    private LevelLoadingListener levelLoadingListener;
 
     private java.util.Map<Position, InGameObject> gameItems;
     private ArrayList<Enemy> enemies;
@@ -54,7 +45,6 @@ public class Level implements Controls.startLevelListener {
     private final long powerTime = 15;
     private long startPowerTime;
     private int lives;
-    private boolean beginLevel;
 
     private Movement movement;
     private Controls controls;
@@ -62,8 +52,7 @@ public class Level implements Controls.startLevelListener {
 
     public Level(long seed, int totScore, ttd game, int lives) {
         this.game = game;
-        endGameListener =  game;
-
+        levelLoadingListener = game;
         this.imgScale = 32;
         map = Grid.generateMap(12,4,seed);
         gameItems = new HashMap<>();
@@ -78,7 +67,8 @@ public class Level implements Controls.startLevelListener {
 
         scoring = new ScoringSystem(totScore);
         hudRenderer = new HudRenderer();
-        controls = new Controls(scoring);
+        controls = new Controls();
+        endLevelListener = game;
     }
 
     public int getLives() {
@@ -86,24 +76,22 @@ public class Level implements Controls.startLevelListener {
     }
 
     public void render(){
-
         mazeRenderer.render();
         hudRenderer.render(scoring.getLvlScore(), scoring.getElapsedTime(), game.getLevelNumber());
         charRenderer.render(getRenderables(gameItems.values()));
-        controls.update();
-
-        if (beginLevel)
-            update();
+        levelLoadingListener.LevelLoadingListener(true);
+        update();
     }
 
     private void update() {
-        thomas.setDirection(movement.Move(thomas.getPosition(), thomas.getMovementSpeed(), thomas.getDirection(), controls.getDirection()));
+        controls.processKeys();
+        thomas.setDirection(movement.move(thomas, controls.getDirection()));
         thomas.update();
 
         for (Enemy enemy:enemies) {
-            if (controls.keyPressed() && enemy instanceof Enemy) {
+            if (controls.keyPressed()) {
                 enemy.setDirection(pathFinder.shortestPathTo(enemy.getPosition(), thomas.getPosition()));
-                movement.Move(enemy.getPosition(), enemy.getMovementSpeed(), enemy.getDirection(), Direction.NONE);
+                movement.move(enemy, Direction.NONE);
             }
             enemy.update();
         }
@@ -189,13 +177,13 @@ public class Level implements Controls.startLevelListener {
                 enemy.normalSpeed();
 
             if (enemy.collided(thomas.getPosition())) {
-                if (enemy.getKill()) {
+                if (enemy.getKillable()) {
                     enemy.kill();
                     if (enemy instanceof BadBreath)
                         scoring.killedBadBreath();
                     else {
                         scoring.killedToothDecay();
-                        endGameListener.endGameListener(true);
+                        endLevelListener.EndLevelListener(true);
                     }
                 }
                 else {
@@ -204,7 +192,7 @@ public class Level implements Controls.startLevelListener {
                         reset();
                     }
                     else {
-                        endGameListener.endGameListener(false);
+                        endLevelListener.EndLevelListener(false);
                     }
                 }
             }
@@ -216,12 +204,9 @@ public class Level implements Controls.startLevelListener {
     * Hinder the applicable characters*/
     private void toothBrushPower() {
         for(Enemy enemy:enemies) {
-            if (enemy instanceof BadBreath)
-                enemy.setVulnerable(true);
-            else {
-                enemy.setVulnerable(true);
-                enemy.setKill(true);
-            }
+            if (enemy instanceof ToothDecay)
+                enemy.setKillable(true);
+            enemy.setVulnerable(true);
         }
     }
 
@@ -234,7 +219,7 @@ public class Level implements Controls.startLevelListener {
         for(Enemy enemy : enemies) {
             if (enemy instanceof BadBreath) {
                 enemy.setVulnerable(true);
-                enemy.setKill(true);
+                enemy.setKillable(true);
             }
             else
                 enemy.setVulnerable(true);
@@ -247,7 +232,7 @@ public class Level implements Controls.startLevelListener {
         for(Enemy enemy:enemies) {
             if (enemy instanceof BadBreath) {
                 enemy.setVulnerable(false);
-                enemy.setKill(false);
+                enemy.setKillable(false);
             }
             else
                 enemy.setVulnerable(false);
@@ -277,15 +262,6 @@ public class Level implements Controls.startLevelListener {
 
     public int getTotLevelScore() {
         return scoring.getLvlTotScore();
-    }
-
-    private List<Collectible> getItems(Collection<InGameObject> items) {
-        List<Collectible> collectibles = new LinkedList<>();
-        for(InGameObject item: items) {
-            if(item instanceof Collectible)
-                collectibles.add((Collectible)item);
-        }
-        return collectibles;
     }
 
     private List<Renderable> getRenderables(Collection<InGameObject> characters) {

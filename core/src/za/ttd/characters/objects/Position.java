@@ -28,6 +28,8 @@ public class Position {
     public int getChangedCeilX(float change) {return (int)Math.ceil(x + change);}
     public int getCeilY() {return (int)Math.ceil(y);}
     public int getChangedCeilY(float change) {return (int)Math.ceil(y + change);}
+    public int getChangedRoundX(float change) {return Math.round(x + change);}
+    public int getChangedRoundY(float change) {return Math.round(y + change);}
     public float getX() {return x;}
     public float getY() {return y;}
     public void setX(float x) {this.x = x;}
@@ -96,5 +98,11 @@ public class Position {
         // if both axes have change
         RandomEnum<Direction> randomDirection = new RandomEnum<Direction>(Direction.class, new Random());
         return randomDirection.random();
+    }
+
+    public float getDistanceTo(Position destination) {
+        float changeX = destination.x - this.x;
+        float changeY = destination.y - this.y;
+        return (float)Math.sqrt(Math.pow(changeX, 2) + Math.pow(changeY, 2));
     }
 }

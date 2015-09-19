@@ -18,13 +18,9 @@ public class Controls {
         startLevel = listener;
     }
 
-    public void update() {
-        processKeys();
-    }
-
     /*
     * Get input from user*/
-    private void processKeys() {
+    public void processKeys() {
         if(Gdx.input.isKeyPressed(Input.Keys.UP))
             direction = Direction.UP;
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
