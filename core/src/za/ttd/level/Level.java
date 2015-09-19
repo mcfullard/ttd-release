@@ -1,8 +1,8 @@
 package za.ttd.level;
 
 import com.badlogic.gdx.utils.TimeUtils;
-import za.ttd.interfaces.EndLevelListener;
-import za.ttd.interfaces.LevelLoadingListener;
+import za.ttd.gameInterfaces.EndLevelListener;
+import za.ttd.gameInterfaces.LevelLoadingListener;
 import za.ttd.characters.*;
 import za.ttd.characters.objects.Direction;
 import za.ttd.characters.objects.Movement;
@@ -47,9 +47,7 @@ public class Level {
     private int lives;
 
     private Movement movement;
-
     private Controls controls;
-
     private ttd game;
 
     public Level(long seed, int totScore, ttd game, int lives) {
@@ -71,10 +69,6 @@ public class Level {
         hudRenderer = new HudRenderer();
         controls = new Controls();
         endLevelListener = game;
-    }
-
-    private void pause() {
-
     }
 
     public int getLives() {
@@ -268,15 +262,6 @@ public class Level {
 
     public int getTotLevelScore() {
         return scoring.getLvlTotScore();
-    }
-
-    private List<Collectible> getItems(Collection<InGameObject> items) {
-        List<Collectible> collectibles = new LinkedList<>();
-        for(InGameObject item: items) {
-            if(item instanceof Collectible)
-                collectibles.add((Collectible)item);
-        }
-        return collectibles;
     }
 
     private List<Renderable> getRenderables(Collection<InGameObject> characters) {

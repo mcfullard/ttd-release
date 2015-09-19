@@ -1,9 +1,9 @@
 package za.ttd;
 
 import com.badlogic.gdx.Game;
-import za.ttd.Interfaces.EndLevelListener;
-import za.ttd.Interfaces.LevelLoadingListener;
 import za.ttd.game.Gamer;
+import za.ttd.gameInterfaces.EndLevelListener;
+import za.ttd.gameInterfaces.LevelLoadingListener;
 import za.ttd.level.Level;
 import za.ttd.screens.GameScreen;
 import za.ttd.screens.LoadingScreen;
@@ -26,7 +26,6 @@ public class ttd extends Game implements EndLevelListener, LevelLoadingListener 
 
     public void newGame(String name) {
         setScreen(new LoadingScreen(this));
-
         gamer = new Gamer(name, 0, 1, 2);
         level = new Level(0, 1, this, 2);
         level.render();
@@ -48,7 +47,13 @@ public class ttd extends Game implements EndLevelListener, LevelLoadingListener 
     }
 
     @Override
-    public void EndGameListener(boolean levelPassed) {
+    public void LevelLoadingListener(boolean loaded) {
+            if (loaded)
+                setScreen(new GameScreen(this));
+    }
+
+    @Override
+    public void EndLevelListener(boolean levelPassed) {
         if (levelPassed) {
             gamer.incHighestLevel();
             gamer.setTotScore(level.getTotLevelScore());
@@ -63,11 +68,5 @@ public class ttd extends Game implements EndLevelListener, LevelLoadingListener 
             //show game OverScreen//
             setScreen(new MainMenu(this));
         }
-    }
-
-    @Override
-    public void LevelLoadingListener(boolean loaded) {
-            if (loaded)
-                setScreen(new GameScreen(this));
     }
 }
