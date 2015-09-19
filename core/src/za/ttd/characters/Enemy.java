@@ -62,6 +62,6 @@ public abstract class Enemy extends Actor {
     }
 
     public boolean collided(Position checkPos) {
-        return checkPos.getIntX() == position.getIntX() && checkPos.getIntY() == position.getIntY();
+        return position.compareBase(checkPos);
     }
 }
