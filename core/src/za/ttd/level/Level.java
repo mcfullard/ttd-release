@@ -84,7 +84,7 @@ public class Level {
     }
 
     private void update() {
-        controls.update();
+        controls.processKeys();
         thomas.setDirection(movement.Move(thomas.getPosition(), thomas.getMovementSpeed(), thomas.getDirection(), controls.getDirection()));
         thomas.update();
 
