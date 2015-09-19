@@ -13,9 +13,9 @@ public class Controls {
     Direction direction;
     public startLevelListener startLevel;
 
-    public Controls(startLevelListener listener) {
+    public Controls() {
         direction = Direction.NONE;
-        startLevel = listener;
+        //startLevel = listener;
     }
 
     /*
@@ -30,10 +30,10 @@ public class Controls {
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
             direction = Direction.RIGHT;
 
-        if (direction == Direction.NONE)
+        /*if (direction == Direction.NONE)
             startLevel.startLevel(false);
         else
-            startLevel.startLevel(true);
+            startLevel.startLevel(true);*/
     }
 
     public boolean keyPressed() {
