@@ -1,6 +1,7 @@
 package za.ttd.characters.states;
 
 import com.badlogic.gdx.ai.fsm.State;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import za.ttd.characters.ToothDecay;
 
@@ -32,6 +33,7 @@ public enum ToothDecayState implements State<ToothDecay> {
         @Override
         public void enter(ToothDecay toothDecay) {
             toothDecay.die();
+            MessageManager.getInstance().dispatchMessage(toothDecay, MessageType.TOOTHDECAY_DEAD);
         }
     }
     ;
