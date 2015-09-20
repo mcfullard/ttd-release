@@ -31,12 +31,16 @@ public abstract class Enemy extends Actor {
 
     /*
     * Make object to vulnerable or no longer vulnerable,
-    * make it move slower/or revive to original speed,
-    * being allows tomas to killable it*/
+    * allows thomas to kill it*/
     public void setVulnerable(boolean vulnerable) {
         this.vulnerable = vulnerable;
 
-        //Play different animations using if statement to check
+        if (vulnerable) {
+            //Change to vulnerable animation set
+        }
+        else {
+            //Change to normal animation set
+        }
     }
     /*
     * @return the current state of enemies vulnerability*/

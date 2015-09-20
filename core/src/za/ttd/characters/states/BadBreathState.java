@@ -20,7 +20,7 @@ public enum BadBreathState implements State<BadBreath> {
         public void update(BadBreath badBreath) {
             super.update(badBreath);
 
-            if (badBreath.getNumberChasing() >= 2) {
+            if (BadBreath.getNumberChasing() >= 2) {
                 badBreath.getBadBreathStateMachine().changeState(DECEIVE);
             }
         }
