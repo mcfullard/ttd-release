@@ -1,8 +1,12 @@
 package za.ttd.game;
 
+import com.badlogic.gdx.ai.msg.MessageManager;
+import com.badlogic.gdx.ai.msg.Telegram;
+import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.utils.TimeUtils;
+import za.ttd.characters.states.MessageType;
 
-public class Gamer {
+public class Gamer implements Telegraph {
 
     private String name;
     private int totScore, highestLevel;
@@ -60,6 +64,27 @@ public class Gamer {
 
     public void setLives(int lives) {
         this.lives = lives;
+    }
+
+    @Override
+    public boolean handleMessage(Telegram msg) {
+        switch(msg.message) {
+            case MessageType.THOMAS_LOSES_LIFE:
+                if(getLives() > 0) {
+                    scoring.lifeUsed();
+                    MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_RESET);
+                } else {
+                    MessageManager.getInstance().dispatchMessage(this, MessageType.THOMAS_DEAD);
+                }
+                return true;
+            case MessageType.BADBREATH_DEAD:
+                scoring.killedBadBreath();
+                break;
+            case MessageType.TOOTHDECAY_DEAD:
+                scoring.killedToothDecay();
+                break;
+        }
+        return false;
     }
 
     public class ScoringSystem {
