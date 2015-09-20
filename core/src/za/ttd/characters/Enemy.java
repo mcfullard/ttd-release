@@ -89,7 +89,7 @@ public abstract class Enemy extends Actor {
     @Override
     public boolean handleMessage(Telegram msg) {
         switch(msg.message){
-            case MessageType.BROADCAST_THOMAS:
+            case MessageType.SEND_THOMAS:
                 if(msg.extraInfo != null)
                     thomas = (Player) msg.extraInfo;
                 return true;

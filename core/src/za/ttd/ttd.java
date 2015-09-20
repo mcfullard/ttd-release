@@ -31,9 +31,9 @@ public class ttd extends Game
         gamer = new Gamer(name, 0, 1, 2);
         level = new Level(this, gamer);
         MessageManager.getInstance().addProviders(level,
-                MessageType.BROADCAST_THOMAS,
-                MessageType.BROADCAST_ITEMS,
-                MessageType.BROADCAST_ENEMIES);
+                MessageType.SEND_THOMAS,
+                MessageType.SEND_ITEMS,
+                MessageType.SEND_ENEMIES);
         MessageManager.getInstance().addListeners(gamer,
                 MessageType.THOMAS_LOSES_LIFE,
                 MessageType.BADBREATH_DEAD,
@@ -46,9 +46,9 @@ public class ttd extends Game
         gamer = new Gamer(name, 0, 1, 2);
         level = new Level(this, gamer);
         MessageManager.getInstance().addProviders(level,
-                MessageType.BROADCAST_THOMAS,
-                MessageType.BROADCAST_ITEMS,
-                MessageType.BROADCAST_ENEMIES);
+                MessageType.SEND_THOMAS,
+                MessageType.SEND_ITEMS,
+                MessageType.SEND_ENEMIES);
         MessageManager.getInstance().addListeners(gamer,
                 MessageType.THOMAS_LOSES_LIFE,
                 MessageType.BADBREATH_DEAD,

@@ -115,12 +115,12 @@ public class Level
                 if (map.isType(c, r, Map.THOMAS)) {
                     position.setX(position.getX() + .5f);
                     thomas = new Player(position, .07f);
+                    MessageManager.getInstance().addListener(thomas,
+                            MessageType.SEND_ITEMS);
                     ++c;
                 }
                 if (map.isType(c, r, Map.BAD_BREATH)) {
                     Enemy badBreath = new BadBreath(position, .07f, "BadBreath");
-                    MessageManager.getInstance().addListener(badBreath,
-                            MessageType.BROADCAST_ENEMIES);
                     enemies.add(badBreath);
                 }
                 if (map.isType(c, r, Map.MOUTHWASH)) {
@@ -142,8 +142,8 @@ public class Level
 
         for(Enemy enemy : enemies) {
             MessageManager.getInstance().addListeners(enemy,
-                    MessageType.BROADCAST_ITEMS,
-                    MessageType.BROADCAST_THOMAS,
+                    MessageType.SEND_ITEMS,
+                    MessageType.SEND_THOMAS,
                     MessageType.TOOTHBRUSH_COLLECTED,
                     MessageType.MOUTHWASH_COLLECTED,
                     MessageType.MOUTHWASH_EXPIRED
@@ -247,17 +247,17 @@ public class Level
     @Override
     public Object provideMessageInfo(int msg, Telegraph receiver) {
         switch (msg) {
-            case MessageType.BROADCAST_ITEMS:
+            case MessageType.SEND_ITEMS:
                 if(receiver instanceof Actor) {
                     return gameItems;
                 }
                 break;
-            case MessageType.BROADCAST_THOMAS:
+            case MessageType.SEND_THOMAS:
                 if(receiver instanceof Enemy) {
                     return thomas;
                 }
                 break;
-            case MessageType.BROADCAST_ENEMIES:
+            case MessageType.SEND_ENEMIES:
                 if(receiver instanceof BadBreath) {
                     return enemies;
                 }
