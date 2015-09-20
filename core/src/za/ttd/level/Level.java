@@ -49,9 +49,11 @@ public class Level
     public Level(Player player) {
         this.player = player;
         this.imgScale = 32;
+
         map = Grid.generateMap(12, 4, player.getHighestLevel());
         gameItems = new HashMap<>();
         enemies = new ArrayList<>();
+
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
         charRenderer = new CharacterRenderer(map.getMap(), imgScale);
 

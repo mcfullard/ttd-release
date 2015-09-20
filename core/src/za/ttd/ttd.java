@@ -29,7 +29,7 @@ public class ttd extends Game
     public void newGame(String name) {
         setScreen(new LoadingScreen(this));
         player = new Player(name, 0, 1, 2);
-        level = new Level(this, player);
+        level = new Level(player);
         MessageManager.getInstance().addProviders(level,
                 MessageType.SEND_PATHFINDER,
                 MessageType.SEND_THOMAS,
@@ -45,7 +45,7 @@ public class ttd extends Game
     public void continueGame(String name) {
         //Run method to find the users game data so they can continue from where they left off
         player = new Player(name, 0, 1, 2);
-        level = new Level(this, player);
+        level = new Level(player);
         MessageManager.getInstance().addProviders(level,
                 MessageType.SEND_PATHFINDER,
                 MessageType.SEND_THOMAS,
@@ -70,7 +70,7 @@ public class ttd extends Game
                 return true;
             case MessageType.TOOTHDECAY_DEAD:
                 player.incHighestLevel();
-                level = new Level(this, player);
+                level = new Level(player);
                 setScreen(new GameScreen(this));
                 return true;
             case MessageType.LEVEL_LOADED:
