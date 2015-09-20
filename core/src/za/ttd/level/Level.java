@@ -1,5 +1,6 @@
 package za.ttd.level;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.TelegramProvider;
@@ -59,10 +60,19 @@ public class Level
 
         movement = new Movement(map);
         pathFinder = new PathFinder(map);
+        registerSelfAsProvider();
         initGameObjects();
 
         hudRenderer = new HudRenderer();
         controls = new Controls();
+    }
+
+    private void registerSelfAsProvider() {
+        MessageManager.getInstance().addProviders(this,
+                MessageType.SEND_PATHFINDER,
+                MessageType.SEND_THOMAS,
+                MessageType.SEND_ITEMS,
+                MessageType.SEND_TOOTHDECAY);
     }
 
     public void render(){
@@ -73,6 +83,7 @@ public class Level
     }
 
     private void update() {
+        MessageManager.getInstance().update(Gdx.graphics.getDeltaTime());
         controls.processKeys();
         thomas.setDirection(movement.move(thomas, controls.getDirection()));
         thomas.update();
@@ -133,6 +144,7 @@ public class Level
 
         for(Enemy enemy : enemies) {
             MessageManager.getInstance().addListeners(enemy,
+                    MessageType.SEND_PATHFINDER,
                     MessageType.SEND_ITEMS,
                     MessageType.SEND_THOMAS,
                     MessageType.TOOTHBRUSH_COLLECTED,

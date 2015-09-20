@@ -19,6 +19,14 @@ public class Player implements Telegraph {
         this.highestLevel = highestLevel;
         this.lives = lives;
         this.scoring = new ScoringSystem();
+        registerSelfAsListener();
+    }
+
+    private void registerSelfAsListener() {
+        MessageManager.getInstance().addListeners(this,
+                MessageType.THOMAS_LOSES_LIFE,
+                MessageType.BADBREATH_DEAD,
+                MessageType.TOOTHDECAY_DEAD);
     }
 
     public int getTotScore() {

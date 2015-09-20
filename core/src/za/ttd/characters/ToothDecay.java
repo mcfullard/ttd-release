@@ -2,7 +2,9 @@ package za.ttd.characters;
 
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
+import com.badlogic.gdx.ai.msg.Telegram;
 import za.ttd.characters.objects.Position;
+import za.ttd.characters.states.MessageType;
 import za.ttd.characters.states.ToothDecayState;
 
 public class ToothDecay extends Enemy {
@@ -38,4 +40,14 @@ public class ToothDecay extends Enemy {
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+    @Override
+    public boolean handleMessage(Telegram msg) {
+        boolean result = false;
+        if(msg.message == MessageType.TOOTHBRUSH_COLLECTED) {
+            toothDecayStateMachine.handleMessage(msg);
+            result = true;
+        }
+        return super.handleMessage(msg) && result;
+    }
 }
