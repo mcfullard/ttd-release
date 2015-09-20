@@ -1,7 +1,6 @@
 package za.ttd;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import za.ttd.characters.states.MessageType;
@@ -30,15 +29,6 @@ public class ttd extends Game
         setScreen(new LoadingScreen(this));
         player = new Player(name, 0, 1, 2);
         level = new Level(player);
-        MessageManager.getInstance().addProviders(level,
-                MessageType.SEND_PATHFINDER,
-                MessageType.SEND_THOMAS,
-                MessageType.SEND_ITEMS,
-                MessageType.SEND_TOOTHDECAY);
-        MessageManager.getInstance().addListeners(player,
-                MessageType.THOMAS_LOSES_LIFE,
-                MessageType.BADBREATH_DEAD,
-                MessageType.TOOTHDECAY_DEAD);
         level.render();
     }
 
@@ -46,15 +36,6 @@ public class ttd extends Game
         //Run method to find the users game data so they can continue from where they left off
         player = new Player(name, 0, 1, 2);
         level = new Level(player);
-        MessageManager.getInstance().addProviders(level,
-                MessageType.SEND_PATHFINDER,
-                MessageType.SEND_THOMAS,
-                MessageType.SEND_ITEMS,
-                MessageType.SEND_TOOTHDECAY);
-        MessageManager.getInstance().addListeners(player,
-                MessageType.THOMAS_LOSES_LIFE,
-                MessageType.BADBREATH_DEAD,
-                MessageType.TOOTHDECAY_DEAD);
         setScreen(new GameScreen(this));
     }
 
