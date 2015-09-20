@@ -179,7 +179,6 @@ public class Level implements TelegramProvider {
         }
 
         for (Enemy enemy:enemies) {
-
             /* Check whether enemies are walking over plaque, if so increase there speed
             * else set there speed to the normal speed*/
             if (gameItems.get(enemy.getPosition()) instanceof Plaque)

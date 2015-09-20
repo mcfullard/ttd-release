@@ -95,6 +95,10 @@ public abstract class Actor extends InGameObject
         return position.getIntY();
     }
 
+    public Map<Position, InGameObject> getGameItems() {
+        return gameItems;
+    }
+
     @Override
     public TextureRegion getTexture() {
         return stillTexture;
