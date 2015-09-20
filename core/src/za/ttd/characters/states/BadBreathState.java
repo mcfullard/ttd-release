@@ -44,6 +44,7 @@ public enum BadBreathState implements State<BadBreath> {
     DECEIVE {
         @Override
         public void update(BadBreath badBreath) {
+            super.update(badBreath);
             badBreath.deceive();
         }
 
@@ -66,6 +67,7 @@ public enum BadBreathState implements State<BadBreath> {
     DEFEND {
         @Override
         public void update(BadBreath badBreath) {
+            super.update(badBreath);
             badBreath.defend();
         }
 
