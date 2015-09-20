@@ -89,14 +89,9 @@ public abstract class Enemy extends Actor {
                     thomas = (Thomas) msg.extraInfo;
                 result = true;
                 break;
-            case MessageType.TOOTHBRUSH_COLLECTED:
-                result = true;
-                break;
             case MessageType.MOUTHWASH_COLLECTED:
-                result = true;
-                break;
             case MessageType.MOUTHWASH_EXPIRED:
-                result = true;
+                result = speedStateMachine.handleMessage(msg);
                 break;
         }
         return super.handleMessage(msg) && result;
