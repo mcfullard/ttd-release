@@ -1,13 +1,12 @@
 package za.ttd.level;
 
 import com.badlogic.gdx.ai.msg.MessageManager;
+import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.TelegramProvider;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.utils.TimeUtils;
 import za.ttd.characters.states.MessageType;
 import za.ttd.game.Gamer;
-import za.ttd.gameInterfaces.EndLevelListener;
-import za.ttd.gameInterfaces.LevelLoadingListener;
 import za.ttd.characters.*;
 import za.ttd.characters.objects.Direction;
 import za.ttd.characters.objects.Movement;
@@ -31,11 +30,10 @@ import java.util.*;
  * @author minnaar
  * @since 2015/08/17.
  */
-public class Level implements TelegramProvider {
+public class Level
+        implements TelegramProvider, Telegraph
+{
     private Map map;
-
-    private EndLevelListener endLevelListener;
-    private LevelLoadingListener levelLoadingListener;
 
     private java.util.Map<Position, InGameObject> gameItems;
     private ArrayList<Enemy> enemies;
@@ -56,8 +54,6 @@ public class Level implements TelegramProvider {
     public Level(ttd game, Gamer gamer) {
         this.game = game;
         this.gamer = gamer;
-
-        levelLoadingListener = game;
         this.imgScale = 32;
         map = Grid.generateMap(12, 4, gamer.getHighestLevel());
         gameItems = new HashMap<>();
@@ -71,14 +67,13 @@ public class Level implements TelegramProvider {
 
         hudRenderer = new HudRenderer();
         controls = new Controls();
-        endLevelListener = game;
     }
 
     public void render(){
         mazeRenderer.render();
         hudRenderer.render(gamer);
         charRenderer.render(getRenderables(gameItems.values()));
-        levelLoadingListener.LevelLoadingListener(true);
+        MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_LOADING);
         update();
     }
 
@@ -178,36 +173,10 @@ public class Level implements TelegramProvider {
             toothBrushPower();
         }
 
-        for (Enemy enemy:enemies) {
-
-            /* Check whether enemies are walking over plaque, if so increase there speed
-            * else set there speed to the normal speed*/
-            if (gameItems.get(enemy.getPosition()) instanceof Plaque)
-                enemy.speedUp();
-            else
-                enemy.normalSpeed();
-
-            if (enemy.collided(thomas.getPosition())) {
-                if (enemy.getKillable()) {
+        for (Enemy enemy:enemies)
+            if (enemy.collided(thomas.getPosition()))
+                if (enemy.getKillable())
                     enemy.kill();
-                    if (enemy instanceof BadBreath)
-                        gamer.scoring.killedBadBreath();
-                    else {
-                        gamer.scoring.killedToothDecay();
-                        endLevelListener.EndLevelListener(true);
-                    }
-                }
-                else {
-                    if (gamer.getLives() > 0 ) {
-                        gamer.scoring.lifeUsed();
-                        reset();
-                    }
-                    else {
-                        endLevelListener.EndLevelListener(false);
-                    }
-                }
-            }
-        }
     }
 
     /*
@@ -287,7 +256,23 @@ public class Level implements TelegramProvider {
                 if(receiver instanceof Enemy) {
                     return thomas;
                 }
+                break;
+            case MessageType.BROADCAST_ENEMIES:
+                if(receiver instanceof BadBreath) {
+                    return enemies;
+                }
+                break;
         }
         return null;
+    }
+
+    @Override
+    public boolean handleMessage(Telegram msg) {
+        switch (msg.message) {
+            case MessageType.LEVEL_RESET:
+                reset();
+                break;
+        }
+        return false;
     }
 }
