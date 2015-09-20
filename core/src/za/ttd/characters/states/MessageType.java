@@ -18,4 +18,5 @@ public class MessageType {
     public static final int BADBREATH_DEAD = 10;
     public static final int THOMAS_LOSES_LIFE = 11;
     public static final int LEVEL_RESET = 12;
+    public static final int SEND_PATHFINDER = 13;
 }
