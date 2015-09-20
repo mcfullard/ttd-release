@@ -2,13 +2,21 @@ package za.ttd.characters;
 
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
+import com.badlogic.gdx.ai.msg.Telegram;
 import za.ttd.characters.objects.Position;
 import za.ttd.characters.states.BadBreathState;
+import za.ttd.characters.states.MessageType;
+import za.ttd.pathfinding.PathFinder;
+
+import java.util.Random;
 
 public class BadBreath extends Enemy {
-
+    private static final int DECEIVE_RADIUS = 4;
+    private static final int FLEE_RADIUS = 10;
+    private static final int NEAR_DISTANCE = 2;
     private StateMachine<BadBreath> badBreathStateMachine;
     private static int numberChasing;
+    protected ToothDecay toothDecay;
 
     public BadBreath(Position position, float speed, String actorName) {
         super(position, speed, actorName);
@@ -23,15 +31,40 @@ public class BadBreath extends Enemy {
 
     ////////////////////////////////////////////State controls//////////////////////////////////////////////////////////
     public void chase() {
-
+        this.setDirection(
+                getPathFinder()
+                .shortestPathTo(position, getThomas().getPosition())
+        );
     }
 
     public void deceive() {
-
+        PathFinder pf = getPathFinder();
+        this.setDirection(
+                pf.shortestPathTo(
+                        position,
+                        PathFinder.getRandomPosition(
+                                pf.getWithinRadiusOf(
+                                        getThomas().getPosition(),
+                                        DECEIVE_RADIUS
+                                )
+                        )
+                )
+        );
     }
 
     public void flee() {
-
+        PathFinder pf = getPathFinder();
+        this.setDirection(
+                pf.shortestPathTo(
+                        position,
+                        PathFinder.getRandomPosition(
+                                pf.getWithinRadiusOf(
+                                        getThomas().getPosition(),
+                                        FLEE_RADIUS
+                                )
+                        )
+                )
+        );
     }
 
     public void die() {
@@ -39,11 +72,22 @@ public class BadBreath extends Enemy {
     }
 
     public void defend() {
-
+        PathFinder pf = getPathFinder();
+        this.setDirection(
+                pf.shortestPathTo(
+                        position,
+                        PathFinder.getRandomPosition(
+                                pf.getWithinRadiusOf(
+                                        toothDecay.getPosition(),
+                                        DECEIVE_RADIUS
+                                )
+                        )
+                )
+        );
     }
 
     public boolean getThomasNear() {
-        return false;
+        return position.getDistanceTo(getThomas().getPosition()) <= NEAR_DISTANCE;
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -67,4 +111,14 @@ public class BadBreath extends Enemy {
         return super.vulnerable;
     }
 
+    @Override
+    public boolean handleMessage(Telegram msg) {
+        boolean result = false;
+        if(msg.message == MessageType.SEND_TOOTHDECAY)
+            if(msg.extraInfo != null) {
+                toothDecay = (ToothDecay) msg.extraInfo;
+                result = true;
+            }
+        return super.handleMessage(msg) && result;
+    }
 }
