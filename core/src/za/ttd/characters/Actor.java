@@ -1,13 +1,17 @@
 package za.ttd.characters;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import za.ttd.characters.objects.Direction;
 import za.ttd.characters.objects.Position;
+import za.ttd.characters.states.MessageType;
 import za.ttd.renderers.Renderable;
+
+import java.util.Map;
 
 public abstract class Actor extends InGameObject
         implements Renderable, Telegraph
@@ -18,6 +22,7 @@ public abstract class Actor extends InGameObject
     private TextureAtlas textureAtlas;
     private Animation currentAnimation, animationR, animationL, animationU, animationD;
     protected float movementSpeed;
+    protected Map<Position, InGameObject> gameItems;
 
     protected Direction direction;
 
@@ -125,5 +130,16 @@ public abstract class Actor extends InGameObject
         currentAnimation = null;
         direction = Direction.NONE;
         alive = true;
+    }
+
+    @Override
+    public boolean handleMessage(Telegram msg) {
+        if(msg.message == MessageType.BROADCAST_ITEMS) {
+            if(msg.extraInfo != null) {
+                gameItems = (Map<Position, InGameObject>) msg.extraInfo;
+                return true;
+            }
+        }
+        return false;
     }
 }
