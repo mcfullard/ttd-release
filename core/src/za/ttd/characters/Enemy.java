@@ -6,11 +6,13 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import za.ttd.characters.objects.Position;
 import za.ttd.characters.states.EnemySpeedState;
 import za.ttd.characters.states.MessageType;
+import za.ttd.pathfinding.PathFinder;
 
 public abstract class Enemy extends Actor {
     protected float defaultSpeed;
     protected boolean vulnerable;
     protected Thomas thomas;
+    protected PathFinder pathFinder;
     private StateMachine<Enemy> speedStateMachine;
 
     public Enemy(Position position, float speed, String actorName) {
@@ -88,6 +90,10 @@ public abstract class Enemy extends Actor {
                 if(msg.extraInfo != null)
                     thomas = (Thomas) msg.extraInfo;
                 result = true;
+                break;
+            case MessageType.SEND_PATHFINDER:
+                if(msg.extraInfo != null)
+                    pathFinder = (PathFinder) msg.extraInfo;
                 break;
             case MessageType.MOUTHWASH_COLLECTED:
             case MessageType.MOUTHWASH_EXPIRED:
