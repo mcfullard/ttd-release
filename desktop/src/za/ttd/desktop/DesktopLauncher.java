@@ -4,7 +4,6 @@ import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
-import sun.plugin2.message.Message;
 import za.ttd.characters.states.MessageType;
 import za.ttd.ttd;
 
@@ -20,7 +19,7 @@ public class DesktopLauncher {
 		MessageManager.getInstance().addListeners(gameInstance,
 				MessageType.THOMAS_DEAD,
 				MessageType.TOOTHDECAY_DEAD,
-				MessageType.LEVEL_LOADING
+				MessageType.LEVEL_LOADED
 				);
 		new LwjglApplication(gameInstance, config);
 	}
