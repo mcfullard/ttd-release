@@ -73,7 +73,7 @@ public class ttd extends Game
                 level = new Level(this, player);
                 setScreen(new GameScreen(this));
                 return true;
-            case MessageType.LEVEL_LOADING:
+            case MessageType.LEVEL_LOADED:
                 setScreen(new GameScreen(this));
                 return true;
         }

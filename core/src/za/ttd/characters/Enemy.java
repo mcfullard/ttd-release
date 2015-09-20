@@ -9,8 +9,6 @@ import za.ttd.characters.states.EnemySpeedState;
 import za.ttd.characters.states.MessageType;
 import za.ttd.pathfinding.PathFinder;
 
-import java.nio.file.Path;
-
 public abstract class Enemy extends Actor {
     protected float defaultSpeed;
     protected boolean vulnerable;

@@ -18,7 +18,6 @@ import za.ttd.renderers.CharacterRenderer;
 import za.ttd.renderers.HudRenderer;
 import za.ttd.renderers.MazeRenderer;
 import za.ttd.renderers.Renderable;
-import za.ttd.ttd;
 
 import java.util.*;
 
@@ -43,15 +42,11 @@ public class Level
     private Player player;
     private Thomas thomas;
     private HudRenderer hudRenderer;
-    private final long powerTime = 15;
-    private long startPowerTime;
 
     private Movement movement;
     private Controls controls;
-    private ttd game;
 
-    public Level(ttd game, Player player) {
-        this.game = game;
+    public Level(Player player) {
         this.player = player;
         this.imgScale = 32;
         map = Grid.generateMap(12, 4, player.getHighestLevel());
@@ -72,7 +67,6 @@ public class Level
         mazeRenderer.render();
         hudRenderer.render(player);
         charRenderer.render(getRenderables(gameItems.values()));
-        MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_LOADING);
         update();
     }
 
@@ -144,6 +138,8 @@ public class Level
                     MessageType.MOUTHWASH_EXPIRED
                     );
         }
+
+        MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_LOADED);
     }
 
     private void reset() {
