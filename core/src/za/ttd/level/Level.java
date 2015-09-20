@@ -60,14 +60,14 @@ public class Level
 
         movement = new Movement(map);
         pathFinder = new PathFinder(map);
-        addProvider();
+        registerSelfAsProvider();
         initGameObjects();
 
         hudRenderer = new HudRenderer();
         controls = new Controls();
     }
 
-    private void addProvider() {
+    private void registerSelfAsProvider() {
         MessageManager.getInstance().addProviders(this,
                 MessageType.SEND_PATHFINDER,
                 MessageType.SEND_THOMAS,
