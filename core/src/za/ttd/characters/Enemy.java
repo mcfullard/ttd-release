@@ -2,6 +2,7 @@ package za.ttd.characters;
 
 import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import za.ttd.characters.objects.Position;
 import za.ttd.characters.states.EnemySpeedState;
@@ -76,6 +77,7 @@ public abstract class Enemy extends Actor {
 
     public void killThomas() {
         thomas.kill();
+        MessageManager.getInstance().dispatchMessage(this, MessageType.THOMAS_LOSES_LIFE);
     }
 
     public boolean collided(Position checkPos) {
