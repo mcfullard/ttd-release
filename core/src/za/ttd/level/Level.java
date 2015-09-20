@@ -1,6 +1,9 @@
 package za.ttd.level;
 
+import com.badlogic.gdx.ai.msg.TelegramProvider;
+import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.utils.TimeUtils;
+import za.ttd.characters.states.MessageType;
 import za.ttd.gameInterfaces.EndLevelListener;
 import za.ttd.gameInterfaces.LevelLoadingListener;
 import za.ttd.characters.*;
@@ -26,7 +29,7 @@ import java.util.*;
  * @author minnaar
  * @since 2015/08/17.
  */
-public class Level {
+public class Level implements TelegramProvider {
     private Map map;
 
     private EndLevelListener endLevelListener;
@@ -278,5 +281,17 @@ public class Level {
         renderables.add(thomas);
 
         return renderables;
+    }
+
+    @Override
+    public Object provideMessageInfo(int msg, Telegraph receiver) {
+        switch (msg) {
+            case MessageType.BROADCAST_ITEMS:
+                if(receiver instanceof Actor) {
+                    return gameItems;
+                }
+                break;
+        }
+        return null;
     }
 }
