@@ -12,8 +12,8 @@ public class ToothDecay extends Enemy {
 
     private static final int NEAR_THOMAS = 5;
     private StateMachine<ToothDecay> toothDecayStateMachine;
-    private static final int FLEE_RADIUS = 20;
-    private final int UPDATE_COUNT_LIMIT = 500;
+    private static final int FLEE_RADIUS = 10;
+    private final int UPDATE_COUNT_LIMIT = 250;
     private int updateCount = 0;
     private Position lastRandomDestination = new Position(1,1);
 
@@ -44,7 +44,8 @@ public class ToothDecay extends Enemy {
         PathFinder pf = getPathFinder();
         updateCount++;
         if(updateCount >= UPDATE_COUNT_LIMIT) {
-            while(lastRandomDestination.getDistanceTo(thomas.getPosition()) < NEAR_THOMAS) {
+            while(lastRandomDestination.getDistanceTo(thomas.getPosition()) < NEAR_THOMAS &&
+                    lastRandomDestination.equals(new Position(1,1))) {
                 lastRandomDestination = PathFinder.getRandomPosition(
                         pf.getWithinRadiusOf(
                                 getThomas().getPosition(),
