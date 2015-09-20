@@ -1,10 +1,13 @@
 package za.ttd.characters;
 
+import com.badlogic.gdx.ai.msg.Telegram;
 import za.ttd.characters.objects.Position;
+import za.ttd.characters.states.MessageType;
 
 public abstract class Enemy extends Actor {
     protected float defaultSpeed;
     protected boolean vulnerable, killable;
+    protected Player thomas;
 
     public Enemy(Position position, float speed, String actorName) {
         super(position, speed, actorName);
@@ -70,5 +73,16 @@ public abstract class Enemy extends Actor {
         super.reset();
         this.vulnerable = false;
         this.killable = false;
+    }
+
+    @Override
+    public boolean handleMessage(Telegram msg) {
+        if(msg.message == MessageType.BROADCAST_THOMAS) {
+            if(msg.extraInfo != null) {
+                thomas = (Player) msg.extraInfo;
+                return true;
+            }
+        }
+        return false;
     }
 }
