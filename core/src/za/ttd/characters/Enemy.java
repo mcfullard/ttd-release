@@ -8,6 +8,8 @@ import za.ttd.characters.states.EnemySpeedState;
 import za.ttd.characters.states.MessageType;
 import za.ttd.pathfinding.PathFinder;
 
+import java.nio.file.Path;
+
 public abstract class Enemy extends Actor {
     protected float defaultSpeed;
     protected boolean vulnerable;
@@ -66,6 +68,10 @@ public abstract class Enemy extends Actor {
 
     public Thomas getThomas() {
         return thomas;
+    }
+
+    public PathFinder getPathFinder() {
+        return pathFinder;
     }
 
     public void killThomas() {
