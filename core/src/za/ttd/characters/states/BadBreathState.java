@@ -29,6 +29,17 @@ public enum BadBreathState implements State<BadBreath> {
         public void exit(BadBreath badBreath) {
             badBreath.decNumberChasing();
         }
+
+        @Override
+        public boolean onMessage(BadBreath badBreath, Telegram telegram) {
+            boolean status = super.onMessage(badBreath, telegram);
+
+            if (!status && telegram.message == MessageType.MOUTHWASH_COLLECTED) {
+                badBreath.getBadBreathStateMachine().changeState(FLEE);
+                return true;
+            }
+            return status;
+        }
     },
     DECEIVE {
         @Override
@@ -38,17 +49,35 @@ public enum BadBreathState implements State<BadBreath> {
 
         @Override
         public boolean onMessage(BadBreath badBreath, Telegram telegram) {
-            if (telegram.message == MessageType.TOOTHBRUSH_COLLECTED) {
+            boolean status = super.onMessage(badBreath, telegram);
+
+            if (!status && telegram.message == MessageType.TOOTHBRUSH_COLLECTED) {
                 badBreath.getBadBreathStateMachine().changeState(DEFEND);
                 return true;
             }
-            return false;
+            else if (!status && telegram.message == MessageType.MOUTHWASH_COLLECTED) {
+                badBreath.getBadBreathStateMachine().changeState(FLEE);
+                return true;
+            }
+            else
+                return status;
         }
     },
     DEFEND {
         @Override
         public void enter(BadBreath badBreath) {
             badBreath.defend();
+        }
+
+        @Override
+        public boolean onMessage(BadBreath badBreath, Telegram telegram) {
+            boolean status = super.onMessage(badBreath, telegram);
+            if (!status && telegram.message == MessageType.MOUTHWASH_COLLECTED) {
+                badBreath.getBadBreathStateMachine().changeState(FLEE);
+                return true;
+            }
+            else
+                return status;
         }
     },
     FLEE {
@@ -65,14 +94,14 @@ public enum BadBreathState implements State<BadBreath> {
 
         @Override
         public boolean onMessage(BadBreath badBreath, Telegram telegram) {
-            boolean state = super.onMessage(badBreath, telegram);
+            boolean status = super.onMessage(badBreath, telegram);
 
-            if (!state && telegram.message == MessageType.MOUTHWASH_EXPIRED) {
-                badBreath.getBadBreathStateMachine().changeState(CHASE);
+            if (!status && telegram.message == MessageType.MOUTHWASH_EXPIRED) {
+                badBreath.getBadBreathStateMachine().revertToPreviousState();
                 return true;
             }
             else
-                return state;
+                return status;
         }
     },
     DIE {
@@ -106,10 +135,6 @@ public enum BadBreathState implements State<BadBreath> {
     public boolean onMessage(BadBreath badBreath, Telegram telegram) {
         if (telegram.message == MessageType.LEVEL_RESET) {
             badBreath.getBadBreathStateMachine().changeState(CHASE);
-            return true;
-        }
-        else if (telegram.message == MessageType.MOUTHWASH_COLLECTED) {
-            badBreath.getBadBreathStateMachine().changeState(FLEE);
             return true;
         }
         else

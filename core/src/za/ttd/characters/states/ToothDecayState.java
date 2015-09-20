@@ -9,25 +9,55 @@ import za.ttd.characters.ToothDecay;
  * @since 2015/09/18.
  */
 public enum ToothDecayState implements State<ToothDecay> {
+    CHASE {
+        @Override
+        public void enter(ToothDecay toothDecay) {
+            toothDecay.chase();
+        }
+
+        @Override
+        public void update(ToothDecay toothDecay) {
+            if (toothDecay.collided(toothDecay.getThomas().getPosition())) {
+                toothDecay.killThomas();
+            }
+        }
+    },
+    FLEE {
+        @Override
+        public void enter(ToothDecay toothDecay) {
+            toothDecay.flee();
+        }
+
+        @Override
+        public void update(ToothDecay toothDecay) {
+            if (toothDecay.collided(toothDecay.getThomas().getPosition())) {
+                toothDecay.getToothDecayStateMachine().changeState(DIE);
+            }
+        }
+    },
+    DIE {
+        @Override
+        public void enter(ToothDecay toothDecay) {
+            toothDecay.die();
+        }
+
+        @Override
+        public void update(ToothDecay toothDecay) {
+        }
+    }
     ;
 
     @Override
-    public void enter(ToothDecay entity) {
-
+    public void exit(ToothDecay toothDecay) {
     }
 
     @Override
-    public void update(ToothDecay entity) {
-
-    }
-
-    @Override
-    public void exit(ToothDecay entity) {
-
-    }
-
-    @Override
-    public boolean onMessage(ToothDecay entity, Telegram telegram) {
-        return false;
+    public boolean onMessage(ToothDecay toothDecay, Telegram telegram) {
+        if (telegram.message == MessageType.TOOTHBRUSH_COLLECTED) {
+            toothDecay.getToothDecayStateMachine().changeState(FLEE);
+            return true;
+        }
+        else
+            return false;
     }
 }
