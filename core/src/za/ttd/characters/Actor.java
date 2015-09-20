@@ -104,8 +104,6 @@ public abstract class Actor extends InGameObject
     //Kill this actor
     public void kill() {
         alive = false;
-        position.setX(defaultX);
-        position.setY(defaultY);
     }
 
     /*
@@ -130,6 +128,8 @@ public abstract class Actor extends InGameObject
     public void revive() {
         currentAnimation = null;
         direction = Direction.NONE;
+        position.setX(defaultX);
+        position.setY(defaultY);
         alive = true;
     }
 

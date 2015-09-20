@@ -66,7 +66,7 @@ public class BadBreath extends Enemy {
     }
 
     public void die() {
-        alive = false;
+        this.kill();
     }
 
     public void defend() {
@@ -117,6 +117,8 @@ public class BadBreath extends Enemy {
                 toothDecay = (ToothDecay) msg.extraInfo;
                 result = true;
             }
+        if (msg.message == MessageType.MOUTHWASH_COLLECTED || msg.message == MessageType.MOUTHWASH_EXPIRED)
+            result = badBreathStateMachine.handleMessage(msg);
         return super.handleMessage(msg) && result;
     }
 }
