@@ -82,18 +82,23 @@ public abstract class Enemy extends Actor {
 
     @Override
     public boolean handleMessage(Telegram msg) {
+        boolean result = false;
         switch(msg.message){
             case MessageType.SEND_THOMAS:
                 if(msg.extraInfo != null)
                     thomas = (Thomas) msg.extraInfo;
-                return true;
+                result = true;
+                break;
             case MessageType.TOOTHBRUSH_COLLECTED:
-                return true;
+                result = true;
+                break;
             case MessageType.MOUTHWASH_COLLECTED:
-                return true;
+                result = true;
+                break;
             case MessageType.MOUTHWASH_EXPIRED:
-                return true;
+                result = true;
+                break;
         }
-        return false;
+        return super.handleMessage(msg) && result;
     }
 }
