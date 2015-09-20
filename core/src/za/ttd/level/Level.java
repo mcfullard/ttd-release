@@ -61,6 +61,7 @@ public class Level
         movement = new Movement(map);
         pathFinder = new PathFinder(map);
         registerSelfAsProvider();
+        registerSelfAsListener();
         initGameObjects();
 
         hudRenderer = new HudRenderer();
@@ -73,6 +74,11 @@ public class Level
                 MessageType.SEND_THOMAS,
                 MessageType.SEND_ITEMS,
                 MessageType.SEND_TOOTHDECAY);
+    }
+
+    private void registerSelfAsListener() {
+        MessageManager.getInstance().addListener(this,
+                MessageType.LEVEL_RESET);
     }
 
     public void render(){
