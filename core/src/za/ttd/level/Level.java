@@ -1,9 +1,11 @@
 package za.ttd.level;
 
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.TelegramProvider;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.utils.TimeUtils;
 import za.ttd.characters.states.MessageType;
+import za.ttd.game.Gamer;
 import za.ttd.gameInterfaces.EndLevelListener;
 import za.ttd.gameInterfaces.LevelLoadingListener;
 import za.ttd.characters.*;
@@ -41,23 +43,23 @@ public class Level implements TelegramProvider {
     private int imgScale;
     private MazeRenderer mazeRenderer;
     private CharacterRenderer charRenderer;
-
+    private Gamer gamer;
     private Player thomas;
     private ScoringSystem scoring;
     private HudRenderer hudRenderer;
     private final long powerTime = 15;
     private long startPowerTime;
-    private int lives;
 
     private Movement movement;
     private Controls controls;
     private ttd game;
 
-    public Level(long seed, int totScore, ttd game, int lives) {
+    public Level(ttd game, Gamer gamer) {
         this.game = game;
+        this.gamer = gamer;
         levelLoadingListener = game;
         this.imgScale = 32;
-        map = Grid.generateMap(12,4,seed);
+        map = Grid.generateMap(12, 4, gamer.getHighestLevel());
         gameItems = new HashMap<>();
         enemies = new ArrayList<>();
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
@@ -66,21 +68,16 @@ public class Level implements TelegramProvider {
         movement = new Movement(map);
         pathFinder = new PathFinder(map);
         initGameObjects();
-        this.lives = lives;
 
-        scoring = new ScoringSystem(totScore);
+        scoring = new ScoringSystem(gamer.getTotScore());
         hudRenderer = new HudRenderer();
         controls = new Controls();
         endLevelListener = game;
     }
 
-    public int getLives() {
-        return lives;
-    }
-
     public void render(){
         mazeRenderer.render();
-        hudRenderer.render(scoring.getLvlScore(), scoring.getElapsedTime(), game.getLevelNumber());
+        hudRenderer.render(gamer);
         charRenderer.render(getRenderables(gameItems.values()));
         levelLoadingListener.LevelLoadingListener(true);
         update();
@@ -126,24 +123,37 @@ public class Level implements TelegramProvider {
                     thomas = new Player(position, .07f);
                     ++c;
                 }
-                if (map.isType(c, r, map.BAD_BREATH)) {
-                    enemies.add(new BadBreath(position, .07f, "BadBreath"));
+                if (map.isType(c, r, Map.BAD_BREATH)) {
+                    Enemy badBreath = new BadBreath(position, .07f, "BadBreath");
+                    MessageManager.getInstance().addListener(badBreath,
+                            MessageType.BROADCAST_ENEMIES);
+                    enemies.add(badBreath);
                 }
-                if (map.isType(c, r, map.MOUTHWASH)) {
-                        gameItems.put(position, new Mouthwash(position));
+                if (map.isType(c, r, Map.MOUTHWASH)) {
+                    gameItems.put(position, new Mouthwash(position));
                 }
-                if (map.isType(c, r, map.TOOTH_DECAY)) {
+                if (map.isType(c, r, Map.TOOTH_DECAY)) {
                     position.setX(position.getX()+.5f);
                     enemies.add(new ToothDecay(position, .07f));
                     ++c;
                     break;
                 }
-                if (map.isType(c, r, map.BRUSH)) {
+                if (map.isType(c, r, Map.BRUSH)) {
                     position.setX(position.getX() + .5f);
                     gameItems.put(position, new Toothbrush(position));
                     ++c;
                 }
             }
+        }
+
+        for(Enemy enemy : enemies) {
+            MessageManager.getInstance().addListeners(enemy,
+                    MessageType.BROADCAST_ITEMS,
+                    MessageType.BROADCAST_THOMAS,
+                    MessageType.TOOTHBRUSH_COLLECTED,
+                    MessageType.MOUTHWASH_COLLECTED,
+                    MessageType.MOUTHWASH_EXPIRED
+                    );
         }
     }
 
@@ -190,7 +200,7 @@ public class Level implements TelegramProvider {
                     }
                 }
                 else {
-                    if (scoring.getTotLivesUsed() < lives) {
+                    if (scoring.getTotLivesUsed() < gamer.getLives()) {
                         scoring.lifeUsed();
                         reset();
                     }
@@ -291,6 +301,10 @@ public class Level implements TelegramProvider {
                     return gameItems;
                 }
                 break;
+            case MessageType.BROADCAST_THOMAS:
+                if(receiver instanceof Enemy) {
+                    return thomas;
+                }
         }
         return null;
     }
