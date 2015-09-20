@@ -66,7 +66,7 @@ public class BadBreath extends Enemy {
     }
 
     public void die() {
-        this.kill();
+        alive = false;
     }
 
     public void defend() {
@@ -112,13 +112,17 @@ public class BadBreath extends Enemy {
     @Override
     public boolean handleMessage(Telegram msg) {
         boolean result = false;
-        if(msg.message == MessageType.SEND_TOOTHDECAY)
-            if(msg.extraInfo != null) {
-                toothDecay = (ToothDecay) msg.extraInfo;
-                result = true;
-            }
-        if (msg.message == MessageType.MOUTHWASH_COLLECTED || msg.message == MessageType.MOUTHWASH_EXPIRED)
-            result = badBreathStateMachine.handleMessage(msg);
+        switch(msg.message) {
+            case MessageType.SEND_TOOTHDECAY:
+                if (msg.extraInfo != null) {
+                    toothDecay = (ToothDecay) msg.extraInfo;
+                    result = true;
+                }
+                break;
+            case MessageType.TOOTHBRUSH_COLLECTED:
+                badBreathStateMachine.handleMessage(msg);
+                break;
+        }
         return super.handleMessage(msg) && result;
     }
 }
