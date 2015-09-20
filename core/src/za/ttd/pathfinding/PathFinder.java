@@ -141,4 +141,9 @@ public class PathFinder {
         return matched;
     }
 
+    public static Position getRandomPosition(Set<Position> positions) {
+        Random random = new Random();
+        return (Position) positions.toArray()[random.nextInt(positions.size())];
+    }
+
 }
