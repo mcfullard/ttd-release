@@ -256,6 +256,12 @@ public class Level
                 if(receiver instanceof Enemy) {
                     return pathFinder;
                 }
+                break;
+            case MessageType.SEND_TOOTHDECAY:
+                if(receiver instanceof BadBreath) {
+                    return getToothDecay();
+                }
+                break;
         }
         return null;
     }
@@ -268,5 +274,13 @@ public class Level
                 break;
         }
         return false;
+    }
+
+    public ToothDecay getToothDecay() {
+        for(Enemy enemy : enemies) {
+            if(enemy instanceof ToothDecay)
+                return (ToothDecay) enemy;
+        }
+        return null;
     }
 }
