@@ -1,6 +1,8 @@
 package za.ttd;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.ai.msg.MessageDispatcher;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import za.ttd.game.Gamer;
 import za.ttd.gameInterfaces.EndLevelListener;
 import za.ttd.gameInterfaces.LevelLoadingListener;
@@ -28,6 +30,7 @@ public class ttd extends Game implements EndLevelListener, LevelLoadingListener 
         setScreen(new LoadingScreen(this));
         gamer = new Gamer(name, 0, 1, 2);
         level = new Level(0, 1, this, 2);
+        MessageManager.getInstance().addProviders(level);
         level.render();
     }
 
