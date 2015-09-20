@@ -220,11 +220,11 @@ public class Level
     }
 
     private void reset() {
-        thomas.reset();
+        thomas.revive();
         controls.reset();
 
         for (Enemy enemy:enemies) {
-            enemy.reset();
+            enemy.revive();
         }
     }
 

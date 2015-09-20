@@ -18,6 +18,8 @@ public enum BadBreathState implements State<BadBreath> {
 
         @Override
         public void update(BadBreath badBreath) {
+            super.update(badBreath);
+
             if (badBreath.getNumberChasing() >= 2) {
                 badBreath.getBadBreathStateMachine().changeState(DECEIVE);
             }
@@ -35,12 +37,6 @@ public enum BadBreathState implements State<BadBreath> {
         }
 
         @Override
-        public void update(BadBreath badBreath) {
-            if (badBreath.getThomasNear())
-                badBreath.getBadBreathStateMachine().changeState(CHASE);
-        }
-
-        @Override
         public boolean onMessage(BadBreath badBreath, Telegram telegram) {
             if (telegram.message == MessageType.TOOTHBRUSH_COLLECTED) {
                 badBreath.getBadBreathStateMachine().changeState(DEFEND);
@@ -54,16 +50,32 @@ public enum BadBreathState implements State<BadBreath> {
         public void enter(BadBreath badBreath) {
             badBreath.defend();
         }
-
-        @Override
-        public void update(BadBreath badBreath) {
-
-        }
     },
     FLEE {
         @Override
         public void enter(BadBreath badBreath) {
             badBreath.flee();
+        }
+
+        @Override
+        public void update(BadBreath badBreath) {
+            if(badBreath.collided(badBreath.getThomas().getPosition()))
+                badBreath.getBadBreathStateMachine().changeState(DIE);
+        }
+
+        @Override
+        public boolean onMessage(BadBreath badBreath, Telegram telegram) {
+            boolean state = super.onMessage(badBreath, telegram);
+
+            if (!state)
+                if (telegram.message == MessageType.MOUTHWASH_EXPIRED) {
+                    badBreath.getBadBreathStateMachine().changeState(CHASE);
+                    return true;
+                }
+                else
+                    return false;
+            else
+                return false;
         }
     },
     DIE {
@@ -73,14 +85,19 @@ public enum BadBreathState implements State<BadBreath> {
         }
 
         @Override
+        public void update(BadBreath badBreath) {
+        }
+
+        @Override
         public void exit(BadBreath badBreath) {
-            badBreath.reset();
+            badBreath.revive();
         }
     };
 
     @Override
     public void update(BadBreath badBreath) {
-
+        if (badBreath.collided(badBreath.getThomas().getPosition()))
+            badBreath.killThomas();
     }
 
     @Override
@@ -90,8 +107,12 @@ public enum BadBreathState implements State<BadBreath> {
 
     @Override
     public boolean onMessage(BadBreath badBreath, Telegram telegram) {
-        if (telegram.message == MessageType.MOUTHWASH_EXPIRED || telegram.message == MessageType.LEVEL_RESET) {
+        if (telegram.message == MessageType.LEVEL_RESET) {
             badBreath.getBadBreathStateMachine().changeState(CHASE);
+            return true;
+        }
+        else if (telegram.message == MessageType.MOUTHWASH_COLLECTED) {
+            badBreath.getBadBreathStateMachine().changeState(FLEE);
             return true;
         }
         else

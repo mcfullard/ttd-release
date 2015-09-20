@@ -11,22 +11,22 @@ import za.ttd.characters.Player;
 public enum ThomasState implements State<Player> {
     ;
     @Override
-    public void enter(Player entity) {
+    public void enter(Player thomas) {
 
     }
 
     @Override
-    public void update(Player entity) {
+    public void update(Player thomas) {
 
     }
 
     @Override
-    public void exit(Player entity) {
+    public void exit(Player thomas) {
 
     }
 
     @Override
-    public boolean onMessage(Player entity, Telegram telegram) {
+    public boolean onMessage(Player thomas, Telegram telegram) {
         return false;
     }
 }

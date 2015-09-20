@@ -22,6 +22,7 @@ public abstract class Enemy extends Actor {
     }
 
     public void update() {
+        super.update();
         speedStateMachine.update();
     }
 
@@ -31,7 +32,7 @@ public abstract class Enemy extends Actor {
 
     /*
     * Make object to vulnerable or no longer vulnerable,
-    * make it move slower/or reset to original speed,
+    * make it move slower/or revive to original speed,
     * being allows tomas to killable it*/
     public void setVulnerable(boolean vulnerable) {
         this.vulnerable = vulnerable;
@@ -57,6 +58,7 @@ public abstract class Enemy extends Actor {
         this.killable = killable;
     }
 
+    /////////////////////////////////////////////Speed Controls/////////////////////////////////////////////////////////
     public void slow() {
         super.movementSpeed = defaultSpeed*.8f;
     }
@@ -74,14 +76,23 @@ public abstract class Enemy extends Actor {
         else
             super.movementSpeed = defaultSpeed*1.2f;
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public Player getThomas() {
+        return thomas;
+    }
+
+    public void killThomas() {
+        thomas.kill();
+    }
 
     public boolean collided(Position checkPos) {
         return position.compareBase(checkPos);
     }
 
     @Override
-    public void reset() {
-        super.reset();
+    public void revive() {
+        super.revive();
         this.vulnerable = false;
         this.killable = false;
     }

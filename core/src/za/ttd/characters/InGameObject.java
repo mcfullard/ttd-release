@@ -16,10 +16,6 @@ public class InGameObject {
 
     public Position getPosition() {return position;}
 
-    public void kill() {
-        alive = false;
-    }
-
     public boolean isAlive() {
         return alive;
     }

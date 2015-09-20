@@ -65,8 +65,7 @@ public abstract class Actor extends InGameObject
         chooseAnimation();
     }
 
-    //Getter and Setter methods
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////Getter and Setter methods/////////////////////////////////////////////////
     public Direction getDirection() {
         return direction;
     }
@@ -87,14 +86,6 @@ public abstract class Actor extends InGameObject
         return position.getY();
     }
 
-    public int getIntX() {
-        return position.getIntX();
-    }
-
-    public int getIntY() {
-        return position.getIntY();
-    }
-
     public Map<Position, InGameObject> getGameItems() {
         return gameItems;
     }
@@ -109,6 +100,11 @@ public abstract class Actor extends InGameObject
         return currentAnimation;
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //Kill this actor
+    public void kill() {
+        alive = false;
+    }
 
     /*
     * Change the current animation depending on the direction the character is moving*/
@@ -127,8 +123,9 @@ public abstract class Actor extends InGameObject
         }
     }
 
-    /*Reset the position of the actor to it's default position*/
-    public void reset() {
+    /*Reset this Actors position to it's default position,
+    * Bring this Actor back to life*/
+    public void revive() {
         position.setX(defaultX);
         position.setY(defaultY);
         currentAnimation = null;
