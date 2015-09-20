@@ -252,11 +252,10 @@ public class Level
                     return thomas;
                 }
                 break;
-            case MessageType.SEND_ENEMIES:
-                if(receiver instanceof BadBreath) {
-                    return enemies;
+            case MessageType.SEND_PATHFINDER:
+                if(receiver instanceof Enemy) {
+                    return pathFinder;
                 }
-                break;
         }
         return null;
     }
