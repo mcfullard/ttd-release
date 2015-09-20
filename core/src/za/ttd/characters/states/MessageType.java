@@ -16,4 +16,6 @@ public class MessageType {
     public static final int LEVEL_LOADING = 8;
     public static final int MOUTHWASH_EXPIRED = 9;
     public static final int BADBREATH_DEAD = 10;
+    public static final int THOMAS_LOSES_LIFE = 11;
+    public static final int LEVEL_RESET = 12;
 }
