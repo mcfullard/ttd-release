@@ -1,6 +1,7 @@
 package za.ttd.characters;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -8,7 +9,9 @@ import za.ttd.characters.objects.Direction;
 import za.ttd.characters.objects.Position;
 import za.ttd.renderers.Renderable;
 
-public abstract class Actor extends InGameObject implements Renderable {
+public abstract class Actor extends InGameObject
+        implements Renderable, Telegraph
+{
 
     private final String atlasFilePath = "core/assets/textures/out/texture.atlas";
     private TextureRegion stillTexture;
