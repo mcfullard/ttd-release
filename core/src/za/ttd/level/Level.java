@@ -4,14 +4,13 @@ import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.TelegramProvider;
 import com.badlogic.gdx.ai.msg.Telegraph;
-import com.badlogic.gdx.utils.TimeUtils;
-import za.ttd.characters.states.MessageType;
-import za.ttd.game.Player;
 import za.ttd.characters.*;
 import za.ttd.characters.objects.Direction;
 import za.ttd.characters.objects.Movement;
 import za.ttd.characters.objects.Position;
+import za.ttd.characters.states.MessageType;
 import za.ttd.game.Controls;
+import za.ttd.game.Player;
 import za.ttd.mapgen.Grid;
 import za.ttd.mapgen.Map;
 import za.ttd.pathfinding.PathFinder;
@@ -84,14 +83,10 @@ public class Level
 
         for (Enemy enemy:enemies) {
             if (controls.keyPressed()) {
-                enemy.setDirection(pathFinder.shortestPathTo(enemy.getPosition(), thomas.getPosition()));
                 movement.move(enemy, Direction.NONE);
             }
             enemy.update();
         }
-
-        checkVulnerability();
-        checkCollisions();
     }
 
     /*
@@ -148,69 +143,6 @@ public class Level
                     MessageType.MOUTHWASH_COLLECTED,
                     MessageType.MOUTHWASH_EXPIRED
                     );
-        }
-    }
-
-    /*
-    * Check Thomas' collisions with the rest of the game objects
-    * Depending on who or what he collides with, do the related methods*/
-    private void checkCollisions() {
-        Position thomPos = thomas.getPosition();
-
-        if (gameItems.get(thomPos) instanceof Plaque) {
-            gameItems.remove(thomPos);
-            player.scoring.collectibleFound();
-        }
-
-        if (gameItems.get(thomPos) instanceof Mouthwash) {
-            gameItems.remove(thomPos);
-            player.scoring.powerUsed();
-            powerUp(true);
-        }
-
-        if (gameItems.get(thomPos) instanceof Toothbrush){
-            gameItems.remove(thomPos);
-            toothBrushPower();
-        }
-    }
-
-    /*
-    * Thomas has picked up a minty mouthwash item
-    * Hinder the applicable characters*/
-    private void toothBrushPower() {
-        for(Enemy enemy:enemies) {
-            if (enemy instanceof ToothDecay)
-                //enemy.setKillable(true);
-            enemy.setVulnerable(true);
-        }
-    }
-
-    /*
-    * Thomas has picked up a minty mouthwash item
-    * Hinder the applicable characters*/
-    private void powerUp(boolean powered) {
-        if (powered) {
-            startPowerTime = TimeUtils.millis();
-        }
-
-        for (Enemy enemy : enemies) {
-            if (enemy instanceof BadBreath) {
-                enemy.setVulnerable(powered);
-                //enemy.setKillable(powered);
-            } else
-                enemy.setVulnerable(powered);
-        }
-    }
-
-    private void checkVulnerability() {
-        if (startPowerTime == 0)
-            return;
-
-        long elapsedTime = TimeUtils.timeSinceMillis(startPowerTime)/1000;
-
-        if (elapsedTime >= powerTime) {
-            powerUp(false);
-            startPowerTime = 0;
         }
     }
 
