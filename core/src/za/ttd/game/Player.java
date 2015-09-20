@@ -10,7 +10,6 @@ public class Player implements Telegraph {
 
     private String name;
     private int totScore, highestLevel;
-    private int gamerID;
     private int lives;
     public ScoringSystem scoring;
 
@@ -42,14 +41,6 @@ public class Player implements Telegraph {
         this.name = name;
     }
 
-    public int getGamerID() {
-        return gamerID;
-    }
-
-    public void setGamerID(int gamerID) {
-        this.gamerID = gamerID;
-    }
-
     public void incHighestLevel() {
         ++highestLevel;
     }
@@ -58,19 +49,11 @@ public class Player implements Telegraph {
         return name;
     }
 
-    public int getLives() {
-        return lives;
-    }
-
-    public void setLives(int lives) {
-        this.lives = lives;
-    }
-
     @Override
     public boolean handleMessage(Telegram msg) {
         switch(msg.message) {
             case MessageType.THOMAS_LOSES_LIFE:
-                if(getLives() > 0) {
+                if(this.lives > 0) {
                     scoring.lifeUsed();
                     MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_RESET);
                 } else {
@@ -82,6 +65,9 @@ public class Player implements Telegraph {
                 break;
             case MessageType.TOOTHDECAY_DEAD:
                 scoring.killedToothDecay();
+                break;
+            case MessageType.PLAQUE_COLLECTED:
+                scoring.collectibleFound();
                 break;
         }
         return false;
