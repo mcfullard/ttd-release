@@ -19,9 +19,9 @@ public class HudRenderer {
     }
 
     public void render(Gamer gamer) {
-        long time = gamer.score.getElapsedTime();
+        long time = gamer.scoring.getElapsedTime();
         batch.begin();
-        lblLvlScore.draw(batch, "LEVEL SCORE: " + gamer.score.getLvlScore(), 10, 750);
+        lblLvlScore.draw(batch, "LEVEL SCORE: " + gamer.scoring.getLvlScore(), 10, 750);
         lblLvlScore.draw(batch, "LEVEL : " + gamer.getHighestLevel(), 250, 750);
         lblPlayTime.draw(batch,
                 String.format(

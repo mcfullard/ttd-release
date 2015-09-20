@@ -45,7 +45,6 @@ public class Level implements TelegramProvider {
     private CharacterRenderer charRenderer;
     private Gamer gamer;
     private Player thomas;
-    private ScoringSystem scoring;
     private HudRenderer hudRenderer;
     private final long powerTime = 15;
     private long startPowerTime;
@@ -57,6 +56,7 @@ public class Level implements TelegramProvider {
     public Level(ttd game, Gamer gamer) {
         this.game = game;
         this.gamer = gamer;
+
         levelLoadingListener = game;
         this.imgScale = 32;
         map = Grid.generateMap(12, 4, gamer.getHighestLevel());
@@ -69,7 +69,6 @@ public class Level implements TelegramProvider {
         pathFinder = new PathFinder(map);
         initGameObjects();
 
-        scoring = new ScoringSystem(gamer.getTotScore());
         hudRenderer = new HudRenderer();
         controls = new Controls();
         endLevelListener = game;
@@ -161,18 +160,17 @@ public class Level implements TelegramProvider {
     * Check Thomas' collisions with the rest of the game objects
     * Depending on who or what he collides with, do the related methods*/
     private void checkCollisions() {
-
         Position thomPos = thomas.getPosition();
 
         if (gameItems.get(thomPos) instanceof Plaque) {
             gameItems.remove(thomPos);
-            scoring.collectibleFound();
+            gamer.scoring.collectibleFound();
         }
 
         if (gameItems.get(thomPos) instanceof Mouthwash) {
             gameItems.remove(thomPos);
-            scoring.powerUsed();
-            powerUp();
+            gamer.scoring.powerUsed();
+            powerUp(true);
         }
 
         if (gameItems.get(thomPos) instanceof Toothbrush){
@@ -193,15 +191,15 @@ public class Level implements TelegramProvider {
                 if (enemy.getKillable()) {
                     enemy.kill();
                     if (enemy instanceof BadBreath)
-                        scoring.killedBadBreath();
+                        gamer.scoring.killedBadBreath();
                     else {
-                        scoring.killedToothDecay();
+                        gamer.scoring.killedToothDecay();
                         endLevelListener.EndLevelListener(true);
                     }
                 }
                 else {
-                    if (scoring.getTotLivesUsed() < gamer.getLives()) {
-                        scoring.lifeUsed();
+                    if (gamer.getLives() > 0 ) {
+                        gamer.scoring.lifeUsed();
                         reset();
                     }
                     else {
@@ -226,29 +224,17 @@ public class Level implements TelegramProvider {
     /*
     * Thomas has picked up a minty mouthwash item
     * Hinder the applicable characters*/
-    private void powerUp() {
-        startPowerTime = TimeUtils.millis();
-
-        for(Enemy enemy : enemies) {
-            if (enemy instanceof BadBreath) {
-                enemy.setVulnerable(true);
-                enemy.setKillable(true);
-            }
-            else
-                enemy.setVulnerable(true);
+    private void powerUp(boolean powered) {
+        if (powered) {
+            startPowerTime = TimeUtils.millis();
         }
-    }
 
-    /*
-    * Time is up for the power used therefore change enemies back to original states*/
-    private void powerDown() {
-        for(Enemy enemy:enemies) {
+        for (Enemy enemy : enemies) {
             if (enemy instanceof BadBreath) {
-                enemy.setVulnerable(false);
-                enemy.setKillable(false);
-            }
-            else
-                enemy.setVulnerable(false);
+                enemy.setVulnerable(powered);
+                enemy.setKillable(powered);
+            } else
+                enemy.setVulnerable(powered);
         }
     }
 
@@ -259,7 +245,7 @@ public class Level implements TelegramProvider {
         long elapsedTime = TimeUtils.timeSinceMillis(startPowerTime)/1000;
 
         if (elapsedTime >= powerTime) {
-            powerDown();
+            powerUp(false);
             startPowerTime = 0;
         }
     }
@@ -271,10 +257,6 @@ public class Level implements TelegramProvider {
         for (Enemy enemy:enemies) {
             enemy.reset();
         }
-    }
-
-    public int getTotLevelScore() {
-        return scoring.getLvlTotScore();
     }
 
     private List<Renderable> getRenderables(Collection<InGameObject> characters) {

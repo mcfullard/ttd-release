@@ -8,14 +8,14 @@ public class Gamer {
     private int totScore, highestLevel;
     private int gamerID;
     private int lives;
-    public ScoringSystem score;
+    public ScoringSystem scoring;
 
     public Gamer(String name, int highestScore, int highestLevel, int lives) {
         this.name = name;
         this.totScore = highestScore;
         this.highestLevel = highestLevel;
         this.lives = lives;
-        this.score = new ScoringSystem();
+        this.scoring = new ScoringSystem();
     }
 
     public int getTotScore() {

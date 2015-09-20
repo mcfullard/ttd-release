@@ -1,7 +1,6 @@
 package za.ttd;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
@@ -60,7 +59,6 @@ public class ttd extends Game
     public void EndLevelListener(boolean levelPassed) {
         if (levelPassed) {
             gamer.incHighestLevel();
-            gamer.setTotScore(level.getTotLevelScore());
             level = new Level(this, gamer);
             setScreen(new GameScreen(this));
         }
