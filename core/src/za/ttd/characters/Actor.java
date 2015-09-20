@@ -135,7 +135,7 @@ public abstract class Actor extends InGameObject
 
     @Override
     public boolean handleMessage(Telegram msg) {
-        if(msg.message == MessageType.BROADCAST_ITEMS) {
+        if(msg.message == MessageType.SEND_ITEMS) {
             if(msg.extraInfo != null) {
                 gameItems = (Map<Position, InGameObject>) msg.extraInfo;
                 return true;
