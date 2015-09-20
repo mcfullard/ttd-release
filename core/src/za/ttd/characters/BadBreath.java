@@ -8,22 +8,20 @@ import za.ttd.characters.states.BadBreathState;
 import za.ttd.characters.states.MessageType;
 import za.ttd.pathfinding.PathFinder;
 
-import java.util.Random;
-
 public class BadBreath extends Enemy {
     private static final int DECEIVE_RADIUS = 4;
     private static final int FLEE_RADIUS = 10;
     private static final int NEAR_DISTANCE = 2;
     private StateMachine<BadBreath> badBreathStateMachine;
-    private static int numberChasing;
+    private static int numberChasing = 0;
     protected ToothDecay toothDecay;
 
     public BadBreath(Position position, float speed, String actorName) {
         super(position, speed, actorName);
-        numberChasing = 0;
         badBreathStateMachine = new DefaultStateMachine(this, BadBreathState.CHASE);
     }
 
+    @Override
     public void update() {
         super.update();
         badBreathStateMachine.update();

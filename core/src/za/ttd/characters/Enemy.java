@@ -23,6 +23,7 @@ public abstract class Enemy extends Actor {
         vulnerable = false;
     }
 
+    @Override
     public void update() {
         super.update();
         speedStateMachine.update();

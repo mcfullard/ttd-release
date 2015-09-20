@@ -10,13 +10,10 @@ import za.ttd.characters.ToothDecay;
  */
 public enum ToothDecayState implements State<ToothDecay> {
     CHASE {
-        @Override
-        public void enter(ToothDecay toothDecay) {
-            toothDecay.chase();
-        }
 
         @Override
         public void update(ToothDecay toothDecay) {
+            toothDecay.chase();
             if (toothDecay.collided(toothDecay.getThomas().getPosition())) {
                 toothDecay.killThomas();
             }
@@ -24,12 +21,8 @@ public enum ToothDecayState implements State<ToothDecay> {
     },
     FLEE {
         @Override
-        public void enter(ToothDecay toothDecay) {
-            toothDecay.flee();
-        }
-
-        @Override
         public void update(ToothDecay toothDecay) {
+            toothDecay.flee();
             if (toothDecay.collided(toothDecay.getThomas().getPosition())) {
                 toothDecay.getToothDecayStateMachine().changeState(DIE);
             }
@@ -40,12 +33,18 @@ public enum ToothDecayState implements State<ToothDecay> {
         public void enter(ToothDecay toothDecay) {
             toothDecay.die();
         }
-
-        @Override
-        public void update(ToothDecay toothDecay) {
-        }
     }
     ;
+
+
+    @Override
+    public void enter(ToothDecay entity) {
+
+    }
+
+    @Override
+    public void update(ToothDecay toothDecay) {
+    }
 
     @Override
     public void exit(ToothDecay toothDecay) {

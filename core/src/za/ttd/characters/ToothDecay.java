@@ -6,10 +6,12 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import za.ttd.characters.objects.Position;
 import za.ttd.characters.states.MessageType;
 import za.ttd.characters.states.ToothDecayState;
+import za.ttd.pathfinding.PathFinder;
 
 public class ToothDecay extends Enemy {
 
     private StateMachine<ToothDecay> toothDecayStateMachine;
+    private static final int FLEE_RADIUS = 10;
 
     public ToothDecay(Position position, float speed){
         super(position, speed, "ToothDecay");
@@ -28,11 +30,25 @@ public class ToothDecay extends Enemy {
 
     ////////////////////////////////////////////State controls//////////////////////////////////////////////////////////
     public void chase() {
-
+        this.setDirection(
+                getPathFinder()
+                        .shortestPathTo(position, getThomas().getPosition())
+        );
     }
 
     public void flee() {
-
+        PathFinder pf = getPathFinder();
+        this.setDirection(
+                pf.shortestPathTo(
+                        position,
+                        PathFinder.getRandomPosition(
+                                pf.getWithinRadiusOf(
+                                        getThomas().getPosition(),
+                                        FLEE_RADIUS
+                                )
+                        )
+                )
+        );
     }
 
     public void die() {

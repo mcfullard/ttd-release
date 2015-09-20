@@ -12,12 +12,12 @@ public enum BadBreathState implements State<BadBreath> {
     CHASE {
         @Override
         public void enter(BadBreath badBreath) {
-            badBreath.chase();
             badBreath.incNumbersChasing();
         }
 
         @Override
         public void update(BadBreath badBreath) {
+            badBreath.chase();
             super.update(badBreath);
 
             if (BadBreath.getNumberChasing() >= 2) {
@@ -43,7 +43,7 @@ public enum BadBreathState implements State<BadBreath> {
     },
     DECEIVE {
         @Override
-        public void enter(BadBreath badBreath) {
+        public void update(BadBreath badBreath) {
             badBreath.deceive();
         }
 
@@ -65,7 +65,7 @@ public enum BadBreathState implements State<BadBreath> {
     },
     DEFEND {
         @Override
-        public void enter(BadBreath badBreath) {
+        public void update(BadBreath badBreath) {
             badBreath.defend();
         }
 
@@ -82,12 +82,8 @@ public enum BadBreathState implements State<BadBreath> {
     },
     FLEE {
         @Override
-        public void enter(BadBreath badBreath) {
-            badBreath.flee();
-        }
-
-        @Override
         public void update(BadBreath badBreath) {
+            badBreath.flee();
             if(badBreath.collided(badBreath.getThomas().getPosition()))
                 badBreath.getBadBreathStateMachine().changeState(DIE);
         }
@@ -119,6 +115,12 @@ public enum BadBreathState implements State<BadBreath> {
             badBreath.revive();
         }
     };
+
+
+    @Override
+    public void enter(BadBreath entity) {
+
+    }
 
     @Override
     public void update(BadBreath badBreath) {
