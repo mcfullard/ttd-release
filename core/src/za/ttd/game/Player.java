@@ -6,7 +6,7 @@ import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.utils.TimeUtils;
 import za.ttd.characters.states.MessageType;
 
-public class Gamer implements Telegraph {
+public class Player implements Telegraph {
 
     private String name;
     private int totScore, highestLevel;
@@ -14,7 +14,7 @@ public class Gamer implements Telegraph {
     private int lives;
     public ScoringSystem scoring;
 
-    public Gamer(String name, int highestScore, int highestLevel, int lives) {
+    public Player(String name, int highestScore, int highestLevel, int lives) {
         this.name = name;
         this.totScore = highestScore;
         this.highestLevel = highestLevel;

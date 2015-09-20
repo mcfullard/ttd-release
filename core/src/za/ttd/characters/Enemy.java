@@ -9,8 +9,8 @@ import za.ttd.characters.states.MessageType;
 
 public abstract class Enemy extends Actor {
     protected float defaultSpeed;
-    protected boolean vulnerable, killable;
-    protected Player thomas;
+    protected boolean vulnerable;
+    protected Thomas thomas;
     private StateMachine<Enemy> speedStateMachine;
 
     public Enemy(Position position, float speed, String actorName) {
@@ -18,7 +18,6 @@ public abstract class Enemy extends Actor {
         this.defaultSpeed = speed;
         speedStateMachine = new DefaultStateMachine(this, EnemySpeedState.NORMAL);
         vulnerable = false;
-        killable = false;
     }
 
     public void update() {
@@ -37,25 +36,12 @@ public abstract class Enemy extends Actor {
     public void setVulnerable(boolean vulnerable) {
         this.vulnerable = vulnerable;
 
-        if (vulnerable) {
-            slow();
-            //Play different animations
-        }
-        else
-            super.movementSpeed = defaultSpeed;
+        //Play different animations using if statement to check
     }
     /*
     * @return the current state of enemies vulnerability*/
     public boolean getVulnerability() {
         return vulnerable;
-    }
-
-    public boolean getKillable() {
-        return killable;
-    }
-
-    public void setKillable(boolean killable) {
-        this.killable = killable;
     }
 
     /////////////////////////////////////////////Speed Controls/////////////////////////////////////////////////////////
@@ -64,21 +50,15 @@ public abstract class Enemy extends Actor {
     }
 
     public void normalSpeed() {
-        if (vulnerable)
-            slow();
-        else
-            super.movementSpeed = defaultSpeed;
+        super.movementSpeed = defaultSpeed;
     }
 
     public void speedUp() {
-        if (vulnerable)
-            super.movementSpeed = defaultSpeed;
-        else
-            super.movementSpeed = defaultSpeed*1.2f;
+        super.movementSpeed = defaultSpeed*1.2f;
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Player getThomas() {
+    public Thomas getThomas() {
         return thomas;
     }
 
@@ -94,7 +74,6 @@ public abstract class Enemy extends Actor {
     public void revive() {
         super.revive();
         this.vulnerable = false;
-        this.killable = false;
     }
 
     @Override
@@ -102,7 +81,7 @@ public abstract class Enemy extends Actor {
         switch(msg.message){
             case MessageType.SEND_THOMAS:
                 if(msg.extraInfo != null)
-                    thomas = (Player) msg.extraInfo;
+                    thomas = (Thomas) msg.extraInfo;
                 return true;
             case MessageType.TOOTHBRUSH_COLLECTED:
                 return true;

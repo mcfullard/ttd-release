@@ -3,7 +3,7 @@ package za.ttd.renderers;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import za.ttd.game.Gamer;
+import za.ttd.game.Player;
 
 public class HudRenderer {
     private BitmapFont lblLvlScore, lblPlayTime, lblLvlNum;
@@ -18,11 +18,11 @@ public class HudRenderer {
         batch.getProjectionMatrix().setToOrtho2D(0,0,600,800);
     }
 
-    public void render(Gamer gamer) {
-        long time = gamer.scoring.getElapsedTime();
+    public void render(Player player) {
+        long time = player.scoring.getElapsedTime();
         batch.begin();
-        lblLvlScore.draw(batch, "LEVEL SCORE: " + gamer.scoring.getLvlScore(), 10, 750);
-        lblLvlScore.draw(batch, "LEVEL : " + gamer.getHighestLevel(), 250, 750);
+        lblLvlScore.draw(batch, "LEVEL SCORE: " + player.scoring.getLvlScore(), 10, 750);
+        lblLvlScore.draw(batch, "LEVEL : " + player.getHighestLevel(), 250, 750);
         lblPlayTime.draw(batch,
                 String.format(
                         "TIME %s:%s",

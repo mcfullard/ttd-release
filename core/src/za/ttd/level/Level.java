@@ -6,7 +6,7 @@ import com.badlogic.gdx.ai.msg.TelegramProvider;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.utils.TimeUtils;
 import za.ttd.characters.states.MessageType;
-import za.ttd.game.Gamer;
+import za.ttd.game.Player;
 import za.ttd.characters.*;
 import za.ttd.characters.objects.Direction;
 import za.ttd.characters.objects.Movement;
@@ -41,8 +41,8 @@ public class Level
     private int imgScale;
     private MazeRenderer mazeRenderer;
     private CharacterRenderer charRenderer;
-    private Gamer gamer;
-    private Player thomas;
+    private Player player;
+    private Thomas thomas;
     private HudRenderer hudRenderer;
     private final long powerTime = 15;
     private long startPowerTime;
@@ -51,11 +51,11 @@ public class Level
     private Controls controls;
     private ttd game;
 
-    public Level(ttd game, Gamer gamer) {
+    public Level(ttd game, Player player) {
         this.game = game;
-        this.gamer = gamer;
+        this.player = player;
         this.imgScale = 32;
-        map = Grid.generateMap(12, 4, gamer.getHighestLevel());
+        map = Grid.generateMap(12, 4, player.getHighestLevel());
         gameItems = new HashMap<>();
         enemies = new ArrayList<>();
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
@@ -71,7 +71,7 @@ public class Level
 
     public void render(){
         mazeRenderer.render();
-        hudRenderer.render(gamer);
+        hudRenderer.render(player);
         charRenderer.render(getRenderables(gameItems.values()));
         MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_LOADING);
         update();
@@ -114,7 +114,7 @@ public class Level
 
                 if (map.isType(c, r, Map.THOMAS)) {
                     position.setX(position.getX() + .5f);
-                    thomas = new Player(position, .07f);
+                    thomas = new Thomas(position, .07f);
                     MessageManager.getInstance().addListener(thomas,
                             MessageType.SEND_ITEMS);
                     ++c;
@@ -159,12 +159,12 @@ public class Level
 
         if (gameItems.get(thomPos) instanceof Plaque) {
             gameItems.remove(thomPos);
-            gamer.scoring.collectibleFound();
+            player.scoring.collectibleFound();
         }
 
         if (gameItems.get(thomPos) instanceof Mouthwash) {
             gameItems.remove(thomPos);
-            gamer.scoring.powerUsed();
+            player.scoring.powerUsed();
             powerUp(true);
         }
 
@@ -172,11 +172,6 @@ public class Level
             gameItems.remove(thomPos);
             toothBrushPower();
         }
-
-        for (Enemy enemy:enemies)
-            if (enemy.collided(thomas.getPosition()))
-                if (enemy.getKillable())
-                    enemy.kill();
     }
 
     /*
@@ -185,7 +180,7 @@ public class Level
     private void toothBrushPower() {
         for(Enemy enemy:enemies) {
             if (enemy instanceof ToothDecay)
-                enemy.setKillable(true);
+                //enemy.setKillable(true);
             enemy.setVulnerable(true);
         }
     }
@@ -201,7 +196,7 @@ public class Level
         for (Enemy enemy : enemies) {
             if (enemy instanceof BadBreath) {
                 enemy.setVulnerable(powered);
-                enemy.setKillable(powered);
+                //enemy.setKillable(powered);
             } else
                 enemy.setVulnerable(powered);
         }

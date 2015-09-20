@@ -2,31 +2,31 @@ package za.ttd.characters.states;
 
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
-import za.ttd.characters.Player;
+import za.ttd.characters.Thomas;
 
 /**
  * @author minnaar
  * @since 2015/09/20.
  */
-public enum ThomasState implements State<Player> {
+public enum ThomasState implements State<Thomas> {
     ;
     @Override
-    public void enter(Player thomas) {
+    public void enter(Thomas thomas) {
 
     }
 
     @Override
-    public void update(Player thomas) {
+    public void update(Thomas thomas) {
 
     }
 
     @Override
-    public void exit(Player thomas) {
+    public void exit(Thomas thomas) {
 
     }
 
     @Override
-    public boolean onMessage(Player thomas, Telegram telegram) {
+    public boolean onMessage(Thomas thomas, Telegram telegram) {
         return false;
     }
 }

@@ -32,7 +32,19 @@ public enum EnemySpeedState implements State<Enemy> {
         @Override
         public void update(Enemy enemy) {
             if (enemy.getGameItems().get(enemy.getPosition()) instanceof Plaque)
-                enemy.getSpeedStateMachine().changeState(FAST);
+                enemy.normalSpeed();
+        }
+
+        @Override
+        public boolean onMessage(Enemy enemy, Telegram telegram) {
+            boolean status = super.onMessage(enemy, telegram);
+
+            if (!status && telegram.message == MessageType.MOUTHWASH_EXPIRED) {
+                enemy.getSpeedStateMachine().changeState(NORMAL);
+                return true;
+            }
+            else
+                return status;
         }
     },
     FAST(){
@@ -45,7 +57,6 @@ public enum EnemySpeedState implements State<Enemy> {
         public void update(Enemy enemy) {
             if (!(enemy.getGameItems().get(enemy.getPosition()) instanceof Plaque))
                 enemy.getSpeedStateMachine().changeState(NORMAL);
-
         }
     }
     ;
@@ -56,6 +67,12 @@ public enum EnemySpeedState implements State<Enemy> {
 
     @Override
     public boolean onMessage(Enemy enemy, Telegram telegram) {
-        return false;
+        if (telegram.message == MessageType.MOUTHWASH_COLLECTED) {
+            enemy.getSpeedStateMachine().changeState(SLOW);
+            return true;
+        }
+        else
+            return false;
+
     }
 }

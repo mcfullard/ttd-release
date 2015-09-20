@@ -67,15 +67,12 @@ public enum BadBreathState implements State<BadBreath> {
         public boolean onMessage(BadBreath badBreath, Telegram telegram) {
             boolean state = super.onMessage(badBreath, telegram);
 
-            if (!state)
-                if (telegram.message == MessageType.MOUTHWASH_EXPIRED) {
-                    badBreath.getBadBreathStateMachine().changeState(CHASE);
-                    return true;
-                }
-                else
-                    return false;
+            if (!state && telegram.message == MessageType.MOUTHWASH_EXPIRED) {
+                badBreath.getBadBreathStateMachine().changeState(CHASE);
+                return true;
+            }
             else
-                return false;
+                return state;
         }
     },
     DIE {

@@ -5,7 +5,7 @@ import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import za.ttd.characters.states.MessageType;
-import za.ttd.game.Gamer;
+import za.ttd.game.Player;
 import za.ttd.level.Level;
 import za.ttd.screens.GameScreen;
 import za.ttd.screens.LoadingScreen;
@@ -16,7 +16,7 @@ public class ttd extends Game
         implements Telegraph
 {
     private Level level;
-    private Gamer gamer;
+    private Player player;
 
 	public static final String TITLE = "The Wrath of Thomas the Dentist";
 	public static final int WIDTH = 600, HEIGHT = 800;
@@ -28,13 +28,13 @@ public class ttd extends Game
 
     public void newGame(String name) {
         setScreen(new LoadingScreen(this));
-        gamer = new Gamer(name, 0, 1, 2);
-        level = new Level(this, gamer);
+        player = new Player(name, 0, 1, 2);
+        level = new Level(this, player);
         MessageManager.getInstance().addProviders(level,
                 MessageType.SEND_THOMAS,
                 MessageType.SEND_ITEMS,
                 MessageType.SEND_ENEMIES);
-        MessageManager.getInstance().addListeners(gamer,
+        MessageManager.getInstance().addListeners(player,
                 MessageType.THOMAS_LOSES_LIFE,
                 MessageType.BADBREATH_DEAD,
                 MessageType.TOOTHDECAY_DEAD);
@@ -43,13 +43,13 @@ public class ttd extends Game
 
     public void continueGame(String name) {
         //Run method to find the users game data so they can continue from where they left off
-        gamer = new Gamer(name, 0, 1, 2);
-        level = new Level(this, gamer);
+        player = new Player(name, 0, 1, 2);
+        level = new Level(this, player);
         MessageManager.getInstance().addProviders(level,
                 MessageType.SEND_THOMAS,
                 MessageType.SEND_ITEMS,
                 MessageType.SEND_ENEMIES);
-        MessageManager.getInstance().addListeners(gamer,
+        MessageManager.getInstance().addListeners(player,
                 MessageType.THOMAS_LOSES_LIFE,
                 MessageType.BADBREATH_DEAD,
                 MessageType.TOOTHDECAY_DEAD);
@@ -67,8 +67,8 @@ public class ttd extends Game
                 setScreen(new MainMenu(this));
                 return true;
             case MessageType.TOOTHDECAY_DEAD:
-                gamer.incHighestLevel();
-                level = new Level(this, gamer);
+                player.incHighestLevel();
+                level = new Level(this, player);
                 setScreen(new GameScreen(this));
                 return true;
             case MessageType.LEVEL_LOADING:
