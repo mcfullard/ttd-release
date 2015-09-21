@@ -16,6 +16,12 @@ public abstract class Enemy extends Actor {
     protected PathFinder pathFinder;
     private StateMachine<Enemy> speedStateMachine;
 
+    private static final int FLEE_RADIUS = 10;
+    private static final int NEAR_THOMAS = 10;
+    private final int UPDATE_COUNT_LIMIT = 250;
+    private int updateCount = 0;
+    private Position lastRandomDestination = new Position(1,1);
+
     public Enemy(Position position, float speed, String actorName) {
         super(position, speed, actorName);
         this.defaultSpeed = speed;
@@ -81,6 +87,28 @@ public abstract class Enemy extends Actor {
 
     public boolean collided(Position checkPos) {
         return position.compareBase(checkPos);
+    }
+
+    public void flee() {
+        PathFinder pf = getPathFinder();
+        updateCount++;
+        if(updateCount >= UPDATE_COUNT_LIMIT) {
+            do {
+                lastRandomDestination = PathFinder.getRandomPosition(
+                        pf.getWithinRadiusOf(
+                                position,
+                                FLEE_RADIUS
+                        )
+                );
+            } while(pf.getWithinRadiusOf(thomas.getPosition(), NEAR_THOMAS).contains(lastRandomDestination));
+            updateCount = 0;
+        }
+        this.setDirection(
+                pf.shortestPathTo(
+                        position,
+                        lastRandomDestination
+                )
+        );
     }
 
     @Override

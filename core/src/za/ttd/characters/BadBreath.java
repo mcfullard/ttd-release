@@ -50,19 +50,9 @@ public class BadBreath extends Enemy {
         );
     }
 
+    @Override
     public void flee() {
-        PathFinder pf = getPathFinder();
-        this.setDirection(
-                pf.shortestPathTo(
-                        position,
-                        PathFinder.getRandomPosition(
-                                pf.getWithinRadiusOf(
-                                        getThomas().getPosition(),
-                                        FLEE_RADIUS
-                                )
-                        )
-                )
-        );
+        super.flee();
     }
 
     public void die() {

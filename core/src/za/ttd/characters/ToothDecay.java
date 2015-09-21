@@ -10,12 +10,7 @@ import za.ttd.pathfinding.PathFinder;
 
 public class ToothDecay extends Enemy {
 
-    private static final int NEAR_THOMAS = 10;
     private StateMachine<ToothDecay> toothDecayStateMachine;
-    private static final int FLEE_RADIUS = 10;
-    private final int UPDATE_COUNT_LIMIT = 250;
-    private int updateCount = 0;
-    private Position lastRandomDestination = new Position(1,1);
 
     public ToothDecay(Position position, float speed){
         super(position, speed, "ToothDecay");
@@ -40,26 +35,9 @@ public class ToothDecay extends Enemy {
         );
     }
 
+    @Override
     public void flee() {
-        PathFinder pf = getPathFinder();
-        updateCount++;
-        if(updateCount >= UPDATE_COUNT_LIMIT) {
-            do {
-                lastRandomDestination = PathFinder.getRandomPosition(
-                        pf.getWithinRadiusOf(
-                                position,
-                                FLEE_RADIUS
-                        )
-                );
-            } while(pf.getWithinRadiusOf(thomas.getPosition(), NEAR_THOMAS).contains(lastRandomDestination));
-            updateCount = 0;
-        }
-        this.setDirection(
-                pf.shortestPathTo(
-                        position,
-                        lastRandomDestination
-                )
-        );
+        super.flee();
     }
 
     public void die() {
