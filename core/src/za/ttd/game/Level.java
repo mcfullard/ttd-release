@@ -1,4 +1,4 @@
-package za.ttd.level;
+package za.ttd.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.msg.MessageManager;

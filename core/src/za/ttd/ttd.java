@@ -6,7 +6,7 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import za.ttd.characters.states.MessageType;
 import za.ttd.game.Player;
-import za.ttd.level.Level;
+import za.ttd.game.Level;
 import za.ttd.screens.GameScreen;
 import za.ttd.screens.LoadingScreen;
 import za.ttd.screens.MainMenu;
