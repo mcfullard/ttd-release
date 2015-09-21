@@ -1,6 +1,7 @@
 package za.ttd;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import za.ttd.characters.states.MessageType;
@@ -19,6 +20,18 @@ public class ttd extends Game
 
 	public static final String TITLE = "The Wrath of Thomas the Dentist";
 	public static final int WIDTH = 600, HEIGHT = 800;
+
+    public ttd() {
+        registerSelfAsListener();
+    }
+
+    private void registerSelfAsListener() {
+        MessageManager.getInstance().addListeners(this,
+                MessageType.THOMAS_DEAD,
+                MessageType.TOOTHDECAY_DEAD,
+                MessageType.LEVEL_LOADED
+        );
+    }
 
 	@Override
 	public void create() {

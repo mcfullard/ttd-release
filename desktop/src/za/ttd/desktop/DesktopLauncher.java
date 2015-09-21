@@ -16,11 +16,6 @@ public class DesktopLauncher {
 		config.height = ttd.HEIGHT;
 		config.title = ttd.TITLE;
 		ttd gameInstance = new ttd();
-		MessageManager.getInstance().addListeners(gameInstance,
-				MessageType.THOMAS_DEAD,
-				MessageType.TOOTHDECAY_DEAD,
-				MessageType.LEVEL_LOADED
-				);
 		new LwjglApplication(gameInstance, config);
 	}
 }
