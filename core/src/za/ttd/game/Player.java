@@ -62,6 +62,7 @@ public class Player implements Telegraph {
         switch(msg.message) {
             case MessageType.THOMAS_LOSES_LIFE:
                 if(this.lives > 0) {
+                    --lives;
                     scoring.lifeUsed();
                     MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_RESET);
                 } else {

@@ -72,10 +72,13 @@ public class ToothDecay extends Enemy {
     @Override
     public boolean handleMessage(Telegram msg) {
         boolean result = false;
-        if(msg.message == MessageType.TOOTHBRUSH_COLLECTED) {
-            toothDecayStateMachine.handleMessage(msg);
-            result = true;
+        switch (msg.message) {
+            case MessageType.TOOTHBRUSH_COLLECTED:
+            case MessageType.LEVEL_RESET:
+                toothDecayStateMachine.handleMessage(msg);
+                result = true;
         }
+
         return super.handleMessage(msg) && result;
     }
 }

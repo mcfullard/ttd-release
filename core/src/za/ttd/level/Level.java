@@ -155,7 +155,8 @@ public class Level
                     MessageType.SEND_THOMAS,
                     MessageType.TOOTHBRUSH_COLLECTED,
                     MessageType.MOUTHWASH_COLLECTED,
-                    MessageType.MOUTHWASH_EXPIRED
+                    MessageType.MOUTHWASH_EXPIRED,
+                    MessageType.LEVEL_RESET
                     );
         }
 
@@ -163,8 +164,8 @@ public class Level
     }
 
     private void reset() {
-        thomas.revive();
         controls.reset();
+        thomas.revive();
 
         for (Enemy enemy:enemies) {
             enemy.revive();

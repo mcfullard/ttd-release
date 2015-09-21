@@ -36,7 +36,6 @@ public enum ToothDecayState implements State<ToothDecay> {
     }
     ;
 
-
     @Override
     public void enter(ToothDecay entity) {
 

@@ -122,6 +122,7 @@ public class BadBreath extends Enemy {
             case MessageType.TOOTHBRUSH_COLLECTED:
             case MessageType.MOUTHWASH_COLLECTED:
             case MessageType.MOUTHWASH_EXPIRED:
+            case MessageType.LEVEL_RESET:
                 badBreathStateMachine.handleMessage(msg);
                 break;
         }
