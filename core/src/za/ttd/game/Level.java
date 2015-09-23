@@ -44,6 +44,8 @@ public class Level
     private Thomas thomas;
     private HudRenderer hudRenderer;
 
+    private  Toothbrush benny;
+
     private Movement movement;
     private Controls controls;
 
@@ -114,7 +116,7 @@ public class Level
 
                 if (r == 1 && c == (map.getMap()[0].length / 2)-1) {
                     position.setX(position.getX() + .5f);
-                    enemies.add(new ToothDecay(position, .07f));
+                    enemies.add(new ToothDecay(position, .065f));
                     ++c;
                 }
                 else if (map.isType(c, r, Map.PATH))
@@ -127,22 +129,20 @@ public class Level
                             MessageType.SEND_ITEMS);
                     ++c;
                 }
+
                 if (map.isType(c, r, Map.BAD_BREATH)) {
-                    Enemy badBreath = new BadBreath(position, .07f, "BadBreath");
+                    Enemy badBreath = new BadBreath(position, .065f, "BadBreath");
                     enemies.add(badBreath);
                 }
+
                 if (map.isType(c, r, Map.MOUTHWASH)) {
                     gameItems.put(position, new Mouthwash(position));
                 }
-                if (map.isType(c, r, Map.TOOTH_DECAY)) {
-                    position.setX(position.getX()+.5f);
-                    enemies.add(new ToothDecay(position, .07f));
-                    ++c;
-                    break;
-                }
+
                 if (map.isType(c, r, Map.BRUSH)) {
                     position.setX(position.getX() + .5f);
-                    gameItems.put(position, new Toothbrush(position));
+                    benny = new Toothbrush(position);
+                    gameItems.put(position, benny);
                     ++c;
                 }
             }
@@ -166,6 +166,7 @@ public class Level
     private void reset() {
         controls.reset();
         thomas.revive();
+        gameItems.put(benny.getPosition(), benny);
 
         for (Enemy enemy:enemies) {
             enemy.revive();

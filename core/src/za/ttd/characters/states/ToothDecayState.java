@@ -57,6 +57,10 @@ public enum ToothDecayState implements State<ToothDecay> {
             toothDecay.getToothDecayStateMachine().changeState(FLEE);
             return true;
         }
+        else if (telegram.message == MessageType.LEVEL_RESET) {
+            toothDecay.getToothDecayStateMachine().changeState(CHASE);
+            return true;
+        }
         else
             return false;
     }
