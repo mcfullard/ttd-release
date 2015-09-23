@@ -202,4 +202,29 @@ public class PathFinderTest {
         assertEquals(s2, pf.getWithinRadiusOf(origin, 2));
     }
 
+    @Test
+    public void getRandomPositionTest() throws Exception {
+        Map map = Grid.generateMap(15,5,1264);
+        PathFinder pf = new PathFinder(map);
+        Position origin = new Position(1,1);
+        Position p1 = new Position(1,2);
+        Position p2 = new Position(1,3);
+        Position p3 = new Position(2,3);
+        Position p4 = new Position(3,3);
+        Position p5 = new Position(2,1);
+        Position p6 = new Position(3,1);
+        Set<Position> s1 = new HashSet<>();
+        Set<Position> s2 = new HashSet<>();
+        s1.add(p1);
+        s1.add(p5);
+        s2.add(p1);
+        s2.add(p2);
+        s2.add(p3);
+        s2.add(p4);
+        s2.add(p5);
+        s2.add(p6);
+        assertTrue(s1.contains(pf.getRandomPosition(pf.getWithinRadiusOf(origin, 1))));
+        assertTrue(s2.contains(pf.getRandomPosition(pf.getWithinRadiusOf(origin, 2))));
+    }
+
 }

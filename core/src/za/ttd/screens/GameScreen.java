@@ -1,6 +1,6 @@
 package za.ttd.screens;
 
-import za.ttd.level.Level;
+import za.ttd.game.Level;
 import za.ttd.ttd;
 
 /**

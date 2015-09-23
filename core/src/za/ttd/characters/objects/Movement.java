@@ -129,7 +129,7 @@ public class Movement {
 
     private boolean tryMoveUp(Direction dir) {
         int y = position.getChangedFloorY(-speed);
-        int x; // = position.getIntX();
+        int x;
 
         if (dir == Direction.LEFT)
             x = position.getCeilX();
@@ -141,7 +141,7 @@ public class Movement {
 
     private boolean tryMoveDown(Direction dir) {
         int y = position.getChangedCeilY(speed);
-        int x; // = position.getIntX();
+        int x;
 
         if (dir == Direction.LEFT)
             x = position.getCeilX();
@@ -152,7 +152,7 @@ public class Movement {
     }
 
     private boolean tryMoveLeft(Direction dir) {
-        int y; // = position.getIntY();
+        int y;
         int x = position.getChangedFloorX(-speed);
 
 
@@ -165,7 +165,7 @@ public class Movement {
     }
 
     private boolean tryMoveRight(Direction dir) {
-        int y; // = position.getIntY();
+        int y;
         int x = position.getChangedCeilX(speed);
 
         if (dir == Direction.UP)

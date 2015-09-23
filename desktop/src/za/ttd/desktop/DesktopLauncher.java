@@ -1,8 +1,10 @@
 package za.ttd.desktop;
 
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
+import za.ttd.characters.states.MessageType;
 import za.ttd.ttd;
 
 public class DesktopLauncher {
@@ -13,6 +15,7 @@ public class DesktopLauncher {
 		config.width = ttd.WIDTH;
 		config.height = ttd.HEIGHT;
 		config.title = ttd.TITLE;
-		new LwjglApplication(new ttd(), config);
+		ttd gameInstance = new ttd();
+		new LwjglApplication(gameInstance, config);
 	}
 }

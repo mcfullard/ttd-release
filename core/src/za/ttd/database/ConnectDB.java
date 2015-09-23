@@ -98,7 +98,7 @@ public class ConnectDB {
     }
 
     /**
-     * Save Player Current level and Current score
+     * Save Thomas Current level and Current score
      * @param ID
      * @param Level
      * @param Score
