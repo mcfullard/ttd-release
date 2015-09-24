@@ -31,8 +31,6 @@ public class MainMenu extends AbstractScreen {
     private TextButton buttonExit = new TextButton("Exit", skin);
     private Label title = new Label("Main Menu", skin);
 
-    private Game game;
-
     public MainMenu(Game game) {
         super(game);
     }
