@@ -79,6 +79,10 @@ public class Assets {
             return null;
     }
 
+    public TextureAtlas getTextureAtlas() {
+        return textureAtlas;
+    }
+
     public Boolean isLoaded() {
         return loaded;
     }
