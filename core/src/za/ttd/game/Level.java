@@ -10,8 +10,6 @@ import za.ttd.characters.objects.Direction;
 import za.ttd.characters.objects.Movement;
 import za.ttd.characters.objects.Position;
 import za.ttd.characters.states.MessageType;
-import za.ttd.game.Controls;
-import za.ttd.game.Player;
 import za.ttd.mapgen.Grid;
 import za.ttd.mapgen.Map;
 import za.ttd.pathfinding.PathFinder;
@@ -29,9 +27,9 @@ import java.util.*;
  * @author minnaar
  * @since 2015/08/17.
  */
-public class Level
-        implements TelegramProvider, Telegraph
-{
+public class Level implements
+        TelegramProvider,
+        Telegraph {
     private Map map;
 
     private java.util.Map<Position, InGameObject> gameItems;
@@ -43,6 +41,7 @@ public class Level
     private Player player;
     private Thomas thomas;
     private HudRenderer hudRenderer;
+    private boolean loading;
 
     private  Toothbrush benny;
 
@@ -50,6 +49,7 @@ public class Level
     private Controls controls;
 
     public Level(Player player) {
+        loading = true;
         this.player = player;
         this.imgScale = 32;
 
@@ -60,12 +60,12 @@ public class Level
         mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
         charRenderer = new CharacterRenderer(map.getMap(), imgScale);
 
-        movement = new Movement(map);
         pathFinder = new PathFinder(map);
+        movement = new Movement(map);
         registerSelfAsProvider();
         registerSelfAsListener();
-        initGameObjects();
 
+        new Thread(() -> initGameObjects()).start();
         hudRenderer = new HudRenderer();
         controls = new Controls();
     }
@@ -161,6 +161,7 @@ public class Level
         }
 
         MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_LOADED);
+        loading = false;
     }
 
     private void reset() {
@@ -232,5 +233,9 @@ public class Level
                 return (ToothDecay) enemy;
         }
         return null;
+    }
+
+    public boolean loading() {
+        return loading;
     }
 }

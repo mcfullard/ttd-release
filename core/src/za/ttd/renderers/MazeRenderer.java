@@ -2,29 +2,13 @@ package za.ttd.renderers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import za.ttd.game.Assets;
 
 public class MazeRenderer {
 
-    private Texture tocWall; //toc: Top Open Connector
-    private Texture rocWall; //roc: Right Open Connector
-    private Texture bocWall; //boc: Bottom Open Connector
-    private Texture locWall; //loc: Left Open Connector
-    private Texture hocWall; //hoc: Horizontal Open Connector
-    private Texture vocWall; //voc: Vertical Open Connector
-    private Texture tveWall; //tve: Top Vertical Edge
-    private Texture rheWall; //rhe: Right Horizontal Edge
-    private Texture bveWall; //bve: Bottom Vertical Edge
-    private Texture lheWall; //lhe: Left Horizontal Edge
-    private Texture tlcWall; //tle: Top Left Corner
-    private Texture blcWall; //ble: Bottom Left Corner
-    private Texture trcWall; //tre: Top Right Corner
-    private Texture brcWall; //bre: Bottom Right Corner
-    private Texture blkWall; //bre: Block
-    private Texture empWall; //bre: empty
-
     private int wall = 1, path = 0;
+    private Assets assets;
 
     int imgScale;
 
@@ -36,30 +20,11 @@ public class MazeRenderer {
     public MazeRenderer(int[][] maze, int imgScale) {
         this.maze = maze;
         this.imgScale = imgScale;
+        assets = Assets.getInstance();
         create();
     }
 
     public void create() {
-        /*Here we load the images for each level before the level shows up
-          Images are 64X64 pixels*/
-
-        tocWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/tocWall.png"));
-        rocWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/rocWall.png"));
-        bocWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/bocWall.png"));
-        locWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/locWall.png"));
-        hocWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/hocWall.png"));
-        vocWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/vocWall.png"));
-        tveWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/tveWall.png"));
-        rheWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/rheWall.png"));
-        bveWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/bveWall.png"));
-        lheWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/lheWall.png"));
-        tlcWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/tlcWall.png"));
-        blcWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/blcWall.png"));
-        trcWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/trcWall.png"));
-        brcWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/brcWall.png"));
-        blkWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/blkWall.png"));
-        empWall = new Texture(Gdx.files.internal("core/assets/textures/in/map/empWall.png"));
-
         //Sprite Batch for drawing images
         batch = new SpriteBatch();
         //Tell SpriteBatch to render in the co-ordinate system specified by screen
@@ -78,7 +43,6 @@ public class MazeRenderer {
     }
 
     private void drawMaze() {
-
         int row = maze.length;
         int column = maze[0].length;
 
@@ -86,8 +50,6 @@ public class MazeRenderer {
             for (int j = 0; j < column; ++j) {
                 int curCell = maze[i][j];
 
-                /* 1 = wall
-                *  0 = path*/
                 if (curCell == 1) {
 
                     int top;
@@ -122,37 +84,37 @@ public class MazeRenderer {
 
                     //Wall type checker
                     if (top == wall && right == wall && bottom != wall && left == wall)
-                        batch.draw(tocWall, j * imgScale, (row - i) * imgScale);
+                        batch.draw(assets.getTexture("tocWall"), j * imgScale, (row - i) * imgScale);
                     else if (top == wall && right == wall && bottom == wall && left != wall)
-                        batch.draw(rocWall, j * imgScale, (row - i) * imgScale);
+                        batch.draw(assets.getTexture("rocWall"), j * imgScale, (row - i) * imgScale);
                     else if (top != wall && right == wall && bottom == wall && left == wall)
-                        batch.draw(bocWall, j * imgScale, (row - i) * imgScale);
+                        batch.draw(assets.getTexture("bocWall"), j * imgScale, (row - i) * imgScale);
                     else if (top == wall && right != wall && bottom == wall && left == wall)
-                        batch.draw(locWall, j * imgScale, (row - i) * imgScale);
+                        batch.draw(assets.getTexture("locWall"), j * imgScale, (row - i) * imgScale);
                     else if (top != wall && right == wall && bottom != wall && left == wall)
-                        batch.draw(hocWall, j * imgScale, (row - i) * imgScale);
+                        batch.draw(assets.getTexture("hocWall"), j * imgScale, (row - i) * imgScale);
                     else if (top == wall && right != wall && bottom == wall && left != wall)
-                        batch.draw(vocWall, j * imgScale, (row - i) * imgScale);
+                        batch.draw(assets.getTexture("vocWall"), j * imgScale, (row - i) * imgScale);
                     else if (top == wall && right != wall && bottom != wall && left != wall)
-                        batch.draw(bveWall, j * imgScale, (row - i) * imgScale);
+                        batch.draw(assets.getTexture("bveWall"), j * imgScale, (row - i) * imgScale);
                     else if (top != wall && right == wall && bottom != wall && left != wall)
-                        batch.draw(lheWall, j * imgScale, (row - i) * imgScale);
+                        batch.draw(assets.getTexture("lheWall"), j * imgScale, (row - i) * imgScale);
                     else if (top != wall && right != wall && bottom == wall && left != wall)
-                        batch.draw(tveWall, j * imgScale, (row - i) * imgScale);
+                        batch.draw(assets.getTexture("tveWall"), j * imgScale, (row - i) * imgScale);
                     else if (top != wall && right != wall && bottom != wall && left == wall)
-                        batch.draw(rheWall, j * imgScale, (row - i) * imgScale);
+                        batch.draw(assets.getTexture("rheWall"), j * imgScale, (row - i) * imgScale);
                     else if (top != wall && right == wall && bottom == wall && left != wall)
-                        batch.draw(tlcWall, j * imgScale, (row - i) * imgScale);
+                        batch.draw(assets.getTexture("tlcWall"), j * imgScale, (row - i) * imgScale);
                     else if (top == wall && right == wall && bottom != wall && left != wall)
-                        batch.draw(blcWall, j * imgScale, (row - i) * imgScale);
+                        batch.draw(assets.getTexture("blcWall"), j * imgScale, (row - i) * imgScale);
                     else if (top != wall && right != wall && bottom == wall && left == wall)
-                        batch.draw(trcWall, j * imgScale, (row - i) * imgScale);
+                        batch.draw(assets.getTexture("trcWall"), j * imgScale, (row - i) * imgScale);
                     else if (top == wall && right != wall && bottom != wall && left == wall)
-                        batch.draw(brcWall, j * imgScale, (row - i) * imgScale);
+                        batch.draw(assets.getTexture("brcWall"), j * imgScale, (row - i) * imgScale);
                     else if(top != wall && right != wall && bottom != wall && left != wall)
-                        batch.draw(blkWall, j * imgScale, (row - i) * imgScale);
+                        batch.draw(assets.getTexture("blkWall"), j * imgScale, (row - i) * imgScale);
                     else if(top == wall && right == wall && bottom == wall && left == wall)
-                        batch.draw(empWall, j * imgScale, (row - i) * imgScale);
+                        batch.draw(assets.getTexture("empWall"), j * imgScale, (row - i) * imgScale);
                 }
             }
         }

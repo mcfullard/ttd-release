@@ -1,6 +1,6 @@
 package za.ttd.screens;
 
-import za.ttd.Game;
+import za.ttd.game.Game;
 
 /**
  * Created by s213391244 on 9/18/2015.
