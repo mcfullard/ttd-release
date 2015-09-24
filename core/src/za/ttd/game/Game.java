@@ -1,13 +1,10 @@
-package za.ttd;
+package za.ttd.game;
 
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import za.ttd.characters.states.MessageType;
-import za.ttd.game.Player;
-import za.ttd.game.Level;
 import za.ttd.screens.GameScreen;
-import za.ttd.screens.LoadingScreen;
 import za.ttd.screens.MainMenu;
 import za.ttd.screens.SplashScreen;
 
@@ -16,6 +13,7 @@ public class Game extends com.badlogic.gdx.Game
 {
     private Level level;
     private Player player;
+    private Assets assets;
 
 	public static final String TITLE = "The Wrath of Thomas the Dentist";
 	public static final int WIDTH = 600, HEIGHT = 800;
@@ -35,13 +33,22 @@ public class Game extends com.badlogic.gdx.Game
 	@Override
 	public void create() {
 		setScreen(new SplashScreen(this));
+        assets = Assets.getInstance();
+        assets.Load();
 	}
 
-    public void newGame(String name) {
-        setScreen(new LoadingScreen(this));
-        player = new Player(name, 0, 1, 2);
+    public void newGame() {
+        player = new Player("Name", 0, 1, 2);
         level = new Level(player);
-        level.render();
+        while(assets.loading() || level.loading()) {
+
+        }
+
+        setScreen(new GameScreen(this));
+    }
+
+    private void createGame() {
+
     }
 
     public void continueGame(String name) {

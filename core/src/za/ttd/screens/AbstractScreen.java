@@ -1,7 +1,7 @@
 package za.ttd.screens;
 
 import com.badlogic.gdx.Screen;
-import za.ttd.Game;
+import za.ttd.game.Game;
 
 /**
  * @author minnaar
