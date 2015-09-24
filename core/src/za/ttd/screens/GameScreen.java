@@ -1,7 +1,7 @@
 package za.ttd.screens;
 
 import za.ttd.game.Level;
-import za.ttd.ttd;
+import za.ttd.Game;
 
 /**
  * @author minnaar
@@ -11,7 +11,7 @@ public class GameScreen extends AbstractScreen {
 
     private Level level;
     
-    public GameScreen(ttd game) {
+    public GameScreen(Game game) {
         super(game);
 
         this.level = game.getLevel();

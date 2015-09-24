@@ -1,12 +1,12 @@
 package za.ttd.screens;
 
-import za.ttd.ttd;
+import za.ttd.Game;
 
 /**
  * Created by s213391244 on 9/18/2015.
  */
 public class HighScoresScreen extends AbstractScreen {
-    public HighScoresScreen(ttd game) {
+    public HighScoresScreen(Game game) {
         super(game);
     }
 

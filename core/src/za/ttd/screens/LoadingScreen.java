@@ -3,7 +3,7 @@ package za.ttd.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.*;
-import za.ttd.ttd;
+import za.ttd.Game;
 
 public class LoadingScreen extends AbstractScreen {
 
@@ -20,7 +20,7 @@ public class LoadingScreen extends AbstractScreen {
     /*private Stage stage;
     private Table table;*/
 
-    public LoadingScreen(ttd game) {
+    public LoadingScreen(Game game) {
         super(game);
         /*stage = new Stage();
         table = new Table();*/
