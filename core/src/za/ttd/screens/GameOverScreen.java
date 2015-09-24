@@ -9,15 +9,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import za.ttd.ttd;
+import za.ttd.Game;
 
 /**
  * Created by Bas on 18/09/2015.
  */
 public class GameOverScreen extends AbstractScreen {
-    private ttd game;
+    private Game game;
 
-    public GameOverScreen(ttd game) {
+    public GameOverScreen(Game game) {
         super(game);
         this.game = game;
     }

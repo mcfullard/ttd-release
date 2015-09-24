@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import za.ttd.ttd;
+import za.ttd.Game;
 
 /**
  * @author minnaar
@@ -31,9 +31,9 @@ public class MainMenu extends AbstractScreen {
     private TextButton buttonExit = new TextButton("Exit", skin);
     private Label title = new Label("Main Menu", skin);
 
-    private ttd game;
+    private Game game;
 
-    public MainMenu(ttd game) {
+    public MainMenu(Game game) {
         super(game);
         this.game = game;
 
@@ -52,7 +52,7 @@ public class MainMenu extends AbstractScreen {
         buttonNewGame.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.newGame("Bas");
+                game.setScreen(new LoadingScreen(game));
             }
         });
 

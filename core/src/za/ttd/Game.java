@@ -1,6 +1,5 @@
 package za.ttd;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
@@ -12,7 +11,7 @@ import za.ttd.screens.LoadingScreen;
 import za.ttd.screens.MainMenu;
 import za.ttd.screens.SplashScreen;
 
-public class ttd extends Game
+public class Game extends com.badlogic.gdx.Game
         implements Telegraph
 {
     private Level level;
@@ -21,7 +20,7 @@ public class ttd extends Game
 	public static final String TITLE = "The Wrath of Thomas the Dentist";
 	public static final int WIDTH = 600, HEIGHT = 800;
 
-    public ttd() {
+    public Game() {
         registerSelfAsListener();
     }
 
