@@ -35,8 +35,6 @@ public class MainMenu extends AbstractScreen {
 
     public MainMenu(ttd game) {
         super(game);
-        this.game = game;
-
     }
 
     @Override
