@@ -1,29 +1,24 @@
 package za.ttd.characters;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import za.ttd.characters.objects.Direction;
 import za.ttd.characters.objects.Position;
 import za.ttd.characters.states.MessageType;
+import za.ttd.game.Assets;
 import za.ttd.renderers.Renderable;
 
 import java.util.Map;
 
 public abstract class Actor extends InGameObject
-        implements Renderable, Telegraph
-{
+        implements Renderable, Telegraph {
 
-    private final String atlasFilePath = "core/assets/textures/out/texture.atlas";
-    private TextureRegion stillTexture;
-    private TextureAtlas textureAtlas;
-    private Animation currentAnimation, animationR, animationL, animationU, animationD;
+    private Animation currentAnimation, animationU, animationD, animationL, animationR, animationI;
+    private Assets assets;
     protected float movementSpeed;
     protected Map<Position, InGameObject> gameItems;
-
     protected Direction direction;
 
     private final float defaultX, defaultY;
@@ -35,30 +30,17 @@ public abstract class Actor extends InGameObject
 
         this.movementSpeed = movementSpeed;
 
+        assets = Assets.getInstance();
         direction = Direction.NONE;
 
-        textureAtlas = new TextureAtlas(Gdx.files.internal(atlasFilePath));
-        stillTexture = textureAtlas.findRegion(String.format("characters/%s0", actorName));
-        //create animations
-        currentAnimation = null; //Will change depending on direction of player
+        //Get animations
+        animationI = assets.getAnimation(actorName, "Idle");
+        animationU = assets.getAnimation(actorName, "Up");
+        animationD = assets.getAnimation(actorName, "Down");
+        animationL = assets.getAnimation(actorName, "Left");
+        animationR = assets.getAnimation(actorName, "Right");
 
-        //Replace up and down references with correct for up and down (currently don't exist)
-        animationU = new Animation(1/8f,
-                textureAtlas.findRegion(String.format("characters/%sU1", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sU2", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sU3", actorName)));
-        animationD = new Animation(1/8f,
-                textureAtlas.findRegion(String.format("characters/%sD1", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sD2", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sD3", actorName)));
-        animationL = new Animation(1/8f,
-                textureAtlas.findRegion(String.format("characters/%sL1", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sL2", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sL3", actorName)));
-        animationR = new Animation(1/8f,
-                textureAtlas.findRegion(String.format("characters/%sR1", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sR2", actorName)),
-                textureAtlas.findRegion(String.format("characters/%sR3", actorName)));
+        currentAnimation = animationI;
     }
 
     public void update() {
@@ -92,7 +74,7 @@ public abstract class Actor extends InGameObject
 
     @Override
     public TextureRegion getTexture() {
-        return stillTexture;
+        return null;
     }
 
     @Override
@@ -118,7 +100,7 @@ public abstract class Actor extends InGameObject
                 break;
             case RIGHT: currentAnimation = animationR;
                 break;
-            default: currentAnimation = null;
+            default: currentAnimation = animationI;
                 break;
         }
     }
@@ -126,7 +108,7 @@ public abstract class Actor extends InGameObject
     /*Reset this Actors position to it's default position,
     * Bring this Actor back to life*/
     public void revive() {
-        currentAnimation = null;
+        currentAnimation = animationI;
         direction = Direction.NONE;
         position.setX(defaultX);
         position.setY(defaultY);

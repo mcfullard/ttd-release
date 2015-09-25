@@ -35,7 +35,7 @@ public class Level implements
     private java.util.Map<Position, InGameObject> gameItems;
     private ArrayList<Enemy> enemies;
     private PathFinder pathFinder;
-    private int imgScale;
+    private final int imgScale = 32;
     private MazeRenderer mazeRenderer;
     private CharacterRenderer charRenderer;
     private Player player;
@@ -51,7 +51,6 @@ public class Level implements
     public Level(Player player) {
         loading = true;
         this.player = player;
-        this.imgScale = 32;
 
         map = Grid.generateMap(12, 4, player.getHighestLevel());
         gameItems = new HashMap<>();
@@ -65,7 +64,7 @@ public class Level implements
         registerSelfAsProvider();
         registerSelfAsListener();
 
-        new Thread(() -> initGameObjects()).start();
+        initGameObjects();
         hudRenderer = new HudRenderer();
         controls = new Controls();
     }
