@@ -19,4 +19,5 @@ public class MessageType {
     public static final int THOMAS_LOSES_LIFE = 11;
     public static final int LEVEL_RESET = 12;
     public static final int SEND_PATHFINDER = 13;
+    public static final int LOAD_LEVEL = 14;
 }

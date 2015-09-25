@@ -7,5 +7,4 @@ public class Plaque extends Collectible {
     public Plaque(Position position) {
         super(position, "Plaque");
     }
-
 }

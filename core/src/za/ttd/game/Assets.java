@@ -25,7 +25,6 @@ public class Assets {
         textureAtlas = new TextureAtlas(Gdx.files.internal(atlasFilePath));
 
         animations = new HashMap<>();
-        animationType = new HashMap<>();
         texturedObjects = new HashMap<>();
         gameCharacters = new ArrayList<>();
 
@@ -38,6 +37,7 @@ public class Assets {
     public void Load() {
         //Create and store animations for characters
         for (String character:gameCharacters) {
+            animationType = new HashMap<>();
             animationType.put("Idle", new Animation(1 / 1f,
                     textureAtlas.findRegion(String.format("characters/%s0", character))));
             animationType.put("Up", new Animation(1 / 8f,
@@ -45,9 +45,9 @@ public class Assets {
                     textureAtlas.findRegion(String.format("characters/%sU2", character)),
                     textureAtlas.findRegion(String.format("characters/%sU3", character))));
             animationType.put("Down", new Animation(1/8f,
-                    textureAtlas.findRegion(String.format("characters/%sU1", character)),
-                    textureAtlas.findRegion(String.format("characters/%sU2", character)),
-                    textureAtlas.findRegion(String.format("characters/%sU3", character))));
+                    textureAtlas.findRegion(String.format("characters/%sD1", character)),
+                    textureAtlas.findRegion(String.format("characters/%sD2", character)),
+                    textureAtlas.findRegion(String.format("characters/%sD3", character))));
             animationType.put("Left", new Animation(1/8f,
                     textureAtlas.findRegion(String.format("characters/%sL1", character)),
                     textureAtlas.findRegion(String.format("characters/%sL2", character)),
@@ -61,8 +61,8 @@ public class Assets {
 
         //Load collectible items
         texturedObjects.put("Plaque", textureAtlas.findRegion("items/Plaque"));
-        texturedObjects.put("Mouthwash", textureAtlas.findRegion("items/Mouthwash"));
-        texturedObjects.put("Toothbrush", textureAtlas.findRegion("items/Toothbrush"));
+        texturedObjects.put("MintyMouthwash", textureAtlas.findRegion("items/MintyMouthwash"));
+        texturedObjects.put("Benny", textureAtlas.findRegion("items/Benny"));
 
         //Load walls
         texturedObjects.put("tocWall", textureAtlas.findRegion("map/tocWall"));
