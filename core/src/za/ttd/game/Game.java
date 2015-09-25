@@ -26,7 +26,8 @@ public class Game extends com.badlogic.gdx.Game
         MessageManager.getInstance().addListeners(this,
                 MessageType.THOMAS_DEAD,
                 MessageType.TOOTHDECAY_DEAD,
-                MessageType.LEVEL_LOADED
+                MessageType.LEVEL_LOADED,
+                MessageType.LOAD_LEVEL
         );
     }
 
@@ -75,6 +76,9 @@ public class Game extends com.badlogic.gdx.Game
                 return true;
             case MessageType.LEVEL_LOADED:
                 setScreen(new GameScreen(this));
+                return true;
+            case MessageType.LOAD_LEVEL:
+                newGame();
                 return true;
         }
         return false;

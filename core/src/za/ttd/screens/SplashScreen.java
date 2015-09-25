@@ -30,7 +30,8 @@ public class SplashScreen extends AbstractScreen {
                 Actions.fadeIn(0.5f),
                 Actions.delay(2),
                 Actions.run(() -> {
-                    game.setScreen(new MainMenu(game));
+                    game.setScreen(new UserInputScreen(game));
+                    //game.setScreen(new MainMenu(game));
                 })
         ));
     }

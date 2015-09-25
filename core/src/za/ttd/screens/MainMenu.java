@@ -1,6 +1,8 @@
 package za.ttd.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.msg.Telegram;
+import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,7 +20,7 @@ import za.ttd.game.Game;
  * The main menu that contains buttons to sub-menus and other actions.
  *
  */
-public class MainMenu extends AbstractScreen {
+public class MainMenu extends AbstractScreen implements Telegraph {
     private Stage stage = new Stage();
     private Table table = new Table();
     private Skin skin = new Skin(Gdx.files.internal("core/assets/textures/out/texture.json"));
@@ -40,7 +42,6 @@ public class MainMenu extends AbstractScreen {
         buttonContinue.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //game.setScreen(new GameScreen(game));
                 game.continueGame("Bas");
             }
         });
@@ -49,13 +50,15 @@ public class MainMenu extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new LoadingScreen(game));
-
+                game.newGame();
+                //MessageManager.getInstance().dispatchMessage(1,MainMenu.this, MessageType.LOAD_LEVEL);
             }
         });
 
         buttonExit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //Save game the exit
                 Gdx.app.exit();
             }
         });
@@ -90,5 +93,10 @@ public class MainMenu extends AbstractScreen {
     public void dispose() {
         stage.dispose();
         skin.dispose();
+    }
+
+    @Override
+    public boolean handleMessage(Telegram msg) {
+        return false;
     }
 }
