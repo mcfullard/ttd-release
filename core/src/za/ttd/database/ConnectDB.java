@@ -4,7 +4,7 @@ import java.net.URISyntaxException;
 import java.sql.*;
 
 public class ConnectDB {
-    final class Statistics {
+    public final class Statistics {
         private final int Benny;
         private final int LevelLives;
         private final int Minty;
