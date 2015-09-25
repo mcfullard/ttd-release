@@ -23,6 +23,7 @@ public class HighScoresScreen extends AbstractScreen {
     public HighScoresScreen(Game game) {
         super(game);
         this.game = game;
+        items = new ArrayList<>();
     }
 
     private Stage stage = new Stage();
@@ -38,7 +39,13 @@ public class HighScoresScreen extends AbstractScreen {
 
     private void getPlayers() {
         //this.players = connectDB.getPlayers();
-        list.setItems(players);
+        getItems();
+        list.setItems(items);
+    }
+    private void getItems(){
+        for(Player player: players){
+            items.add(player.getName()+"\t"+player.getTotScore());
+        }
     }
 
     @Override
@@ -50,13 +57,7 @@ public class HighScoresScreen extends AbstractScreen {
             }
         });
 
-        table.add(playerStatsLabel).size(200, 80).padBottom(40).row();
-        table.add(levelLives).size(100, 40).padBottom(10).row();
-        table.add(plaque).size(100, 40).padBottom(10).row();
-        table.add(badBreath).size(100, 40).padBottom(10).row();
-        table.add(minty).size(100, 40).padBottom(10).row();
-        table.add(benny).size(100, 40).padBottom(10).row();
-        table.add(toothDecay).size(100, 40).padBottom(10).row();
+
         table.setFillParent(true);
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
