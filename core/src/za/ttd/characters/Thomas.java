@@ -13,8 +13,10 @@ public class Thomas extends Actor {
     @Override
     public void update() {
         super.update();
+
         checkCollisions();
     }
+
 
     /*
     * Check Thomas' collisions with the rest of the game objects
