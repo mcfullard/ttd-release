@@ -26,7 +26,8 @@ android/gen/
 *.ipr
 *.iws
 *.iml
-out/
+core/assets/textures/out/*
+!core/assets/textures/out/texture.json
 com_crashlytics_export_strings.xml
 
 ## Eclipse
