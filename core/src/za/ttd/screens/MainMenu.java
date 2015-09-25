@@ -63,6 +63,13 @@ public class MainMenu extends AbstractScreen implements Telegraph {
             }
         });
 
+        buttonStatistics.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new PlayerStatisticsScreen(game));
+            }
+        });
+
         table.add(title).padBottom(40).row();
         table.add(buttonContinue).size(150,60).padBottom(20).row();
         table.add(buttonNewGame).size(150,60).padBottom(20).row();
@@ -83,7 +90,7 @@ public class MainMenu extends AbstractScreen implements Telegraph {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
