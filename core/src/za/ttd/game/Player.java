@@ -8,6 +8,7 @@ import za.ttd.characters.states.MessageType;
 
 public class Player implements Telegraph {
 
+    private int ID;
     private String name;
     private int totScore, highestLevel;
     private int lives;
@@ -20,6 +21,14 @@ public class Player implements Telegraph {
         this.lives = lives;
         this.scoring = new ScoringSystem();
         registerSelfAsListener();
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public int getID() {
+        return ID;
     }
 
     private void registerSelfAsListener() {
@@ -59,9 +68,9 @@ public class Player implements Telegraph {
 
     @Override
     public boolean handleMessage(Telegram msg) {
-        switch(msg.message) {
+        switch (msg.message) {
             case MessageType.THOMAS_LOSES_LIFE:
-                if(this.lives > 0) {
+                if (this.lives > 0) {
                     --lives;
                     scoring.lifeUsed();
                     MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_RESET);
@@ -136,7 +145,7 @@ public class Player implements Telegraph {
         * @return a long value of the time in seconds */
         public long getElapsedTime() {
             elapsedTime = TimeUtils.timeSinceMillis(startTime); //- TimeUtils.timeSinceMillis(overtime);
-            return elapsedTime/1000;
+            return elapsedTime / 1000;
         }
 
         /*
@@ -165,11 +174,11 @@ public class Player implements Telegraph {
         /*
             * calculate to score for the current level*/
         private void calcLvlScore() {
-            lvlScore = collectibleValue*collectiblesFound
+            lvlScore = collectibleValue * collectiblesFound
                     + badBreathValue * badBreathKilled
                     + toothDecayDestroyed * toothDecayValue
-                    - powerUpValue*powersUsed
-                    - livesUsed*lifeValue;
+                    - powerUpValue * powersUsed
+                    - livesUsed * lifeValue;
 
             if (lvlScore < 0) {
                 lvlScore = 0;
@@ -184,9 +193,9 @@ public class Player implements Telegraph {
         * calculate the total score for the level taking in the time it took to complete the level*/
         private void calcLvlTotScore() {
 
-            int timePenalty = (int)elapsedTime/60000;
+            int timePenalty = (int) elapsedTime / 60000;
             if (timePenalty > 0)
-                lvlTotScore = lvlScore + (1000/timePenalty);
+                lvlTotScore = lvlScore + (1000 / timePenalty);
             else
                 lvlTotScore = lvlScore;
         }

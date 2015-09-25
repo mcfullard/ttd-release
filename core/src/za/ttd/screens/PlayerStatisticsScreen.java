@@ -11,7 +11,11 @@ public class PlayerStatisticsScreen extends AbstractScreen {
     ConnectDB.Statistics statistics;
     public PlayerStatisticsScreen(Game game) {
         super(game);
-        statistics = connectDB.getStatistics()
+        try {
+            statistics = connectDB.getStatistics(game.getPlayerID());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

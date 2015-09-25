@@ -83,4 +83,7 @@ public class Game extends com.badlogic.gdx.Game
         }
         return false;
     }
+    public int getPlayerID(){
+        return this.player.getID();
+    }
 }
