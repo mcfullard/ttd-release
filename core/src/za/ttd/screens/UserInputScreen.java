@@ -18,9 +18,9 @@ import za.ttd.game.Game;
 public class UserInputScreen extends AbstractScreen {
     private Stage stage = new Stage();
     private Table table = new Table();
-    private Skin skin = new Skin(Gdx.files.internal("core/assets/skins/menuSkin.json"));
-    private Label labelName = new Label("Player Name", skin);
-    private TextField textName = new TextField("Name...", skin);
+    private Skin skin = new Skin(Gdx.files.internal("core/assets/textures/out/texture.json"));
+    private Label labelName = new Label("Enter Name", skin);
+    private TextField textName = new TextField("", skin);
     private TextButton buttonContinue = new TextButton("Continue", skin);
     private Dialog dialog = new Dialog("Info", skin);
 
@@ -31,7 +31,7 @@ public class UserInputScreen extends AbstractScreen {
     @Override
     public void show() {
         table.add(labelName).padBottom(20).row();
-        table.add(textName).padBottom(20).row();
+        table.add(textName).size(282,54).padBottom(20).row();
         table.add(buttonContinue).padBottom(20).row();
         table.setFillParent(true);
         stage.addActor(table);
@@ -51,4 +51,6 @@ public class UserInputScreen extends AbstractScreen {
         stage.dispose();
         skin.dispose();
     }
+
+
 }
