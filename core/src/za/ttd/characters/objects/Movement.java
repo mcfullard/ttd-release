@@ -1,5 +1,6 @@
 package za.ttd.characters.objects;
 
+import za.ttd.characters.Actor;
 import za.ttd.mapgen.Map;
 
 public class Movement {
@@ -15,10 +16,11 @@ public class Movement {
         moving = false;
     }
 
-    public Direction Move(Position position, float speed, Direction curDirection, Direction nextDirection) {
-        this.position = position;
-        this.speed = speed;
+    public Direction move(Actor actor, Direction nextDirection) {
+        this.position = actor.getPosition();
+        this.speed = actor.getMovementSpeed();
         this.nextDirection = nextDirection;
+        Direction curDirection = actor.getDirection();
 
         switch (nextDirection) {
             case UP:
@@ -127,7 +129,7 @@ public class Movement {
 
     private boolean tryMoveUp(Direction dir) {
         int y = position.getChangedFloorY(-speed);
-        int x; // = position.getIntX();
+        int x;
 
         if (dir == Direction.LEFT)
             x = position.getCeilX();
@@ -139,7 +141,7 @@ public class Movement {
 
     private boolean tryMoveDown(Direction dir) {
         int y = position.getChangedCeilY(speed);
-        int x; // = position.getIntX();
+        int x;
 
         if (dir == Direction.LEFT)
             x = position.getCeilX();
@@ -150,7 +152,7 @@ public class Movement {
     }
 
     private boolean tryMoveLeft(Direction dir) {
-        int y; // = position.getIntY();
+        int y;
         int x = position.getChangedFloorX(-speed);
 
 
@@ -163,7 +165,7 @@ public class Movement {
     }
 
     private boolean tryMoveRight(Direction dir) {
-        int y; // = position.getIntY();
+        int y;
         int x = position.getChangedCeilX(speed);
 
         if (dir == Direction.UP)

@@ -6,19 +6,21 @@ import za.ttd.characters.objects.Direction;
 
 public class Controls {
 
+    public interface startLevelListener {
+        void startLevel(boolean status);
+    }
+
     Direction direction;
+    public startLevelListener startLevel;
 
     public Controls() {
         direction = Direction.NONE;
-    }
-
-    public void update() {
-        processKeys();
+        //startLevel = listener;
     }
 
     /*
     * Get input from user*/
-    private void processKeys() {
+    public void processKeys() {
         if(Gdx.input.isKeyPressed(Input.Keys.UP))
             direction = Direction.UP;
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
@@ -27,6 +29,11 @@ public class Controls {
             direction = Direction.LEFT;
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
             direction = Direction.RIGHT;
+
+        /*if (direction == Direction.NONE)
+            startLevel.startLevel(false);
+        else
+            startLevel.startLevel(true);*/
     }
 
     public boolean keyPressed() {

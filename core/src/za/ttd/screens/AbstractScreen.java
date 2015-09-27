@@ -1,16 +1,16 @@
 package za.ttd.screens;
 
 import com.badlogic.gdx.Screen;
-import za.ttd.ttd;
+import za.ttd.game.Game;
 
 /**
  * @author minnaar
  * @since 20 July 2015
  */
 public abstract class AbstractScreen implements Screen {
-    protected ttd game;
+    final protected Game game;
 
-    public AbstractScreen(ttd game) {
+    public AbstractScreen(Game game) {
         this.game = game;
     }
 

@@ -123,4 +123,27 @@ public class PathFinder {
         return source.getDirectionTo(nodes.get(source).shortestPathTo(destination));
     }
 
+    public Set<Position> getWithinRadiusOf(Position origin, int radius) {
+        Set<Position> matched = new HashSet<>();
+        for(int i = -radius; i <= radius; i++) {
+            for(int j = -radius; j <= radius; j++) {
+                if(j != 0 || i != 0) {
+                    Position changed = new Position(
+                            origin.getChangedRoundX(i),
+                            origin.getChangedRoundY(j)
+                    );
+                    Node match = nodes.get(changed);
+                    if(match != null)
+                        matched.add(match.getOrigin());
+                }
+            }
+        }
+        return matched;
+    }
+
+    public static Position getRandomPosition(Set<Position> positions) {
+        Random random = new Random();
+        return (Position) positions.toArray()[random.nextInt(positions.size())];
+    }
+
 }

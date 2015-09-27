@@ -1,7 +1,7 @@
 package za.ttd.screens;
 
-import za.ttd.level.Level;
-import za.ttd.ttd;
+import za.ttd.game.Game;
+import za.ttd.game.Level;
 
 /**
  * @author minnaar
@@ -11,42 +11,14 @@ public class GameScreen extends AbstractScreen {
 
     private Level level;
     
-    public GameScreen(ttd game) {
+    public GameScreen(Game game) {
         super(game);
 
         this.level = game.getLevel();
     }
 
     @Override
-    public void show() {
-    }
-
-    @Override
     public void render(float delta) {
         level.render();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-    }
-
-    @Override
-    public void dispose() {
-
     }
 }

@@ -111,4 +111,15 @@ public class PositionTest {
         assertEquals(p1.hashCode(), p2.hashCode());
         assertNotEquals(p1.hashCode(), p3.hashCode());
     }
+
+    @Test
+    public void testGetDistanceTo() throws Exception {
+        Position p1 = new Position(1,1);
+        Position p2 = new Position(1,5);
+        Position p3 = new Position(5,5);
+        assertEquals(4f, p1.getDistanceTo(p2), 0.001);
+        assertEquals(4f, p2.getDistanceTo(p1), 0.001);
+        assertEquals(Math.sqrt(32), p1.getDistanceTo(p3), 0.001);
+        assertEquals(Math.sqrt(32), p3.getDistanceTo(p1), 0.001);
+    }
 }

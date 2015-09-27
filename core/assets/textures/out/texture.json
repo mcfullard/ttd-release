@@ -22,5 +22,18 @@
       "font": "serif",
       "fontColor": "darkRed"
     }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
+    "default": {
+      "font": "serif",
+      "fontColor": "darkRed",
+      "background": "menu/textfield"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
+    "default": {
+      "titleFont": "serif",
+      "titleFontColor": "darkRed"
+    }
   }
 }

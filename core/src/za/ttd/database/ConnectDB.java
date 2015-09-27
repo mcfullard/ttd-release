@@ -4,7 +4,7 @@ import java.net.URISyntaxException;
 import java.sql.*;
 
 public class ConnectDB {
-    final class Statistics {
+    public final class Statistics {
         private final int Benny;
         private final int LevelLives;
         private final int Minty;
@@ -81,7 +81,7 @@ public class ConnectDB {
         return DriverManager.getConnection(url);
     }
 
-    public static void AddPlayer(String playerName) throws Exception
+    public static int AddPlayer(String playerName) throws Exception
     {
         Class.forName("org.postgresql.Driver");
         Connection connection = getConnection();
@@ -95,10 +95,11 @@ public class ConnectDB {
         stmt.executeUpdate("INSERT INTO CONTROLS VALUES ('"+ID+"','left','right','up','down')");
         stmt.executeUpdate("INSERT INTO COMPLETEDLEVELS VALUES ('"+ID+"',0,0)");
         stmt.executeUpdate("INSERT INTO STATISTICS VALUES ('"+ID+"',0,0,0,0,0,0)");
+        return ID;
     }
 
     /**
-     * Save Player Current level and Current score
+     * Save Thomas Current level and Current score
      * @param ID
      * @param Level
      * @param Score

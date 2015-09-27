@@ -1,6 +1,8 @@
 package za.ttd.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.msg.Telegram;
+import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -9,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import za.ttd.ttd;
+import za.ttd.game.Game;
 
 /**
  * @author minnaar
@@ -18,10 +20,11 @@ import za.ttd.ttd;
  * The main menu that contains buttons to sub-menus and other actions.
  *
  */
-public class MainMenu extends AbstractScreen {
+public class MainMenu extends AbstractScreen implements Telegraph {
     private Stage stage = new Stage();
     private Table table = new Table();
-    private Skin skin = new Skin(Gdx.files.internal("core/assets/skins/menuSkin.json"));
+    //private Skin skin = new Skin(Gdx.files.internal("core/assets/textures/out/texture.json"));
+    private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private TextButton buttonContinue = new TextButton("Continue", skin);
     private TextButton buttonNewGame = new TextButton("New Game", skin);
     private TextButton buttonSavedGames = new TextButton("Saved Games", skin);
@@ -30,13 +33,11 @@ public class MainMenu extends AbstractScreen {
     private TextButton buttonCredits = new TextButton("Credits", skin);
     private TextButton buttonExit = new TextButton("Exit", skin);
     private Label title = new Label("Main Menu", skin);
+    private boolean newPlayer;
 
-    private ttd game;
-
-    public MainMenu(ttd game) {
+    public MainMenu(Game game, boolean newPlayer) {
         super(game);
-        this.game = game;
-
+        this.newPlayer = newPlayer;
     }
 
     @Override
@@ -44,7 +45,6 @@ public class MainMenu extends AbstractScreen {
         buttonContinue.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //game.setScreen(new GameScreen(game));
                 game.continueGame("Bas");
             }
         });
@@ -52,20 +52,30 @@ public class MainMenu extends AbstractScreen {
         buttonNewGame.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //game.setScreen(new GameScreen(game));
-                game.newGame("Bas");
+                game.setScreen(new LoadingScreen(game));
+                game.newGame();
+                //MessageManager.getInstance().dispatchMessage(1,MainMenu.this, MessageType.LOAD_LEVEL);
             }
         });
 
         buttonExit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                //Save game the exit
                 Gdx.app.exit();
             }
         });
 
+        buttonStatistics.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new PlayerStatisticsScreen(game));
+            }
+        });
+
         table.add(title).padBottom(40).row();
-        table.add(buttonContinue).size(150,60).padBottom(20).row();
+        if (!newPlayer)
+            table.add(buttonContinue).size(150, 60).padBottom(20).row();
         table.add(buttonNewGame).size(150,60).padBottom(20).row();
         table.add(buttonSavedGames).size(150,60).padBottom(20).row();
         table.add(buttonStatistics).size(150,60).padBottom(20).row();
@@ -84,7 +94,7 @@ public class MainMenu extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
@@ -94,5 +104,10 @@ public class MainMenu extends AbstractScreen {
     public void dispose() {
         stage.dispose();
         skin.dispose();
+    }
+
+    @Override
+    public boolean handleMessage(Telegram msg) {
+        return false;
     }
 }
