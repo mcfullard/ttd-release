@@ -8,7 +8,7 @@ import za.ttd.game.Game;
  * @since 20 July 2015
  */
 public abstract class AbstractScreen implements Screen {
-    protected Game game;
+    final protected Game game;
 
     public AbstractScreen(Game game) {
         this.game = game;
