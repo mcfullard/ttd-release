@@ -43,7 +43,7 @@ public class MainMenu extends AbstractScreen implements Telegraph {
         buttonContinue.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.continueGame("Bas");
+                game.continueGame();
             }
         });
 

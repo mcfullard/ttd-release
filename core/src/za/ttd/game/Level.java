@@ -35,51 +35,39 @@ public class Level implements
     private java.util.Map<Position, InGameObject> gameItems;
     private ArrayList<Enemy> enemies;
     private PathFinder pathFinder;
-    private final int imgScale = 32;
+
     private MazeRenderer mazeRenderer;
     private CharacterRenderer charRenderer;
+    private HudRenderer hudRenderer;
+
     private Player player;
     private Thomas thomas;
-    private HudRenderer hudRenderer;
-    private boolean loading;
-
     private  Toothbrush benny;
 
     private Movement movement;
     private Controls controls;
 
+    private final int imgScale = 32;
+
     public Level(Player player) {
-        loading = true;
         this.player = player;
 
         map = Grid.generateMap(12, 4, player.getHighestLevel());
         gameItems = new HashMap<>();
         enemies = new ArrayList<>();
 
-        mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
-        charRenderer = new CharacterRenderer(map.getMap(), imgScale);
-
         pathFinder = new PathFinder(map);
         movement = new Movement(map);
+
         registerSelfAsProvider();
         registerSelfAsListener();
 
         initGameObjects();
+
+        mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
+        charRenderer = new CharacterRenderer(map.getMap(), imgScale);
         hudRenderer = new HudRenderer();
         controls = new Controls();
-    }
-
-    private void registerSelfAsProvider() {
-        MessageManager.getInstance().addProviders(this,
-                MessageType.SEND_PATHFINDER,
-                MessageType.SEND_THOMAS,
-                MessageType.SEND_ITEMS,
-                MessageType.SEND_TOOTHDECAY);
-    }
-
-    private void registerSelfAsListener() {
-        MessageManager.getInstance().addListener(this,
-                MessageType.LEVEL_RESET);
     }
 
     public void render(){
@@ -97,10 +85,28 @@ public class Level implements
 
         for (Enemy enemy:enemies) {
             if (controls.keyPressed()) {
+                MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_STARTED);
                 movement.move(enemy, Direction.NONE);
             }
+            else
+                MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_PAUSED);
             enemy.update();
         }
+    }
+
+    private void registerSelfAsProvider() {
+        MessageManager.getInstance().addProviders(this,
+                MessageType.SEND_PATHFINDER,
+                MessageType.SEND_THOMAS,
+                MessageType.SEND_ITEMS,
+                MessageType.LEVEL_PAUSED,
+                MessageType.LEVEL_STARTED,
+                MessageType.SEND_TOOTHDECAY);
+    }
+
+    private void registerSelfAsListener() {
+        MessageManager.getInstance().addListener(this,
+                MessageType.LEVEL_RESET);
     }
 
     /*
@@ -158,9 +164,6 @@ public class Level implements
                     MessageType.LEVEL_RESET
                     );
         }
-
-        MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_LOADED);
-        loading = false;
     }
 
     private void reset() {
@@ -232,9 +235,5 @@ public class Level implements
                 return (ToothDecay) enemy;
         }
         return null;
-    }
-
-    public boolean loading() {
-        return loading;
     }
 }
