@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import za.ttd.game.Game;
-import za.ttd.game.Level;
 import za.ttd.game.Player;
 
 /**
@@ -23,7 +22,8 @@ import za.ttd.game.Player;
 public class UserInputScreen extends AbstractScreen {
     private Stage stage = new Stage();
     private Table table = new Table();
-    private Skin skin = new Skin(Gdx.files.internal("core/assets/textures/out/texture.json"));
+    //private Skin skin = new Skin(Gdx.files.internal("core/assets/textures/out/texture.json"));
+    private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private Label labelName = new Label("Enter Name", skin);
     private TextField textName = new TextField("", skin);
     private TextButton buttonContinue = new TextButton("Continue", skin);
@@ -89,8 +89,7 @@ public class UserInputScreen extends AbstractScreen {
     }
 
     private void setupDialog() {
-        Skin default_skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
-        dialog = new Dialog("Confirm Player", default_skin) {
+        dialog = new Dialog("Confirm Player", skin) {
             @Override
             public void result(Object obj) {
                 if ((boolean) obj) {
