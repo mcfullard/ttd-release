@@ -27,7 +27,7 @@ public class HighScoresScreen extends AbstractScreen {
     }
 
     private Stage stage = new Stage();
-    private Skin skin = new Skin(Gdx.files.internal("core/assets/skins/menuSKin.json"));
+    private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private List list = new List(skin);
     private ScrollPane scrollPane = new ScrollPane(list);
     private Table table = new Table(skin);

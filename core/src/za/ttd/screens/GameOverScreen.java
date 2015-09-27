@@ -24,7 +24,7 @@ public class GameOverScreen extends AbstractScreen {
 
     private Stage stage = new Stage();
     private Table table = new Table();
-    private Skin skin = new Skin(Gdx.files.internal("core/assets/skins/menuSKin.json"));
+    private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private Label gameOverLabel = new Label("GAME OVER!", skin);
     private TextButton buttonViewHighScores = new TextButton("View High Scores", skin);
     private TextButton buttonViewPlayerStatistics = new TextButton("View Player Statistics", skin);

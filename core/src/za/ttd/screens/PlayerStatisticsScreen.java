@@ -30,7 +30,7 @@ public class PlayerStatisticsScreen extends AbstractScreen {
 
     private Stage stage = new Stage();
     private Table table = new Table();
-    private Skin skin = new Skin(Gdx.files.internal("core/assets/skins/menuSKin.json"));
+    private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private Label playerStatsLabel = new Label("Player Statistics", skin);
     private Label benny = new Label("Benny The Brush Pickups: " + statistics.getBenny(), skin);
     private Label levelLives = new Label("Level Lives: " + statistics.getLevelLives(), skin);
