@@ -16,13 +16,11 @@ import za.ttd.game.Game;
  * Created by s213391244 on 9/18/2015.
  */
 public class PlayerStatisticsScreen extends AbstractScreen {
-    private Game game;
     private ConnectDB connectDB = new ConnectDB();
     private ConnectDB.Statistics statistics = null;
 
     public PlayerStatisticsScreen(Game game) {
         super(game);
-        this.game = game;
         try {
             statistics = connectDB.getStatistics(this.game.getPlayerID());
         } catch (Exception e) {
