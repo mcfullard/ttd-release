@@ -44,10 +44,10 @@ public class Game extends com.badlogic.gdx.Game
 	}
 
     public void newGame() {
+        setLevel(new Level(player));
         while(assets.loading() || level.loading()) {
 
         }
-        setLevel(new Level(player));
         setScreen(new GameScreen(this));
     }
 
