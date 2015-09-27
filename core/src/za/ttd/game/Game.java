@@ -69,7 +69,7 @@ public class Game extends com.badlogic.gdx.Game
     public boolean handleMessage(Telegram msg) {
         switch (msg.message) {
             case MessageType.THOMAS_DEAD:
-                setScreen(new MainMenu(this));
+                setScreen(new MainMenu(this, false));
                 return true;
             case MessageType.TOOTHDECAY_DEAD:
                 player.incHighestLevel();

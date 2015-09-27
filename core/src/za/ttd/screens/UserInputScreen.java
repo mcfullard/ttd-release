@@ -83,7 +83,7 @@ public class UserInputScreen extends AbstractScreen {
                 dialog.show(stage);
             } else {
                 game.setPlayer(loadedPlayer);
-                toMainMenu();
+                toMainMenu(false);
             }
         }
     }
@@ -94,7 +94,7 @@ public class UserInputScreen extends AbstractScreen {
             @Override
             public void result(Object obj) {
                 if ((boolean) obj) {
-                    toMainMenu();
+                    toMainMenu(true);
                 }
             }
         };
@@ -103,7 +103,7 @@ public class UserInputScreen extends AbstractScreen {
         dialog.button("Yes", true);
     }
 
-    private void toMainMenu() {
-        game.setScreen(new MainMenu(game));
+    private void toMainMenu(boolean newPlayer) {
+        game.setScreen(new MainMenu(game, newPlayer));
     }
 }

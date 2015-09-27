@@ -33,9 +33,11 @@ public class MainMenu extends AbstractScreen implements Telegraph {
     private TextButton buttonCredits = new TextButton("Credits", skin);
     private TextButton buttonExit = new TextButton("Exit", skin);
     private Label title = new Label("Main Menu", skin);
+    private boolean newPlayer;
 
-    public MainMenu(Game game) {
+    public MainMenu(Game game, boolean newPlayer) {
         super(game);
+        this.newPlayer = newPlayer;
     }
 
     @Override
@@ -72,7 +74,8 @@ public class MainMenu extends AbstractScreen implements Telegraph {
         });
 
         table.add(title).padBottom(40).row();
-        table.add(buttonContinue).size(150, 60).padBottom(20).row();
+        if (!newPlayer)
+            table.add(buttonContinue).size(150, 60).padBottom(20).row();
         table.add(buttonNewGame).size(150,60).padBottom(20).row();
         table.add(buttonSavedGames).size(150,60).padBottom(20).row();
         table.add(buttonStatistics).size(150,60).padBottom(20).row();
