@@ -1,8 +1,12 @@
 package za.ttd.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.Json;
 import za.ttd.characters.states.MessageType;
 import za.ttd.screens.GameScreen;
 import za.ttd.screens.MainMenu;
@@ -15,6 +19,7 @@ public class Game extends com.badlogic.gdx.Game
     private Player player;
     private Assets assets;
 
+    private Json json = new Json();
 	public static final String TITLE = "The Wrath of Thomas the Dentist";
 	public static final int WIDTH = 600, HEIGHT = 800;
 
@@ -39,12 +44,10 @@ public class Game extends com.badlogic.gdx.Game
 	}
 
     public void newGame() {
-        player = new Player("Name", 0, 1, 2);
-        level = new Level(player);
         while(assets.loading() || level.loading()) {
 
         }
-
+        setLevel(new Level(player));
         setScreen(new GameScreen(this));
     }
 
@@ -54,8 +57,7 @@ public class Game extends com.badlogic.gdx.Game
 
     public void continueGame(String name) {
         //Run method to find the users game data so they can continue from where they left off
-        player = new Player(name, 0, 1, 2);
-        level = new Level(player);
+        setLevel(new Level(player));
         setScreen(new GameScreen(this));
     }
 
@@ -83,7 +85,43 @@ public class Game extends com.badlogic.gdx.Game
         }
         return false;
     }
-    public int getPlayerID(){
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Player loadPlayer(String playerName) {
+        Json json = new Json();
+        Player object = null;
+        FileHandle fin = Gdx.files.internal(String.format(
+                "core/assets/data/%s.player",
+                playerName
+        ));
+        try {
+            String data = fin.readString();
+            object = json.fromJson(Player.class, data);
+        } catch (GdxRuntimeException e) {
+            Gdx.app.log("GAME", e.getMessage());
+        }
+        return object;
+    }
+
+    public void savePlayer() {
+        FileHandle fout = Gdx.files.internal(String.format(
+                "core/assets/data/%s.player",
+                player.getName()
+        ));
+        Json json = new Json();
+        String data = json.prettyPrint(player);
+        fout.writeString(data, false);
+    }
+
+
+    public int getPlayerID() {
         return this.player.getID();
     }
 }
