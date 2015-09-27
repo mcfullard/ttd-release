@@ -45,7 +45,7 @@ public class MainMenu extends AbstractScreen implements Telegraph {
         buttonContinue.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.continueGame();
+                game.createGame();
             }
         });
 
@@ -53,7 +53,7 @@ public class MainMenu extends AbstractScreen implements Telegraph {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new LoadingScreen(game));
-                game.newGame();
+                game.createGame();
                 //MessageManager.getInstance().dispatchMessage(1,MainMenu.this, MessageType.LOAD_LEVEL);
             }
         });

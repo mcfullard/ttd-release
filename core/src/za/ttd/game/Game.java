@@ -42,13 +42,9 @@ public class Game extends com.badlogic.gdx.Game
         assets.Load();
 	}
 
-    public void newGame() {
-        setLevel(new Level(player));
-        setScreen(new GameScreen(this));
-    }
 
-    public void continueGame() {
-        //Run method to find the users game data so they can continue from where they left off
+    //Creates a new game depending on the players level
+    public void createGame() {
         setLevel(new Level(player));
         setScreen(new GameScreen(this));
     }
@@ -74,7 +70,7 @@ public class Game extends com.badlogic.gdx.Game
                 setScreen(new GameScreen(this));
                 return true;
             case MessageType.LOAD_LEVEL:
-                newGame();
+                createGame();
                 return true;
         }
         return false;
