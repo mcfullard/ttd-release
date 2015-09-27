@@ -1,35 +1,4 @@
 {
-  "com.badlogic.gdx.graphics.g2d.BitmapFont": {
-    "serif": {
-      "file": "core/assets/fonts/serifWhite.fnt"
-    }
-  },
-  "com.badlogic.gdx.graphics.Color": {
-    "white": {
-      "r": 1,
-      "g": 1,
-      "b": 1,
-      "a": 1
-    },
-    "black": {
-      "r": 0,
-      "g": 0,
-      "b": 0,
-      "a": 1
-    },
-    "darkRed": {
-      "r": 0.45,
-      "g": 0,
-      "b": 0,
-      "a": 1
-    },
-    "lightRed": {
-      "r": 1,
-      "g": 0.867,
-      "b": 0.867,
-      "a": 1
-    }
-  },
   com
   .
   badlogic
@@ -81,7 +50,7 @@
       b: 0,
       g: 0,
       r: 0
-    },
+    }
   },
   com
   .
@@ -104,7 +73,7 @@
         b: 0,
         a: 0.45
       }
-    },
+    }
   },
   com
   .
@@ -542,5 +511,5 @@
       -
       selection
     }
-  },
+  }
 }
