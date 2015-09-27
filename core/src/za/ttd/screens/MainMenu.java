@@ -24,6 +24,7 @@ public class MainMenu extends AbstractScreen implements Telegraph {
     private Stage stage = new Stage();
     private Table table = new Table();
     private Skin skin = new Skin(Gdx.files.internal("core/assets/textures/out/texture.json"));
+    //private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private TextButton buttonContinue = new TextButton("Continue", skin);
     private TextButton buttonNewGame = new TextButton("New Game", skin);
     private TextButton buttonSavedGames = new TextButton("Saved Games", skin);
