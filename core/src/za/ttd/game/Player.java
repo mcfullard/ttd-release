@@ -3,7 +3,6 @@ package za.ttd.game;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
-import com.badlogic.gdx.utils.TimeUtils;
 import za.ttd.characters.states.MessageType;
 
 public class Player implements Telegraph {
@@ -50,6 +49,14 @@ public class Player implements Telegraph {
         return highestLevel;
     }
 
+    public int getLives() {
+        return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
     public void setHighestLevel(int highestLevel) {
         this.highestLevel = highestLevel;
     }
@@ -70,44 +77,44 @@ public class Player implements Telegraph {
     public boolean handleMessage(Telegram msg) {
         switch (msg.message) {
             case MessageType.THOMAS_LOSES_LIFE:
+                --lives;
                 if (this.lives > 0) {
-                    --lives;
                     scoring.lifeUsed();
                     MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_RESET);
                 } else {
-                    MessageManager.getInstance().dispatchMessage(this, MessageType.THOMAS_DEAD);
+                    MessageManager.getInstance().dispatchMessage(this, MessageType.GAME_OVER);
                 }
                 return true;
             case MessageType.BADBREATH_DEAD:
                 scoring.killedBadBreath();
-                break;
+                return true;
             case MessageType.TOOTHDECAY_DEAD:
                 scoring.killedToothDecay();
-                break;
+                return true;
             case MessageType.PLAQUE_COLLECTED:
                 scoring.collectibleFound();
-                break;
+                return true;
+            case MessageType.MOUTHWASH_COLLECTED:
+                scoring.powerUsed();
+                return true;
         }
         return false;
     }
 
     public class ScoringSystem {
 
-        private int lvlScore, lvlTotScore, totPowersUsed, totLivesUsed, totCollectiblesFound, totBadBreathKilled;
+        private int lvlScore, totPowersUsed, totLivesUsed, totCollectiblesFound, totBadBreathKilled;
         private final int collectibleValue = 5, powerUpValue = 10, badBreathValue = 100, lifeValue = 200, toothDecayValue = 300;
         private int powersUsed, badBreathKilled, collectiblesFound, livesUsed, toothDecayDestroyed;
-        private long startTime, elapsedTime, overtime;
 
         public ScoringSystem() {
             lvlScore = 0;
-            lvlTotScore = 0;
             powersUsed = 0;
             badBreathKilled = 0;
             collectiblesFound = 0;
             totLivesUsed = 0;
             totBadBreathKilled = 0;
             totCollectiblesFound = 0;
-            startTime = TimeUtils.millis();
         }
 
         public void collectibleFound() {
@@ -134,25 +141,12 @@ public class Player implements Telegraph {
             ++totLivesUsed;
         }
 
+        //////////////////////////////////////////////////////Getters///////////////////////////////////////////////////
         /*
         * @return the current score of the player for this level*/
         public int getLvlScore() {
             calcLvlScore();
             return lvlScore;
-        }
-
-        /*
-        * @return a long value of the time in seconds */
-        public long getElapsedTime() {
-            elapsedTime = TimeUtils.timeSinceMillis(startTime); //- TimeUtils.timeSinceMillis(overtime);
-            return elapsedTime / 1000;
-        }
-
-        /*
-        * @return an int of the total score for the current level */
-        public int getLvlTotScore() {
-            calcLvlTotScore();
-            return lvlTotScore;
         }
 
         public int getTotLivesUsed() {
@@ -170,9 +164,10 @@ public class Player implements Telegraph {
         public int getTotPowersUsed() {
             return totPowersUsed;
         }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /*
-            * calculate to score for the current level*/
+        * calculate to score for the current level*/
         private void calcLvlScore() {
             lvlScore = collectibleValue * collectiblesFound
                     + badBreathValue * badBreathKilled
@@ -188,22 +183,5 @@ public class Player implements Telegraph {
                 badBreathKilled = 0;
             }
         }
-
-        /*
-        * calculate the total score for the level taking in the time it took to complete the level*/
-        private void calcLvlTotScore() {
-
-            int timePenalty = (int) elapsedTime / 60000;
-            if (timePenalty > 0)
-                lvlTotScore = lvlScore + (1000 / timePenalty);
-            else
-                lvlTotScore = lvlScore;
-        }
-
-        /*used to calculate the time passed when in the pause menu*/
-        public void pauseTime() {
-            overtime = TimeUtils.millis();
-        }
     }
-
 }

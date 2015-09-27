@@ -29,9 +29,8 @@ public class Game extends com.badlogic.gdx.Game
 
     private void registerSelfAsListener() {
         MessageManager.getInstance().addListeners(this,
-                MessageType.THOMAS_DEAD,
                 MessageType.TOOTHDECAY_DEAD,
-                MessageType.LEVEL_LOADED,
+                MessageType.GAME_OVER,
                 MessageType.LOAD_LEVEL
         );
     }
@@ -45,17 +44,10 @@ public class Game extends com.badlogic.gdx.Game
 
     public void newGame() {
         setLevel(new Level(player));
-        while(assets.loading() || level.loading()) {
-
-        }
         setScreen(new GameScreen(this));
     }
 
-    private void createGame() {
-
-    }
-
-    public void continueGame(String name) {
+    public void continueGame() {
         //Run method to find the users game data so they can continue from where they left off
         setLevel(new Level(player));
         setScreen(new GameScreen(this));
@@ -65,18 +57,20 @@ public class Game extends com.badlogic.gdx.Game
         return level;
     }
 
+    private void gameOver() {
+        player.setLives(3);
+        setScreen(new MainMenu(this, false));
+    }
+
     @Override
     public boolean handleMessage(Telegram msg) {
         switch (msg.message) {
-            case MessageType.THOMAS_DEAD:
-                setScreen(new MainMenu(this, false));
+            case MessageType.GAME_OVER:
+                gameOver();
                 return true;
             case MessageType.TOOTHDECAY_DEAD:
                 player.incHighestLevel();
                 level = new Level(player);
-                setScreen(new GameScreen(this));
-                return true;
-            case MessageType.LEVEL_LOADED:
                 setScreen(new GameScreen(this));
                 return true;
             case MessageType.LOAD_LEVEL:
@@ -119,7 +113,6 @@ public class Game extends com.badlogic.gdx.Game
         String data = json.prettyPrint(player);
         fout.writeString(data, false);
     }
-
 
     public int getPlayerID() {
         return this.player.getID();

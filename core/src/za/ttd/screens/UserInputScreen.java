@@ -78,7 +78,7 @@ public class UserInputScreen extends AbstractScreen {
             Player loadedPlayer = game.loadPlayer(name);
             setupDialog();
             if (loadedPlayer == null) {
-                loadedPlayer = new Player(name, 0, 1, 2);
+                loadedPlayer = new Player(name, 0, 1, 3);
                 game.setPlayer(loadedPlayer);
                 dialog.show(stage);
             } else {
