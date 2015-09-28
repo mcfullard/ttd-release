@@ -1,5 +1,6 @@
 package za.ttd.characters;
 
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -17,7 +18,7 @@ public abstract class Actor extends InGameObject
 
     private Animation currentAnimation, animationU, animationD, animationL, animationR, animationI;
     private Assets assets;
-    protected float movementSpeed;
+    protected float movementSpeed, pausedSpeed;
     protected Map<Position, InGameObject> gameItems;
     protected Direction direction;
 
@@ -32,6 +33,7 @@ public abstract class Actor extends InGameObject
 
         assets = Assets.getInstance();
         direction = Direction.NONE;
+        pausedSpeed= 0;
 
         //Get animations
         animationI = assets.getAnimation(actorName, "Idle");
@@ -41,6 +43,16 @@ public abstract class Actor extends InGameObject
         animationR = assets.getAnimation(actorName, "Right");
 
         currentAnimation = animationI;
+
+        registerSelfAsListener();
+    }
+
+    private void registerSelfAsListener() {
+        MessageManager.getInstance().addListeners(this,
+                MessageType.SEND_ITEMS,
+                MessageType.LEVEL_STARTED,
+                MessageType.LEVEL_PAUSED
+        );
     }
 
     public void update() {
@@ -117,11 +129,19 @@ public abstract class Actor extends InGameObject
 
     @Override
     public boolean handleMessage(Telegram msg) {
-        if(msg.message == MessageType.SEND_ITEMS) {
-            if(msg.extraInfo != null) {
-                gameItems = (Map<Position, InGameObject>) msg.extraInfo;
+        switch (msg.message){
+            case  MessageType.SEND_ITEMS:
+                if(msg.extraInfo != null)
+                    gameItems = (Map<Position, InGameObject>) msg.extraInfo;
                 return true;
-            }
+            case MessageType.LEVEL_PAUSED:
+                pausedSpeed = movementSpeed;
+                movementSpeed = 0;
+                return true;
+            case MessageType.LEVEL_STARTED:
+                movementSpeed = pausedSpeed;
+                pausedSpeed = 0;
+                return true;
         }
         return false;
     }

@@ -34,6 +34,7 @@ public enum ToothDecayState implements State<ToothDecay> {
         public void enter(ToothDecay toothDecay) {
             toothDecay.die();
             MessageManager.getInstance().dispatchMessage(toothDecay, MessageType.NEXT_LEVEL);
+            MessageManager.getInstance().dispatchMessage(toothDecay, MessageType.TOOTHDECAY_DEAD);
         }
     }
     ;

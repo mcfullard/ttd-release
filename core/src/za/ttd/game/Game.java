@@ -8,9 +8,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 import za.ttd.characters.states.MessageType;
-import za.ttd.screens.GameScreen;
-import za.ttd.screens.MainMenu;
-import za.ttd.screens.SplashScreen;
+import za.ttd.screens.*;
 
 public class Game extends com.badlogic.gdx.Game
         implements Telegraph
@@ -18,6 +16,7 @@ public class Game extends com.badlogic.gdx.Game
     private Level level;
     private Player player;
     private Assets assets;
+    private boolean created;
 
     private Json json = new Json();
 	public static final String TITLE = "The Wrath of Thomas the Dentist";
@@ -29,9 +28,8 @@ public class Game extends com.badlogic.gdx.Game
 
     private void registerSelfAsListener() {
         MessageManager.getInstance().addListeners(this,
-                MessageType.TOOTHDECAY_DEAD,
                 MessageType.GAME_OVER,
-                MessageType.LOAD_LEVEL
+                MessageType.NEXT_LEVEL
         );
     }
 
@@ -40,8 +38,14 @@ public class Game extends com.badlogic.gdx.Game
 		setScreen(new SplashScreen(this));
         assets = Assets.getInstance();
         assets.Load();
+        created = false;
 	}
 
+    public void newGame() {
+        player.setLives(3);
+        player.setHighestLevel(1);
+        createGame();
+    }
 
     //Creates a new game depending on the players level
     public void createGame() {
@@ -55,6 +59,7 @@ public class Game extends com.badlogic.gdx.Game
 
     private void gameOver() {
         player.setLives(3);
+        player.setHighestLevel(1);
         setScreen(new MainMenu(this, false));
     }
 
@@ -64,12 +69,8 @@ public class Game extends com.badlogic.gdx.Game
             case MessageType.GAME_OVER:
                 gameOver();
                 return true;
-            case MessageType.TOOTHDECAY_DEAD:
+            case MessageType.NEXT_LEVEL:
                 player.incHighestLevel();
-                level = new Level(player);
-                setScreen(new GameScreen(this));
-                return true;
-            case MessageType.LOAD_LEVEL:
                 createGame();
                 return true;
         }

@@ -6,7 +6,6 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import za.ttd.characters.objects.Position;
 import za.ttd.characters.states.MessageType;
 import za.ttd.characters.states.ToothDecayState;
-import za.ttd.pathfinding.PathFinder;
 
 public class ToothDecay extends Enemy {
 
@@ -14,7 +13,7 @@ public class ToothDecay extends Enemy {
 
     public ToothDecay(Position position, float speed){
         super(position, speed, "ToothDecay");
-        toothDecayStateMachine = new DefaultStateMachine<ToothDecay>(this, ToothDecayState.CHASE);
+        toothDecayStateMachine = new DefaultStateMachine<>(this, ToothDecayState.CHASE);
     }
 
     @Override

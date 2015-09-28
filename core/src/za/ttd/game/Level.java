@@ -32,6 +32,8 @@ public class Level implements
         Telegraph {
     private Map map;
 
+    private Game game;
+
     private java.util.Map<Position, InGameObject> gameItems;
     private ArrayList<Enemy> enemies;
     private PathFinder pathFinder;
@@ -84,12 +86,8 @@ public class Level implements
         thomas.update();
 
         for (Enemy enemy:enemies) {
-            if (controls.keyPressed()) {
-                MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_STARTED);
+            if (controls.keyPressed())
                 movement.move(enemy, Direction.NONE);
-            }
-            else
-                MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_PAUSED);
             enemy.update();
         }
     }
@@ -224,7 +222,7 @@ public class Level implements
         switch (msg.message) {
             case MessageType.LEVEL_RESET:
                 reset();
-                break;
+                return true;
         }
         return false;
     }

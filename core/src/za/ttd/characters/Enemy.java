@@ -27,6 +27,16 @@ public abstract class Enemy extends Actor {
         this.defaultSpeed = speed;
         speedStateMachine = new DefaultStateMachine(this, EnemySpeedState.NORMAL);
         vulnerable = false;
+        registerSelfAsListener();
+    }
+
+    private void registerSelfAsListener() {
+        MessageManager.getInstance().addListeners(this,
+                MessageType.SEND_THOMAS,
+                MessageType.SEND_PATHFINDER,
+                MessageType.MOUTHWASH_COLLECTED,
+                MessageType.MOUTHWASH_EXPIRED
+        );
     }
 
     @Override
