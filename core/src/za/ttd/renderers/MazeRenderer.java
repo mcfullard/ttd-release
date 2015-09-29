@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import za.ttd.game.Assets;
+import za.ttd.game.Game;
 
 public class MazeRenderer {
 
@@ -30,7 +31,7 @@ public class MazeRenderer {
         //Sprite Batch for drawing images
         batch = new SpriteBatch();
         //Tell SpriteBatch to render in the co-ordinate system specified by screen
-        batch.getProjectionMatrix().setToOrtho2D(-100,-10,750,1000);
+        batch.getProjectionMatrix().setToOrtho2D(-100,-10,(int)(Game.WIDTH*1.25),(int)(Game.HEIGHT*1.25));
     }
 
     public void render() {
