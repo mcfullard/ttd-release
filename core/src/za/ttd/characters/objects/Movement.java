@@ -129,56 +129,68 @@ public class Movement {
 
     private boolean tryMoveUp(Direction dir) {
         int y = position.getChangedFloorY(-speed);
-        int x;
+        float x = position.getIntX() - position.getX();
+
+        if (x < 0)
+            x*= -1;
 
         if (dir == Direction.LEFT)
-            x = position.getCeilX();
+            x = Math.round(position.getX() + x);
         else
-            x = position.getFloorX();
+            x = Math.round(position.getX() - x);
 
-        return tryMove(x,y);
+        return tryMove((int)x,y);
     }
 
     private boolean tryMoveDown(Direction dir) {
         int y = position.getChangedCeilY(speed);
-        int x;
+        float x = position.getIntX() - position.getX();
+
+        if (x < 0)
+            x*= -1;
 
         if (dir == Direction.LEFT)
-            x = position.getCeilX();
+            x = Math.round(position.getX() + x);
         else
-            x = position.getFloorX();
+            x = Math.round(position.getX() - x);
 
-        return tryMove(x,y);
+        return tryMove((int)x,y);
     }
 
     private boolean tryMoveLeft(Direction dir) {
-        int y;
+        float y = position.getIntY() - position.getY();
         int x = position.getChangedFloorX(-speed);
 
+        if (y < 0)
+            y *= -1;
 
         if (dir == Direction.UP)
-            y = position.getCeilY();
+            y = Math.round(position.getY() + y);
         else
-            y = position.getFloorY();
+            y = Math.round(position.getY() - y);
 
-        return tryMove(x,y);
+
+        return tryMove(x,(int)y);
     }
 
     private boolean tryMoveRight(Direction dir) {
-        int y;
+        float y = position.getIntY() - position.getY();
         int x = position.getChangedCeilX(speed);
 
-        if (dir == Direction.UP)
-            y = position.getCeilY();
-        else
-            y = position.getFloorY();
+        if (y < 0)
+            y *= -1;
 
-        return tryMove(x,y);
+
+        if (dir == Direction.UP)
+            y = Math.round(position.getY() + y);
+        else
+            y = Math.round(position.getY() - y);
+
+
+        return tryMove(x,(int)y);
     }
 
-    //This will only work with thomas, need to see what we can do for enemies
     private boolean tryMove(int x, int y) {
-
         if (nextDirection == Direction.NONE)
             return !map.isType(x, y, Map.WALL);
         else

@@ -70,7 +70,7 @@ public abstract class Enemy extends Actor {
 
     /////////////////////////////////////////////Speed Controls/////////////////////////////////////////////////////////
     public void slow() {
-        super.movementSpeed = defaultSpeed*.8f;
+        super.movementSpeed = defaultSpeed*.5f;
     }
 
     public void normalSpeed() {
@@ -78,7 +78,7 @@ public abstract class Enemy extends Actor {
     }
 
     public void speedUp() {
-        super.movementSpeed = defaultSpeed*1.2f;
+        super.movementSpeed = defaultSpeed*1.4f;
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

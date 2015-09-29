@@ -130,7 +130,7 @@ public class Level implements
 
                 if (r == 1 && c == (map.getMap()[0].length / 2)-1) {
                     position.setX(position.getX() + .5f);
-                    enemies.add(new ToothDecay(position, .065f));
+                    enemies.add(new ToothDecay(position, .07f));
                     ++c;
                 }
                 else if (map.isType(c, r, Map.PATH))
@@ -145,7 +145,7 @@ public class Level implements
                 }
 
                 if (map.isType(c, r, Map.BAD_BREATH)) {
-                    Enemy badBreath = new BadBreath(position, .065f, "BadBreath");
+                    Enemy badBreath = new BadBreath(position, .07f, "BadBreath");
                     enemies.add(badBreath);
                 }
 

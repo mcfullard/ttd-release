@@ -31,7 +31,7 @@ public class MazeRenderer {
         //Sprite Batch for drawing images
         batch = new SpriteBatch();
         //Tell SpriteBatch to render in the co-ordinate system specified by screen
-        batch.getProjectionMatrix().setToOrtho2D(-100,-10,(int)(Game.WIDTH*1.25),(int)(Game.HEIGHT*1.25));
+        batch.getProjectionMatrix().setToOrtho2D(-85,-10,(int)(Game.WIDTH*1.25),(int)(Game.HEIGHT*1.25));
     }
 
     public void render() {
