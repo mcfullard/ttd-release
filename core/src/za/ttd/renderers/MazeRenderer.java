@@ -1,6 +1,7 @@
 package za.ttd.renderers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import za.ttd.game.Assets;
@@ -9,7 +10,7 @@ public class MazeRenderer {
 
     private int wall = 1, path = 0;
     private Assets assets;
-
+    private Color color;
     int imgScale;
 
     //private OrthographicCamera camera;
@@ -17,9 +18,10 @@ public class MazeRenderer {
 
     private int[][] maze;
 
-    public MazeRenderer(int[][] maze, int imgScale) {
+    public MazeRenderer(int[][] maze, int imgScale, Color color) {
         this.maze = maze;
         this.imgScale = imgScale;
+        this.color = color;
         assets = Assets.getInstance();
         create();
     }
@@ -37,6 +39,7 @@ public class MazeRenderer {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //Begin a new batch and draw the maze
+        batch.setColor(color);
         batch.begin();
         drawMaze();
         batch.end();

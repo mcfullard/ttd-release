@@ -5,6 +5,7 @@ import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.TelegramProvider;
 import com.badlogic.gdx.ai.msg.Telegraph;
+import com.badlogic.gdx.graphics.Color;
 import za.ttd.characters.*;
 import za.ttd.characters.objects.Direction;
 import za.ttd.characters.objects.Movement;
@@ -32,7 +33,7 @@ public class Level implements
         Telegraph {
     private Map map;
 
-    private Game game;
+    private Random random;
 
     private java.util.Map<Position, InGameObject> gameItems;
     private ArrayList<Enemy> enemies;
@@ -53,6 +54,7 @@ public class Level implements
 
     public Level(Player player) {
         this.player = player;
+        random = new Random();
 
         map = Grid.generateMap(12, 4, player.getHighestLevel());
         gameItems = new HashMap<>();
@@ -66,7 +68,16 @@ public class Level implements
 
         initGameObjects();
 
-        mazeRenderer = new MazeRenderer(map.getMap(), imgScale);
+        float r, g, b;
+
+        r = random.nextFloat();
+        g= random.nextFloat();
+        b = random.nextFloat();
+
+        Color color = new Color(r, g, b, 1);
+        color.luminanceAlpha(1.0f, 1.0f);
+
+        mazeRenderer = new MazeRenderer(map.getMap(), imgScale, color);
         charRenderer = new CharacterRenderer(map.getMap(), imgScale);
         hudRenderer = new HudRenderer();
         controls = new Controls();
