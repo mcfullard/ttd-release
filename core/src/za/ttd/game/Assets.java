@@ -64,7 +64,7 @@ public class Assets {
         texturedObjects.put("MintyMouthwash", textureAtlas.findRegion("items/MintyMouthwash"));
         texturedObjects.put("Benny", textureAtlas.findRegion("items/Benny"));
 
-        //Load walls
+        //Load walls and door
         texturedObjects.put("tocWall", textureAtlas.findRegion("map/tocWall"));
         texturedObjects.put("rocWall", textureAtlas.findRegion("map/rocWall"));
         texturedObjects.put("bocWall", textureAtlas.findRegion("map/bocWall"));
@@ -82,6 +82,7 @@ public class Assets {
         texturedObjects.put("blkWall", textureAtlas.findRegion("map/blkWall"));
         texturedObjects.put("empWall", textureAtlas.findRegion("map/empWall"));
         texturedObjects.put("tocWall", textureAtlas.findRegion("map/tocWall"));
+        texturedObjects.put("door", textureAtlas.findRegion("map/door"));
 
         //Loading is complete, tell the rest of the world
         loading = false;
