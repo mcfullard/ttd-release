@@ -34,6 +34,8 @@ public class Player implements Telegraph {
         MessageManager.getInstance().addListeners(this,
                 MessageType.THOMAS_LOSES_LIFE,
                 MessageType.BADBREATH_DEAD,
+                MessageType.MOUTHWASH_COLLECTED,
+                MessageType.PLAQUE_COLLECTED,
                 MessageType.TOOTHDECAY_DEAD);
     }
 
