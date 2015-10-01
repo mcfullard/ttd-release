@@ -44,6 +44,14 @@ public class PauseMenu extends AbstractScreen implements Telegraph{
             }
         });
 
+        btnControls.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new ControlsScreen(game));
+                PauseMenu.this.dispose();
+            }
+        });
+
         btnMainMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

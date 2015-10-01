@@ -93,7 +93,7 @@ public class MainMenu extends AbstractScreen implements Telegraph, TelegramProvi
             }
         });
 
-        table.add(title).padBottom(40).row();
+        table.add(title).pad(40).row();
         if (!newPlayer)
             table.add(buttonContinue).size(150, 60).padBottom(20).row();
         table.add(buttonNewGame).size(150,60).padBottom(20).row();
