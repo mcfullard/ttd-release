@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -18,9 +19,11 @@ public class ControlsScreen extends AbstractScreen{
     private TextButton btnBack = new TextButton("BACK", skin);
     private TextField txtUp, txtDown, txtLeft, txtRight;
     private Label lblUp, lblDown, lblLeft, lblRight, title = new Label("Controls", skin);
+    AbstractScreen abstractScreen;
 
-    public ControlsScreen(Game game) {
+    public ControlsScreen(Game game, AbstractScreen abstractScreen) {
         super(game);
+        this.abstractScreen = abstractScreen;
         txtUp = new TextField(Input.Keys.toString(Player.Controls.UP), skin);
         txtDown = new TextField(Input.Keys.toString(Player.Controls.DOWN), skin);
         txtLeft = new TextField(Input.Keys.toString(Player.Controls.LEFT), skin);
@@ -36,60 +39,66 @@ public class ControlsScreen extends AbstractScreen{
 
     @Override
     public void show() {
+        super.show();
         btnBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new PauseMenu(game));
+                game.setScreen(abstractScreen);
             }
         });
 
 
-        txtUp.setTextFieldListener(new TextField.TextFieldListener() {
+        txtUp.addListener(new InputListener() {
             @Override
-            public void keyTyped(TextField textField, char c) {
-                Player.Controls.UP = Input.Keys.valueOf(Character.toString(c));
+            public boolean keyUp(InputEvent event, int keycode) {
+                txtUp.setText(Input.Keys.toString(keycode));
+                Player.Controls.UP = keycode;
+                return true;
             }
         });
 
-        txtDown.setTextFieldListener(new TextField.TextFieldListener() {
+        txtDown.addListener(new InputListener() {
             @Override
-            public void keyTyped(TextField textField, char c) {
-                Player.Controls.DOWN = Input.Keys.valueOf(Character.toString(c));
+            public boolean keyUp(InputEvent event, int keycode) {
+                txtDown.setText(Input.Keys.toString(keycode));
+                Player.Controls.DOWN = keycode;
+                return true;
             }
         });
 
-        txtLeft.setTextFieldListener(new TextField.TextFieldListener() {
+        txtLeft.addListener(new InputListener() {
             @Override
-            public void keyTyped(TextField textField, char c) {
-                Player.Controls.LEFT = Input.Keys.valueOf(Character.toString(c));
+            public boolean keyUp(InputEvent event,int keycode) {
+                txtLeft.setText(Input.Keys.toString(keycode));
+                Player.Controls.LEFT = keycode;
+                return true;
             }
         });
 
-        txtRight.setTextFieldListener(new TextField.TextFieldListener() {
+        txtRight.addListener(new InputListener() {
             @Override
-            public void keyTyped(TextField textField, char c) {
-                Player.Controls.RIGHT = Input.Keys.valueOf(Character.toString(c));
+            public boolean keyUp(InputEvent event,int keycode) {
+                txtRight.setText(Input.Keys.toString(keycode));
+                Player.Controls.RIGHT = keycode;
+                return true;
             }
         });
 
 
-        table.add(title).center().pad(40).row();
-
-
-        table.add(lblUp).size(100,60).pad(40).row();
-        table.add(txtUp).size(100, 60).pad(40).colspan(1);
-
-
-        table.add(lblDown).size(100, 60).pad(40).row();
-        table.add(txtDown).size(100,60).pad(40).colspan(1);
-
-        table.add(lblLeft).size(100,60).pad(40).row();
-        table.add(txtLeft).size(100,60).pad(40).colspan(1);
-
-        table.add(lblRight).size(100,60).pad(40).row();
-        table.add(txtRight).size(100,60).pad(40).colspan(1);
-
-        table.add(btnBack).size(100,60).center().padBottom(20).row();
+        table.add(title).pad(40).row();
+        table.add(lblUp).size(100,60).pad(40);
+        table.add(txtUp).size(60, 40).pad(40);
+        table.row();
+        table.add(lblDown).size(100, 40).pad(40);
+        table.add(txtDown).size(60, 40).pad(40);
+        table.row();
+        table.add(lblLeft).size(100, 60).pad(40);
+        table.add(txtLeft).size(60, 40).pad(40);
+        table.row();
+        table.add(lblRight).size(100, 60).pad(40);
+        table.add(txtRight).size(60, 40).pad(40);
+        table.row();
+        table.add(btnBack).size(100,60);
 
         table.setFillParent(true);
         stage.addActor(table);

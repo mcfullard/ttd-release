@@ -23,7 +23,7 @@ import za.ttd.game.Game;
  * The main menu that contains buttons to sub-menus and other actions.
  *
  */
-public class MainMenu extends AbstractScreen implements Telegraph, TelegramProvider {
+public class MainMenuScreen extends AbstractScreen implements Telegraph, TelegramProvider {
     private Stage stage = new Stage();
     private Table table = new Table();
     //private Skin skin = new Skin(Gdx.files.internal("core/assets/textures/out/texture.json"));
@@ -38,13 +38,13 @@ public class MainMenu extends AbstractScreen implements Telegraph, TelegramProvi
     private Label title = new Label("Main Menu", skin);
     private boolean newPlayer;
 
-    public MainMenu(Game game, boolean newPlayer) {
+    public MainMenuScreen(Game game, boolean newPlayer) {
         super(game);
         this.newPlayer = newPlayer;
         registerSelfAsProvider();
     }
 
-    public MainMenu(Game game) {
+    public MainMenuScreen(Game game) {
         super(game);
         registerSelfAsProvider();
     }
@@ -67,6 +67,13 @@ public class MainMenu extends AbstractScreen implements Telegraph, TelegramProvi
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.newGame();
+            }
+        });
+
+        buttonControls.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new ControlsScreen(game, MainMenuScreen.this));
             }
         });
 

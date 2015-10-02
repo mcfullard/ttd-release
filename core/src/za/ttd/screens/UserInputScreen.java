@@ -103,6 +103,6 @@ public class UserInputScreen extends AbstractScreen {
     }
 
     private void toMainMenu(boolean newPlayer) {
-        game.setScreen(new MainMenu(game, newPlayer));
+        game.setScreen(new MainMenuScreen(game, newPlayer));
     }
 }

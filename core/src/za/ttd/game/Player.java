@@ -207,5 +207,9 @@ public class Player implements Telegraph {
             this.LEFT = LEFT;
             this.RIGHT = RIGHT;
         }
+
+        public void setUp() {
+
+        }
     }
 }
