@@ -112,6 +112,6 @@ public class Game extends com.badlogic.gdx.Game
     }
 
     public int getPlayerID() {
-        return this.player.getID();
+        return this.player.getPlayerID();
     }
 }
