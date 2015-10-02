@@ -196,8 +196,7 @@ public class ConnectDB {
                     "select l.score, l.level, s.levellives, p.playerid, p.salt, p.hash " +
                             "from player p, levels l, statistics s " +
                             "where p.name = '%s' and " +
-                            "p.playerid = h.playerid and " +
-                            "h.playerid = l.playerid and " +
+                            "p.playerid = l.playerid and " +
                             "l.playerid = s.playerid;",
                     name
             );
@@ -212,8 +211,8 @@ public class ConnectDB {
                         result.getBytes(5),
                         result.getBytes(6));
             }
-            con.close();
             stmt.close();
+            con.close();
         } catch (SQLException | URISyntaxException e) {
             Gdx.app.error("CONNECTDB_GETPLAYER", e.getMessage());
         }
@@ -227,18 +226,19 @@ public class ConnectDB {
             Connection connection = getConnection();
             int playerId = -1;
             String playerSql = String.format(
-                    "insert into player(playerid, name, salt, hash) values (default, ?, ?, ?) " +
+                    "insert into player(name, salt, hash) values (?, ?, ?) " +
                     "returning playerid"
             );
             PreparedStatement pstmt = connection.prepareStatement(playerSql);
-            pstmt.setString(2, player.getName());
-            pstmt.setBytes(3, player.getSalt());
-            pstmt.setBytes(4, player.getHash());
+            pstmt.setString(1, player.getName());
+            pstmt.setBytes(2, player.getSalt());
+            pstmt.setBytes(3, player.getHash());
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 playerId = rs.getInt("playerid");
                 player.setPlayerID(playerId);
             }
+            Statement stmt = connection.createStatement();
             String controlsSql = String.format(
                     "insert into controls values (%d, %d, %d, %d, %d)",
                     playerId,
@@ -247,14 +247,14 @@ public class ConnectDB {
                     Player.Controls.UP,
                     Player.Controls.DOWN
             );
-            pstmt.executeUpdate(controlsSql);
+            stmt.execute(controlsSql);
             String levelsSql = String.format(
                     "insert into levels values (%d, %d, %d)",
                     playerId,
                     player.getHighestLevel(),
                     player.getTotScore()
             );
-            pstmt.executeUpdate(levelsSql);
+            stmt.execute(levelsSql);
             String statsSql = String.format(
                     "insert into statistics values (%d, %d, %d, %d, %d)",
                     playerId,
@@ -263,7 +263,10 @@ public class ConnectDB {
                     player.scoring.getTotBadBreathKilled(),
                     player.scoring.getTotPowersUsed()
             );
-            pstmt.executeUpdate(statsSql);
+            stmt.execute(statsSql);
+            pstmt.close();
+            stmt.close();
+            connection.close();
         } catch (SQLException | URISyntaxException e) {
             Gdx.app.error("CONNECTDB_ADDPLAYER", e.getMessage());
         }
