@@ -25,6 +25,7 @@ public class UserInputScreen extends AbstractScreen {
     //private Skin skin = new Skin(Gdx.files.internal("core/assets/textures/out/texture.json"));
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private Label labelName = new Label("Enter Name", skin);
+    private Label labelPassword = new Label("Enter Password", skin);
     private TextField textName = new TextField("", skin);
     private TextField textPassword = new TextField("", skin);
     private TextButton buttonContinue = new TextButton("Continue", skin);
@@ -36,6 +37,7 @@ public class UserInputScreen extends AbstractScreen {
 
     @Override
     public void show() {
+        stage.setKeyboardFocus(textName);
         Drawable tfBack = textName.getStyle().background;
         tfBack.setLeftWidth(tfBack.getLeftWidth() + 10);
         textName.setTextFieldListener(new TextField.TextFieldListener() {
@@ -60,8 +62,12 @@ public class UserInputScreen extends AbstractScreen {
                 validateInput(textName.getText());
             }
         });
+        textPassword.setPasswordMode(true);
+        textPassword.setPasswordCharacter('*');
         table.add(labelName).padBottom(20).row();
         table.add(textName).size(282,54).padBottom(20).row();
+        table.add(labelPassword).padBottom(20).row();
+        table.add(textPassword).size(282,54).padBottom(20).row();
         table.add(buttonContinue).padBottom(20).row();
         table.setFillParent(true);
         stage.addActor(table);
