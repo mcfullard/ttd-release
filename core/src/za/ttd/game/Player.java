@@ -7,10 +7,11 @@ import za.ttd.characters.states.MessageType;
 
 public class Player implements Telegraph {
 
-    private int ID;
+    private int playerID;
     private String name;
     private int totScore, highestLevel;
     private int lives;
+    private byte[] salt, hash;
     public ScoringSystem scoring;
 
     public Player(String name, int highestScore, int highestLevel, int lives) {
@@ -22,12 +23,24 @@ public class Player implements Telegraph {
         registerSelfAsListener();
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public Player(String name, int highestScore, int highestLevel, int lives, int playerID, byte[] salt, byte[] hash) {
+        this.name = name;
+        this.totScore = highestScore;
+        this.highestLevel = highestLevel;
+        this.lives = lives;
+        this.playerID = playerID;
+        this.salt = salt;
+        this.hash = hash;
+        this.scoring = new ScoringSystem();
+        registerSelfAsListener();
     }
 
-    public int getID() {
-        return ID;
+    public void setPlayerID(int playerID) {
+        this.playerID = playerID;
+    }
+
+    public int getPlayerID() {
+        return playerID;
     }
 
     private void registerSelfAsListener() {
@@ -101,6 +114,22 @@ public class Player implements Telegraph {
                 return true;
         }
         return false;
+    }
+
+    public void setSalt(byte[] salt) {
+        this.salt = salt;
+    }
+
+    public void setHash(byte[] hash) {
+        this.hash = hash;
+    }
+
+    public byte[] getSalt() {
+        return salt;
+    }
+
+    public byte[] getHash() {
+        return hash;
     }
 
     public class ScoringSystem {
