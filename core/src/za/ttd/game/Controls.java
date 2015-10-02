@@ -21,13 +21,13 @@ public class Controls implements Telegraph, TelegramProvider{
 
     //Get input from user
     public void processKeys() {
-        if(Gdx.input.isKeyPressed(Input.Keys.UP))
+        if(Gdx.input.isKeyPressed(Player.Controls.UP))
             direction = Direction.UP;
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
+        if(Gdx.input.isKeyPressed(Player.Controls.DOWN))
             direction = Direction.DOWN;
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
+        if(Gdx.input.isKeyPressed(Player.Controls.LEFT))
             direction = Direction.LEFT;
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+        if(Gdx.input.isKeyPressed(Player.Controls.RIGHT))
             direction = Direction.RIGHT;
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_PAUSED);

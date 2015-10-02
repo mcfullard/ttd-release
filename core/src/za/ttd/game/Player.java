@@ -1,5 +1,6 @@
 package za.ttd.game;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
@@ -13,6 +14,7 @@ public class Player implements Telegraph {
     private int lives;
     private byte[] salt, hash;
     public ScoringSystem scoring;
+    public Controls controls;
 
     public Player(String name, int highestScore, int highestLevel, int lives) {
         this.name = name;
@@ -20,6 +22,7 @@ public class Player implements Telegraph {
         this.highestLevel = highestLevel;
         this.lives = lives;
         this.scoring = new ScoringSystem();
+        this.controls = new Controls();
         registerSelfAsListener();
     }
 
@@ -213,6 +216,29 @@ public class Player implements Telegraph {
                 collectiblesFound = 0;
                 badBreathKilled = 0;
             }
+        }
+    }
+
+    public static class Controls{
+
+        public static int UP, DOWN, LEFT, RIGHT;
+
+        public Controls() {
+            UP = Input.Keys.UP;
+            DOWN = Input.Keys.DOWN;
+            LEFT = Input.Keys.LEFT;
+            RIGHT = Input.Keys.RIGHT;
+        }
+
+        public Controls(int UP, int DOWN, int LEFT, int RIGHT) {
+            this.UP = UP;
+            this.DOWN = DOWN;
+            this.LEFT = LEFT;
+            this.RIGHT = RIGHT;
+        }
+
+        public void setUp() {
+
         }
     }
 }
