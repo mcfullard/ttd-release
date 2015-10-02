@@ -24,7 +24,9 @@ public class ConnectTest {
         Player player = new Player(randomString, 0, 1, 2);
         Security.generateHash(player, "password");
         ConnectDB.addPlayer(player);
-        Player returnedPlayer = ConnectDB.getPlayer(randomString);
-        assertTrue(Security.hashMatch(returnedPlayer, "password"));
+        Player player1 = ConnectDB.getPlayer(randomString);
+        assertTrue(Security.hashMatch(player1, "password"));
+        Player player2 = ConnectDB.getPlayer("noasdtapla1245yer");
+        assertNull(player2);
     }
 }
