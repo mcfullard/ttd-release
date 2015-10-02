@@ -89,7 +89,7 @@ public class MainMenu extends AbstractScreen implements Telegraph, TelegramProvi
         buttonStatistics.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new PlayerStatisticsScreen(game));
+                game.setScreen(new StatisticsScreen(game));
             }
         });
 
