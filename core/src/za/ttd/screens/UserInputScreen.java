@@ -26,6 +26,7 @@ public class UserInputScreen extends AbstractScreen {
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private Label labelName = new Label("Enter Name", skin);
     private Label labelPassword = new Label("Enter Password", skin);
+    private Label labelInfo = new Label("(New players: consider this registration)", skin);
     private TextField textName = new TextField("", skin);
     private TextField textPassword = new TextField("", skin);
     private TextButton buttonContinue = new TextButton("Continue", skin);
@@ -68,7 +69,8 @@ public class UserInputScreen extends AbstractScreen {
         table.add(textName).size(282,54).padBottom(20).row();
         table.add(labelPassword).padBottom(20).row();
         table.add(textPassword).size(282,54).padBottom(20).row();
-        table.add(buttonContinue).padBottom(20).row();
+        table.add(buttonContinue).padBottom(200).row();
+        table.add(labelInfo);
         table.setFillParent(true);
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
