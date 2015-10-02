@@ -26,6 +26,7 @@ public class UserInputScreen extends AbstractScreen {
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private Label labelName = new Label("Enter Name", skin);
     private TextField textName = new TextField("", skin);
+    private TextField textPassword = new TextField("", skin);
     private TextButton buttonContinue = new TextButton("Continue", skin);
     private Dialog dialog;
 
@@ -38,6 +39,14 @@ public class UserInputScreen extends AbstractScreen {
         Drawable tfBack = textName.getStyle().background;
         tfBack.setLeftWidth(tfBack.getLeftWidth() + 10);
         textName.setTextFieldListener(new TextField.TextFieldListener() {
+            @Override
+            public void keyTyped(TextField textField, char c) {
+                if (c == '\r' || c == '\n' || c == '\t') { // when the user presses enter or tab
+                    stage.setKeyboardFocus(textPassword);
+                }
+            }
+        });
+        textPassword.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
                 if (c == '\r' || c == '\n') { // when the user presses enter

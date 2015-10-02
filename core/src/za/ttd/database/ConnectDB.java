@@ -1,5 +1,8 @@
 package za.ttd.database;
 
+import com.badlogic.gdx.Gdx;
+import za.ttd.game.Player;
+
 import java.net.URISyntaxException;
 import java.sql.*;
 
@@ -81,23 +84,6 @@ public class ConnectDB {
         return DriverManager.getConnection(url);
     }
 
-    public static int AddPlayer(String playerName) throws Exception
-    {
-        Class.forName("org.postgresql.Driver");
-        Connection connection = getConnection();
-        Statement stmt = connection.createStatement();
-        int ID=0;
-        //stmt.executeUpdate("INSERT INTO PLAYER(NAME)VALUES ('"+playerName+"')");
-        ResultSet rs = stmt.executeQuery("INSERT INTO PLAYER(PLAYERID,NAME)VALUES (DEFAULT ,'"+playerName+"') RETURNING PLAYERID");
-        while(rs.next()){
-             ID= rs.getInt("PLAYERID");
-        }
-        stmt.executeUpdate("INSERT INTO CONTROLS VALUES ('"+ID+"','left','right','up','down')");
-        stmt.executeUpdate("INSERT INTO COMPLETEDLEVELS VALUES ('"+ID+"',0,0)");
-        stmt.executeUpdate("INSERT INTO STATISTICS VALUES ('"+ID+"',0,0,0,0,0,0)");
-        return ID;
-    }
-
     /**
      * Save Thomas Current level and Current score
      * @param ID
@@ -110,7 +96,7 @@ public class ConnectDB {
         Class.forName("org.postgresql.Driver");
         Connection connection = getConnection();
         Statement stmt = connection.createStatement();
-        stmt.executeUpdate("UPDATE COMPLETEDLEVELS SET LEVEL='"+Level+"',LEVELSCORE='"+Score+"' WHERE PlayerID='"+ID+"' ");
+        stmt.executeUpdate("UPDATE levels SET LEVEL='"+Level+"',score='"+Score+"' WHERE PlayerID='"+ID+"' ");
     }
 
     public static void Achieved(int pID,int aID)throws Exception
@@ -139,7 +125,7 @@ public class ConnectDB {
         Class.forName("org.postgresql.Driver");
         Connection connection = getConnection();
         Statement stmt = connection.createStatement();
-       ResultSet rs=stmt.executeQuery("SELECT Level,levelscore FROM COMPLETEDLEVELS WHERE PlayerID='" + PlayerID + "'");
+       ResultSet rs=stmt.executeQuery("SELECT Level,score FROM levels WHERE PlayerID='" + PlayerID + "'");
         int level=-1;
         int score=-1;
         while(rs.next())
@@ -199,4 +185,88 @@ public class ConnectDB {
             return false;
         }
     }
+
+    public static Player getPlayer(String name) throws
+            ClassNotFoundException {
+        Player player = null;
+        Class.forName("org.postgresql.Driver");
+        try {
+            Connection con = getConnection();
+            String sql = String.format(
+                    "select l.score, l.level, s.levellives, p.playerid, p.salt, p.hash " +
+                            "from player p, levels l, statistics s " +
+                            "where p.name = '%s' and " +
+                            "p.playerid = h.playerid and " +
+                            "h.playerid = l.playerid and " +
+                            "l.playerid = s.playerid;",
+                    name
+            );
+            Statement stmt = con.createStatement();
+            ResultSet result = stmt.executeQuery(sql);
+            while(result.next()) {
+                player = new Player(name,
+                        result.getInt(1),
+                        result.getInt(2),
+                        result.getInt(3),
+                        result.getInt(4),
+                        result.getBytes(5),
+                        result.getBytes(6));
+            }
+            con.close();
+            stmt.close();
+        } catch (SQLException | URISyntaxException e) {
+            Gdx.app.error("CONNECTDB_GETPLAYER", e.getMessage());
+        }
+        return player;
+    }
+
+    public static void addPlayer(Player player) throws ClassNotFoundException
+    {
+        Class.forName("org.postgresql.Driver");
+        try {
+            Connection connection = getConnection();
+            int playerId = -1;
+            String playerSql = String.format(
+                    "insert into player(playerid, name, salt, hash) values (default, ?, ?, ?) " +
+                    "returning playerid"
+            );
+            PreparedStatement pstmt = connection.prepareStatement(playerSql);
+            pstmt.setString(2, player.getName());
+            pstmt.setBytes(3, player.getSalt());
+            pstmt.setBytes(4, player.getHash());
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                playerId = rs.getInt("playerid");
+                player.setPlayerID(playerId);
+            }
+            String controlsSql = String.format(
+                    "insert into controls values (%d, %d, %d, %d, %d)",
+                    playerId,
+                    Player.Controls.LEFT,
+                    Player.Controls.RIGHT,
+                    Player.Controls.UP,
+                    Player.Controls.DOWN
+            );
+            pstmt.executeUpdate(controlsSql);
+            String levelsSql = String.format(
+                    "insert into levels values (%d, %d, %d)",
+                    playerId,
+                    player.getHighestLevel(),
+                    player.getTotScore()
+            );
+            pstmt.executeUpdate(levelsSql);
+            String statsSql = String.format(
+                    "insert into statistics values (%d, %d, %d, %d, %d)",
+                    playerId,
+                    player.scoring.getTotLivesUsed(),
+                    player.scoring.getTotCollectiblesFound(),
+                    player.scoring.getTotBadBreathKilled(),
+                    player.scoring.getTotPowersUsed()
+            );
+            pstmt.executeUpdate(statsSql);
+        } catch (SQLException | URISyntaxException e) {
+            Gdx.app.error("CONNECTDB_ADDPLAYER", e.getMessage());
+        }
+    }
+
 }
