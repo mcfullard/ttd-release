@@ -65,7 +65,7 @@ public class UserInputScreen extends AbstractScreen {
         });
         textPassword.setPasswordMode(true);
         textPassword.setPasswordCharacter('*');
-        table.add(labelName).padBottom(20).row();
+        table.add(labelName).padTop(175).padBottom(20).row();
         table.add(textName).size(282,54).padBottom(20).row();
         table.add(labelPassword).padBottom(20).row();
         table.add(textPassword).size(282,54).padBottom(20).row();
