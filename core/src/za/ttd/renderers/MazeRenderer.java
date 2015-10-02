@@ -54,7 +54,10 @@ public class MazeRenderer {
             for (int j = 0; j < column; ++j) {
                 int curCell = maze[i][j];
 
-                if (curCell == 1) {
+                if (curCell == 7)
+                    batch.draw(assets.getTexture("door"), j * imgScale, (row - i) * imgScale);
+
+                if (curCell == wall) {
 
                     int top;
                     int right;

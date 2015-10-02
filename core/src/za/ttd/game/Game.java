@@ -16,7 +16,9 @@ public class Game extends com.badlogic.gdx.Game
     private Level level;
     private Player player;
     private Assets assets;
-    private boolean created;
+    private boolean playerLoaded;
+
+    private MainMenuScreen mainMenuScreen;
 
     private Json json = new Json();
 	public static final String TITLE = "The Wrath of Thomas the Dentist";
@@ -26,19 +28,13 @@ public class Game extends com.badlogic.gdx.Game
         registerSelfAsListener();
     }
 
-    private void registerSelfAsListener() {
-        MessageManager.getInstance().addListeners(this,
-                MessageType.GAME_OVER,
-                MessageType.NEXT_LEVEL
-        );
-    }
-
 	@Override
 	public void create() {
+        mainMenuScreen = new MainMenuScreen(this, playerLoaded);
 		setScreen(new SplashScreen(this));
         assets = Assets.getInstance();
         assets.Load();
-        created = false;
+
 	}
 
     public void newGame() {
@@ -60,7 +56,14 @@ public class Game extends com.badlogic.gdx.Game
     private void gameOver() {
         player.setLives(3);
         player.setHighestLevel(1);
-        setScreen(new MainMenu(this, false));
+        setScreen(new MainMenuScreen(this, false));
+    }
+
+    private void registerSelfAsListener() {
+        MessageManager.getInstance().addListeners(this,
+                MessageType.GAME_OVER,
+                MessageType.NEXT_LEVEL
+        );
     }
 
     @Override
@@ -112,6 +115,6 @@ public class Game extends com.badlogic.gdx.Game
     }
 
     public int getPlayerID() {
-        return this.player.getID();
+        return this.player.getPlayerID();
     }
 }
