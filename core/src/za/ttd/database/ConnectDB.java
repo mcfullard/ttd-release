@@ -240,6 +240,7 @@ public class ConnectDB implements Telegraph {
                 playerId = rs.getInt("playerid");
                 player.setPlayerID(playerId);
             }
+            pstmt.close();
             Statement stmt = connection.createStatement();
             String controlsSql = String.format(
                     "insert into controls values (%d, %d, %d, %d, %d)",
@@ -266,7 +267,6 @@ public class ConnectDB implements Telegraph {
                     player.scoring.getTotPowersUsed()
             );
             stmt.execute(statsSql);
-            pstmt.close();
             stmt.close();
             connection.close();
         } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
@@ -275,7 +275,72 @@ public class ConnectDB implements Telegraph {
     }
 
     private void updatePlayer(Player player) {
-
+        try {
+            Class.forName("org.postgresql.Driver");
+            Connection connection = getConnection();
+            Statement stmt = connection.createStatement();
+            String controlsSql = String.format(
+                    "update controls set " +
+                    "left_key=%d, " +
+                    "right_key=%d, " +
+                    "up_key=%d, " +
+                    "down_key=%d " +
+                    "where playerid=%d;",
+                    Player.Controls.LEFT,
+                    Player.Controls.RIGHT,
+                    Player.Controls.UP,
+                    Player.Controls.DOWN,
+                    player.getPlayerID()
+            );
+            stmt.execute(controlsSql);
+            String levelsSql = String.format(
+                    "update levels set " +
+                    "level = %d, " +
+                    "score = %d " +
+                    "where playerid = %d;",
+                    player.getHighestLevel(),
+                    player.getTotScore(),
+                    player.getPlayerID()
+            );
+            stmt.execute(levelsSql);
+            String statsSql = String.format(
+                    "update statistics set " +
+                    "levellives = %d, " +
+                    "collectible = %d, " +
+                    "badbreath = %d, " +
+                    "powersused = %d " +
+                    "where playerid = %d;",
+                    player.scoring.getTotLivesUsed(),
+                    player.scoring.getTotCollectiblesFound(),
+                    player.scoring.getTotBadBreathKilled(),
+                    player.scoring.getTotPowersUsed(),
+                    player.getPlayerID()
+            );
+            stmt.execute(statsSql);
+            String highscoreInsertSql = String.format(
+                    "if exists (select min(highscore) from highscore where min(highscore) < %d) then " +
+                    "begin insert into highscore values (%d, %d); " +
+                    "delete from highscore where highscore = min(highscore);",
+                    player.getPlayerID(),
+                    player.getTotScore(),
+                    player.getTotScore()
+            );
+            stmt.execute(highscoreInsertSql);
+            String highscoreUpdateSql = String.format(
+                    "update highscore set " +
+                    "highscore = %d " +
+                    "where highscore < %d and " +
+                    "playerid = %d;",
+                    player.getTotScore(),
+                    player.getTotScore(),
+                    player.getPlayerID()
+            );
+            stmt.execute(highscoreUpdateSql);
+            stmt.close();
+            connection.close();
+        } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
+            Gdx.app.error("CONNECTDB_ADDPLAYER", e.getMessage());
+        }
     }
 
     @Override
