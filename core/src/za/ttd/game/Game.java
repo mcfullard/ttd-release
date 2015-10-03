@@ -24,8 +24,16 @@ public class Game extends com.badlogic.gdx.Game
 	public static final String TITLE = "The Wrath of Thomas the Dentist";
 	public static final int WIDTH = 600, HEIGHT = 800;
 
-    public Game() {
+    public static Game instance = null;
+
+    private Game() {
         registerSelfAsListener();
+    }
+
+    public static Game getInstance() {
+        if(instance != null)
+            return instance;
+        return instance = new Game();
     }
 
 	@Override
@@ -116,5 +124,9 @@ public class Game extends com.badlogic.gdx.Game
 
     public int getPlayerID() {
         return this.player.getPlayerID();
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }
