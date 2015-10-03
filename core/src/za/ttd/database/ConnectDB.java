@@ -1,12 +1,16 @@
 package za.ttd.database;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.msg.Telegram;
+import com.badlogic.gdx.ai.msg.Telegraph;
+import za.ttd.characters.states.MessageType;
+import za.ttd.game.Game;
 import za.ttd.game.Player;
 
 import java.net.URISyntaxException;
 import java.sql.*;
 
-public class ConnectDB {
+public class ConnectDB implements Telegraph {
     public final class Statistics {
         private final int Benny;
         private final int LevelLives;
@@ -186,11 +190,10 @@ public class ConnectDB {
         }
     }
 
-    public static Player getPlayer(String name) throws
-            ClassNotFoundException {
+    public static Player getPlayer(String name) {
         Player player = null;
-        Class.forName("org.postgresql.Driver");
         try {
+            Class.forName("org.postgresql.Driver");
             Connection con = getConnection();
             String sql = String.format(
                     "select l.score, l.level, s.levellives, p.playerid, p.salt, p.hash " +
@@ -213,16 +216,15 @@ public class ConnectDB {
             }
             stmt.close();
             con.close();
-        } catch (SQLException | URISyntaxException e) {
+        } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
             Gdx.app.error("CONNECTDB_GETPLAYER", e.getMessage());
         }
         return player;
     }
 
-    public static void addPlayer(Player player) throws ClassNotFoundException
-    {
-        Class.forName("org.postgresql.Driver");
+    public static void addPlayer(Player player) {
         try {
+            Class.forName("org.postgresql.Driver");
             Connection connection = getConnection();
             int playerId = -1;
             String playerSql = String.format(
@@ -267,9 +269,29 @@ public class ConnectDB {
             pstmt.close();
             stmt.close();
             connection.close();
-        } catch (SQLException | URISyntaxException e) {
+        } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
             Gdx.app.error("CONNECTDB_ADDPLAYER", e.getMessage());
         }
     }
 
+    private void updatePlayer(Player player) {
+
+    }
+
+    @Override
+    public boolean handleMessage(Telegram msg) {
+        switch (msg.message) {
+            case MessageType.LEVEL_STARTED:
+            case MessageType.LEVEL_PAUSED:
+            case MessageType.NEXT_LEVEL:
+            case MessageType.LEVEL_RESET:
+            case MessageType.GAME_OVER:
+                Player player = Game.getInstance().getPlayer();
+                if(player != null) {
+                    updatePlayer(player);
+                }
+                break;
+        }
+        return false;
+    }
 }
