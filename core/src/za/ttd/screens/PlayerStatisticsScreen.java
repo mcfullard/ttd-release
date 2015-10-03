@@ -9,35 +9,26 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import za.ttd.database.ConnectDB;
 import za.ttd.game.Game;
+import za.ttd.game.Player;
 
 /**
  * Created by s213391244 on 9/18/2015.
  */
 public class PlayerStatisticsScreen extends AbstractScreen {
-    private ConnectDB connectDB = new ConnectDB();
-    private ConnectDB.Statistics statistics = null;
-
     public PlayerStatisticsScreen(Game game) {
         super(game);
-        try {
-            statistics = connectDB.getStatistics(this.game.getPlayerID());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
+    private Player player = Game.getInstance().getPlayer();
     private Stage stage = new Stage();
     private Table table = new Table();
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private Label playerStatsLabel = new Label("Player Statistics", skin);
-    private Label benny = new Label("Benny The Brush Pickups: " + statistics.getBenny(), skin);
-    private Label levelLives = new Label("Level Lives: " + statistics.getLevelLives(), skin);
-    private Label minty = new Label("Minty Mouthwash Pickups: " + statistics.getMinty(), skin);
-    private Label plaque = new Label("Plaque Collected: " + statistics.getBenny(), skin);
-    private Label badBreath = new Label("Bad Breath Kills: " + statistics.getBadBreath(), skin);
-    private Label toothDecay = new Label("toothDecay Kills: " + statistics.getToothDecay(), skin);
+    private Label levelLives = new Label("Lives Used: " + player.getLives(), skin);
+    private Label collectibles = new Label("Collectibles Found: " + player.scoring.getTotCollectiblesFound(), skin);
+    private Label badBreath = new Label("Bad Breath Kills: " + player.scoring.getTotBadBreathKilled(), skin);
+    private Label powersUsed = new Label("Total Powers Used: " + player.scoring.getTotPowersUsed(), skin);
     private TextButton back = new TextButton("Back", skin);
 
     @Override
@@ -51,11 +42,9 @@ public class PlayerStatisticsScreen extends AbstractScreen {
 
         table.add(playerStatsLabel).size(200, 80).padBottom(40).row();
         table.add(levelLives).size(100, 40).padBottom(10).row();
-        table.add(plaque).size(100, 40).padBottom(10).row();
         table.add(badBreath).size(100, 40).padBottom(10).row();
-        table.add(minty).size(100, 40).padBottom(10).row();
-        table.add(benny).size(100, 40).padBottom(10).row();
-        table.add(toothDecay).size(100, 40).padBottom(10).row();
+        table.add(collectibles).size(100, 40).padBottom(10).row();
+        table.add(powersUsed).size(100, 40).padBottom(10).row();
         table.setFillParent(true);
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
