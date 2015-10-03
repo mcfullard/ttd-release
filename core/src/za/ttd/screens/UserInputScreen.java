@@ -12,8 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import za.ttd.database.ConnectDB;
 import za.ttd.game.Game;
 import za.ttd.game.Player;
+import za.ttd.game.Security;
 
 /**
  * @author minnaar
@@ -53,14 +55,14 @@ public class UserInputScreen extends AbstractScreen {
             @Override
             public void keyTyped(TextField textField, char c) {
                 if (c == '\r' || c == '\n') { // when the user presses enter
-                    validateInput(textName.getText());
+                    validateInput(textName.getText(), textPassword.getText());
                 }
             }
         });
         buttonContinue.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                validateInput(textName.getText());
+                validateInput(textName.getText(), textPassword.getText());
             }
         });
         textPassword.setPasswordMode(true);
@@ -90,22 +92,34 @@ public class UserInputScreen extends AbstractScreen {
         skin.dispose();
     }
 
-    private void validateInput(String name) {
+    private void validateInput(String name, String password) {
         if (!name.isEmpty()) {
-            Player loadedPlayer = game.loadPlayer(name);
-            setupDialog();
+            Player loadedPlayer = ConnectDB.getPlayer(name);
             if (loadedPlayer == null) {
                 loadedPlayer = new Player(name, 0, 1, 3);
+                Security.generateHash(loadedPlayer, password);
                 game.setPlayer(loadedPlayer);
+                setupNotFoundDialog();
                 dialog.show(stage);
             } else {
-                game.setPlayer(loadedPlayer);
-                toMainMenu(false);
+                if(Security.hashMatch(loadedPlayer, password)) {
+                    game.setPlayer(loadedPlayer);
+                    toMainMenu(false);
+                } else {
+                    setupInvalidPasswordDialog();
+                    dialog.show(stage);
+                }
             }
         }
     }
 
-    private void setupDialog() {
+    private void setupInvalidPasswordDialog() {
+        dialog = new Dialog("Invalid Password", skin);
+        dialog.text("The password you supplied does not match the one on record. Please try again.");
+        dialog.button("Ok");
+    }
+
+    private void setupNotFoundDialog() {
         dialog = new Dialog("Confirm Player", skin) {
             @Override
             public void result(Object obj) {
