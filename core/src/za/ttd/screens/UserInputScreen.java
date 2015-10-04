@@ -108,6 +108,7 @@ public class UserInputScreen extends AbstractScreen {
                 } else {
                     setupInvalidPasswordDialog();
                     dialog.show(stage);
+                    textPassword.setText("");
                 }
             }
         }
