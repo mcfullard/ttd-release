@@ -35,7 +35,7 @@ public class PlayerStatisticsScreen extends AbstractScreen {
         back.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //display gameOverScreen
+                Game.getInstance().setScreen(new MainMenuScreen(false));
             }
         });
 
@@ -44,6 +44,7 @@ public class PlayerStatisticsScreen extends AbstractScreen {
         table.add(badBreath).size(100, 40).padBottom(10).row();
         table.add(collectibles).size(100, 40).padBottom(10).row();
         table.add(powersUsed).size(100, 40).padBottom(10).row();
+        table.add(back);
         table.setFillParent(true);
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
