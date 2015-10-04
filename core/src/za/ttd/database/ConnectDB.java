@@ -235,8 +235,8 @@ public class ConnectDB
         }
     }
 
-    public static Map<Player, Integer> getHighestScoringPlayers() {
-        Map<Player, Integer> highScores = null;
+    public static Map<String, Integer> getHighestScoringPlayers() {
+        Map<String, Integer> highScores = null;
         try {
             highScores = new HashMap<>();
             Class.forName("org.postgresql.Driver");
@@ -247,8 +247,7 @@ public class ConnectDB
                     "where h.playerid = p.playerid;";
             ResultSet result = stmt.executeQuery(sql);
             while(result.next()) {
-                Player player = getPlayer(result.getString(1));
-                highScores.put(player, result.getInt(2));
+                highScores.put(result.getString(1), result.getInt(2));
             }
             stmt.close();
             connection.close();
