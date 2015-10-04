@@ -31,7 +31,7 @@ public class UserInputScreen extends AbstractScreen {
     private Label labelInfo = new Label("(New players: consider this registration)", skin);
     private TextField textName = new TextField("", skin);
     private TextField textPassword = new TextField("", skin);
-    private TextButton buttonContinue = new TextButton("Continue", skin);
+    private TextButton buttonContinue = new TextButton("Login", skin);
     private Dialog dialog;
 
     public UserInputScreen() {
