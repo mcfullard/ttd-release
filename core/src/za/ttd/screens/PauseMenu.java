@@ -54,7 +54,15 @@ public class PauseMenu extends AbstractScreen implements Telegraph{
             public void clicked(InputEvent event, float x, float y) {
                 //Save game the exit
                 PauseMenu.this.dispose();
-                Game.getInstance().setScreen(new MainMenuScreen());
+                Game.getInstance().setScreen(new LoadingScreen(
+                        "Updating database...",
+                        () -> {
+                            MessageManager.getInstance().dispatchMessage(
+                                    Game.getInstance(),
+                                    MessageType.UPDATE_DB);
+                        },
+                        new MainMenuScreen(false)
+                ));
             }
         });
 
