@@ -1,6 +1,7 @@
 package za.ttd.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.*;
 import za.ttd.game.Game;
@@ -15,13 +16,15 @@ public class LoadingScreen extends AbstractScreen{
     private BitmapFont theMessage;
     private String message;
     private float elapsedTime;
+    private Thread taskThread;
+    private Screen next;
 
-    public LoadingScreen(Game game) {
-        super(game);
+    public LoadingScreen(String message, Runnable task, Screen next) {
         batch = new SpriteBatch();
         batch.getProjectionMatrix().setToOrtho2D(0,0,600,800);
         theMessage = new BitmapFont();
-        message = "LOADING";
+        this.message = message;
+        this.next = next;
         startX = 300-(message.length());
 
         textureAtlas = new TextureAtlas(Gdx.files.internal(atlasFilePath));
@@ -31,6 +34,8 @@ public class LoadingScreen extends AbstractScreen{
                 textureAtlas.findRegion("characters/ThomasR3"));
         x = startX-40;
         this.elapsedTime = 0;
+        taskThread = new Thread(task);
+        taskThread.start();
     }
 
     @Override
@@ -47,5 +52,13 @@ public class LoadingScreen extends AbstractScreen{
         theMessage.draw(batch, message, startX, 450);
         batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), x, 400);
         batch.end();
+        if(!taskThread.isAlive()) {
+            Game.getInstance().setScreen(next);
+        }
+    }
+
+    @Override
+    public void dispose() {
+        batch.dispose();
     }
 }
