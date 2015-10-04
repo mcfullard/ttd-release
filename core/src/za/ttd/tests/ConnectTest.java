@@ -33,7 +33,7 @@ public class ConnectTest {
 
     @Test
     public void testGetHighScores() throws Exception {
-        Map<Player, Integer> highScores = ConnectDB.getHighestScoringPlayers();
+        Map<String, Integer> highScores = ConnectDB.getHighestScoringPlayers();
         assertEquals(2, highScores.keySet().size());
     }
 }
