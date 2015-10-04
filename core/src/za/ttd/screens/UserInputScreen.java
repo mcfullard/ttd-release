@@ -134,6 +134,7 @@ public class UserInputScreen extends AbstractScreen {
     }
 
     private void toMainMenu(boolean newPlayer) {
+        UserInputScreen.this.dispose();
         Game.getInstance().setScreen(new MainMenuScreen(newPlayer));
     }
 }
