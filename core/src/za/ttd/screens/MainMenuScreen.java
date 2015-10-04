@@ -37,14 +37,12 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
     private Label title = new Label("Main Menu", skin);
     private boolean newPlayer;
 
-    public MainMenuScreen(Game game, boolean newPlayer) {
-        super(game);
+    public MainMenuScreen(boolean newPlayer) {
         this.newPlayer = newPlayer;
         registerSelfAsProvider();
     }
 
-    public MainMenuScreen(Game game) {
-        super(game);
+    public MainMenuScreen() {
         registerSelfAsProvider();
     }
 
@@ -58,28 +56,28 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
         buttonContinue.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.createGame();
+                Game.getInstance().createGame();
             }
         });
 
         buttonNewGame.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.newGame();
+                Game.getInstance().newGame();
             }
         });
 
         buttonControls.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new ControlsScreen(game, MainMenuScreen.this));
+                Game.getInstance().setScreen(new ControlsScreen(MainMenuScreen.this));
             }
         });
 
         buttonCredits.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new CreditScreen(game));
+                Game.getInstance().setScreen(new CreditScreen());
             }
 
         });
@@ -95,7 +93,7 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
         buttonStatistics.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new PlayerStatisticsScreen(game));
+                Game.getInstance().setScreen(new PlayerStatisticsScreen());
             }
         });
 

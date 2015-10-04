@@ -21,8 +21,7 @@ public class ControlsScreen extends AbstractScreen{
     private Label lblUp, lblDown, lblLeft, lblRight, title = new Label("Controls", skin);
     AbstractScreen abstractScreen;
 
-    public ControlsScreen(Game game, AbstractScreen abstractScreen) {
-        super(game);
+    public ControlsScreen(AbstractScreen abstractScreen) {
         this.abstractScreen = abstractScreen;
         txtUp = new TextField(Input.Keys.toString(Player.Controls.UP), skin);
         txtDown = new TextField(Input.Keys.toString(Player.Controls.DOWN), skin);
@@ -43,7 +42,7 @@ public class ControlsScreen extends AbstractScreen{
         btnBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(abstractScreen);
+                Game.getInstance().setScreen(abstractScreen);
             }
         });
 

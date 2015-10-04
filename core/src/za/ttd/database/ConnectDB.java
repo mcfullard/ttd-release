@@ -32,8 +32,7 @@ public class ConnectDB
 
     private void registerSelfAsListener() {
         MessageManager.getInstance().addListeners(this,
-                MessageType.LEVEL_PAUSED,
-                MessageType.GAME_OVER
+                MessageType.UPDATE_DB
         );
     }
 
@@ -163,6 +162,69 @@ public class ConnectDB
         try {
             Class.forName("org.postgresql.Driver");
             Connection connection = getConnection();
+            String prepSql = String.format(
+                    "begin; " +
+                    "update controls set " +
+                    "left_key=%d, " +
+                    "right_key=%d, " +
+                    "up_key=%d, " +
+                    "down_key=%d " +
+                    "where playerid=%d; " +
+
+                    "update levels set " +
+                    "level = %d, " +
+                    "score = %d " +
+                    "where playerid = %d; " +
+
+                    "update statistics set " +
+                    "levellives = %d, " +
+                    "collectible = %d, " +
+                    "badbreath = %d, " +
+                    "powersused = %d " +
+                    "where playerid = %d; " +
+
+                    "delete from highscore " +
+                    "where playerid = ( " +
+                    "    select h.playerid " +
+                    "    from highscore h " +
+                    "    where h.highscore = ( " +
+                    "        select min(highscore) " +
+                    "        from highscore " +
+                    "    ) " +
+                    ") " +
+                    "and 10 = ( " +
+                    "    select count(highscore) " +
+                    "    from highscore " +
+                    "); " +
+
+                    "insert into highscore (playerid, highscore) " +
+                    "select %d, %d " +
+                    "where (select count(highscore) from highscore) >= 0 " +
+                    "and (select count(highscore) from highscore) <= 10 " +
+                    "and %d > (select min(highscore) from highscore); " +
+
+                    "commit;",
+                    Player.Controls.LEFT,
+                    Player.Controls.RIGHT,
+                    Player.Controls.UP,
+                    Player.Controls.DOWN,
+                    player.getPlayerID(),
+                    player.getHighestLevel(),
+                    player.getTotScore(),
+                    player.getPlayerID(),
+                    player.scoring.getTotLivesUsed(),
+                    player.scoring.getTotCollectiblesFound(),
+                    player.scoring.getTotBadBreathKilled(),
+                    player.scoring.getTotPowersUsed(),
+                    player.getPlayerID(),
+                    player.getPlayerID(),
+                    player.getTotScore(),
+                    player.getTotScore()
+            );
+            PreparedStatement pstmt = connection.prepareStatement(prepSql);
+            pstmt.execute();
+
+            /*
             Statement stmt = connection.createStatement();
             String controlsSql = String.format(
                     "update controls set " +
@@ -229,6 +291,8 @@ public class ConnectDB
             );
             stmt.execute(highscoreInsertSql);
             stmt.close();
+            */
+            pstmt.close();
             connection.close();
         } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
             Gdx.app.error("CONNECTDB_ADDPLAYER", e.getMessage());
@@ -260,8 +324,7 @@ public class ConnectDB
     @Override
     public boolean handleMessage(Telegram msg) {
         switch (msg.message) {
-            case MessageType.LEVEL_PAUSED:
-            case MessageType.GAME_OVER:
+            case MessageType.UPDATE_DB:
                 Player player = Game.getInstance().getPlayer();
                 if (player != null) { // if the game actually has a current player
                     if(getPlayer(player.getName()) != null) { // if the player's in the DB

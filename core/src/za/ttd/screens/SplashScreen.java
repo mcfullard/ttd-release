@@ -20,7 +20,7 @@ public class SplashScreen extends AbstractScreen {
     private Image splashImage = new Image(texture);
     private Stage stage = new Stage();
 
-    public SplashScreen(Game game) { super(game); }
+    public SplashScreen() {}
 
     @Override
     public void show() {
@@ -30,7 +30,7 @@ public class SplashScreen extends AbstractScreen {
                 Actions.fadeIn(0.5f),
                 Actions.delay(2),
                 Actions.run(() -> {
-                    game.setScreen(new UserInputScreen(game));
+                    Game.getInstance().setScreen(new UserInputScreen());
                 })
         ));
     }

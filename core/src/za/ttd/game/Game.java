@@ -40,8 +40,8 @@ public class Game extends com.badlogic.gdx.Game
 
 	@Override
 	public void create() {
-        mainMenuScreen = new MainMenuScreen(this, playerLoaded);
-		setScreen(new SplashScreen(this));
+        mainMenuScreen = new MainMenuScreen(playerLoaded);
+		setScreen(new SplashScreen());
         assets = Assets.getInstance();
         assets.Load();
 
@@ -56,7 +56,7 @@ public class Game extends com.badlogic.gdx.Game
     //Creates a new game depending on the players level
     public void createGame() {
         setLevel(new Level(player));
-        setScreen(new GameScreen(this));
+        setScreen(new GameScreen());
     }
 
     public Level getLevel() {
@@ -66,7 +66,7 @@ public class Game extends com.badlogic.gdx.Game
     private void gameOver() {
         player.setLives(3);
         player.setHighestLevel(1);
-        setScreen(new MainMenuScreen(this, false));
+        setScreen(new MainMenuScreen(false));
     }
 
     private void registerSelfAsListener() {

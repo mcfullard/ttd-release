@@ -22,8 +22,7 @@ public class CreditScreen extends AbstractScreen {
     /*private Stage stage;
     private Table table;*/
 
-    public CreditScreen(Game game) {
-        super(game);
+    public CreditScreen() {
         /*stage = new Stage();
         table = new Table();*/
         batch = new SpriteBatch();

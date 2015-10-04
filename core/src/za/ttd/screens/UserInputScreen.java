@@ -34,8 +34,7 @@ public class UserInputScreen extends AbstractScreen {
     private TextButton buttonContinue = new TextButton("Continue", skin);
     private Dialog dialog;
 
-    public UserInputScreen(Game game) {
-        super(game);
+    public UserInputScreen() {
     }
 
     @Override
@@ -98,12 +97,12 @@ public class UserInputScreen extends AbstractScreen {
             if (loadedPlayer == null) {
                 loadedPlayer = new Player(name, 0, 1, 3);
                 Security.generateHash(loadedPlayer, password);
-                game.setPlayer(loadedPlayer);
+                Game.getInstance().setPlayer(loadedPlayer);
                 setupNotFoundDialog();
                 dialog.show(stage);
             } else {
                 if(Security.hashMatch(loadedPlayer, password)) {
-                    game.setPlayer(loadedPlayer);
+                    Game.getInstance().setPlayer(loadedPlayer);
                     toMainMenu(false);
                 } else {
                     setupInvalidPasswordDialog();
@@ -135,6 +134,6 @@ public class UserInputScreen extends AbstractScreen {
     }
 
     private void toMainMenu(boolean newPlayer) {
-        game.setScreen(new MainMenuScreen(game, newPlayer));
+        Game.getInstance().setScreen(new MainMenuScreen(newPlayer));
     }
 }

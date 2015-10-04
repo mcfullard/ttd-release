@@ -16,8 +16,7 @@ import za.ttd.game.Player;
  * Created by s213391244 on 9/18/2015.
  */
 public class PlayerStatisticsScreen extends AbstractScreen {
-    public PlayerStatisticsScreen(Game game) {
-        super(game);
+    public PlayerStatisticsScreen() {
     }
 
     private Player player = Game.getInstance().getPlayer();

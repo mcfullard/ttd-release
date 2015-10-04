@@ -25,11 +25,8 @@ public class PauseMenu extends AbstractScreen implements Telegraph{
     private TextButton btnControls = new TextButton("Controls", skin);
     private TextButton btnMainMenu = new TextButton("Main Menu", skin);
     private Label title = new Label("Pause Menu", skin);
-    private Game game;
 
-    public PauseMenu(Game game) {
-        super(game);
-        this.game = game;
+    public PauseMenu() {
     }
 
     @Override
@@ -38,7 +35,7 @@ public class PauseMenu extends AbstractScreen implements Telegraph{
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                game.setScreen(new GameScreen(game));
+                Game.getInstance().setScreen(new GameScreen());
                 MessageManager.getInstance().dispatchMessage(PauseMenu.this, MessageType.LEVEL_STARTED);
                 PauseMenu.this.dispose();
             }
@@ -47,7 +44,7 @@ public class PauseMenu extends AbstractScreen implements Telegraph{
         btnControls.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new ControlsScreen(game, PauseMenu.this));
+                Game.getInstance().setScreen(new ControlsScreen(PauseMenu.this));
                 PauseMenu.this.dispose();
             }
         });
@@ -57,7 +54,7 @@ public class PauseMenu extends AbstractScreen implements Telegraph{
             public void clicked(InputEvent event, float x, float y) {
                 //Save game the exit
                 PauseMenu.this.dispose();
-                game.setScreen(new MainMenuScreen(game));
+                Game.getInstance().setScreen(new MainMenuScreen());
             }
         });
 

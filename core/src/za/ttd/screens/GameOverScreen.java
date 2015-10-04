@@ -15,11 +15,8 @@ import za.ttd.game.Game;
  * Created by Bas on 18/09/2015.
  */
 public class GameOverScreen extends AbstractScreen {
-    private Game game;
 
-    public GameOverScreen(Game game) {
-        super(game);
-        this.game = game;
+    public GameOverScreen() {
     }
 
     private Stage stage = new Stage();

@@ -16,12 +16,9 @@ import java.util.ArrayList;
  * Created by s213391244 on 9/18/2015.
  */
 public class HighScoresScreen extends AbstractScreen {
-    private Game game;
     private ArrayList<Player> players;
     private ArrayList<String> items;
-    public HighScoresScreen(Game game) {
-        super(game);
-        this.game = game;
+    public HighScoresScreen() {
         items = new ArrayList<>();
     }
 
