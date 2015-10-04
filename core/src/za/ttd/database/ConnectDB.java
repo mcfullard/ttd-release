@@ -1,6 +1,7 @@
 package za.ttd.database;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import za.ttd.characters.states.MessageType;
@@ -10,7 +11,28 @@ import za.ttd.game.Player;
 import java.net.URISyntaxException;
 import java.sql.*;
 
-public class ConnectDB implements Telegraph {
+public class ConnectDB
+        implements Telegraph
+{
+    public static ConnectDB instance = null;
+
+    private ConnectDB() {
+        registerSelfAsListener();
+    }
+
+    public static ConnectDB getInstance() {
+        if(instance == null)
+            instance = new ConnectDB();
+        return instance;
+    }
+
+    private void registerSelfAsListener() {
+        MessageManager.getInstance().addListeners(this,
+                MessageType.LEVEL_PAUSED,
+                MessageType.GAME_OVER
+        );
+    }
+
     private static Connection getConnection() throws URISyntaxException, SQLException {
 
         String url ="jdbc:postgresql://ec2-54-83-10-210.compute-1.amazonaws.com:5432/d7vip2bviocqst?user=gmbkotoiwmiilq&password=IsEhBuPJ9kviVI3h8ov0sjSeq7&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
@@ -201,16 +223,17 @@ public class ConnectDB implements Telegraph {
     @Override
     public boolean handleMessage(Telegram msg) {
         switch (msg.message) {
-            case MessageType.LEVEL_STARTED:
             case MessageType.LEVEL_PAUSED:
-            case MessageType.NEXT_LEVEL:
-            case MessageType.LEVEL_RESET:
             case MessageType.GAME_OVER:
                 Player player = Game.getInstance().getPlayer();
-                if(player != null) {
-                    updatePlayer(player);
+                if (player != null) { // if the game actually has a current player
+                    if(getPlayer(player.getName()) != null) { // if the player's in the DB
+                        updatePlayer(player);
+                    } else {
+                        addPlayer(player);
+                    }
                 }
-                break;
+                return true;
         }
         return false;
     }

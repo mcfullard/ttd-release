@@ -8,6 +8,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 import za.ttd.characters.states.MessageType;
+import za.ttd.database.ConnectDB;
 import za.ttd.screens.*;
 
 public class Game extends com.badlogic.gdx.Game
@@ -28,6 +29,7 @@ public class Game extends com.badlogic.gdx.Game
 
     private Game() {
         registerSelfAsListener();
+        ConnectDB.getInstance();
     }
 
     public static Game getInstance() {

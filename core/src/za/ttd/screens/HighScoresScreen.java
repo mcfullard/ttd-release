@@ -17,7 +17,6 @@ import java.util.ArrayList;
  */
 public class HighScoresScreen extends AbstractScreen {
     private Game game;
-    private ConnectDB connectDB = new ConnectDB();
     private ArrayList<Player> players;
     private ArrayList<String> items;
     public HighScoresScreen(Game game) {
