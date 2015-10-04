@@ -165,25 +165,32 @@ public class ConnectDB implements Telegraph {
                     player.getPlayerID()
             );
             stmt.execute(statsSql);
+            String highscoreDeleteSql =
+                    "delete from highscore " +
+                    "where playerid = ( " +
+                    "    select h.playerid " +
+                    "    from highscore h " +
+                    "    where h.highscore = ( " +
+                    "        select min(highscore) " +
+                    "        from highscore " +
+                    "    ) " +
+                    ") " +
+                    "and 10 = ( " +
+                    "    select count(highscore) " +
+                    "    from highscore " +
+                    ");";
+            stmt.execute(highscoreDeleteSql);
             String highscoreInsertSql = String.format(
-                    "if exists (select min(highscore) from highscore where min(highscore) < %d) then " +
-                    "begin insert into highscore values (%d, %d); " +
-                    "delete from highscore where highscore = min(highscore);",
+                    "insert into highscore (playerid, highscore) " +
+                    "select %d, %d " +
+                    "where (select count(highscore) from highscore) >= 0 " +
+                    "and (select count(highscore) from highscore) <= 10 " +
+                    "and %d > (select min(highscore) from highscore);",
                     player.getPlayerID(),
                     player.getTotScore(),
                     player.getTotScore()
             );
             stmt.execute(highscoreInsertSql);
-            String highscoreUpdateSql = String.format(
-                    "update highscore set " +
-                    "highscore = %d " +
-                    "where highscore < %d and " +
-                    "playerid = %d;",
-                    player.getTotScore(),
-                    player.getTotScore(),
-                    player.getPlayerID()
-            );
-            stmt.execute(highscoreUpdateSql);
             stmt.close();
             connection.close();
         } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
