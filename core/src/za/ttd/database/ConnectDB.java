@@ -66,11 +66,14 @@ public class ConnectDB
             Class.forName("org.postgresql.Driver");
             Connection con = getConnection();
             String sql = String.format(
-                    "select l.score, l.level, s.levellives, p.playerid, p.salt, p.hash " +
-                            "from player p, levels l, statistics s " +
-                            "where p.name = '%s' and " +
-                            "p.playerid = l.playerid and " +
-                            "l.playerid = s.playerid;",
+                    "select l.score, l.level, s.levellives, p.playerid, p.salt, p.hash, " +
+                    "c.left_key, c.right_key, c.up_key, c.down_key, " +
+                    "s.levellives, s.collectible, s.badbreath, s.powersused " +
+                    "from player p, levels l, statistics s , controls c " +
+                    "where p.name = '%s' and " +
+                    "p.playerid = l.playerid and " +
+                    "l.playerid = s.playerid and " +
+                    "s.playerid = c.playerid;",
                     name
             );
             Statement stmt = con.createStatement();
@@ -83,6 +86,10 @@ public class ConnectDB
                         result.getInt(4),
                         result.getBytes(5),
                         result.getBytes(6));
+                Player.Controls.LEFT = result.getInt(7);
+                Player.Controls.RIGHT = result.getInt(8);
+                Player.Controls.UP = result.getInt(9);
+                Player.Controls.DOWN = result.getInt(10);
             }
             stmt.close();
             con.close();
