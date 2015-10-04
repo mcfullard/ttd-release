@@ -30,7 +30,6 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private TextButton buttonContinue = new TextButton("Continue", skin);
     private TextButton buttonNewGame = new TextButton("New Game", skin);
-    private TextButton buttonSavedGames = new TextButton("Saved Games", skin);
     private TextButton buttonStatistics = new TextButton("Statistics", skin);
     private TextButton buttonControls = new TextButton("Controls", skin);
     private TextButton buttonCredits = new TextButton("Credits", skin);
@@ -104,7 +103,6 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
         if (!newPlayer)
             table.add(buttonContinue).size(150, 60).padBottom(20).row();
         table.add(buttonNewGame).size(150,60).padBottom(20).row();
-        table.add(buttonSavedGames).size(150,60).padBottom(20).row();
         table.add(buttonStatistics).size(150,60).padBottom(20).row();
         table.add(buttonControls).size(150,60).padBottom(20).row();
         table.add(buttonCredits).size(150,60).padBottom(20).row();
