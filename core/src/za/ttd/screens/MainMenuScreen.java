@@ -34,6 +34,7 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
     private TextButton buttonControls = new TextButton("Controls", skin);
     private TextButton buttonCredits = new TextButton("Credits", skin);
     private TextButton buttonExit = new TextButton("Exit", skin);
+    private TextButton buttonLogout = new TextButton("Logout", skin);
     private Label title = new Label("Main Menu", skin);
     private boolean newPlayer;
 
@@ -97,6 +98,13 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
             }
         });
 
+        buttonLogout.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Game.getInstance().setScreen(new UserInputScreen());
+            }
+        });
+
         table.add(title).pad(40).row();
         if (!newPlayer)
             table.add(buttonContinue).size(150, 60).padBottom(20).row();
@@ -104,6 +112,7 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
         table.add(buttonStatistics).size(150,60).padBottom(20).row();
         table.add(buttonControls).size(150,60).padBottom(20).row();
         table.add(buttonCredits).size(150,60).padBottom(20).row();
+        table.add(buttonLogout).size(150,60).padBottom(20).row();
         table.add(buttonExit).size(150,60).padBottom(20).row();
 
         table.setFillParent(true);
