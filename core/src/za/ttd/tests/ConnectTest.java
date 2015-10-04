@@ -5,6 +5,7 @@ import za.ttd.database.ConnectDB;
 import za.ttd.game.Player;
 import za.ttd.game.Security;
 
+import java.util.Map;
 import java.util.Random;
 
 import static org.junit.Assert.*;
@@ -12,13 +13,13 @@ import static org.junit.Assert.*;
 public class ConnectTest {
 
     @Test
-    public void TestRunSQL() throws Exception
+    public void testRunSQL() throws Exception
     {
         assertTrue(ConnectDB.TestConnectivity());
     }
 
     @Test
-    public void TestAddPlayer() throws Exception {
+    public void testAddPlayer() throws Exception {
         Random random = new Random();
         String randomString = Long.toString(random.nextLong());
         Player player = new Player(randomString, 0, 1, 2);
@@ -28,5 +29,11 @@ public class ConnectTest {
         assertTrue(Security.hashMatch(player1, "password"));
         Player player2 = ConnectDB.getPlayer("noasdtapla1245yer");
         assertNull(player2);
+    }
+
+    @Test
+    public void testGetHighScores() throws Exception {
+        Map<Player, Integer> highScores = ConnectDB.getHighestScoringPlayers();
+        assertEquals(2, highScores.keySet().size());
     }
 }

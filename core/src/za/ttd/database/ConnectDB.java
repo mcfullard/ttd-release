@@ -10,6 +10,10 @@ import za.ttd.game.Player;
 
 import java.net.URISyntaxException;
 import java.sql.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 public class ConnectDB
         implements Telegraph
@@ -90,6 +94,10 @@ public class ConnectDB
                 Player.Controls.RIGHT = result.getInt(8);
                 Player.Controls.UP = result.getInt(9);
                 Player.Controls.DOWN = result.getInt(10);
+                player.scoring.setTotLivesUsed(result.getInt(11));
+                player.scoring.setTotCollectiblesFound(result.getInt(12));
+                player.scoring.setTotBadBreathKilled(result.getInt(13));
+                player.scoring.setTotPowersUsed(result.getInt(14));
             }
             stmt.close();
             con.close();
@@ -225,6 +233,29 @@ public class ConnectDB
         } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
             Gdx.app.error("CONNECTDB_ADDPLAYER", e.getMessage());
         }
+    }
+
+    public static Map<Player, Integer> getHighestScoringPlayers() {
+        Map<Player, Integer> highScores = null;
+        try {
+            highScores = new HashMap<>();
+            Class.forName("org.postgresql.Driver");
+            Connection connection = getConnection();
+            Statement stmt = connection.createStatement();
+            String sql = "select p.name, h.highscore " +
+                    "from highscore h, player p " +
+                    "where h.playerid = p.playerid;";
+            ResultSet result = stmt.executeQuery(sql);
+            while(result.next()) {
+                Player player = getPlayer(result.getString(1));
+                highScores.put(player, result.getInt(2));
+            }
+            stmt.close();
+            connection.close();
+        } catch (ClassNotFoundException | SQLException | URISyntaxException e) {
+            Gdx.app.error("CONNECTDB_GETHISCORES", e.getMessage());
+        }
+        return highScores;
     }
 
     @Override
