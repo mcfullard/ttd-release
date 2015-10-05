@@ -6,38 +6,30 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import za.ttd.game.Player;
+import za.ttd.database.ConnectDB;
 
-import java.util.ArrayList;
+import java.util.Map;
 
 public class HighScoresScreen extends AbstractScreen {
-    private ArrayList<Player> players;
-    private ArrayList<String> items;
+    private Map<String, Integer> players;
+
     public HighScoresScreen() {
-        items = new ArrayList<>();
+
     }
 
     private Stage stage = new Stage();
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
-    private List list = new List(skin);
-    private ScrollPane scrollPane = new ScrollPane(list);
-    private Table table = new Table(skin);
 
+    private Table scoresTable = new Table(skin);
+    private ScrollPane scrollPane = new ScrollPane(scoresTable);
 
     private Label highScoresLabel = new Label("High Scores", skin);
     private TextButton back = new TextButton("Back", skin);
 
+    private Table mainTable = new Table();
 
-    private void getPlayers() {
-        //this.players = connectDB.getPlayers();
-        getItems();
-        list.setItems(items);
-    }
-
-    private void getItems(){
-        for(Player player: players){
-            items.add(player.getName()+"\t"+player.getTotScore());
-        }
+    private void fetchPlayers() {
+        this.players = ConnectDB.getHighestScoringPlayers();
     }
 
     @Override
@@ -49,10 +41,26 @@ public class HighScoresScreen extends AbstractScreen {
             }
         });
 
+        populateScoresTable();
 
-        table.setFillParent(true);
-        stage.addActor(table);
+        mainTable.add(highScoresLabel).pad(40).row();
+
+        mainTable.add(scrollPane).padBottom(10).row();
+        mainTable.add(back).padBottom(20).row();
+
+
+        mainTable.setFillParent(true);
+        stage.addActor(mainTable);
         Gdx.input.setInputProcessor(stage);
+    }
+
+    private void populateScoresTable(){
+        for(Map.Entry<String, Integer> entry : players.entrySet()){
+            Label playerLabel = new Label(entry.getKey(),skin);
+            Label scoreLabel = new Label(entry.getValue().toString(),skin);
+            scoresTable.add(playerLabel).size(100,40).padBottom(10).row();
+            scoresTable.add(scoreLabel);
+        }
     }
 
     @Override
