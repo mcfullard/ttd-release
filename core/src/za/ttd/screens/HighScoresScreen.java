@@ -48,16 +48,15 @@ public class HighScoresScreen extends AbstractScreen {
 
         populateScoresTable();
 
-        mainTable.add(highScoresLabel).center().row();
+        mainTable.add(highScoresLabel).colspan(2).row();
 
         mainTable.add(scrollPane).row();
 
         scoresTable.setSize(600,400);
 
-        mainTable.add(back).size(100,30).row();
+        mainTable.add(back).size(150,40).colspan(2).row();
         mainTable.setSize(600,800);
 
-        //mainTable.setFillParent(true);
         stage.addActor(mainTable);
         Gdx.input.setInputProcessor(stage);
     }

@@ -28,7 +28,6 @@ public class PlayerStatisticsScreen extends AbstractScreen {
     private Label powersUsed = new Label("Total Powers Used: ", skin);
     private Label powersUsedValue = new Label("" + player.scoring.getTotPowersUsed(), skin);
     private TextButton back = new TextButton("Back", skin);
-    private TextButton highScores = new TextButton("High Scores", skin);
 
     private Label lblHighestScore = new Label("Highest Score: ", skin);
     private Label highestScore = new Label("" + player.getHighestScore(), skin);
@@ -45,14 +44,8 @@ public class PlayerStatisticsScreen extends AbstractScreen {
                 }
             }
         });
-        highScores.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                ScreenController.getInstance().setScreen(ScreenTypes.HIGH_SCORES);
-            }
-        });
 
-        table.add(playerStatsLabel).colspan(2).row();
+        table.add(playerStatsLabel).colspan(2).padBottom(20).row();
         table.add(lblHighestScore).size(200, 30).padBottom(5).center();
         table.add(highestScore).right().row();
         table.add(levelLives).size(200, 30).padBottom(5).center();
@@ -63,8 +56,8 @@ public class PlayerStatisticsScreen extends AbstractScreen {
         table.add(collectiblesValue).right().row();
         table.add(powersUsed).size(200, 30).padBottom(5).center();
         table.add(powersUsedValue).right().row();
-        table.add(back).size(100, 30).padTop(10).left();
-        table.add(highScores).size(100, 30).center().padTop(10).right().row();
+        table.add(back).size(150, 40).padTop(20).colspan(2);
+
         table.setFillParent(true);
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);

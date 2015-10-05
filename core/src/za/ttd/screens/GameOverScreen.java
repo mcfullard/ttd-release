@@ -52,9 +52,9 @@ public class GameOverScreen extends AbstractScreen {
         });
 
         table.add(gameOverLabel).height(50).padBottom(20).center().row();
-        table.add(buttonViewHighScores).size(150, 30).padBottom(20).row();
-        table.add(buttonViewPlayerStatistics).size(150, 30).padBottom(20).row();
-        table.add(buttonReturnToMainMenu).size(150, 30).padBottom(20).row();
+        table.add(buttonViewHighScores).size(150, 40).padBottom(20).row();
+        table.add(buttonViewPlayerStatistics).size(150, 40).padBottom(20).row();
+        table.add(buttonReturnToMainMenu).size(150, 40).padBottom(20).row();
         table.setFillParent(true);
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);

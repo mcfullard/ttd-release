@@ -28,7 +28,8 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private TextButton buttonContinue = new TextButton("Continue", skin);
     private TextButton buttonNewGame = new TextButton("New Game", skin);
-    private TextButton buttonStatistics = new TextButton("Statistics", skin);
+    private TextButton buttonHighScore = new TextButton("Statistics", skin);
+    private TextButton buttonStatistics = new TextButton("High Scores", skin);
     private TextButton buttonControls = new TextButton("Controls", skin);
     private TextButton buttonCredits = new TextButton("Credits", skin);
     private TextButton buttonExit = new TextButton("Exit", skin);
@@ -81,6 +82,13 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
 
         });
 
+        buttonHighScore.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                screenController.setScreen(ScreenTypes.HIGH_SCORES);
+            }
+        });
+
         buttonExit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -107,14 +115,14 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
 
         table.add(title).pad(40).row();
         if (!game.isNewPlayer())
-            table.add(buttonContinue).size(200, 35).padBottom(20).row();
-        table.add(buttonNewGame).size(200, 35).padBottom(20).row();
-        table.add(buttonStatistics).size(200, 35).padBottom(20).row();
-        table.add(buttonControls).size(200, 35).padBottom(20).row();
-        table.add(buttonCredits).size(200, 35).padBottom(20).row();
-        table.add(buttonLogout).size(200, 35).padBottom(20).row();
-        table.add(buttonExit).size(200, 35).padBottom(20).row();
-        //table.add(buttonHighScores).size(200, 35).padBottom(20).row();
+            table.add(buttonContinue).size(150, 40).padBottom(20).row();
+        table.add(buttonNewGame).size(150, 40).padBottom(20).row();
+        table.add(buttonStatistics).size(150, 40).padBottom(20).row();
+        table.add(buttonHighScore).size(150, 40).padBottom(20).row();
+        table.add(buttonControls).size(150, 40).padBottom(20).row();
+        table.add(buttonCredits).size(150, 40).padBottom(20).row();
+        table.add(buttonLogout).size(150, 40).padBottom(20).row();
+        table.add(buttonExit).size(150, 40).padBottom(20).row();
         table.setFillParent(true);
         stage.addActor(table);
 
