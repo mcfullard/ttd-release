@@ -10,7 +10,7 @@ public class Player implements Telegraph {
 
     private int playerID;
     private String name;
-    private int totScore, highestLevel;
+    private int highestScore, highestLevel;
     private int lives;
     private byte[] salt, hash;
     public ScoringSystem scoring;
@@ -18,7 +18,7 @@ public class Player implements Telegraph {
 
     public Player(String name, int highestScore, int highestLevel, int lives) {
         this.name = name;
-        this.totScore = highestScore;
+        this.highestScore = highestScore;
         this.highestLevel = highestLevel;
         this.lives = lives;
         this.scoring = new ScoringSystem();
@@ -28,7 +28,7 @@ public class Player implements Telegraph {
 
     public Player(String name, int highestScore, int highestLevel, int lives, int playerID, byte[] salt, byte[] hash) {
         this.name = name;
-        this.totScore = highestScore;
+        this.highestScore = highestScore;
         this.highestLevel = highestLevel;
         this.lives = lives;
         this.playerID = playerID;
@@ -58,14 +58,14 @@ public class Player implements Telegraph {
         );
     }
 
-    public int getTotScore() {
-        if (scoring.curTotScore > totScore)
-            totScore = scoring.curTotScore;
-        return totScore;
+    public int getHighestScore() {
+        if (scoring.curTotScore > highestScore)
+            highestScore = scoring.curTotScore;
+        return highestScore;
     }
 
-    public void setTotScore(int highestScore) {
-        this.totScore = highestScore;
+    public void setHighestScore(int highestScore) {
+        this.highestScore = highestScore;
     }
 
     public int getHighestLevel() {
@@ -225,6 +225,14 @@ public class Player implements Telegraph {
             this.lvlScore = lvlScore;
         }
 
+        public int getTotScore() {
+            return curTotScore;
+        }
+
+        public void setCurTotScore(int curTotScore) {
+            this.curTotScore = curTotScore;
+        }
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /*
@@ -255,21 +263,13 @@ public class Player implements Telegraph {
         public static int UP, DOWN, LEFT, RIGHT;
 
         public Controls() {
+        }
+
+        public void defaultControls() {
             UP = Input.Keys.UP;
             DOWN = Input.Keys.DOWN;
             LEFT = Input.Keys.LEFT;
             RIGHT = Input.Keys.RIGHT;
-        }
-
-        public Controls(int UP, int DOWN, int LEFT, int RIGHT) {
-            this.UP = UP;
-            this.DOWN = DOWN;
-            this.LEFT = LEFT;
-            this.RIGHT = RIGHT;
-        }
-
-        public void setUp() {
-
         }
     }
 }
