@@ -49,7 +49,10 @@ public class HighScoresScreen extends AbstractScreen {
 
         mainTable.add(highScoresLabel).pad(40).row();
 
-        mainTable.add(scrollPane).padBottom(10).row();
+        mainTable.add(scrollPane).size(400,200).pad(10).row();
+
+        scoresTable.setFillParent(true);
+
         mainTable.add(back).padBottom(20).row();
 
 
