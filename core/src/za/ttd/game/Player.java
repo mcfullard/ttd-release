@@ -24,6 +24,7 @@ public class Player implements Telegraph {
         this.scoring = new ScoringSystem();
         this.controls = new Controls();
         controls.defaultControls();
+        scoring.resetTotals();
         registerSelfAsListener();
     }
 
@@ -66,10 +67,6 @@ public class Player implements Telegraph {
         return highestScore;
     }
 
-    public void setHighestScore(int highestScore) {
-        this.highestScore = highestScore;
-    }
-
     public int getHighestLevel() {
         return highestLevel;
     }
@@ -92,6 +89,16 @@ public class Player implements Telegraph {
 
     public String getName() {
         return name;
+    }
+
+    public void reset(){
+        highestLevel = 1;
+        scoring.totScore = 0;
+        scoring.totBadBreathKilled = 0;
+        scoring.totScore = 0;
+        scoring.totCollectiblesFound = 0;
+        scoring.totPowersUsed = 0;
+        scoring.resetTotals();
     }
 
     @Override
@@ -152,6 +159,9 @@ public class Player implements Telegraph {
             lvlScore = 0;
             powersUsed = 0;
             badBreathKilled = 0;
+        }
+
+        public void resetTotals() {
             collectiblesFound = 0;
             totLivesUsed = 0;
             totBadBreathKilled = 0;
@@ -237,8 +247,7 @@ public class Player implements Telegraph {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        /*
-        * calculate to score for the current level*/
+        /*Calculators*/
         private void calcLvlScore() {
             lvlScore = collectibleValue * collectiblesFound
                     + badBreathValue * badBreathKilled
