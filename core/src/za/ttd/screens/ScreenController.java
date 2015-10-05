@@ -45,7 +45,7 @@ public class ScreenController {
                 currentScreen = new GameOverScreen();
                 break;
             case PAUSE_MENU:
-                currentScreen = new PauseMenu();
+                currentScreen = new PauseMenuScreen();
                 break;
             case PLAYER_STATS:
                 currentScreen = new PlayerStatisticsScreen();

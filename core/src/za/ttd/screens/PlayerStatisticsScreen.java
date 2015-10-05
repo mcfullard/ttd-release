@@ -12,9 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import za.ttd.game.Game;
 import za.ttd.game.Player;
 
-/**
- * Created by s213391244 on 9/18/2015.
- */
 public class PlayerStatisticsScreen extends AbstractScreen {
     public PlayerStatisticsScreen() {
     }

@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import za.ttd.characters.states.MessageType;
 import za.ttd.game.Game;
 
-public class PauseMenu extends AbstractScreen implements Telegraph{
+public class PauseMenuScreen extends AbstractScreen implements Telegraph{
 
 
     private Stage stage = new Stage();
@@ -33,8 +33,8 @@ public class PauseMenu extends AbstractScreen implements Telegraph{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ScreenController.getInstance().setScreen(ScreenTypes.GAME);
-                MessageManager.getInstance().dispatchMessage(PauseMenu.this, MessageType.LEVEL_STARTED);
-                PauseMenu.this.dispose();
+                MessageManager.getInstance().dispatchMessage(PauseMenuScreen.this, MessageType.LEVEL_STARTED);
+                PauseMenuScreen.this.dispose();
             }
         });
 
@@ -49,7 +49,7 @@ public class PauseMenu extends AbstractScreen implements Telegraph{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //Save game the exit
-                PauseMenu.this.dispose();
+                PauseMenuScreen.this.dispose();
                 Game.getInstance().setScreen(new LoadingScreen(
                         "Updating database...",
                         () -> {
