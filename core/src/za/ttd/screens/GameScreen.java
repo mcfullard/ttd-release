@@ -7,10 +7,6 @@ import za.ttd.characters.states.MessageType;
 import za.ttd.game.Game;
 import za.ttd.game.Level;
 
-/**
- * @author minnaar
- * @since 2015/07/20.
- */
 public class GameScreen extends AbstractScreen implements Telegraph{
 
     private Level level;

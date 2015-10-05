@@ -14,16 +14,15 @@ public enum BadBreathState implements State<BadBreath> {
         @Override
         public void enter(BadBreath badBreath) {
             badBreath.incNumbersChasing();
+            if (BadBreath.getNumberChasing() >= 2) {
+                badBreath.getBadBreathStateMachine().changeState(DECEIVE);
+            }
         }
 
         @Override
         public void update(BadBreath badBreath) {
             badBreath.chase();
             super.update(badBreath);
-
-            if (BadBreath.getNumberChasing() >= 2) {
-                badBreath.getBadBreathStateMachine().changeState(DECEIVE);
-            }
         }
 
         @Override
