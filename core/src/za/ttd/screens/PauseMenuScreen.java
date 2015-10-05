@@ -63,9 +63,9 @@ public class PauseMenuScreen extends AbstractScreen implements Telegraph{
         });
 
         table.add(title).padBottom(40).row();
-        table.add(btnContinue).size(150, 60).padBottom(20).row();
-        table.add(btnControls).size(150,60).padBottom(20).row();
-        table.add(btnMainMenu).size(150,60).padBottom(20).row();
+        table.add(btnContinue).size(150, 40).padBottom(20).row();
+        table.add(btnControls).size(150,40).padBottom(20).row();
+        table.add(btnMainMenu).size(150,40).padBottom(20).row();
 
         table.setFillParent(true);
         stage.addActor(table);
