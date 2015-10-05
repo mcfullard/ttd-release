@@ -2,6 +2,7 @@ package za.ttd.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -39,6 +40,7 @@ public class UserInputScreen extends AbstractScreen {
 
     @Override
     public void show() {
+
         stage.setKeyboardFocus(textName);
         Drawable tfBack = textName.getStyle().background;
         tfBack.setLeftWidth(tfBack.getLeftWidth() + 10);
