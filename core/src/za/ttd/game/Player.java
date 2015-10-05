@@ -198,6 +198,23 @@ public class Player implements Telegraph {
         public int getTotPowersUsed() {
             return totPowersUsed;
         }
+
+        public void setTotLivesUsed(int totLivesUsed) {
+            this.totLivesUsed = totLivesUsed;
+        }
+
+        public void setTotCollectiblesFound(int totCollectiblesFound) {
+            this.totCollectiblesFound = totCollectiblesFound;
+        }
+
+        public void setTotBadBreathKilled(int totBadBreathKilled) {
+            this.totBadBreathKilled = totBadBreathKilled;
+        }
+
+        public void setTotPowersUsed(int totPowersUsed) {
+            this.totPowersUsed = totPowersUsed;
+        }
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /*

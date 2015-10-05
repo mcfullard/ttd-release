@@ -1,79 +1,39 @@
 package za.ttd.database;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.msg.MessageManager;
+import com.badlogic.gdx.ai.msg.Telegram;
+import com.badlogic.gdx.ai.msg.Telegraph;
+import za.ttd.characters.states.MessageType;
+import za.ttd.game.Game;
 import za.ttd.game.Player;
 
 import java.net.URISyntaxException;
 import java.sql.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
-public class ConnectDB {
-    public final class Statistics {
-        private final int Benny;
-        private final int LevelLives;
-        private final int Minty;
-        private final int Plaque;
-        private final int BadBreath;
-        private final int ToothDecay;
+public class ConnectDB
+        implements Telegraph
+{
+    public static ConnectDB instance = null;
 
-
-        Statistics(int benny, int levelLives, int minty, int plaque, int badBreath, int toothDecay) {
-            Benny = benny;
-            LevelLives = levelLives;
-            Minty = minty;
-            Plaque = plaque;
-            BadBreath = badBreath;
-            ToothDecay = toothDecay;
-        }
-
-        public int getBenny() {
-            return Benny;
-        }
-
-        public int getLevelLives() {
-            return LevelLives;
-        }
-
-        public int getMinty() {
-            return Minty;
-        }
-
-        public int getPlaque() {
-            return Plaque;
-        }
-
-        public int getBadBreath() {
-            return BadBreath;
-        }
-
-        public int getToothDecay() {
-            return ToothDecay;
-        }
+    private ConnectDB() {
+        registerSelfAsListener();
     }
 
-    final class Loaded {
-        private final int Level;
-        private final int Score;
-
-        public Loaded(int first, int second) {
-            this.Level = first;
-            this.Score = second;
-        }
-
-        public int getLevel() {
-            return Level;
-        }
-
-        public int getScore() {
-            return Score;
-        }
+    public static ConnectDB getInstance() {
+        if(instance == null)
+            instance = new ConnectDB();
+        return instance;
     }
 
-
-    public static void RunSQL(String sql) throws URISyntaxException, SQLException, ClassNotFoundException {
-        Class.forName("org.postgresql.Driver");
-        Connection connection = getConnection();
-        Statement stmt = connection.createStatement();
-        stmt.execute(sql);
+    private void registerSelfAsListener() {
+        MessageManager.getInstance().addListeners(this,
+                MessageType.UPDATE_DB
+        );
     }
 
     private static Connection getConnection() throws URISyntaxException, SQLException {
@@ -82,89 +42,6 @@ public class ConnectDB {
         //UserName=gmbkotoiwmiilq
         //Password=IsEhBuPJ9kviVI3h8ov0sjSeq7
         return DriverManager.getConnection(url);
-    }
-
-    /**
-     * Save Thomas Current level and Current score
-     * @param ID
-     * @param Level
-     * @param Score
-     * @throws Exception
-     */
-    public static void SaveGame(int ID,int Level,int Score)throws Exception
-    {
-        Class.forName("org.postgresql.Driver");
-        Connection connection = getConnection();
-        Statement stmt = connection.createStatement();
-        stmt.executeUpdate("UPDATE levels SET LEVEL='"+Level+"',score='"+Score+"' WHERE PlayerID='"+ID+"' ");
-    }
-
-    public static void Achieved(int pID,int aID)throws Exception
-    {
-        Class.forName("org.postgresql.Driver");
-        Connection connection = getConnection();
-        Statement stmt = connection.createStatement();
-        stmt.executeUpdate("INSERT INTO ACHIEVED VALUES ('"+pID+"','"+aID+"')");
-    }
-
-    public static void setStatistics(int PlayerID,int LevelLives,int Benny,int Minty,int Plaque,int BadBreath,int ToothDecay) throws Exception
-    {
-        Class.forName("org.postgresql.Driver");
-        Connection connection = getConnection();
-        Statement stmt = connection.createStatement();
-        stmt.executeUpdate("UPDATE STATISTICS SET(LevelLives,Benny,Minty,Plaque,BadBreath,ToothDecay)=('"+LevelLives+"','"+Benny+"','"+Minty+"','"+Plaque+"','"+BadBreath+"','"+ToothDecay+"') WHERE PlayerID='"+PlayerID+"'");
-    }
-
-    /**
-     * @param PlayerID
-     * @return Loaded Object use getters to obtain level and score (if any are -1 then there was an error//SHOULD NEVER HAPPEN THOUGH)
-     * @throws Exception
-     */
-    public  Loaded LoadLevel(int PlayerID)throws Exception
-    {
-        Class.forName("org.postgresql.Driver");
-        Connection connection = getConnection();
-        Statement stmt = connection.createStatement();
-       ResultSet rs=stmt.executeQuery("SELECT Level,score FROM levels WHERE PlayerID='" + PlayerID + "'");
-        int level=-1;
-        int score=-1;
-        while(rs.next())
-        {
-            level=   rs.getInt("LEVEL");
-            score=rs.getInt("LEVELSCORE");
-        }
-        return new Loaded(level,score);
-
-    }
-
-    /**
-     * @param PlayerID
-     * @return Statistic Object use getters to obtain each statistic (if any are -1 then there was an error//SHOULD NEVER HAPPEN THOUGH)
-     * @throws Exception
-     */
-    public Statistics getStatistics(int PlayerID)throws Exception
-    {
-        Class.forName("org.postgresql.Driver");
-        Connection connection = getConnection();
-        Statement stmt = connection.createStatement();
-        ResultSet rs=stmt.executeQuery("SELECT * FROM STATISTICS WHERE PlayerID='" + PlayerID + "'");
-        int LevelLives=-1;
-        int Benny=-1;
-        int Minty=-1;
-        int Plaque=-1;
-        int BadBreath=-1;
-        int ToothDecay=-1;
-        while (rs.next())
-        {
-            LevelLives=rs.getInt("LEVELLIVES");
-            Benny=rs.getInt("BENY");
-            Minty=rs.getInt("MINTY");
-            Plaque=rs.getInt("PLAQUE");
-            BadBreath=rs.getInt("BADBREATH");
-            ToothDecay=rs.getInt("TOOTHDECAY");
-        }
-        return new Statistics(LevelLives,Benny,Minty,Plaque,BadBreath,ToothDecay);
-
     }
 
     /**
@@ -186,18 +63,20 @@ public class ConnectDB {
         }
     }
 
-    public static Player getPlayer(String name) throws
-            ClassNotFoundException {
+    public static Player getPlayer(String name) {
         Player player = null;
-        Class.forName("org.postgresql.Driver");
         try {
+            Class.forName("org.postgresql.Driver");
             Connection con = getConnection();
             String sql = String.format(
-                    "select l.score, l.level, s.levellives, p.playerid, p.salt, p.hash " +
-                            "from player p, levels l, statistics s " +
-                            "where p.name = '%s' and " +
-                            "p.playerid = l.playerid and " +
-                            "l.playerid = s.playerid;",
+                    "select l.score, l.level, s.levellives, p.playerid, p.salt, p.hash, " +
+                    "c.left_key, c.right_key, c.up_key, c.down_key, " +
+                    "s.levellives, s.collectible, s.badbreath, s.powersused " +
+                    "from player p, levels l, statistics s , controls c " +
+                    "where p.name = '%s' and " +
+                    "p.playerid = l.playerid and " +
+                    "l.playerid = s.playerid and " +
+                    "s.playerid = c.playerid;",
                     name
             );
             Statement stmt = con.createStatement();
@@ -210,19 +89,26 @@ public class ConnectDB {
                         result.getInt(4),
                         result.getBytes(5),
                         result.getBytes(6));
+                Player.Controls.LEFT = result.getInt(7);
+                Player.Controls.RIGHT = result.getInt(8);
+                Player.Controls.UP = result.getInt(9);
+                Player.Controls.DOWN = result.getInt(10);
+                player.scoring.setTotLivesUsed(result.getInt(11));
+                player.scoring.setTotCollectiblesFound(result.getInt(12));
+                player.scoring.setTotBadBreathKilled(result.getInt(13));
+                player.scoring.setTotPowersUsed(result.getInt(14));
             }
             stmt.close();
             con.close();
-        } catch (SQLException | URISyntaxException e) {
+        } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
             Gdx.app.error("CONNECTDB_GETPLAYER", e.getMessage());
         }
         return player;
     }
 
-    public static void addPlayer(Player player) throws ClassNotFoundException
-    {
-        Class.forName("org.postgresql.Driver");
+    public static void addPlayer(Player player) {
         try {
+            Class.forName("org.postgresql.Driver");
             Connection connection = getConnection();
             int playerId = -1;
             String playerSql = String.format(
@@ -238,6 +124,7 @@ public class ConnectDB {
                 playerId = rs.getInt("playerid");
                 player.setPlayerID(playerId);
             }
+            pstmt.close();
             Statement stmt = connection.createStatement();
             String controlsSql = String.format(
                     "insert into controls values (%d, %d, %d, %d, %d)",
@@ -264,12 +151,190 @@ public class ConnectDB {
                     player.scoring.getTotPowersUsed()
             );
             stmt.execute(statsSql);
-            pstmt.close();
             stmt.close();
             connection.close();
-        } catch (SQLException | URISyntaxException e) {
+        } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
             Gdx.app.error("CONNECTDB_ADDPLAYER", e.getMessage());
         }
     }
 
+    private void updatePlayer(Player player) {
+        try {
+            Class.forName("org.postgresql.Driver");
+            Connection connection = getConnection();
+            String prepSql = String.format(
+                    "begin; " +
+                    "update controls set " +
+                    "left_key=%d, " +
+                    "right_key=%d, " +
+                    "up_key=%d, " +
+                    "down_key=%d " +
+                    "where playerid=%d; " +
+
+                    "update levels set " +
+                    "level = %d, " +
+                    "score = %d " +
+                    "where playerid = %d; " +
+
+                    "update statistics set " +
+                    "levellives = %d, " +
+                    "collectible = %d, " +
+                    "badbreath = %d, " +
+                    "powersused = %d " +
+                    "where playerid = %d; " +
+
+                    "delete from highscore " +
+                    "where playerid = ( " +
+                    "    select h.playerid " +
+                    "    from highscore h " +
+                    "    where h.highscore = ( " +
+                    "        select min(highscore) " +
+                    "        from highscore " +
+                    "    ) " +
+                    ") " +
+                    "and 10 = ( " +
+                    "    select count(highscore) " +
+                    "    from highscore " +
+                    "); " +
+
+                    "insert into highscore (playerid, highscore) " +
+                    "select %d, %d " +
+                    "where (select count(highscore) from highscore) >= 0 " +
+                    "and (select count(highscore) from highscore) <= 10 " +
+                    "and %d > (select min(highscore) from highscore); " +
+
+                    "commit;",
+                    Player.Controls.LEFT,
+                    Player.Controls.RIGHT,
+                    Player.Controls.UP,
+                    Player.Controls.DOWN,
+                    player.getPlayerID(),
+                    player.getHighestLevel(),
+                    player.getTotScore(),
+                    player.getPlayerID(),
+                    player.scoring.getTotLivesUsed(),
+                    player.scoring.getTotCollectiblesFound(),
+                    player.scoring.getTotBadBreathKilled(),
+                    player.scoring.getTotPowersUsed(),
+                    player.getPlayerID(),
+                    player.getPlayerID(),
+                    player.getTotScore(),
+                    player.getTotScore()
+            );
+            PreparedStatement pstmt = connection.prepareStatement(prepSql);
+            pstmt.execute();
+
+            /*
+            Statement stmt = connection.createStatement();
+            String controlsSql = String.format(
+                    "update controls set " +
+                    "left_key=%d, " +
+                    "right_key=%d, " +
+                    "up_key=%d, " +
+                    "down_key=%d " +
+                    "where playerid=%d;",
+                    Player.Controls.LEFT,
+                    Player.Controls.RIGHT,
+                    Player.Controls.UP,
+                    Player.Controls.DOWN,
+                    player.getPlayerID()
+            );
+            stmt.execute(controlsSql);
+            String levelsSql = String.format(
+                    "update levels set " +
+                    "level = %d, " +
+                    "score = %d " +
+                    "where playerid = %d;",
+                    player.getHighestLevel(),
+                    player.getTotScore(),
+                    player.getPlayerID()
+            );
+            stmt.execute(levelsSql);
+            String statsSql = String.format(
+                    "update statistics set " +
+                    "levellives = %d, " +
+                    "collectible = %d, " +
+                    "badbreath = %d, " +
+                    "powersused = %d " +
+                    "where playerid = %d;",
+                    player.scoring.getTotLivesUsed(),
+                    player.scoring.getTotCollectiblesFound(),
+                    player.scoring.getTotBadBreathKilled(),
+                    player.scoring.getTotPowersUsed(),
+                    player.getPlayerID()
+            );
+            stmt.execute(statsSql);
+            String highscoreDeleteSql =
+                    "delete from highscore " +
+                    "where playerid = ( " +
+                    "    select h.playerid " +
+                    "    from highscore h " +
+                    "    where h.highscore = ( " +
+                    "        select min(highscore) " +
+                    "        from highscore " +
+                    "    ) " +
+                    ") " +
+                    "and 10 = ( " +
+                    "    select count(highscore) " +
+                    "    from highscore " +
+                    ");";
+            stmt.execute(highscoreDeleteSql);
+            String highscoreInsertSql = String.format(
+                    "insert into highscore (playerid, highscore) " +
+                    "select %d, %d " +
+                    "where (select count(highscore) from highscore) >= 0 " +
+                    "and (select count(highscore) from highscore) <= 10 " +
+                    "and %d > (select min(highscore) from highscore);",
+                    player.getPlayerID(),
+                    player.getTotScore(),
+                    player.getTotScore()
+            );
+            stmt.execute(highscoreInsertSql);
+            stmt.close();
+            */
+            pstmt.close();
+            connection.close();
+        } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
+            Gdx.app.error("CONNECTDB_ADDPLAYER", e.getMessage());
+        }
+    }
+
+    public static Map<String, Integer> getHighestScoringPlayers() {
+        Map<String, Integer> highScores = null;
+        try {
+            highScores = new HashMap<>();
+            Class.forName("org.postgresql.Driver");
+            Connection connection = getConnection();
+            Statement stmt = connection.createStatement();
+            String sql = "select p.name, h.highscore " +
+                    "from highscore h, player p " +
+                    "where h.playerid = p.playerid;";
+            ResultSet result = stmt.executeQuery(sql);
+            while(result.next()) {
+                highScores.put(result.getString(1), result.getInt(2));
+            }
+            stmt.close();
+            connection.close();
+        } catch (ClassNotFoundException | SQLException | URISyntaxException e) {
+            Gdx.app.error("CONNECTDB_GETHISCORES", e.getMessage());
+        }
+        return highScores;
+    }
+
+    @Override
+    public boolean handleMessage(Telegram msg) {
+        switch (msg.message) {
+            case MessageType.UPDATE_DB:
+                Player player = Game.getInstance().getPlayer();
+                if (player != null) { // if the game actually has a current player
+                    if(getPlayer(player.getName()) != null) { // if the player's in the DB
+                        updatePlayer(player);
+                    } else {
+                        addPlayer(player);
+                    }
+                }
+                return true;
+        }
+        return false;
+    }
 }

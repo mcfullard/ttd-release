@@ -8,6 +8,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 import za.ttd.characters.states.MessageType;
+import za.ttd.database.ConnectDB;
 import za.ttd.screens.*;
 
 public class Game extends com.badlogic.gdx.Game
@@ -16,23 +17,31 @@ public class Game extends com.badlogic.gdx.Game
     private Level level;
     private Player player;
     private Assets assets;
-    private boolean newPlayer;
-    private ScreenController screenController;
+    private boolean playerLoaded;
+
+    private MainMenuScreen mainMenuScreen;
 
     private Json json = new Json();
 	public static final String TITLE = "The Wrath of Thomas the Dentist";
 	public static final int WIDTH = 600, HEIGHT = 800;
 
-    public Game() {
+    public static Game instance = null;
+
+    private Game() {
         registerSelfAsListener();
-        screenController = ScreenController.getInstance(this);
-        newPlayer = true;
+        ConnectDB.getInstance();
+    }
+
+    public static Game getInstance() {
+        if(instance != null)
+            return instance;
+        return instance = new Game();
     }
 
 	@Override
 	public void create() {
-        screenController.setScreen(ScreenTypes.SPLASH);
-		//setScreen(new SplashScreen(this));
+        mainMenuScreen = new MainMenuScreen(playerLoaded);
+		setScreen(new SplashScreen());
         assets = Assets.getInstance();
         assets.Load();
 
@@ -47,7 +56,7 @@ public class Game extends com.badlogic.gdx.Game
     //Creates a new game depending on the players level
     public void createGame() {
         setLevel(new Level(player));
-        screenController.setScreen(ScreenTypes.GAME);
+        setScreen(new GameScreen());
     }
 
     public Level getLevel() {
@@ -57,8 +66,14 @@ public class Game extends com.badlogic.gdx.Game
     private void gameOver() {
         player.setLives(3);
         player.setHighestLevel(1);
-        screenController.setScreen(ScreenTypes.MAIN_MENU);
-        //setScreen(new MainMenuScreen(this, false));
+        setScreen(new LoadingScreen(
+                "Updating database...",
+                () -> {
+                    MessageManager.getInstance().dispatchMessage(this,
+                            MessageType.UPDATE_DB);
+                },
+                new MainMenuScreen(false)
+        ));
     }
 
     private void registerSelfAsListener() {
@@ -116,15 +131,11 @@ public class Game extends com.badlogic.gdx.Game
         fout.writeString(data, false);
     }
 
-    public void setNewPlayer(boolean newPlayer) {
-        this.newPlayer = newPlayer;
-    }
-
-    public boolean getNewPlayer() {
-        return newPlayer;
-    }
-
     public int getPlayerID() {
         return this.player.getPlayerID();
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

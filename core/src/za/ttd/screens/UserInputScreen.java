@@ -12,8 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import za.ttd.database.ConnectDB;
 import za.ttd.game.Game;
 import za.ttd.game.Player;
+import za.ttd.game.Security;
 
 /**
  * @author minnaar
@@ -29,20 +31,10 @@ public class UserInputScreen extends AbstractScreen {
     private Label labelInfo = new Label("(New players: consider this registration)", skin);
     private TextField textName = new TextField("", skin);
     private TextField textPassword = new TextField("", skin);
-    private TextButton buttonContinue = new TextButton("Continue", skin);
+    private TextButton buttonContinue = new TextButton("Login", skin);
     private Dialog dialog;
 
-    private static UserInputScreen instance;
-
-    private UserInputScreen(Game game) {
-        super(game);
-    }
-
-    public static UserInputScreen getInstance(Game game) {
-        if (instance == null)
-            instance = new UserInputScreen(game);
-
-        return instance;
+    public UserInputScreen() {
     }
 
     @Override
@@ -62,14 +54,14 @@ public class UserInputScreen extends AbstractScreen {
             @Override
             public void keyTyped(TextField textField, char c) {
                 if (c == '\r' || c == '\n') { // when the user presses enter
-                    validateInput(textName.getText());
+                    validateInput(textName.getText(), textPassword.getText());
                 }
             }
         });
         buttonContinue.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                validateInput(textName.getText());
+                validateInput(textName.getText(), textPassword.getText());
             }
         });
         textPassword.setPasswordMode(true);
@@ -77,7 +69,7 @@ public class UserInputScreen extends AbstractScreen {
         table.add(labelName).padTop(175).padBottom(20).row();
         table.add(textName).size(282,54).padBottom(20).row();
         table.add(labelPassword).padBottom(20).row();
-        table.add(textPassword).size(282, 54).padBottom(20).row();
+        table.add(textPassword).size(282,54).padBottom(20).row();
         table.add(buttonContinue).padBottom(200).row();
         table.add(labelInfo);
         table.setFillParent(true);
@@ -99,28 +91,40 @@ public class UserInputScreen extends AbstractScreen {
         skin.dispose();
     }
 
-    private void validateInput(String name) {
+    private void validateInput(String name, String password) {
         if (!name.isEmpty()) {
-            Player loadedPlayer = game.loadPlayer(name);
-            setupDialog();
+            Player loadedPlayer = ConnectDB.getPlayer(name);
             if (loadedPlayer == null) {
                 loadedPlayer = new Player(name, 0, 1, 3);
-                game.setPlayer(loadedPlayer);
+                Security.generateHash(loadedPlayer, password);
+                Game.getInstance().setPlayer(loadedPlayer);
+                setupNotFoundDialog();
                 dialog.show(stage);
             } else {
-                game.setNewPlayer(false);
-                game.setPlayer(loadedPlayer);
-                toMainMenu();
+                if(Security.hashMatch(loadedPlayer, password)) {
+                    Game.getInstance().setPlayer(loadedPlayer);
+                    toMainMenu(false);
+                } else {
+                    setupInvalidPasswordDialog();
+                    dialog.show(stage);
+                    textPassword.setText("");
+                }
             }
         }
     }
 
-    private void setupDialog() {
+    private void setupInvalidPasswordDialog() {
+        dialog = new Dialog("Invalid Password", skin);
+        dialog.text("The password you supplied does not match the one on record. Please try again.");
+        dialog.button("Ok");
+    }
+
+    private void setupNotFoundDialog() {
         dialog = new Dialog("Confirm Player", skin) {
             @Override
             public void result(Object obj) {
                 if ((boolean) obj) {
-                    toMainMenu();
+                    toMainMenu(true);
                 }
             }
         };
@@ -129,7 +133,8 @@ public class UserInputScreen extends AbstractScreen {
         dialog.button("Yes", true);
     }
 
-    private void toMainMenu() {
-        ScreenController.getInstance(game).setScreen(ScreenTypes.MAIN_MENU);
+    private void toMainMenu(boolean newPlayer) {
+        UserInputScreen.this.dispose();
+        Game.getInstance().setScreen(new MainMenuScreen(newPlayer));
     }
 }

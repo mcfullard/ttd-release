@@ -30,29 +30,21 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private TextButton buttonContinue = new TextButton("Continue", skin);
     private TextButton buttonNewGame = new TextButton("New Game", skin);
-    private TextButton buttonSavedGames = new TextButton("Saved Games", skin);
     private TextButton buttonStatistics = new TextButton("Statistics", skin);
     private TextButton buttonControls = new TextButton("Controls", skin);
     private TextButton buttonCredits = new TextButton("Credits", skin);
     private TextButton buttonExit = new TextButton("Exit", skin);
+    private TextButton buttonLogout = new TextButton("Logout", skin);
     private Label title = new Label("Main Menu", skin);
-
     private boolean newPlayer;
-    private ScreenController screenController;
-    private static MainMenuScreen instance;
 
-    private MainMenuScreen(Game game) {
-        super(game);
-        newPlayer = game.getNewPlayer();
-        screenController = ScreenController.getInstance(game);
+    public MainMenuScreen(boolean newPlayer) {
+        this.newPlayer = newPlayer;
         registerSelfAsProvider();
     }
 
-    public static MainMenuScreen getInstance(Game game) {
-        if (instance == null)
-            instance = new MainMenuScreen(game);
-
-        return instance;
+    public MainMenuScreen() {
+        registerSelfAsProvider();
     }
 
     private void registerSelfAsProvider() {
@@ -65,28 +57,28 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
         buttonContinue.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.createGame();
+                Game.getInstance().createGame();
             }
         });
 
         buttonNewGame.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.newGame();
+                Game.getInstance().newGame();
             }
         });
 
         buttonControls.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                screenController.setScreen(ScreenTypes.CONTROLS);
+                Game.getInstance().setScreen(new ControlsScreen(MainMenuScreen.this));
             }
         });
 
         buttonCredits.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                screenController.setScreen(ScreenTypes.CREDITS);
+                Game.getInstance().setScreen(new CreditScreen());
             }
 
         });
@@ -102,7 +94,14 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
         buttonStatistics.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                screenController.setScreen(ScreenTypes.PLAYER_STATS);
+                Game.getInstance().setScreen(new PlayerStatisticsScreen());
+            }
+        });
+
+        buttonLogout.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Game.getInstance().setScreen(new UserInputScreen());
             }
         });
 
@@ -110,10 +109,10 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
         if (!newPlayer)
             table.add(buttonContinue).size(150, 60).padBottom(20).row();
         table.add(buttonNewGame).size(150,60).padBottom(20).row();
-        table.add(buttonSavedGames).size(150,60).padBottom(20).row();
         table.add(buttonStatistics).size(150,60).padBottom(20).row();
         table.add(buttonControls).size(150,60).padBottom(20).row();
         table.add(buttonCredits).size(150,60).padBottom(20).row();
+        table.add(buttonLogout).size(150,60).padBottom(20).row();
         table.add(buttonExit).size(150,60).padBottom(20).row();
 
         table.setFillParent(true);

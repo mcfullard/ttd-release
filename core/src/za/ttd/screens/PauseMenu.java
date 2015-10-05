@@ -16,6 +16,8 @@ import za.ttd.characters.states.MessageType;
 import za.ttd.game.Game;
 
 public class PauseMenu extends AbstractScreen implements Telegraph{
+
+
     private Stage stage = new Stage();
     private Table table = new Table();
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
@@ -23,19 +25,8 @@ public class PauseMenu extends AbstractScreen implements Telegraph{
     private TextButton btnControls = new TextButton("Controls", skin);
     private TextButton btnMainMenu = new TextButton("Main Menu", skin);
     private Label title = new Label("Pause Menu", skin);
-    private ScreenController screenController;
-    private static PauseMenu instance;
 
-    private PauseMenu(Game game) {
-        super(game);
-        screenController = ScreenController.getInstance(game);
-    }
-
-    public static PauseMenu getInstance(Game game) {
-        if (instance == null)
-            instance = new PauseMenu(game);
-
-        return instance;
+    public PauseMenu() {
     }
 
     @Override
@@ -44,7 +35,7 @@ public class PauseMenu extends AbstractScreen implements Telegraph{
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                screenController.previousScreen();
+                Game.getInstance().setScreen(new GameScreen());
                 MessageManager.getInstance().dispatchMessage(PauseMenu.this, MessageType.LEVEL_STARTED);
                 PauseMenu.this.dispose();
             }
@@ -53,7 +44,8 @@ public class PauseMenu extends AbstractScreen implements Telegraph{
         btnControls.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                screenController.setScreen(ScreenTypes.CONTROLS);
+                Game.getInstance().setScreen(new ControlsScreen(PauseMenu.this));
+                PauseMenu.this.dispose();
             }
         });
 
@@ -61,8 +53,16 @@ public class PauseMenu extends AbstractScreen implements Telegraph{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //Save game the exit
-                screenController.setScreen(ScreenTypes.MAIN_MENU);
-
+                PauseMenu.this.dispose();
+                Game.getInstance().setScreen(new LoadingScreen(
+                        "Updating database...",
+                        () -> {
+                            MessageManager.getInstance().dispatchMessage(
+                                    Game.getInstance(),
+                                    MessageType.UPDATE_DB);
+                        },
+                        new MainMenuScreen(false)
+                ));
             }
         });
 
