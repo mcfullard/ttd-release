@@ -12,30 +12,34 @@ import za.ttd.game.Player;
 
 import java.util.ArrayList;
 
-/**
- * Created by s213391244 on 9/18/2015.
- */
 public class HighScoresScreen extends AbstractScreen {
     private Game game;
     private ConnectDB connectDB = new ConnectDB();
     private ArrayList<Player> players;
     private ArrayList<String> items;
-    public HighScoresScreen(Game game) {
-        super(game);
-        this.game = game;
-        items = new ArrayList<>();
-    }
 
     private Stage stage = new Stage();
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private List list = new List(skin);
     private ScrollPane scrollPane = new ScrollPane(list);
     private Table table = new Table(skin);
-
-
     private Label highScoresLabel = new Label("High Scores", skin);
     private TextButton back = new TextButton("Back", skin);
 
+    private static HighScoresScreen instance;
+
+    private HighScoresScreen(Game game) {
+        super(game);
+        this.game = game;
+        items = new ArrayList<>();
+    }
+
+    public static HighScoresScreen getInstance(Game game) {
+        if (instance == null)
+            instance = new HighScoresScreen(game);
+
+        return instance;
+    }
 
     private void getPlayers() {
         //this.players = connectDB.getPlayers();

@@ -12,22 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import za.ttd.database.ConnectDB;
 import za.ttd.game.Game;
 
-/**
- * Created by s213391244 on 9/18/2015.
- */
 public class PlayerStatisticsScreen extends AbstractScreen {
     private ConnectDB connectDB = new ConnectDB();
     private ConnectDB.Statistics statistics = null;
-
-    public PlayerStatisticsScreen(Game game) {
-        super(game);
-        try {
-            statistics = connectDB.getStatistics(this.game.getPlayerID());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private Stage stage = new Stage();
     private Table table = new Table();
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
@@ -39,6 +26,24 @@ public class PlayerStatisticsScreen extends AbstractScreen {
     private Label badBreath = new Label("Bad Breath Kills: " + statistics.getBadBreath(), skin);
     private Label toothDecay = new Label("toothDecay Kills: " + statistics.getToothDecay(), skin);
     private TextButton back = new TextButton("Back", skin);
+
+    private static PlayerStatisticsScreen instance;
+
+    private PlayerStatisticsScreen(Game game) {
+        super(game);
+        try {
+            statistics = connectDB.getStatistics(this.game.getPlayerID());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static PlayerStatisticsScreen getInstance(Game game) {
+        if (instance == null)
+            instance = new PlayerStatisticsScreen(game);
+
+        return instance;
+    }
 
     @Override
     public void show() {

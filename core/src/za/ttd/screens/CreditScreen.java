@@ -1,6 +1,7 @@
 package za.ttd.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.*;
 import za.ttd.game.Game;
@@ -11,26 +12,24 @@ public class CreditScreen extends AbstractScreen {
     private TextureAtlas textureAtlas;
     private Animation currentAnimation;
     private Animation creditAnimation;
-    //private Label message;
     private float x, startX , startY;
     private Batch batch;
     private BitmapFont theMessage;
-    private String thankmessage;
-    private String namesmessage;
+    private String thankMessage;
+    private String namesMessage;
     private float elapsedTime;
 
-    /*private Stage stage;
-    private Table table;*/
+    private static CreditScreen instance;
 
-    public CreditScreen(Game game) {
+    private CreditScreen(Game game) {
         super(game);
         /*stage = new Stage();
         table = new Table();*/
         batch = new SpriteBatch();
         batch.getProjectionMatrix().setToOrtho2D(0,0,600,800);
         theMessage = new BitmapFont();
-        thankmessage = "Thank You For Playing Our Game\n                  Team Sudo";
-        namesmessage="      Developers\n\nMinnaar Fullard\nSebastian Lasevicius\nPhilip Le Grange\nRhys Botes";
+        thankMessage = "Thank You For Playing Our Game\n                  Team Sudo";
+        namesMessage ="      Developers\n\nMinnaar Fullard\nSebastian Lasevicius\nPhilip Le Grange\nRhys Botes";
 
         startX = (300-(30*theMessage.getSpaceWidth()));
         startY=0;
@@ -45,6 +44,12 @@ public class CreditScreen extends AbstractScreen {
         this.elapsedTime = 0;
     }
 
+    public static CreditScreen getInstance(Game game) {
+        if (instance == null)
+            instance = new CreditScreen(game);
+
+        return instance;
+    }
 
     @Override
     public void render(float delta) {
@@ -62,12 +67,13 @@ public class CreditScreen extends AbstractScreen {
 
 
         batch.begin();
-
-        theMessage.draw(batch, thankmessage, startX-50, startY);
-        theMessage.draw(batch,namesmessage,startX,startY+150);
+        theMessage.draw(batch, thankMessage, startX-50, startY);
+        theMessage.draw(batch, namesMessage,startX,startY+150);
         batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), x, 336);
         batch.end();
-        /*stage.act();
-        stage.draw();*/
+
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            ScreenController.getInstance(game).previousScreen();
+        }
     }
 }

@@ -16,7 +16,9 @@ public class LoadingScreen extends AbstractScreen{
     private String message;
     private float elapsedTime;
 
-    public LoadingScreen(Game game) {
+    private static LoadingScreen instance;
+
+    private LoadingScreen(Game game) {
         super(game);
         batch = new SpriteBatch();
         batch.getProjectionMatrix().setToOrtho2D(0,0,600,800);
@@ -31,6 +33,13 @@ public class LoadingScreen extends AbstractScreen{
                 textureAtlas.findRegion("characters/ThomasR3"));
         x = startX-40;
         this.elapsedTime = 0;
+    }
+
+    public static LoadingScreen getInstance(Game game) {
+        if (instance == null)
+            instance = new LoadingScreen(game);
+
+        return instance;
     }
 
     @Override

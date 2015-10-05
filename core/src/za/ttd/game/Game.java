@@ -16,9 +16,8 @@ public class Game extends com.badlogic.gdx.Game
     private Level level;
     private Player player;
     private Assets assets;
-    private boolean playerLoaded;
-
-    private MainMenuScreen mainMenuScreen;
+    private boolean newPlayer;
+    private ScreenController screenController;
 
     private Json json = new Json();
 	public static final String TITLE = "The Wrath of Thomas the Dentist";
@@ -26,12 +25,14 @@ public class Game extends com.badlogic.gdx.Game
 
     public Game() {
         registerSelfAsListener();
+        screenController = ScreenController.getInstance(this);
+        newPlayer = true;
     }
 
 	@Override
 	public void create() {
-        mainMenuScreen = new MainMenuScreen(this, playerLoaded);
-		setScreen(new SplashScreen(this));
+        screenController.setScreen(ScreenTypes.SPLASH);
+		//setScreen(new SplashScreen(this));
         assets = Assets.getInstance();
         assets.Load();
 
@@ -46,7 +47,7 @@ public class Game extends com.badlogic.gdx.Game
     //Creates a new game depending on the players level
     public void createGame() {
         setLevel(new Level(player));
-        setScreen(new GameScreen(this));
+        screenController.setScreen(ScreenTypes.GAME);
     }
 
     public Level getLevel() {
@@ -56,7 +57,8 @@ public class Game extends com.badlogic.gdx.Game
     private void gameOver() {
         player.setLives(3);
         player.setHighestLevel(1);
-        setScreen(new MainMenuScreen(this, false));
+        screenController.setScreen(ScreenTypes.MAIN_MENU);
+        //setScreen(new MainMenuScreen(this, false));
     }
 
     private void registerSelfAsListener() {
@@ -112,6 +114,14 @@ public class Game extends com.badlogic.gdx.Game
         Json json = new Json();
         String data = json.prettyPrint(player);
         fout.writeString(data, false);
+    }
+
+    public void setNewPlayer(boolean newPlayer) {
+        this.newPlayer = newPlayer;
+    }
+
+    public boolean getNewPlayer() {
+        return newPlayer;
     }
 
     public int getPlayerID() {

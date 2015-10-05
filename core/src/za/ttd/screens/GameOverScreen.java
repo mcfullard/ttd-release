@@ -11,15 +11,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import za.ttd.game.Game;
 
-/**
- * Created by Bas on 18/09/2015.
- */
 public class GameOverScreen extends AbstractScreen {
     private Game game;
+    private static GameOverScreen instance;
 
-    public GameOverScreen(Game game) {
+    private GameOverScreen(Game game) {
         super(game);
         this.game = game;
+    }
+
+    public static GameOverScreen getInstance(Game game) {
+        if (instance == null)
+            instance = new GameOverScreen(game);
+
+        return instance;
     }
 
     private Stage stage = new Stage();

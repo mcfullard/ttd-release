@@ -32,8 +32,17 @@ public class UserInputScreen extends AbstractScreen {
     private TextButton buttonContinue = new TextButton("Continue", skin);
     private Dialog dialog;
 
-    public UserInputScreen(Game game) {
+    private static UserInputScreen instance;
+
+    private UserInputScreen(Game game) {
         super(game);
+    }
+
+    public static UserInputScreen getInstance(Game game) {
+        if (instance == null)
+            instance = new UserInputScreen(game);
+
+        return instance;
     }
 
     @Override
@@ -68,7 +77,7 @@ public class UserInputScreen extends AbstractScreen {
         table.add(labelName).padTop(175).padBottom(20).row();
         table.add(textName).size(282,54).padBottom(20).row();
         table.add(labelPassword).padBottom(20).row();
-        table.add(textPassword).size(282,54).padBottom(20).row();
+        table.add(textPassword).size(282, 54).padBottom(20).row();
         table.add(buttonContinue).padBottom(200).row();
         table.add(labelInfo);
         table.setFillParent(true);
@@ -99,8 +108,9 @@ public class UserInputScreen extends AbstractScreen {
                 game.setPlayer(loadedPlayer);
                 dialog.show(stage);
             } else {
+                game.setNewPlayer(false);
                 game.setPlayer(loadedPlayer);
-                toMainMenu(false);
+                toMainMenu();
             }
         }
     }
@@ -110,7 +120,7 @@ public class UserInputScreen extends AbstractScreen {
             @Override
             public void result(Object obj) {
                 if ((boolean) obj) {
-                    toMainMenu(true);
+                    toMainMenu();
                 }
             }
         };
@@ -119,7 +129,7 @@ public class UserInputScreen extends AbstractScreen {
         dialog.button("Yes", true);
     }
 
-    private void toMainMenu(boolean newPlayer) {
-        game.setScreen(new MainMenuScreen(game, newPlayer));
+    private void toMainMenu() {
+        ScreenController.getInstance(game).setScreen(ScreenTypes.MAIN_MENU);
     }
 }

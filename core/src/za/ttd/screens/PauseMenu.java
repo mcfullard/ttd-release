@@ -16,8 +16,6 @@ import za.ttd.characters.states.MessageType;
 import za.ttd.game.Game;
 
 public class PauseMenu extends AbstractScreen implements Telegraph{
-
-
     private Stage stage = new Stage();
     private Table table = new Table();
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
@@ -25,11 +23,19 @@ public class PauseMenu extends AbstractScreen implements Telegraph{
     private TextButton btnControls = new TextButton("Controls", skin);
     private TextButton btnMainMenu = new TextButton("Main Menu", skin);
     private Label title = new Label("Pause Menu", skin);
-    private Game game;
+    private ScreenController screenController;
+    private static PauseMenu instance;
 
-    public PauseMenu(Game game) {
+    private PauseMenu(Game game) {
         super(game);
-        this.game = game;
+        screenController = ScreenController.getInstance(game);
+    }
+
+    public static PauseMenu getInstance(Game game) {
+        if (instance == null)
+            instance = new PauseMenu(game);
+
+        return instance;
     }
 
     @Override
@@ -38,7 +44,7 @@ public class PauseMenu extends AbstractScreen implements Telegraph{
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                game.setScreen(new GameScreen(game));
+                screenController.previousScreen();
                 MessageManager.getInstance().dispatchMessage(PauseMenu.this, MessageType.LEVEL_STARTED);
                 PauseMenu.this.dispose();
             }
@@ -47,8 +53,7 @@ public class PauseMenu extends AbstractScreen implements Telegraph{
         btnControls.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new ControlsScreen(game, PauseMenu.this));
-                PauseMenu.this.dispose();
+                screenController.setScreen(ScreenTypes.CONTROLS);
             }
         });
 
@@ -56,8 +61,8 @@ public class PauseMenu extends AbstractScreen implements Telegraph{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //Save game the exit
-                PauseMenu.this.dispose();
-                game.setScreen(new MainMenuScreen(game));
+                screenController.setScreen(ScreenTypes.MAIN_MENU);
+
             }
         });
 

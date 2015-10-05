@@ -14,11 +14,19 @@ import za.ttd.game.Level;
 public class GameScreen extends AbstractScreen implements Telegraph{
 
     private Level level;
+    private static GameScreen instance;
     
-    public GameScreen(Game game) {
+    private GameScreen(Game game) {
         super(game);
         this.level = game.getLevel();
         registerSelfAsListener();
+    }
+
+    public static GameScreen getInstance(Game game) {
+        if (instance == null)
+            instance = new GameScreen(game);
+
+        return instance;
     }
 
     private void registerSelfAsListener() {
@@ -37,7 +45,7 @@ public class GameScreen extends AbstractScreen implements Telegraph{
     public boolean handleMessage(Telegram msg) {
         switch (msg.message) {
             case MessageType.LEVEL_PAUSED:
-                game.setScreen(new PauseMenu(game));
+                ScreenController.getInstance(game).setScreen(ScreenTypes.PAUSE_MENU);
                 return true;
         }
         return false;

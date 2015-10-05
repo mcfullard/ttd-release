@@ -36,17 +36,23 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
     private TextButton buttonCredits = new TextButton("Credits", skin);
     private TextButton buttonExit = new TextButton("Exit", skin);
     private Label title = new Label("Main Menu", skin);
-    private boolean newPlayer;
 
-    public MainMenuScreen(Game game, boolean newPlayer) {
+    private boolean newPlayer;
+    private ScreenController screenController;
+    private static MainMenuScreen instance;
+
+    private MainMenuScreen(Game game) {
         super(game);
-        this.newPlayer = newPlayer;
+        newPlayer = game.getNewPlayer();
+        screenController = ScreenController.getInstance(game);
         registerSelfAsProvider();
     }
 
-    public MainMenuScreen(Game game) {
-        super(game);
-        registerSelfAsProvider();
+    public static MainMenuScreen getInstance(Game game) {
+        if (instance == null)
+            instance = new MainMenuScreen(game);
+
+        return instance;
     }
 
     private void registerSelfAsProvider() {
@@ -73,14 +79,14 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
         buttonControls.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new ControlsScreen(game, MainMenuScreen.this));
+                screenController.setScreen(ScreenTypes.CONTROLS);
             }
         });
 
         buttonCredits.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new CreditScreen(game));
+                screenController.setScreen(ScreenTypes.CREDITS);
             }
 
         });
@@ -96,7 +102,7 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
         buttonStatistics.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new PlayerStatisticsScreen(game));
+                screenController.setScreen(ScreenTypes.PLAYER_STATS);
             }
         });
 
