@@ -16,27 +16,27 @@ public class GameOverScreen extends AbstractScreen {
     private Table table = new Table();
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private Label gameOverLabel = new Label("GAME OVER!", skin);
-    private TextButton buttonViewHighScores = new TextButton("View High Scores", skin);
-    private TextButton buttonViewPlayerStatistics = new TextButton("View Player Statistics", skin);
-    private TextButton buttonReturnToMainMenu = new TextButton("Return To Main Menu", skin);
+    private TextButton buttonViewHighScores = new TextButton("High Scores", skin);
+    private TextButton buttonViewPlayerStatistics = new TextButton("Statistics", skin);
+    private TextButton buttonReturnToMainMenu = new TextButton("Main Menu", skin);
 
     public void show() {
         buttonViewHighScores.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //display high scores screen
+                ScreenController.getInstance().setScreen(ScreenTypes.HIGH_SCORES);
             }
         });
         buttonViewPlayerStatistics.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //display player statistics screen
+                ScreenController.getInstance().setScreen(ScreenTypes.PLAYER_STATS);
             }
         });
         buttonReturnToMainMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //display main menu
+                ScreenController.getInstance().setScreen(ScreenTypes.MAIN_MENU);
             }
         });
 

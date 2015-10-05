@@ -12,16 +12,15 @@ import za.ttd.database.ConnectDB;
 import za.ttd.screens.*;
 
 public class Game extends com.badlogic.gdx.Game
-        implements Telegraph
-{
+        implements Telegraph {
     private Level level;
     private Player player;
     private Assets assets;
     private boolean newPlayer;
 
     private Json json = new Json();
-	public static final String TITLE = "The Wrath of Thomas the Dentist";
-	public static final int WIDTH = 600, HEIGHT = 800;
+    public static final String TITLE = "The Wrath of Thomas the Dentist";
+    public static final int WIDTH = 600, HEIGHT = 800;
 
     public static Game instance = null;
     private ScreenController screenController;
@@ -33,18 +32,18 @@ public class Game extends com.badlogic.gdx.Game
     }
 
     public static Game getInstance() {
-        if(instance != null)
+        if (instance != null)
             return instance;
         return instance = new Game();
     }
 
-	@Override
-	public void create() {
-		screenController = ScreenController.getInstance();
+    @Override
+    public void create() {
+        screenController = ScreenController.getInstance();
         screenController.setScreen(ScreenTypes.SPLASH);
         assets = Assets.getInstance();
         assets.Load();
-	}
+    }
 
     public void newGame() {
         player.setLives(3);
@@ -82,7 +81,7 @@ public class Game extends com.badlogic.gdx.Game
                     MessageManager.getInstance().dispatchMessage(this,
                             MessageType.UPDATE_DB);
                 },
-                ScreenTypes.MAIN_MENU
+                ScreenTypes.GAME_OVER
         ));
     }
 

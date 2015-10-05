@@ -14,7 +14,7 @@ public class HighScoresScreen extends AbstractScreen {
     private Map<String, Integer> players;
 
     public HighScoresScreen() {
-
+        fetchPlayers();
     }
 
     private Stage stage = new Stage();
@@ -37,7 +37,11 @@ public class HighScoresScreen extends AbstractScreen {
         back.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //display gameOverScreen
+                try {
+                    ScreenController.getInstance().previousScreen();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -54,12 +58,12 @@ public class HighScoresScreen extends AbstractScreen {
         Gdx.input.setInputProcessor(stage);
     }
 
-    private void populateScoresTable(){
-        for(Map.Entry<String, Integer> entry : players.entrySet()){
-            Label playerLabel = new Label(entry.getKey(),skin);
-            Label scoreLabel = new Label(entry.getValue().toString(),skin);
-            scoresTable.add(playerLabel).size(100,40).padBottom(10).row();
-            scoresTable.add(scoreLabel);
+    private void populateScoresTable() {
+        for (Map.Entry<String, Integer> entry : players.entrySet()) {
+            Label playerLabel = new Label(entry.getKey(), skin);
+            Label scoreLabel = new Label(entry.getValue().toString(), skin);
+            scoresTable.add(playerLabel).size(100, 40).padBottom(10);
+            scoresTable.add(scoreLabel).row();
         }
     }
 
