@@ -15,7 +15,7 @@ public class ControlsScreen extends AbstractScreen{
 
     private Stage stage = new Stage();
     private Table table = new Table();
-    private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
+    private Skin skin = new Skin(Gdx.files.internal("core/assets/skins/uiskin.json"));
     private TextButton btnBack = new TextButton("BACK", skin);
     private TextField txtUp, txtDown, txtLeft, txtRight;
     private Label lblUp, lblDown, lblLeft, lblRight, title = new Label("Controls", skin);
@@ -32,9 +32,8 @@ public class ControlsScreen extends AbstractScreen{
         lblDown = new Label("DOWN", skin);
         lblLeft = new Label("LEFT", skin);
         lblRight = new Label("RIGHT", skin);
+
     }
-
-
 
     @Override
     public void show() {
@@ -53,6 +52,12 @@ public class ControlsScreen extends AbstractScreen{
 
         txtUp.addListener(new InputListener() {
             @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                txtUp.setText("");
+                return true;
+            }
+
+            @Override
             public boolean keyUp(InputEvent event, int keycode) {
                 txtUp.setText(Input.Keys.toString(keycode));
                 player.controls.setUp(keycode);
@@ -61,6 +66,12 @@ public class ControlsScreen extends AbstractScreen{
         });
 
         txtDown.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                txtDown.setText("");
+                return true;
+            }
+
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
                 txtDown.setText(Input.Keys.toString(keycode));
@@ -71,6 +82,12 @@ public class ControlsScreen extends AbstractScreen{
 
         txtLeft.addListener(new InputListener() {
             @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                txtLeft.setText("");
+                return true;
+            }
+
+            @Override
             public boolean keyUp(InputEvent event,int keycode) {
                 txtLeft.setText(Input.Keys.toString(keycode));
                 player.controls.setLeft(keycode);
@@ -80,6 +97,12 @@ public class ControlsScreen extends AbstractScreen{
 
         txtRight.addListener(new InputListener() {
             @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                txtRight.setText("");
+                return true;
+            }
+
+            @Override
             public boolean keyUp(InputEvent event,int keycode) {
                 txtRight.setText(Input.Keys.toString(keycode));
                 player.controls.setRight(keycode);
@@ -87,25 +110,23 @@ public class ControlsScreen extends AbstractScreen{
             }
         });
 
-
-        table.add(title).pad(40).row();
-        table.add(lblUp).size(100,60).pad(40);
-        table.add(txtUp).size(60, 40).pad(40);
+        table.add(title).colspan(2).padBottom(40).row();
+        table.add(lblUp).size(100, 35).padTop(20).padRight(30).left();
+        table.add(txtUp).size(60, 35).padTop(20).padLeft(30).right();
         table.row();
-        table.add(lblDown).size(100, 40).pad(40);
-        table.add(txtDown).size(60, 40).pad(40);
+        table.add(lblDown).size(100, 35).padTop(20).padRight(30).left();
+        table.add(txtDown).size(60, 35).padTop(20).padLeft(30).right();
         table.row();
-        table.add(lblLeft).size(100, 60).pad(40);
-        table.add(txtLeft).size(60, 40).pad(40);
+        table.add(lblLeft).size(100, 35).padTop(20).padRight(30).left();
+        table.add(txtLeft).size(60, 35).padTop(20).padLeft(30).right();
         table.row();
-        table.add(lblRight).size(100, 60).pad(40);
-        table.add(txtRight).size(60, 40).pad(40);
+        table.add(lblRight).size(100, 35).padTop(20).padRight(30).left();
+        table.add(txtRight).size(60, 35).padTop(20).padLeft(30).right();
         table.row();
-        table.add(btnBack).size(100,60);
+        table.add(btnBack).colspan(2).padTop(40).size(150,35);
 
         table.setFillParent(true);
         stage.addActor(table);
-
         Gdx.input.setInputProcessor(stage);
     }
 

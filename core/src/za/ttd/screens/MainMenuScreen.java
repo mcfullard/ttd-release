@@ -5,6 +5,7 @@ import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.TelegramProvider;
 import com.badlogic.gdx.ai.msg.Telegraph;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -25,7 +26,6 @@ import za.ttd.game.Game;
 public class MainMenuScreen extends AbstractScreen implements Telegraph, TelegramProvider {
     private Stage stage = new Stage();
     private Table table = new Table();
-    //private Skin skin = new Skin(Gdx.files.internal("core/assets/textures/out/texture.json"));
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private TextButton buttonContinue = new TextButton("Continue", skin);
     private TextButton buttonNewGame = new TextButton("New Game", skin);
@@ -113,14 +113,14 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
 
         table.add(title).pad(40).row();
         if (!game.isNewPlayer())
-            table.add(buttonContinue).size(150, 60).padBottom(20).row();
-        table.add(buttonNewGame).size(150, 60).padBottom(20).row();
-        table.add(buttonStatistics).size(150, 60).padBottom(20).row();
-        table.add(buttonControls).size(150, 60).padBottom(20).row();
-        table.add(buttonCredits).size(150, 60).padBottom(20).row();
-        table.add(buttonLogout).size(150, 60).padBottom(20).row();
-        table.add(buttonExit).size(150, 60).padBottom(20).row();
-        table.add(buttonHighScores).size(150, 60).padBottom(20).row();
+            table.add(buttonContinue).size(200, 35).padBottom(20).row();
+        table.add(buttonNewGame).size(200, 35).padBottom(20).row();
+        table.add(buttonStatistics).size(200, 35).padBottom(20).row();
+        table.add(buttonControls).size(200, 35).padBottom(20).row();
+        table.add(buttonCredits).size(200, 35).padBottom(20).row();
+        table.add(buttonLogout).size(200, 35).padBottom(20).row();
+        table.add(buttonExit).size(200, 35).padBottom(20).row();
+        table.add(buttonHighScores).size(200, 35).padBottom(20).row();
         table.setFillParent(true);
         stage.addActor(table);
 
