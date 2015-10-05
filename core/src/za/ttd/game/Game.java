@@ -48,6 +48,7 @@ public class Game extends com.badlogic.gdx.Game
     public void newGame() {
         player.setLives(3);
         player.setHighestLevel(1);
+        player.scoring.setTotScore(0);
         createGame();
     }
 

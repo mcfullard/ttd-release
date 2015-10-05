@@ -61,8 +61,8 @@ public class Player implements Telegraph {
     }
 
     public int getHighestScore() {
-        if (scoring.curTotScore > highestScore)
-            highestScore = scoring.curTotScore;
+        if (scoring.totScore > highestScore)
+            highestScore = scoring.totScore;
         return highestScore;
     }
 
@@ -103,13 +103,12 @@ public class Player implements Telegraph {
                     scoring.lifeUsed();
                     MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_RESET);
                 } else {
-                    scoring.curTotScore = 0;
                     MessageManager.getInstance().dispatchMessage(this, MessageType.GAME_OVER);
                 }
                 return true;
             case MessageType.NEXT_LEVEL:
             case MessageType.UPDATE_DB:
-                scoring.calcCurTotScore();
+                scoring.calcTotScore();
                 return true;
             case MessageType.BADBREATH_DEAD:
                 scoring.killedBadBreath();
@@ -145,7 +144,7 @@ public class Player implements Telegraph {
 
     public class ScoringSystem {
 
-        private int lvlScore, curTotScore, totPowersUsed, totLivesUsed, totCollectiblesFound, totBadBreathKilled;
+        private int lvlScore, totScore, totPowersUsed, totLivesUsed, totCollectiblesFound, totBadBreathKilled;
         private final int collectibleValue = 5, powerUpValue = 10, badBreathValue = 100, lifeValue = 200, toothDecayValue = 300;
         private int powersUsed, badBreathKilled, collectiblesFound, livesUsed, toothDecayDestroyed;
 
@@ -227,8 +226,13 @@ public class Player implements Telegraph {
             this.lvlScore = lvlScore;
         }
 
+        public void setTotScore(int totScore) {
+            this.totScore = totScore;
+        }
+
         public int getTotScore() {
-            return curTotScore;
+            calcTotScore();
+            return totScore;
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -251,8 +255,8 @@ public class Player implements Telegraph {
             }
         }
 
-        public void calcCurTotScore() {
-            curTotScore += lvlScore;
+        public void calcTotScore() {
+            totScore += lvlScore;
         }
     }
 
