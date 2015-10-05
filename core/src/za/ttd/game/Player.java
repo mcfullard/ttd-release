@@ -23,6 +23,7 @@ public class Player implements Telegraph {
         this.lives = lives;
         this.scoring = new ScoringSystem();
         this.controls = new Controls();
+        controls.defaultControls();
         registerSelfAsListener();
     }
 
@@ -35,6 +36,7 @@ public class Player implements Telegraph {
         this.salt = salt;
         this.hash = hash;
         this.scoring = new ScoringSystem();
+        this.controls = new Controls();
         registerSelfAsListener();
     }
 
@@ -229,10 +231,6 @@ public class Player implements Telegraph {
             return curTotScore;
         }
 
-        public void setCurTotScore(int curTotScore) {
-            this.curTotScore = curTotScore;
-        }
-
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /*
@@ -258,18 +256,47 @@ public class Player implements Telegraph {
         }
     }
 
-    public static class Controls{
+    public class Controls{
 
-        public static int UP, DOWN, LEFT, RIGHT;
-
-        public Controls() {
-        }
+        private int Up, Down, Left, Right;
 
         public void defaultControls() {
-            UP = Input.Keys.UP;
-            DOWN = Input.Keys.DOWN;
-            LEFT = Input.Keys.LEFT;
-            RIGHT = Input.Keys.RIGHT;
+            Up = Input.Keys.UP;
+            Down = Input.Keys.DOWN;
+            Left = Input.Keys.LEFT;
+            Right = Input.Keys.RIGHT;
+        }
+
+        public int getUp() {
+            return Up;
+        }
+
+        public void setUp(int up) {
+            Up = up;
+        }
+
+        public int getDown() {
+            return Down;
+        }
+
+        public void setDown(int down) {
+            Down = down;
+        }
+
+        public int getLeft() {
+            return Left;
+        }
+
+        public void setLeft(int left) {
+            Left = left;
+        }
+
+        public int getRight() {
+            return Right;
+        }
+
+        public void setRight(int right) {
+            Right = right;
         }
     }
 }

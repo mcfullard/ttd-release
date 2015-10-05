@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import za.ttd.game.Game;
 import za.ttd.game.Player;
 
 public class ControlsScreen extends AbstractScreen{
@@ -18,12 +19,14 @@ public class ControlsScreen extends AbstractScreen{
     private TextButton btnBack = new TextButton("BACK", skin);
     private TextField txtUp, txtDown, txtLeft, txtRight;
     private Label lblUp, lblDown, lblLeft, lblRight, title = new Label("Controls", skin);
+    private Player player;
 
     public ControlsScreen() {
-        txtUp = new TextField(Input.Keys.toString(Player.Controls.UP), skin);
-        txtDown = new TextField(Input.Keys.toString(Player.Controls.DOWN), skin);
-        txtLeft = new TextField(Input.Keys.toString(Player.Controls.LEFT), skin);
-        txtRight = new TextField(Input.Keys.toString(Player.Controls.RIGHT), skin);
+        player = Game.getInstance().getPlayer();
+        txtUp = new TextField(Input.Keys.toString(player.controls.getUp()), skin);
+        txtDown = new TextField(Input.Keys.toString(player.controls.getDown()), skin);
+        txtLeft = new TextField(Input.Keys.toString(player.controls.getLeft()), skin);
+        txtRight = new TextField(Input.Keys.toString(player.controls.getRight()), skin);
 
         lblUp = new Label("UP", skin);
         lblDown = new Label("DOWN", skin);
@@ -52,7 +55,7 @@ public class ControlsScreen extends AbstractScreen{
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
                 txtUp.setText(Input.Keys.toString(keycode));
-                Player.Controls.UP = keycode;
+                player.controls.setUp(keycode);
                 return true;
             }
         });
@@ -61,7 +64,7 @@ public class ControlsScreen extends AbstractScreen{
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
                 txtDown.setText(Input.Keys.toString(keycode));
-                Player.Controls.DOWN = keycode;
+                player.controls.setDown(keycode);
                 return true;
             }
         });
@@ -70,7 +73,7 @@ public class ControlsScreen extends AbstractScreen{
             @Override
             public boolean keyUp(InputEvent event,int keycode) {
                 txtLeft.setText(Input.Keys.toString(keycode));
-                Player.Controls.LEFT = keycode;
+                player.controls.setLeft(keycode);
                 return true;
             }
         });
@@ -79,7 +82,7 @@ public class ControlsScreen extends AbstractScreen{
             @Override
             public boolean keyUp(InputEvent event,int keycode) {
                 txtRight.setText(Input.Keys.toString(keycode));
-                Player.Controls.RIGHT = keycode;
+                player.controls.setRight(keycode);
                 return true;
             }
         });

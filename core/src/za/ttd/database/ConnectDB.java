@@ -87,10 +87,10 @@ public class ConnectDB
                         result.getInt(4),
                         result.getBytes(5),
                         result.getBytes(6));
-                Player.Controls.LEFT = result.getInt(7);
-                Player.Controls.RIGHT = result.getInt(8);
-                Player.Controls.UP = result.getInt(9);
-                Player.Controls.DOWN = result.getInt(10);
+                player.controls.setLeft(result.getInt(7));
+                player.controls.setRight(result.getInt(8));
+                player.controls.setUp(result.getInt(9));
+                player.controls.setDown(result.getInt(10));
                 player.scoring.setTotLivesUsed(result.getInt(11));
                 player.scoring.setTotCollectiblesFound(result.getInt(12));
                 player.scoring.setTotBadBreathKilled(result.getInt(13));
@@ -127,10 +127,10 @@ public class ConnectDB
             String controlsSql = String.format(
                     "insert into controls values (%d, %d, %d, %d, %d)",
                     playerId,
-                    Player.Controls.LEFT,
-                    Player.Controls.RIGHT,
-                    Player.Controls.UP,
-                    Player.Controls.DOWN
+                    player.controls.getLeft(),
+                    player.controls.getRight(),
+                    player.controls.getUp(),
+                    player.controls.getDown()
             );
             stmt.execute(controlsSql);
             String levelsSql = String.format(
@@ -202,10 +202,10 @@ public class ConnectDB
                     "and %d > (select min(highscore) from highscore); " +
 
                     "commit;",
-                    Player.Controls.LEFT,
-                    Player.Controls.RIGHT,
-                    Player.Controls.UP,
-                    Player.Controls.DOWN,
+                    player.controls.getLeft(),
+                    player.controls.getRight(),
+                    player.controls.getUp(),
+                    player.controls.getDown(),
                     player.getPlayerID(),
                     player.getHighestLevel(),
                     player.scoring.getTotScore(),

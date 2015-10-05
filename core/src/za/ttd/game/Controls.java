@@ -12,22 +12,24 @@ import za.ttd.characters.states.MessageType;
 public class Controls implements Telegraph, TelegramProvider{
 
     private Direction direction;
+    private Player player;
 
     public Controls() {
         direction = Direction.NONE;
         registerSelfAsProvider();
+        player = Game.getInstance().getPlayer();
     }
 
 
     //Get input from user
     public void processKeys() {
-        if(Gdx.input.isKeyPressed(Player.Controls.UP))
+        if(Gdx.input.isKeyPressed(player.controls.getUp()))
             direction = Direction.UP;
-        if(Gdx.input.isKeyPressed(Player.Controls.DOWN))
+        if(Gdx.input.isKeyPressed(player.controls.getDown()))
             direction = Direction.DOWN;
-        if(Gdx.input.isKeyPressed(Player.Controls.LEFT))
+        if(Gdx.input.isKeyPressed(player.controls.getLeft()))
             direction = Direction.LEFT;
-        if(Gdx.input.isKeyPressed(Player.Controls.RIGHT))
+        if(Gdx.input.isKeyPressed(player.controls.getRight()))
             direction = Direction.RIGHT;
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_PAUSED);
