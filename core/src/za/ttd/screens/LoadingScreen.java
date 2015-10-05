@@ -24,8 +24,9 @@ public class LoadingScreen extends AbstractScreen{
         startX = 300-(message.length());
 
         currentAnimation = Assets.getInstance().getAnimation("Thomas", "Right");
-        x = startX-40;
-        this.elapsedTime = 0;
+        startX = (300-(30*theMessage.getSpaceWidth()));
+        x = 0;
+        elapsedTime = 0;
         taskThread = new Thread(task);
         taskThread.start();
     }
@@ -35,14 +36,14 @@ public class LoadingScreen extends AbstractScreen{
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         elapsedTime += Gdx.graphics.getDeltaTime();
-        if (x <= startX+60)
-            x += .5f;
+        if (x <= 600)
+            x += 1f;
         else
-            x = startX-40;
+            x = -150;
 
         batch.begin();
         theMessage.draw(batch, message, startX, 450);
-        batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), x, 400);
+        batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), x, 336);
         batch.end();
         if(!taskThread.isAlive()) {
             ScreenController.getInstance().setScreen(screenType);

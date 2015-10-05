@@ -20,7 +20,7 @@ public class CreditScreen extends AbstractScreen {
         batch.getProjectionMatrix().setToOrtho2D(0,0,600,800);
         theMessage = new BitmapFont();
         thankMessage = "Thank You For Playing Our Game\n                  Team Sudo";
-        namesMessage ="      Developers\n\nMinnaar Fullard\nSebastian Lasevicius\nPhilip Le Grange\nRhys Botes\nJane Kirk for keeping Sebastian's head clear";
+        namesMessage ="      Developers\n\nMinnaar Fullard\nSebastian Lasevicius\nPhilip Le Grange\nRhys Botes";
 
         startX = (300-(30*theMessage.getSpaceWidth()));
         startY=0;
