@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.*;
 import za.ttd.game.Assets;
 
 public class CreditScreen extends AbstractScreen {
-
     private Animation currentAnimation;
     private float x, startX , startY;
     private Batch batch;

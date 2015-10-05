@@ -6,9 +6,6 @@ import com.badlogic.gdx.graphics.g2d.*;
 import za.ttd.game.Assets;
 
 public class LoadingScreen extends AbstractScreen{
-
-    private final String atlasFilePath = "core/assets/textures/out/texture.atlas";
-    private TextureAtlas textureAtlas;
     private Animation currentAnimation;
     private float x, startX;
     private Batch batch;
@@ -26,7 +23,6 @@ public class LoadingScreen extends AbstractScreen{
         this.message = message;
         startX = 300-(message.length());
 
-        textureAtlas = new TextureAtlas(Gdx.files.internal(atlasFilePath));
         currentAnimation = Assets.getInstance().getAnimation("Thomas", "Right");
         x = startX-40;
         this.elapsedTime = 0;
