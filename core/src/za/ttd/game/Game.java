@@ -47,8 +47,7 @@ public class Game extends com.badlogic.gdx.Game
 
     public void newGame() {
         player.setLives(3);
-        player.setHighestLevel(1);
-        player.scoring.setTotScore(0);
+        player.reset();
         createGame();
     }
 
@@ -63,6 +62,7 @@ public class Game extends com.badlogic.gdx.Game
                 },
                 ScreenTypes.GAME
         ));*/
+        newPlayer = false;
         player.scoring.setLvlScore(0);
         setLevel(new Level(player));
 
@@ -74,6 +74,7 @@ public class Game extends com.badlogic.gdx.Game
     }
 
     private void gameOver() {
+        newPlayer = true;
         ScreenController.getInstance().setScreen(ScreenTypes.GAME_OVER);
         player.setLives(3);
         player.setHighestLevel(1);

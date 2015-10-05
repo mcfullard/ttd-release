@@ -67,7 +67,7 @@ public class ConnectDB
             Class.forName("org.postgresql.Driver");
             Connection con = getConnection();
             String sql = String.format(
-                    "select l.score, l.level, s.levellives, p.playerid, p.salt, p.hash, " +
+                    "select l.score, l.level, p.lives, p.playerid, p.salt, p.hash, " +
                     "c.left_key, c.right_key, c.up_key, c.down_key, " +
                     "s.levellives, s.collectible, s.badbreath, s.powersused " +
                     "from player p, levels l, statistics s , controls c " +
@@ -110,13 +110,14 @@ public class ConnectDB
             Connection connection = getConnection();
             int playerId = -1;
             String playerSql = String.format(
-                    "insert into player(name, salt, hash) values (?, ?, ?) " +
+                    "insert into player(name, salt, hash, lives) values (?, ?, ?, ?) " +
                     "returning playerid"
             );
             PreparedStatement pstmt = connection.prepareStatement(playerSql);
             pstmt.setString(1, player.getName());
             pstmt.setBytes(2, player.getSalt());
             pstmt.setBytes(3, player.getHash());
+            pstmt.setInt(4, player.getLives());
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 playerId = rs.getInt("playerid");
@@ -162,6 +163,10 @@ public class ConnectDB
             Connection connection = getConnection();
             String prepSql = String.format(
                     "begin; " +
+                    "update player set " +
+                    "lives = %d " +
+                    "where playerid=%d; "+
+
                     "update controls set " +
                     "left_key=%d, " +
                     "right_key=%d, " +
@@ -202,6 +207,8 @@ public class ConnectDB
                     "and %d > (select min(highscore) from highscore); " +
 
                     "commit;",
+                    player.getLives(),
+                    player.getPlayerID(),
                     player.controls.getLeft(),
                     player.controls.getRight(),
                     player.controls.getUp(),
