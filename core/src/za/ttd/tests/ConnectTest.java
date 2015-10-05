@@ -1,11 +1,12 @@
 package za.ttd.tests;
 
+import javafx.util.Pair;
 import org.junit.Test;
 import za.ttd.database.ConnectDB;
 import za.ttd.game.Player;
 import za.ttd.game.Security;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Random;
 
 import static org.junit.Assert.*;
@@ -33,7 +34,7 @@ public class ConnectTest {
 
     @Test
     public void testGetHighScores() throws Exception {
-        Map<String, Integer> highScores = ConnectDB.getHighestScoringPlayers();
-        assertEquals(2, highScores.keySet().size());
+        List<Pair<String, Integer>> highScores = ConnectDB.getHighestScoringPlayers();
+        assertEquals(2, highScores.size());
     }
 }

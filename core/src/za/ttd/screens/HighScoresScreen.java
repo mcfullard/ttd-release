@@ -6,12 +6,13 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import javafx.util.Pair;
 import za.ttd.database.ConnectDB;
 
-import java.util.Map;
+import java.util.List;
 
 public class HighScoresScreen extends AbstractScreen {
-    private Map<String, Integer> players;
+    private List<Pair<String, Integer>> players;
 
     public HighScoresScreen() {
         fetchPlayers();
@@ -49,7 +50,7 @@ public class HighScoresScreen extends AbstractScreen {
 
         mainTable.add(highScoresLabel).pad(40).row();
 
-        mainTable.add(scrollPane).size(400,200).pad(10).row();
+        mainTable.add(scrollPane).size(400, 200).pad(10).row();
 
         scoresTable.setFillParent(true);
 
@@ -62,9 +63,9 @@ public class HighScoresScreen extends AbstractScreen {
     }
 
     private void populateScoresTable() {
-        for (Map.Entry<String, Integer> entry : players.entrySet()) {
-            Label playerLabel = new Label(entry.getKey(), skin);
-            Label scoreLabel = new Label(entry.getValue().toString(), skin);
+        for (Pair<String, Integer> pair : players) {
+            Label playerLabel = new Label(pair.getKey(), skin);
+            Label scoreLabel = new Label(pair.getValue().toString(), skin);
             scoresTable.add(playerLabel).size(100, 40).padBottom(10);
             scoresTable.add(scoreLabel).row();
         }
