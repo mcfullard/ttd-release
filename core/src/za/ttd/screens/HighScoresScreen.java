@@ -6,15 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import za.ttd.database.ConnectDB;
-import za.ttd.game.Game;
 import za.ttd.game.Player;
 
 import java.util.ArrayList;
 
-/**
- * Created by s213391244 on 9/18/2015.
- */
 public class HighScoresScreen extends AbstractScreen {
     private ArrayList<Player> players;
     private ArrayList<String> items;
@@ -38,6 +33,7 @@ public class HighScoresScreen extends AbstractScreen {
         getItems();
         list.setItems(items);
     }
+
     private void getItems(){
         for(Player player: players){
             items.add(player.getName()+"\t"+player.getTotScore());

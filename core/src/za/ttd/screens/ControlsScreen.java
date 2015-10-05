@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import za.ttd.game.Game;
 import za.ttd.game.Player;
 
 public class ControlsScreen extends AbstractScreen{
@@ -21,8 +20,7 @@ public class ControlsScreen extends AbstractScreen{
     private Label lblUp, lblDown, lblLeft, lblRight, title = new Label("Controls", skin);
     AbstractScreen abstractScreen;
 
-    public ControlsScreen(AbstractScreen abstractScreen) {
-        this.abstractScreen = abstractScreen;
+    public ControlsScreen() {
         txtUp = new TextField(Input.Keys.toString(Player.Controls.UP), skin);
         txtDown = new TextField(Input.Keys.toString(Player.Controls.DOWN), skin);
         txtLeft = new TextField(Input.Keys.toString(Player.Controls.LEFT), skin);
@@ -42,7 +40,12 @@ public class ControlsScreen extends AbstractScreen{
         btnBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Game.getInstance().setScreen(abstractScreen);
+                ControlsScreen.this.dispose();
+                try {
+                    ScreenController.getInstance().previousScreen();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 

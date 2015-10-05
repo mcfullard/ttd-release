@@ -35,7 +35,7 @@ public class PlayerStatisticsScreen extends AbstractScreen {
         back.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Game.getInstance().setScreen(new MainMenuScreen(false));
+                ScreenController.getInstance().setScreen(ScreenTypes.MAIN_MENU);
             }
         });
 

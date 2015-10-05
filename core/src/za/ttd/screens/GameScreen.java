@@ -36,7 +36,7 @@ public class GameScreen extends AbstractScreen implements Telegraph{
     public boolean handleMessage(Telegram msg) {
         switch (msg.message) {
             case MessageType.LEVEL_PAUSED:
-                Game.getInstance().setScreen(new PauseMenu());
+                ScreenController.getInstance().setScreen(ScreenTypes.PAUSE_MENU);
                 return true;
         }
         return false;

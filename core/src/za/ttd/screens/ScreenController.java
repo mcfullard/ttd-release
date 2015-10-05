@@ -6,58 +6,58 @@ public class ScreenController {
 
     private static ScreenController instance;
     private Game game;
-    private AbstractScreen currentScreen, previousScreen;
+    private AbstractScreen currentScreen;
+    private Class previousScreen;
 
-    private ScreenController(Game game) {
-        this.game = game;
+    private ScreenController() {
+        this.game = Game.getInstance();
         currentScreen = null;
         previousScreen = null;
     }
 
-    public static ScreenController getInstance(Game game) {
+    public static ScreenController getInstance() {
         if (instance == null)
-            instance = new ScreenController(game);
+            instance = new ScreenController();
 
         return instance;
     }
 
     public void setScreen(ScreenTypes screen) {
 
-        previousScreen = currentScreen;
+        try {
+            previousScreen = currentScreen.getClass();
+        }catch (Exception e) {}
 
         switch (screen) {
             case MAIN_MENU:
-                currentScreen = MainMenuScreen.getInstance(game);
+                currentScreen = new MainMenuScreen();
                 break;
             case GAME:
-                currentScreen = GameScreen.getInstance(game);
+                currentScreen = new GameScreen();
                 break;
             case CONTROLS:
-                currentScreen = ControlsScreen.getInstance(game);
+                currentScreen = new ControlsScreen();
                 break;
             case CREDITS:
-                currentScreen = CreditScreen.getInstance(game);
+                currentScreen = new CreditScreen();
                 break;
             case GAME_OVER:
-                currentScreen = GameOverScreen.getInstance(game);
-                break;
-            case LOADING:
-                currentScreen = LoadingScreen.getInstance(game);
+                currentScreen = new GameOverScreen();
                 break;
             case PAUSE_MENU:
-                currentScreen = PauseMenu.getInstance(game);
+                currentScreen = new PauseMenu();
                 break;
             case PLAYER_STATS:
-                currentScreen = PlayerStatisticsScreen.getInstance(game);
+                currentScreen = new PlayerStatisticsScreen();
                 break;
             case SPLASH:
-                currentScreen = SplashScreen.getInstance(game);
+                currentScreen = new SplashScreen();
                 break;
             case USER_INPUT:
-                currentScreen = UserInputScreen.getInstance(game);
+                currentScreen = new UserInputScreen();
                 break;
             case HIGH_SCORES:
-                currentScreen = HighScoresScreen.getInstance(game);
+                currentScreen = new HighScoresScreen();
                 break;
             default:
                 break;
@@ -65,11 +65,9 @@ public class ScreenController {
         game.setScreen(currentScreen);
     }
 
-    public void previousScreen() {
-        AbstractScreen tempScreen = currentScreen;
+    public void previousScreen() throws Exception{
 
-        currentScreen = previousScreen;
-        previousScreen = tempScreen;
+        currentScreen = (AbstractScreen) previousScreen.newInstance();
 
         game.setScreen(currentScreen);
     }

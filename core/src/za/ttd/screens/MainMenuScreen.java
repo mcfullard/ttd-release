@@ -36,15 +36,13 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
     private TextButton buttonExit = new TextButton("Exit", skin);
     private TextButton buttonLogout = new TextButton("Logout", skin);
     private Label title = new Label("Main Menu", skin);
-    private boolean newPlayer;
-
-    public MainMenuScreen(boolean newPlayer) {
-        this.newPlayer = newPlayer;
-        registerSelfAsProvider();
-    }
+    private ScreenController screenController;
+    private Game game;
 
     public MainMenuScreen() {
         registerSelfAsProvider();
+        game = Game.getInstance();
+        screenController = ScreenController.getInstance();
     }
 
     private void registerSelfAsProvider() {
@@ -57,28 +55,28 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
         buttonContinue.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Game.getInstance().createGame();
+                game.createGame();
             }
         });
 
         buttonNewGame.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Game.getInstance().newGame();
+                game.newGame();
             }
         });
 
         buttonControls.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Game.getInstance().setScreen(new ControlsScreen(MainMenuScreen.this));
+                screenController.setScreen(ScreenTypes.CONTROLS);
             }
         });
 
         buttonCredits.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Game.getInstance().setScreen(new CreditScreen());
+                screenController.setScreen(ScreenTypes.CREDITS);
             }
 
         });
@@ -94,19 +92,19 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
         buttonStatistics.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Game.getInstance().setScreen(new PlayerStatisticsScreen());
+                screenController.setScreen(ScreenTypes.PLAYER_STATS);
             }
         });
 
         buttonLogout.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Game.getInstance().setScreen(new UserInputScreen());
+                screenController.setScreen(ScreenTypes.USER_INPUT);
             }
         });
 
         table.add(title).pad(40).row();
-        if (!newPlayer)
+        if (!game.isNewPlayer())
             table.add(buttonContinue).size(150, 60).padBottom(20).row();
         table.add(buttonNewGame).size(150,60).padBottom(20).row();
         table.add(buttonStatistics).size(150,60).padBottom(20).row();

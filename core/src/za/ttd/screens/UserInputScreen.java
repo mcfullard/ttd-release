@@ -103,7 +103,7 @@ public class UserInputScreen extends AbstractScreen {
             } else {
                 if(Security.hashMatch(loadedPlayer, password)) {
                     Game.getInstance().setPlayer(loadedPlayer);
-                    toMainMenu(false);
+                    Game.getInstance().setNewPlayer(false);
                 } else {
                     setupInvalidPasswordDialog();
                     dialog.show(stage);
@@ -124,7 +124,7 @@ public class UserInputScreen extends AbstractScreen {
             @Override
             public void result(Object obj) {
                 if ((boolean) obj) {
-                    toMainMenu(true);
+                    toMainMenu();
                 }
             }
         };
@@ -133,8 +133,8 @@ public class UserInputScreen extends AbstractScreen {
         dialog.button("Yes", true);
     }
 
-    private void toMainMenu(boolean newPlayer) {
+    private void toMainMenu() {
         UserInputScreen.this.dispose();
-        Game.getInstance().setScreen(new MainMenuScreen(newPlayer));
+        ScreenController.getInstance().setScreen(ScreenTypes.MAIN_MENU);
     }
 }
