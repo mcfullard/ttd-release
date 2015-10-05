@@ -74,16 +74,9 @@ public class Game extends com.badlogic.gdx.Game
     }
 
     private void gameOver() {
+        ScreenController.getInstance().setScreen(ScreenTypes.GAME_OVER);
         player.setLives(3);
         player.setHighestLevel(1);
-        setScreen(new LoadingScreen(
-                "Updating database...",
-                () -> {
-                    MessageManager.getInstance().dispatchMessage(this,
-                            MessageType.UPDATE_DB);
-                },
-                ScreenTypes.GAME_OVER
-        ));
     }
 
     private void registerSelfAsListener() {
