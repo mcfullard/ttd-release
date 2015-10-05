@@ -199,7 +199,16 @@ public class ConnectDB
                     "select %d, %d " +
                     "where (select count(highscore) from highscore) >= 0 " +
                     "and (select count(highscore) from highscore) <= 10 " +
-                    "and %d > (select min(highscore) from highscore); " +
+                    "and %d > (select min(highscore) from highscore) " +
+                    "and not exists (" +
+                    "   select playerid " +
+                    "   from highscore " +
+                    "   where playerid = %d" +
+                    "); " +
+
+                    "update highscore " +
+                    "set highscore = %d " +
+                    "where playerid = %d;" +
 
                     "commit;",
                     player.controls.getLeft(),
@@ -217,7 +226,10 @@ public class ConnectDB
                     player.getPlayerID(),
                     player.getPlayerID(),
                     player.getHighestScore(),
-                    player.getHighestScore()
+                    player.getHighestScore(),
+                    player.getPlayerID(),
+                    player.getHighestScore(),
+                    player.getPlayerID()
             );
             PreparedStatement pstmt = connection.prepareStatement(prepSql);
             pstmt.execute();
