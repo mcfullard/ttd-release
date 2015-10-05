@@ -18,7 +18,6 @@ public class ControlsScreen extends AbstractScreen{
     private TextButton btnBack = new TextButton("BACK", skin);
     private TextField txtUp, txtDown, txtLeft, txtRight;
     private Label lblUp, lblDown, lblLeft, lblRight, title = new Label("Controls", skin);
-    AbstractScreen abstractScreen;
 
     public ControlsScreen() {
         txtUp = new TextField(Input.Keys.toString(Player.Controls.UP), skin);
@@ -48,7 +47,6 @@ public class ControlsScreen extends AbstractScreen{
                 }
             }
         });
-
 
         txtUp.addListener(new InputListener() {
             @Override

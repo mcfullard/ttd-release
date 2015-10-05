@@ -3,6 +3,7 @@ package za.ttd.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.*;
+import za.ttd.game.Assets;
 
 public class LoadingScreen extends AbstractScreen{
 
@@ -26,10 +27,7 @@ public class LoadingScreen extends AbstractScreen{
         startX = 300-(message.length());
 
         textureAtlas = new TextureAtlas(Gdx.files.internal(atlasFilePath));
-        currentAnimation = new Animation(1/8f,
-                textureAtlas.findRegion("characters/ThomasR1"),
-                textureAtlas.findRegion("characters/ThomasR2"),
-                textureAtlas.findRegion("characters/ThomasR3"));
+        currentAnimation = Assets.getInstance().getAnimation("Thomas", "Right");
         x = startX-40;
         this.elapsedTime = 0;
         taskThread = new Thread(task);
