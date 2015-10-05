@@ -5,7 +5,6 @@ import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.TelegramProvider;
 import com.badlogic.gdx.ai.msg.Telegraph;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -38,7 +37,7 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
     private ScreenController screenController;
     private Game game;
 
-    private TextButton buttonHighScores = new TextButton("High Scores", skin);
+    //private TextButton buttonHighScores = new TextButton("High Scores", skin);
 
     public MainMenuScreen() {
         registerSelfAsProvider();
@@ -104,12 +103,7 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
             }
         });
 
-        buttonHighScores.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                screenController.setScreen(ScreenTypes.HIGH_SCORES);
-            }
-        });
+
 
         table.add(title).pad(40).row();
         if (!game.isNewPlayer())
@@ -120,7 +114,7 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
         table.add(buttonCredits).size(200, 35).padBottom(20).row();
         table.add(buttonLogout).size(200, 35).padBottom(20).row();
         table.add(buttonExit).size(200, 35).padBottom(20).row();
-        table.add(buttonHighScores).size(200, 35).padBottom(20).row();
+        //table.add(buttonHighScores).size(200, 35).padBottom(20).row();
         table.setFillParent(true);
         stage.addActor(table);
 

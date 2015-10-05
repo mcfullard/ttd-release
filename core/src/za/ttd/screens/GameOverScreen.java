@@ -1,7 +1,6 @@
 package za.ttd.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -10,8 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import za.ttd.characters.states.MessageType;
-import za.ttd.game.Game;
 
 public class GameOverScreen extends AbstractScreen {
 
@@ -39,22 +36,14 @@ public class GameOverScreen extends AbstractScreen {
         buttonReturnToMainMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Game.getInstance().setScreen(new LoadingScreen(
-                        "Updating database...",
-                        () -> {
-                            MessageManager.getInstance().dispatchMessage(
-                                    Game.getInstance(),
-                                    MessageType.UPDATE_DB);
-                        },
-                        ScreenTypes.MAIN_MENU
-                ));
+                ScreenController.getInstance().setScreen(ScreenTypes.MAIN_MENU);
             }
         });
 
-        table.add(gameOverLabel).size(200, 40).padBottom(40).row();
-        table.add(buttonViewHighScores).size(150, 40).padBottom(20).row();
-        table.add(buttonViewPlayerStatistics).size(150, 40).padBottom(20).row();
-        table.add(buttonReturnToMainMenu).size(150, 40).padBottom(20).row();
+        table.add(gameOverLabel).padBottom(10).center().row();
+        table.add(buttonViewHighScores).size(100, 30).padBottom(10).row();
+        table.add(buttonViewPlayerStatistics).size(100, 30).padBottom(10).row();
+        table.add(buttonReturnToMainMenu).size(100, 30).padBottom(10).row();
         table.setFillParent(true);
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
