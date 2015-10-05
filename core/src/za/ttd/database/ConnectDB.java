@@ -37,6 +37,7 @@ public class ConnectDB
     private static Connection getConnection() throws URISyntaxException, SQLException {
 
         String url ="jdbc:postgresql://ec2-54-83-10-210.compute-1.amazonaws.com:5432/d7vip2bviocqst?user=gmbkotoiwmiilq&password=IsEhBuPJ9kviVI3h8ov0sjSeq7&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+        //String url ="jdbc:postgresql://localhost:5432?user=postgres&password=password";
         //UserName=gmbkotoiwmiilq
         //Password=IsEhBuPJ9kviVI3h8ov0sjSeq7
         return DriverManager.getConnection(url);
