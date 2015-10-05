@@ -54,7 +54,18 @@ public class Game extends com.badlogic.gdx.Game
 
     //Creates a new game depending on the players level
     public void createGame() {
+        /*Game.getInstance().setScreen(new LoadingScreen(
+                "Loading level...",
+                () -> {
+                    MessageManager.getInstance().dispatchMessage(
+                            Game.getInstance(),
+                            MessageType.LOAD_LEVEL);
+                },
+                ScreenTypes.GAME
+        ));*/
+        player.scoring.setLvlScore(0);
         setLevel(new Level(player));
+
         screenController.setScreen(ScreenTypes.GAME);
     }
 
@@ -78,7 +89,8 @@ public class Game extends com.badlogic.gdx.Game
     private void registerSelfAsListener() {
         MessageManager.getInstance().addListeners(this,
                 MessageType.GAME_OVER,
-                MessageType.NEXT_LEVEL
+                MessageType.NEXT_LEVEL,
+                MessageType.LOAD_LEVEL
         );
     }
 
@@ -92,6 +104,9 @@ public class Game extends com.badlogic.gdx.Game
                 player.incHighestLevel();
                 createGame();
                 return true;
+            /*case MessageType.LOAD_LEVEL:
+                setLevel(new Level(player));
+                return true;*/
         }
         return false;
     }

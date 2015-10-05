@@ -4,11 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.*;
+import za.ttd.game.Assets;
 
 public class CreditScreen extends AbstractScreen {
-
-    private final String atlasFilePath = "core/assets/textures/out/texture.atlas";
-    private TextureAtlas textureAtlas;
     private Animation currentAnimation;
     private float x, startX , startY;
     private Batch batch;
@@ -26,17 +24,10 @@ public class CreditScreen extends AbstractScreen {
 
         startX = (300-(30*theMessage.getSpaceWidth()));
         startY=0;
-
-        textureAtlas = new TextureAtlas(Gdx.files.internal(atlasFilePath));
-
-        currentAnimation = new Animation(1/8f,
-                textureAtlas.findRegion("characters/ThomasBR1"),
-                textureAtlas.findRegion("characters/ThomasBR2"),
-                textureAtlas.findRegion("characters/ThomasBR3"));
+        currentAnimation = Assets.getInstance().getAnimation("Thomas", "Right");
         x = 0;
         this.elapsedTime = 0;
     }
-
 
     @Override
     public void render(float delta) {

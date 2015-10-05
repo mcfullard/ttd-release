@@ -1,8 +1,9 @@
 package za.ttd.characters.states;
 
+import com.badlogic.gdx.ai.fsm.State;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import za.ttd.characters.BadBreath;
-import com.badlogic.gdx.ai.fsm.State;
 
 /**
  * @author minnaar
@@ -105,6 +106,7 @@ public enum BadBreathState implements State<BadBreath> {
     DIE {
         @Override
         public void enter(BadBreath badBreath) {
+            MessageManager.getInstance().dispatchMessage(badBreath, MessageType.BADBREATH_DEAD);
             badBreath.die();
         }
 

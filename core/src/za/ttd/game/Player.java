@@ -52,10 +52,15 @@ public class Player implements Telegraph {
                 MessageType.BADBREATH_DEAD,
                 MessageType.MOUTHWASH_COLLECTED,
                 MessageType.PLAQUE_COLLECTED,
-                MessageType.TOOTHDECAY_DEAD);
+                MessageType.TOOTHDECAY_DEAD,
+                MessageType.UPDATE_DB,
+                MessageType.NEXT_LEVEL
+        );
     }
 
     public int getTotScore() {
+        if (scoring.curTotScore > totScore)
+            totScore = scoring.curTotScore;
         return totScore;
     }
 
@@ -79,10 +84,6 @@ public class Player implements Telegraph {
         this.highestLevel = highestLevel;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void incHighestLevel() {
         ++highestLevel;
     }
@@ -100,8 +101,13 @@ public class Player implements Telegraph {
                     scoring.lifeUsed();
                     MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_RESET);
                 } else {
+                    scoring.curTotScore = 0;
                     MessageManager.getInstance().dispatchMessage(this, MessageType.GAME_OVER);
                 }
+                return true;
+            case MessageType.NEXT_LEVEL:
+            case MessageType.UPDATE_DB:
+                scoring.calcCurTotScore();
                 return true;
             case MessageType.BADBREATH_DEAD:
                 scoring.killedBadBreath();
@@ -137,7 +143,7 @@ public class Player implements Telegraph {
 
     public class ScoringSystem {
 
-        private int lvlScore, totPowersUsed, totLivesUsed, totCollectiblesFound, totBadBreathKilled;
+        private int lvlScore, curTotScore, totPowersUsed, totLivesUsed, totCollectiblesFound, totBadBreathKilled;
         private final int collectibleValue = 5, powerUpValue = 10, badBreathValue = 100, lifeValue = 200, toothDecayValue = 300;
         private int powersUsed, badBreathKilled, collectiblesFound, livesUsed, toothDecayDestroyed;
 
@@ -215,6 +221,10 @@ public class Player implements Telegraph {
             this.totPowersUsed = totPowersUsed;
         }
 
+        public void setLvlScore(int lvlScore) {
+            this.lvlScore = lvlScore;
+        }
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /*
@@ -233,6 +243,10 @@ public class Player implements Telegraph {
                 collectiblesFound = 0;
                 badBreathKilled = 0;
             }
+        }
+
+        public void calcCurTotScore() {
+            curTotScore += lvlScore;
         }
     }
 

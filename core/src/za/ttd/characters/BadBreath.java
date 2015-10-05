@@ -99,6 +99,8 @@ public class BadBreath extends Enemy {
         return super.vulnerable;
     }
 
+
+
     @Override
     public boolean handleMessage(Telegram msg) {
         boolean result = false;
