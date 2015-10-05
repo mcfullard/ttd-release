@@ -225,6 +225,14 @@ public class Player implements Telegraph {
             this.lvlScore = lvlScore;
         }
 
+        public int getCurTotScore() {
+            return curTotScore;
+        }
+
+        public void setCurTotScore(int curTotScore) {
+            this.curTotScore = curTotScore;
+        }
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /*
@@ -255,21 +263,13 @@ public class Player implements Telegraph {
         public static int UP, DOWN, LEFT, RIGHT;
 
         public Controls() {
+        }
+
+        public void defaultControls() {
             UP = Input.Keys.UP;
             DOWN = Input.Keys.DOWN;
             LEFT = Input.Keys.LEFT;
             RIGHT = Input.Keys.RIGHT;
-        }
-
-        public Controls(int UP, int DOWN, int LEFT, int RIGHT) {
-            this.UP = UP;
-            this.DOWN = DOWN;
-            this.LEFT = LEFT;
-            this.RIGHT = RIGHT;
-        }
-
-        public void setUp() {
-
         }
     }
 }
