@@ -104,6 +104,7 @@ public class UserInputScreen extends AbstractScreen {
                 if(Security.hashMatch(loadedPlayer, password)) {
                     Game.getInstance().setPlayer(loadedPlayer);
                     Game.getInstance().setNewPlayer(false);
+                    toMainMenu();
                 } else {
                     setupInvalidPasswordDialog();
                     dialog.show(stage);
