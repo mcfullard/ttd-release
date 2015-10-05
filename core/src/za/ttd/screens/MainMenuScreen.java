@@ -120,7 +120,7 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
         table.add(buttonCredits).size(150, 60).padBottom(20).row();
         table.add(buttonLogout).size(150, 60).padBottom(20).row();
         table.add(buttonExit).size(150, 60).padBottom(20).row();
-        table.add(buttonHighScores).size(150, 60).padBottom(20).row();
+
         table.setFillParent(true);
         stage.addActor(table);
 

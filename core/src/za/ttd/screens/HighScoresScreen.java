@@ -48,16 +48,16 @@ public class HighScoresScreen extends AbstractScreen {
 
         populateScoresTable();
 
-        mainTable.add(highScoresLabel).pad(40).row();
+        mainTable.add(highScoresLabel).center().row();
 
-        mainTable.add(scrollPane).size(400, 200).pad(10).row();
+        mainTable.add(scrollPane).row();
 
-        scoresTable.setFillParent(true);
+        scoresTable.setSize(600,400);
 
-        mainTable.add(back).padBottom(20).row();
+        mainTable.add(back).size(100,30).row();
+        mainTable.setSize(600,800);
 
-
-        mainTable.setFillParent(true);
+        //mainTable.setFillParent(true);
         stage.addActor(mainTable);
         Gdx.input.setInputProcessor(stage);
     }
@@ -65,9 +65,10 @@ public class HighScoresScreen extends AbstractScreen {
     private void populateScoresTable() {
         for (Pair<String, Integer> pair : players) {
             Label playerLabel = new Label(pair.getKey(), skin);
+
             Label scoreLabel = new Label(pair.getValue().toString(), skin);
-            scoresTable.add(playerLabel).size(100, 40).padBottom(10);
-            scoresTable.add(scoreLabel).row();
+            scoresTable.add(playerLabel).size(200,30).pad(5);
+            scoresTable.add(scoreLabel).pad(5).row();
         }
     }
 
