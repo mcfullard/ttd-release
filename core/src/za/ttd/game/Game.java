@@ -46,7 +46,6 @@ public class Game extends com.badlogic.gdx.Game
     }
 
     public void newGame() {
-        player.setLives(3);
         player.reset();
         createGame();
     }
@@ -75,9 +74,8 @@ public class Game extends com.badlogic.gdx.Game
 
     private void gameOver() {
         newPlayer = true;
+        player.reset();
         ScreenController.getInstance().setScreen(ScreenTypes.GAME_OVER);
-        player.setLives(3);
-        player.setHighestLevel(1);
     }
 
     private void registerSelfAsListener() {
@@ -137,10 +135,6 @@ public class Game extends com.badlogic.gdx.Game
         Json json = new Json();
         String data = json.prettyPrint(player);
         fout.writeString(data, false);
-    }
-
-    public int getPlayerID() {
-        return this.player.getPlayerID();
     }
 
     public Player getPlayer() {

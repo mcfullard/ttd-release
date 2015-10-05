@@ -67,10 +67,10 @@ public class ConnectDB
             Class.forName("org.postgresql.Driver");
             Connection con = getConnection();
             String sql = String.format(
-                    "select l.score, l.level, p.lives, p.playerid, p.salt, p.hash, " +
+                    "select h.highscore, l.level, p.lives, p.playerid, p.salt, p.hash, " +
                     "c.left_key, c.right_key, c.up_key, c.down_key, " +
-                    "s.levellives, s.collectible, s.badbreath, s.powersused " +
-                    "from player p, levels l, statistics s , controls c " +
+                    "s.levellives, s.collectible, s.badbreath, s.powersused, l.score " +
+                    "from player p, levels l, statistics s , controls c,  highscore h " +
                     "where p.name = '%s' and " +
                     "p.playerid = l.playerid and " +
                     "l.playerid = s.playerid and " +
@@ -95,6 +95,7 @@ public class ConnectDB
                 player.scoring.setTotCollectiblesFound(result.getInt(12));
                 player.scoring.setTotBadBreathKilled(result.getInt(13));
                 player.scoring.setTotPowersUsed(result.getInt(14));
+                player.scoring.setTotScore(result.getInt(15));
             }
             stmt.close();
             con.close();

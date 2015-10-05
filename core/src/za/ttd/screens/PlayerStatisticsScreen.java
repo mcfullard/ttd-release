@@ -10,9 +10,6 @@ import za.ttd.game.Game;
 import za.ttd.game.Player;
 
 public class PlayerStatisticsScreen extends AbstractScreen {
-    public PlayerStatisticsScreen() {
-    }
-
     private Player player = Game.getInstance().getPlayer();
     private Stage stage = new Stage();
     private Table table = new Table();
@@ -33,12 +30,19 @@ public class PlayerStatisticsScreen extends AbstractScreen {
     private TextButton back = new TextButton("Back", skin);
     private TextButton highScores = new TextButton("High Scores", skin);
 
+    private Label lblHighestScore = new Label("Highest Score: ", skin);
+    private Label highestScore = new Label("" + player.getHighestScore(), skin);
+
     @Override
     public void show() {
         back.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ScreenController.getInstance().setScreen(ScreenTypes.MAIN_MENU);
+                try {
+                    ScreenController.getInstance().previousScreen();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         highScores.addListener(new ClickListener() {
@@ -49,6 +53,8 @@ public class PlayerStatisticsScreen extends AbstractScreen {
         });
 
         table.add(playerStatsLabel).colspan(2).row();
+        table.add(lblHighestScore).size(200, 30).padBottom(5).center();
+        table.add(highestScore).right().row();
         table.add(levelLives).size(200, 30).padBottom(5).center();
         table.add(livesValue).right().row();
         table.add(badBreath).size(200, 30).padBottom(5).center();

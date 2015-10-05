@@ -24,7 +24,7 @@ public class Player implements Telegraph {
         this.scoring = new ScoringSystem();
         this.controls = new Controls();
         controls.defaultControls();
-        scoring.resetTotals();
+        scoring.setTotals();
         registerSelfAsListener();
     }
 
@@ -92,13 +92,9 @@ public class Player implements Telegraph {
     }
 
     public void reset(){
+        lives = 3;
         highestLevel = 1;
         scoring.totScore = 0;
-        scoring.totBadBreathKilled = 0;
-        scoring.totScore = 0;
-        scoring.totCollectiblesFound = 0;
-        scoring.totPowersUsed = 0;
-        scoring.resetTotals();
     }
 
     @Override
@@ -106,7 +102,7 @@ public class Player implements Telegraph {
         switch (msg.message) {
             case MessageType.THOMAS_LOSES_LIFE:
                 --lives;
-                if (this.lives > 0) {
+                if (lives > 0) {
                     scoring.lifeUsed();
                     MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_RESET);
                 } else {
@@ -161,11 +157,12 @@ public class Player implements Telegraph {
             badBreathKilled = 0;
         }
 
-        public void resetTotals() {
-            collectiblesFound = 0;
+        public void setTotals() {
+            totCollectiblesFound = 0;
             totLivesUsed = 0;
             totBadBreathKilled = 0;
             totCollectiblesFound = 0;
+            totScore = 0;
         }
 
         public void collectibleFound() {
