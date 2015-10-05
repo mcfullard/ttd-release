@@ -40,7 +40,7 @@ public class GameOverScreen extends AbstractScreen {
             }
         });
 
-        table.add(gameOverLabel).size(100, 100).padBottom(10).center().row();
+        table.add(gameOverLabel).padBottom(10).center().row();
         table.add(buttonViewHighScores).size(100, 30).padBottom(10).row();
         table.add(buttonViewPlayerStatistics).size(100, 30).padBottom(10).row();
         table.add(buttonReturnToMainMenu).size(100, 30).padBottom(10).row();
