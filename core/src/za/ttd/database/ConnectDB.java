@@ -10,9 +10,7 @@ import za.ttd.game.Player;
 
 import java.net.URISyntaxException;
 import java.sql.*;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 public class ConnectDB
@@ -139,7 +137,7 @@ public class ConnectDB
                     "insert into levels values (%d, %d, %d)",
                     playerId,
                     player.getHighestLevel(),
-                    player.getTotScore()
+                    player.getHighestScore()
             );
             stmt.execute(levelsSql);
             String statsSql = String.format(
@@ -210,7 +208,7 @@ public class ConnectDB
                     Player.Controls.DOWN,
                     player.getPlayerID(),
                     player.getHighestLevel(),
-                    player.getTotScore(),
+                    player.scoring.getTotScore(),
                     player.getPlayerID(),
                     player.scoring.getTotLivesUsed(),
                     player.scoring.getTotCollectiblesFound(),
@@ -218,8 +216,8 @@ public class ConnectDB
                     player.scoring.getTotPowersUsed(),
                     player.getPlayerID(),
                     player.getPlayerID(),
-                    player.getTotScore(),
-                    player.getTotScore()
+                    player.getHighestScore(),
+                    player.getHighestScore()
             );
             PreparedStatement pstmt = connection.prepareStatement(prepSql);
             pstmt.execute();

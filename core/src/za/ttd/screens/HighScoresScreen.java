@@ -36,7 +36,7 @@ public class HighScoresScreen extends AbstractScreen {
 
     private void getItems(){
         for(Player player: players){
-            items.add(player.getName()+"\t"+player.getTotScore());
+            items.add(player.getName()+"\t"+player.getHighestScore());
         }
     }
 
