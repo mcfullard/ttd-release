@@ -4,14 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
+import javafx.util.Pair;
 import za.ttd.characters.states.MessageType;
 import za.ttd.game.Game;
 import za.ttd.game.Player;
 
 import java.net.URISyntaxException;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ConnectDB
         implements Telegraph
@@ -228,19 +228,20 @@ public class ConnectDB
         }
     }
 
-    public static Map<String, Integer> getHighestScoringPlayers() {
-        Map<String, Integer> highScores = null;
+    public static List<Pair<String, Integer>> getHighestScoringPlayers() {
+        List<Pair<String, Integer>> highScores = null;
         try {
-            highScores = new HashMap<>();
+            highScores = new ArrayList<>();
             Class.forName("org.postgresql.Driver");
             Connection connection = getConnection();
             Statement stmt = connection.createStatement();
             String sql = "select p.name, h.highscore " +
                     "from highscore h, player p " +
-                    "where h.playerid = p.playerid;";
+                    "where h.playerid = p.playerid " +
+                    "order by highscore DESC;";
             ResultSet result = stmt.executeQuery(sql);
             while(result.next()) {
-                highScores.put(result.getString(1), result.getInt(2));
+                highScores.add(new Pair<>(result.getString(1), result.getInt(2)));
             }
             stmt.close();
             connection.close();
