@@ -28,8 +28,8 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private TextButton buttonContinue = new TextButton("Continue", skin);
     private TextButton buttonNewGame = new TextButton("New Game", skin);
-    private TextButton buttonHighScore = new TextButton("Statistics", skin);
-    private TextButton buttonStatistics = new TextButton("High Scores", skin);
+    private TextButton buttonHighScore = new TextButton("High Scores", skin);
+    private TextButton buttonStatistics = new TextButton("Statistics", skin);
     private TextButton buttonControls = new TextButton("Controls", skin);
     private TextButton buttonCredits = new TextButton("Credits", skin);
     private TextButton buttonExit = new TextButton("Exit", skin);
