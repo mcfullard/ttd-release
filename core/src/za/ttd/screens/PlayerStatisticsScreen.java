@@ -10,7 +10,7 @@ import za.ttd.game.Game;
 import za.ttd.game.Player;
 
 public class PlayerStatisticsScreen extends AbstractScreen {
-    private Player player = Game.getInstance().getPlayer();
+    private Player player = Player.getInstance();
     private Stage stage = new Stage();
     private Table table = new Table();
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));

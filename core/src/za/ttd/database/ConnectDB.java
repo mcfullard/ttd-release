@@ -79,6 +79,7 @@ public class ConnectDB
         } catch (ClassNotFoundException | SQLException | URISyntaxException e) {
             Gdx.app.log("CONNECTDB_CHECK", e.getMessage());
         }
+        return false;
     }
 
     public static void populatePlayer(String name) {
@@ -126,6 +127,7 @@ public class ConnectDB
 
     public static void addPlayer() {
         try {
+            Player player = Player.getInstance();
             Class.forName("org.postgresql.Driver");
             Connection connection = getConnection();
             int playerId = -1;
@@ -179,6 +181,7 @@ public class ConnectDB
 
     private void updatePlayer() {
         try {
+            Player player = Player.getInstance();
             Class.forName("org.postgresql.Driver");
             Connection connection = getConnection();
             String prepSql = String.format(
@@ -294,13 +297,10 @@ public class ConnectDB
     public boolean handleMessage(Telegram msg) {
         switch (msg.message) {
             case MessageType.UPDATE_DB:
-                Player player = Game.getInstance().getPlayer();
-                if (player != null) { // if the game actually has a current player
-                    if(populatePlayer(player.getName()) != null) { // if the player's in the DB
-                        updatePlayer(player);
-                    } else {
-                        addPlayer(player);
-                    }
+                if(checkPlayerExists(Player.getInstance().getName())) { // if the player's in the DB
+                    updatePlayer();
+                } else {
+                    addPlayer();
                 }
                 return true;
         }

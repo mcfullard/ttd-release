@@ -20,19 +20,6 @@ public class ConnectTest {
     }
 
     @Test
-    public void testAddPlayer() throws Exception {
-        Random random = new Random();
-        String randomString = Long.toString(random.nextLong());
-        Player player = new Player(randomString, 0, 1, 2);
-        Security.generateHash(player, "password");
-        ConnectDB.addPlayer(player);
-        Player player1 = ConnectDB.populatePlayer(randomString);
-        assertTrue(Security.hashMatch(player1, "password"));
-        Player player2 = ConnectDB.populatePlayer("noasdtapla1245yer");
-        assertNull(player2);
-    }
-
-    @Test
     public void testGetHighScores() throws Exception {
         List<Pair<String, Integer>> highScores = ConnectDB.getHighestScoringPlayers();
         assertEquals(2, highScores.size());

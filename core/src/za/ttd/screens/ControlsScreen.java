@@ -22,7 +22,7 @@ public class ControlsScreen extends AbstractScreen{
     private Player player;
 
     public ControlsScreen() {
-        player = Game.getInstance().getPlayer();
+        player = Player.getInstance();
         txtUp = new TextField(Input.Keys.toString(player.controls.getUp()), skin);
         txtDown = new TextField(Input.Keys.toString(player.controls.getDown()), skin);
         txtLeft = new TextField(Input.Keys.toString(player.controls.getLeft()), skin);

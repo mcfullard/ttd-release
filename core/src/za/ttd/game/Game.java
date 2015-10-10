@@ -95,10 +95,6 @@ public class Game extends com.badlogic.gdx.Game implements Telegraph {
         this.level = level;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
     public Player loadPlayer(String playerName) {
         Json json = new Json();
         Player object = null;

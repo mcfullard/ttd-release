@@ -17,7 +17,7 @@ public class Controls implements Telegraph, TelegramProvider{
     public Controls() {
         direction = Direction.NONE;
         registerSelfAsProvider();
-        player = Game.getInstance().getPlayer();
+        player = Player.getInstance();
     }
 
 
