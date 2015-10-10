@@ -43,7 +43,6 @@ public class Level implements
     private CharacterRenderer charRenderer;
     private HudRenderer hudRenderer;
 
-    private Player player;
     private Thomas thomas;
     private  Toothbrush benny;
 
@@ -53,10 +52,9 @@ public class Level implements
     private final int imgScale = 32;
 
     public Level() {
-        this.player = Game.getInstance().getPlayer();
         random = new Random();
 
-        map = Grid.generateMap(12, 4, player.getHighestLevel());
+        map = Grid.generateMap(12, 4, Player.getInstance().getHighestLevel());
         gameItems = new HashMap<>();
         enemies = new ArrayList<>();
 
