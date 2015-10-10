@@ -104,6 +104,7 @@ public class UserInputScreen extends AbstractScreen {
                 setupNotFoundDialog();
                 dialog.show(stage);
             } else {
+                ConnectDB.populatePlayer(name);
                 if(Security.hashMatch(Player.getInstance(), password)) {
                     Game.getInstance().setNewPlayer(false);
                     toMainMenu();

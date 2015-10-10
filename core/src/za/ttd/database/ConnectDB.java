@@ -63,23 +63,25 @@ public class ConnectDB
     }
 
     public static boolean checkPlayerExists(String name) {
+        boolean check = false;
         try {
             Class.forName("org.postgresql.Driver");
             Connection con = getConnection();
-            String sql = String.format("select name " +
-                    "from player " +
-                    "where name = %s;",
+            String sql = String.format(
+                    "select p.name " +
+                    "from player p " +
+                    "where p.name = '%s';",
                     name
             );
             PreparedStatement pstmt = con.prepareStatement(sql);
             ResultSet result = pstmt.executeQuery();
+            check = result.next();
             pstmt.close();
             con.close();
-            return result.next();
         } catch (ClassNotFoundException | SQLException | URISyntaxException e) {
             Gdx.app.log("CONNECTDB_CHECK", e.getMessage());
         }
-        return false;
+        return check;
     }
 
     public static void populatePlayer(String name) {
@@ -297,7 +299,7 @@ public class ConnectDB
     public boolean handleMessage(Telegram msg) {
         switch (msg.message) {
             case MessageType.UPDATE_DB:
-                if(checkPlayerExists(Player.getInstance().getName())) { // if the player's in the DB
+                if (checkPlayerExists(Player.getInstance().getName())) { // if the player's in the DB
                     updatePlayer();
                 } else {
                     addPlayer();
