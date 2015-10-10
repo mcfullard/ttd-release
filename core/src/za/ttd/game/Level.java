@@ -52,8 +52,8 @@ public class Level implements
 
     private final int imgScale = 32;
 
-    public Level(Player player) {
-        this.player = player;
+    public Level() {
+        this.player = Game.getInstance().getPlayer();
         random = new Random();
 
         map = Grid.generateMap(12, 4, player.getHighestLevel());

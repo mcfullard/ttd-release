@@ -63,7 +63,7 @@ public class Game extends com.badlogic.gdx.Game
         ));*/
         newPlayer = false;
         player.scoring.setLvlScore(0);
-        setLevel(new Level(player));
+        setLevel(new Level());
 
         screenController.setScreen(ScreenTypes.GAME);
     }
