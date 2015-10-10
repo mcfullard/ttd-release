@@ -85,7 +85,7 @@ public class Level implements
 
     public void render(){
         mazeRenderer.render();
-        hudRenderer.render(player);
+        hudRenderer.render();
         charRenderer.render(getRenderables(gameItems.values()));
         update();
     }

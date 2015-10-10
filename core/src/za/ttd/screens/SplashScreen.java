@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import za.ttd.game.Game;
 
 /**
  * @author minnaar
@@ -20,7 +19,7 @@ public class SplashScreen extends AbstractScreen {
     private Image splashImage = new Image(texture);
     private Stage stage = new Stage();
 
-    public SplashScreen(Game game) { super(game); }
+    public SplashScreen() {}
 
     @Override
     public void show() {
@@ -30,7 +29,7 @@ public class SplashScreen extends AbstractScreen {
                 Actions.fadeIn(0.5f),
                 Actions.delay(2),
                 Actions.run(() -> {
-                    game.setScreen(new UserInputScreen(game));
+                    ScreenController.getInstance().setScreen(ScreenTypes.USER_INPUT);
                 })
         ));
     }

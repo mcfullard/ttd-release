@@ -21,13 +21,13 @@ public class HudRenderer {
         scale = 1;
     }
 
-    public void render(Player player) {
+    public void render() {
         int width = Game.WIDTH;
         int height = Game.HEIGHT;
         batch.begin();
-        lblLvlScore.draw(batch, "LEVEL SCORE: " + player.scoring.getLvlScore(), width*.05f, height*.95f);
-        lblLvlNum.draw(batch, "LEVEL : " + player.getHighestLevel(), width*.45f, height*.95f);
-        lblLives.draw(batch, "Lives : " + player.getLives(), width*.85f, height*.95f);
+        lblLvlScore.draw(batch, "LEVEL SCORE: " + Game.getInstance().getPlayer().scoring.getLvlScore(), width*.05f, height*.95f);
+        lblLvlNum.draw(batch, "LEVEL : " + Game.getInstance().getPlayer().getHighestLevel(), width*.45f, height*.95f);
+        lblLives.draw(batch, "Lives : " + Game.getInstance().getPlayer().getLives(), width*.85f, height*.95f);
         batch.end();
     }
 

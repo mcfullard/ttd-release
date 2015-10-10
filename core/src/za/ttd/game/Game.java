@@ -8,45 +8,64 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 import za.ttd.characters.states.MessageType;
+import za.ttd.database.ConnectDB;
 import za.ttd.screens.*;
 
 public class Game extends com.badlogic.gdx.Game
-        implements Telegraph
-{
+        implements Telegraph {
     private Level level;
     private Player player;
     private Assets assets;
-    private boolean playerLoaded;
-
-    private MainMenuScreen mainMenuScreen;
+    private boolean newPlayer;
 
     private Json json = new Json();
-	public static final String TITLE = "The Wrath of Thomas the Dentist";
-	public static final int WIDTH = 600, HEIGHT = 800;
+    public static final String TITLE = "The Wrath of Thomas the Dentist";
+    public static final int WIDTH = 600, HEIGHT = 800;
 
-    public Game() {
+    public static Game instance = null;
+    private ScreenController screenController;
+
+    private Game() {
         registerSelfAsListener();
+        ConnectDB.getInstance();
+        newPlayer = true;
     }
 
-	@Override
-	public void create() {
-        mainMenuScreen = new MainMenuScreen(this, playerLoaded);
-		setScreen(new SplashScreen(this));
+    public static Game getInstance() {
+        if (instance != null)
+            return instance;
+        return instance = new Game();
+    }
+
+    @Override
+    public void create() {
+        screenController = ScreenController.getInstance();
+        screenController.setScreen(ScreenTypes.SPLASH);
         assets = Assets.getInstance();
         assets.Load();
-
-	}
+    }
 
     public void newGame() {
-        player.setLives(3);
-        player.setHighestLevel(1);
+        player.reset();
         createGame();
     }
 
     //Creates a new game depending on the players level
     public void createGame() {
+        /*Game.getInstance().setScreen(new LoadingScreen(
+                "Loading level...",
+                () -> {
+                    MessageManager.getInstance().dispatchMessage(
+                            Game.getInstance(),
+                            MessageType.LOAD_LEVEL);
+                },
+                ScreenTypes.GAME
+        ));*/
+        newPlayer = false;
+        player.scoring.setLvlScore(0);
         setLevel(new Level(player));
-        setScreen(new GameScreen(this));
+
+        screenController.setScreen(ScreenTypes.GAME);
     }
 
     public Level getLevel() {
@@ -54,15 +73,16 @@ public class Game extends com.badlogic.gdx.Game
     }
 
     private void gameOver() {
-        player.setLives(3);
-        player.setHighestLevel(1);
-        setScreen(new MainMenuScreen(this, false));
+        newPlayer = true;
+        player.reset();
+        ScreenController.getInstance().setScreen(ScreenTypes.GAME_OVER);
     }
 
     private void registerSelfAsListener() {
         MessageManager.getInstance().addListeners(this,
                 MessageType.GAME_OVER,
-                MessageType.NEXT_LEVEL
+                MessageType.NEXT_LEVEL,
+                MessageType.LOAD_LEVEL
         );
     }
 
@@ -76,6 +96,9 @@ public class Game extends com.badlogic.gdx.Game
                 player.incHighestLevel();
                 createGame();
                 return true;
+            /*case MessageType.LOAD_LEVEL:
+                setLevel(new Level(player));
+                return true;*/
         }
         return false;
     }
@@ -114,7 +137,15 @@ public class Game extends com.badlogic.gdx.Game
         fout.writeString(data, false);
     }
 
-    public int getPlayerID() {
-        return this.player.getPlayerID();
+    public Player getPlayer() {
+        return player;
+    }
+
+    public boolean isNewPlayer() {
+        return newPlayer;
+    }
+
+    public void setNewPlayer(boolean newPlayer) {
+        this.newPlayer = newPlayer;
     }
 }

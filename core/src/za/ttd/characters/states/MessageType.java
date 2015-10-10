@@ -30,5 +30,6 @@ public class MessageType {
     public static final int NEXT_LEVEL = 15;
     public static final int GAME_OVER = 16;
 
-
+    //database
+    public static final int UPDATE_DB = 17;
 }

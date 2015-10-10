@@ -1,5 +1,7 @@
 package za.ttd.game;
 
+import com.badlogic.gdx.Gdx;
+
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
@@ -20,10 +22,7 @@ public class Security {
     public static final int hashbytesize = 24;
     public static final int iterations = 1000;
 
-    public static void generateHash(Player player, String password) throws
-            NoSuchAlgorithmException,
-            InvalidKeySpecException
-    {
+    public static void generateHash(Player player, String password) {
         SecureRandom secureRandom = new SecureRandom();
         byte[] salt = new byte[saltbytesize];
         secureRandom.nextBytes(salt);
@@ -35,10 +34,7 @@ public class Security {
         player.setHash(hash);
     }
 
-    public static boolean hashMatch(Player player, String password) throws
-            NoSuchAlgorithmException,
-            InvalidKeySpecException
-    {
+    public static boolean hashMatch(Player player, String password) {
         byte[] inputHash = pbkdf2(password.toCharArray(),
                 player.getSalt(),
                 iterations,
@@ -47,11 +43,16 @@ public class Security {
     }
 
     private static byte[] pbkdf2(char[] password, byte[] salt,
-                                 int iterations, int bytes)
-            throws NoSuchAlgorithmException, InvalidKeySpecException
-    {
-        PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, bytes * 8);
-        SecretKeyFactory skf = SecretKeyFactory.getInstance(algorithm);
-        return skf.generateSecret(spec).getEncoded();
+                                 int iterations, int bytes) {
+
+        byte[] result = null;
+        try {
+            PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, bytes * 8);
+            SecretKeyFactory skf = SecretKeyFactory.getInstance(algorithm);
+            result = skf.generateSecret(spec).getEncoded();
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            Gdx.app.error("SECURITY_PBKDF2", e.getMessage());
+        }
+        return result;
     }
 }

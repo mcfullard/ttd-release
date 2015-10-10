@@ -15,27 +15,25 @@ public class ControlsScreen extends AbstractScreen{
 
     private Stage stage = new Stage();
     private Table table = new Table();
-    private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
+    private Skin skin = new Skin(Gdx.files.internal("core/assets/skins/uiskin.json"));
     private TextButton btnBack = new TextButton("BACK", skin);
     private TextField txtUp, txtDown, txtLeft, txtRight;
     private Label lblUp, lblDown, lblLeft, lblRight, title = new Label("Controls", skin);
-    AbstractScreen abstractScreen;
+    private Player player;
 
-    public ControlsScreen(Game game, AbstractScreen abstractScreen) {
-        super(game);
-        this.abstractScreen = abstractScreen;
-        txtUp = new TextField(Input.Keys.toString(Player.Controls.UP), skin);
-        txtDown = new TextField(Input.Keys.toString(Player.Controls.DOWN), skin);
-        txtLeft = new TextField(Input.Keys.toString(Player.Controls.LEFT), skin);
-        txtRight = new TextField(Input.Keys.toString(Player.Controls.RIGHT), skin);
+    public ControlsScreen() {
+        player = Game.getInstance().getPlayer();
+        txtUp = new TextField(Input.Keys.toString(player.controls.getUp()), skin);
+        txtDown = new TextField(Input.Keys.toString(player.controls.getDown()), skin);
+        txtLeft = new TextField(Input.Keys.toString(player.controls.getLeft()), skin);
+        txtRight = new TextField(Input.Keys.toString(player.controls.getRight()), skin);
 
         lblUp = new Label("UP", skin);
         lblDown = new Label("DOWN", skin);
         lblLeft = new Label("LEFT", skin);
         lblRight = new Label("RIGHT", skin);
+
     }
-
-
 
     @Override
     public void show() {
@@ -43,66 +41,92 @@ public class ControlsScreen extends AbstractScreen{
         btnBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(abstractScreen);
+                ControlsScreen.this.dispose();
+                try {
+                    ScreenController.getInstance().previousScreen();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
-
         txtUp.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                txtUp.setText("");
+                return true;
+            }
+
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
                 txtUp.setText(Input.Keys.toString(keycode));
-                Player.Controls.UP = keycode;
+                player.controls.setUp(keycode);
                 return true;
             }
         });
 
         txtDown.addListener(new InputListener() {
             @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                txtDown.setText("");
+                return true;
+            }
+
+            @Override
             public boolean keyUp(InputEvent event, int keycode) {
                 txtDown.setText(Input.Keys.toString(keycode));
-                Player.Controls.DOWN = keycode;
+                player.controls.setDown(keycode);
                 return true;
             }
         });
 
         txtLeft.addListener(new InputListener() {
             @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                txtLeft.setText("");
+                return true;
+            }
+
+            @Override
             public boolean keyUp(InputEvent event,int keycode) {
                 txtLeft.setText(Input.Keys.toString(keycode));
-                Player.Controls.LEFT = keycode;
+                player.controls.setLeft(keycode);
                 return true;
             }
         });
 
         txtRight.addListener(new InputListener() {
             @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                txtRight.setText("");
+                return true;
+            }
+
+            @Override
             public boolean keyUp(InputEvent event,int keycode) {
                 txtRight.setText(Input.Keys.toString(keycode));
-                Player.Controls.RIGHT = keycode;
+                player.controls.setRight(keycode);
                 return true;
             }
         });
 
-
-        table.add(title).pad(40).row();
-        table.add(lblUp).size(100,60).pad(40);
-        table.add(txtUp).size(60, 40).pad(40);
+        table.add(title).colspan(2).padBottom(40).row();
+        table.add(lblUp).size(100, 35).padTop(20).padRight(30).left();
+        table.add(txtUp).size(60, 35).padTop(20).padLeft(30).right();
         table.row();
-        table.add(lblDown).size(100, 40).pad(40);
-        table.add(txtDown).size(60, 40).pad(40);
+        table.add(lblDown).size(100, 35).padTop(20).padRight(30).left();
+        table.add(txtDown).size(60, 35).padTop(20).padLeft(30).right();
         table.row();
-        table.add(lblLeft).size(100, 60).pad(40);
-        table.add(txtLeft).size(60, 40).pad(40);
+        table.add(lblLeft).size(100, 35).padTop(20).padRight(30).left();
+        table.add(txtLeft).size(60, 35).padTop(20).padLeft(30).right();
         table.row();
-        table.add(lblRight).size(100, 60).pad(40);
-        table.add(txtRight).size(60, 40).pad(40);
+        table.add(lblRight).size(100, 35).padTop(20).padRight(30).left();
+        table.add(txtRight).size(60, 35).padTop(20).padLeft(30).right();
         table.row();
-        table.add(btnBack).size(100,60);
+        table.add(btnBack).colspan(2).padTop(40).size(150,35);
 
         table.setFillParent(true);
         stage.addActor(table);
-
         Gdx.input.setInputProcessor(stage);
     }
 

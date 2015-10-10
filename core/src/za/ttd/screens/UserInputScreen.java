@@ -2,6 +2,7 @@ package za.ttd.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -12,8 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import za.ttd.database.ConnectDB;
 import za.ttd.game.Game;
 import za.ttd.game.Player;
+import za.ttd.game.Security;
 
 /**
  * @author minnaar
@@ -25,35 +28,52 @@ public class UserInputScreen extends AbstractScreen {
     //private Skin skin = new Skin(Gdx.files.internal("core/assets/textures/out/texture.json"));
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private Label labelName = new Label("Enter Name", skin);
+    private Label labelPassword = new Label("Enter Password", skin);
+    private Label labelInfo = new Label("(New players: consider this registration)", skin);
     private TextField textName = new TextField("", skin);
-    private TextButton buttonContinue = new TextButton("Continue", skin);
+    private TextField textPassword = new TextField("", skin);
+    private TextButton buttonContinue = new TextButton("Login", skin);
     private Dialog dialog;
 
-    public UserInputScreen(Game game) {
-        super(game);
+    public UserInputScreen() {
     }
 
     @Override
     public void show() {
+
+        stage.setKeyboardFocus(textName);
         Drawable tfBack = textName.getStyle().background;
         tfBack.setLeftWidth(tfBack.getLeftWidth() + 10);
         textName.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
+                if (c == '\r' || c == '\n' || c == '\t') { // when the user presses enter or tab
+                    stage.setKeyboardFocus(textPassword);
+                }
+            }
+        });
+        textPassword.setTextFieldListener(new TextField.TextFieldListener() {
+            @Override
+            public void keyTyped(TextField textField, char c) {
                 if (c == '\r' || c == '\n') { // when the user presses enter
-                    validateInput(textName.getText());
+                    validateInput(textName.getText(), textPassword.getText());
                 }
             }
         });
         buttonContinue.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                validateInput(textName.getText());
+                validateInput(textName.getText(), textPassword.getText());
             }
         });
-        table.add(labelName).padBottom(20).row();
+        textPassword.setPasswordMode(true);
+        textPassword.setPasswordCharacter('*');
+        table.add(labelName).padTop(175).padBottom(20).row();
         table.add(textName).size(282,54).padBottom(20).row();
-        table.add(buttonContinue).padBottom(20).row();
+        table.add(labelPassword).padBottom(20).row();
+        table.add(textPassword).size(282,54).padBottom(20).row();
+        table.add(buttonContinue).padBottom(200).row();
+        table.add(labelInfo);
         table.setFillParent(true);
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
@@ -73,27 +93,41 @@ public class UserInputScreen extends AbstractScreen {
         skin.dispose();
     }
 
-    private void validateInput(String name) {
+    private void validateInput(String name, String password) {
         if (!name.isEmpty()) {
-            Player loadedPlayer = game.loadPlayer(name);
-            setupDialog();
+            Player loadedPlayer = ConnectDB.getPlayer(name);
             if (loadedPlayer == null) {
                 loadedPlayer = new Player(name, 0, 1, 3);
-                game.setPlayer(loadedPlayer);
+                Security.generateHash(loadedPlayer, password);
+                Game.getInstance().setPlayer(loadedPlayer);
+                setupNotFoundDialog();
                 dialog.show(stage);
             } else {
-                game.setPlayer(loadedPlayer);
-                toMainMenu(false);
+                if(Security.hashMatch(loadedPlayer, password)) {
+                    Game.getInstance().setPlayer(loadedPlayer);
+                    Game.getInstance().setNewPlayer(false);
+                    toMainMenu();
+                } else {
+                    setupInvalidPasswordDialog();
+                    dialog.show(stage);
+                    textPassword.setText("");
+                }
             }
         }
     }
 
-    private void setupDialog() {
+    private void setupInvalidPasswordDialog() {
+        dialog = new Dialog("Invalid Password", skin);
+        dialog.text("The password you supplied does not match the one on record. Please try again.");
+        dialog.button("Ok");
+    }
+
+    private void setupNotFoundDialog() {
         dialog = new Dialog("Confirm Player", skin) {
             @Override
             public void result(Object obj) {
                 if ((boolean) obj) {
-                    toMainMenu(true);
+                    toMainMenu();
                 }
             }
         };
@@ -102,7 +136,8 @@ public class UserInputScreen extends AbstractScreen {
         dialog.button("Yes", true);
     }
 
-    private void toMainMenu(boolean newPlayer) {
-        game.setScreen(new MainMenuScreen(game, newPlayer));
+    private void toMainMenu() {
+        UserInputScreen.this.dispose();
+        ScreenController.getInstance().setScreen(ScreenTypes.MAIN_MENU);
     }
 }

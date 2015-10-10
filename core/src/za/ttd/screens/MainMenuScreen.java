@@ -19,34 +19,31 @@ import za.ttd.game.Game;
 /**
  * @author minnaar
  * @since 18 July 2015
- *
+ * <p>
  * The main menu that contains buttons to sub-menus and other actions.
- *
  */
 public class MainMenuScreen extends AbstractScreen implements Telegraph, TelegramProvider {
     private Stage stage = new Stage();
     private Table table = new Table();
-    //private Skin skin = new Skin(Gdx.files.internal("core/assets/textures/out/texture.json"));
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private TextButton buttonContinue = new TextButton("Continue", skin);
     private TextButton buttonNewGame = new TextButton("New Game", skin);
-    private TextButton buttonSavedGames = new TextButton("Saved Games", skin);
+    private TextButton buttonHighScore = new TextButton("High Scores", skin);
     private TextButton buttonStatistics = new TextButton("Statistics", skin);
     private TextButton buttonControls = new TextButton("Controls", skin);
     private TextButton buttonCredits = new TextButton("Credits", skin);
     private TextButton buttonExit = new TextButton("Exit", skin);
+    private TextButton buttonLogout = new TextButton("Logout", skin);
     private Label title = new Label("Main Menu", skin);
-    private boolean newPlayer;
+    private ScreenController screenController;
+    private Game game;
 
-    public MainMenuScreen(Game game, boolean newPlayer) {
-        super(game);
-        this.newPlayer = newPlayer;
-        registerSelfAsProvider();
-    }
+    //private TextButton buttonHighScores = new TextButton("High Scores", skin);
 
-    public MainMenuScreen(Game game) {
-        super(game);
+    public MainMenuScreen() {
         registerSelfAsProvider();
+        game = Game.getInstance();
+        screenController = ScreenController.getInstance();
     }
 
     private void registerSelfAsProvider() {
@@ -73,16 +70,23 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
         buttonControls.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new ControlsScreen(game, MainMenuScreen.this));
+                screenController.setScreen(ScreenTypes.CONTROLS);
             }
         });
 
-        buttonCredits.addListener(new ClickListener(){
+        buttonCredits.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new CreditScreen(game));
+                screenController.setScreen(ScreenTypes.CREDITS);
             }
 
+        });
+
+        buttonHighScore.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                screenController.setScreen(ScreenTypes.HIGH_SCORES);
+            }
         });
 
         buttonExit.addListener(new ClickListener() {
@@ -96,20 +100,29 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
         buttonStatistics.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new StatisticsScreen(game));
+                screenController.setScreen(ScreenTypes.PLAYER_STATS);
             }
         });
 
-        table.add(title).pad(40).row();
-        if (!newPlayer)
-            table.add(buttonContinue).size(150, 60).padBottom(20).row();
-        table.add(buttonNewGame).size(150,60).padBottom(20).row();
-        table.add(buttonSavedGames).size(150,60).padBottom(20).row();
-        table.add(buttonStatistics).size(150,60).padBottom(20).row();
-        table.add(buttonControls).size(150,60).padBottom(20).row();
-        table.add(buttonCredits).size(150,60).padBottom(20).row();
-        table.add(buttonExit).size(150,60).padBottom(20).row();
+        buttonLogout.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                screenController.setScreen(ScreenTypes.USER_INPUT);
+            }
+        });
 
+
+
+        table.add(title).pad(40).row();
+        if (!game.isNewPlayer())
+            table.add(buttonContinue).size(150, 40).padBottom(20).row();
+        table.add(buttonNewGame).size(150, 40).padBottom(20).row();
+        table.add(buttonStatistics).size(150, 40).padBottom(20).row();
+        table.add(buttonHighScore).size(150, 40).padBottom(20).row();
+        table.add(buttonControls).size(150, 40).padBottom(20).row();
+        table.add(buttonCredits).size(150, 40).padBottom(20).row();
+        table.add(buttonLogout).size(150, 40).padBottom(20).row();
+        table.add(buttonExit).size(150, 40).padBottom(20).row();
         table.setFillParent(true);
         stage.addActor(table);
 

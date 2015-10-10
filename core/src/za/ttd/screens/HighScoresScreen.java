@@ -6,46 +6,31 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import javafx.util.Pair;
 import za.ttd.database.ConnectDB;
-import za.ttd.game.Game;
-import za.ttd.game.Player;
 
-import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by s213391244 on 9/18/2015.
- */
 public class HighScoresScreen extends AbstractScreen {
-    private Game game;
-    private ConnectDB connectDB = new ConnectDB();
-    private ArrayList<Player> players;
-    private ArrayList<String> items;
-    public HighScoresScreen(Game game) {
-        super(game);
-        this.game = game;
-        items = new ArrayList<>();
+    private List<Pair<String, Integer>> players;
+
+    public HighScoresScreen() {
+        fetchPlayers();
     }
 
     private Stage stage = new Stage();
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
-    private List list = new List(skin);
-    private ScrollPane scrollPane = new ScrollPane(list);
-    private Table table = new Table(skin);
 
+    private Table scoresTable = new Table(skin);
+    private ScrollPane scrollPane = new ScrollPane(scoresTable);
 
     private Label highScoresLabel = new Label("High Scores", skin);
     private TextButton back = new TextButton("Back", skin);
 
+    private Table mainTable = new Table();
 
-    private void getPlayers() {
-        //this.players = connectDB.getPlayers();
-        getItems();
-        list.setItems(items);
-    }
-    private void getItems(){
-        for(Player player: players){
-            items.add(player.getName()+"\t"+player.getTotScore());
-        }
+    private void fetchPlayers() {
+        this.players = ConnectDB.getHighestScoringPlayers();
     }
 
     @Override
@@ -53,14 +38,37 @@ public class HighScoresScreen extends AbstractScreen {
         back.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //display gameOverScreen
+                try {
+                    ScreenController.getInstance().previousScreen();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
+        populateScoresTable();
 
-        table.setFillParent(true);
-        stage.addActor(table);
+        mainTable.add(highScoresLabel).colspan(2).row();
+
+        mainTable.add(scrollPane).row();
+
+        scoresTable.setSize(600,400);
+
+        mainTable.add(back).size(150,40).colspan(2).row();
+        mainTable.setSize(600,800);
+
+        stage.addActor(mainTable);
         Gdx.input.setInputProcessor(stage);
+    }
+
+    private void populateScoresTable() {
+        for (Pair<String, Integer> pair : players) {
+            Label playerLabel = new Label(pair.getKey(), skin);
+
+            Label scoreLabel = new Label(pair.getValue().toString(), skin);
+            scoresTable.add(playerLabel).size(200,30).pad(5);
+            scoresTable.add(scoreLabel).pad(5).row();
+        }
     }
 
     @Override
