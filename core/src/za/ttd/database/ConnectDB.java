@@ -62,6 +62,23 @@ public class ConnectDB
         }
     }
 
+    public static boolean checkPlayerExists(String name) {
+        try {
+            Class.forName("org.postgresql.Driver");
+            Connection con = getConnection();
+            String sql = String.format("select name " +
+                    "from player " +
+                    "where name = %s;",
+                    name
+            );
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            ResultSet result = pstmt.executeQuery();
+            return result.next();
+        } catch (ClassNotFoundException | SQLException | URISyntaxException e) {
+            Gdx.app.log("CONNECTDB_CHECK", e.getMessage());
+        }
+    }
+
     public static Player getPlayer(String name) {
         Player player = null;
         try {

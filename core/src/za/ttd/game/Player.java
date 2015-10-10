@@ -15,7 +15,15 @@ public class Player implements Telegraph {
     private byte[] salt, hash;
     public ScoringSystem scoring;
     public Controls controls;
+    private static Player instance = null;
 
+    private Player() {
+        this.scoring = new ScoringSystem();
+        this.controls = new Controls();
+        registerSelfAsListener();
+    }
+
+    /*
     public Player(String name, int highestScore, int highestLevel, int lives) {
         this.name = name;
         this.highestScore = highestScore;
@@ -39,6 +47,14 @@ public class Player implements Telegraph {
         this.scoring = new ScoringSystem();
         this.controls = new Controls();
         registerSelfAsListener();
+    }
+    */
+
+    public static Player getInstance() {
+        if(instance == null) {
+            instance = new Player();
+        }
+        return instance;
     }
 
     public void setPlayerID(int playerID) {
