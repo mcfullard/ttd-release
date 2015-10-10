@@ -13,21 +13,17 @@ public enum BadBreathState implements State<BadBreath> {
     CHASE {
         @Override
         public void enter(BadBreath badBreath) {
-            badBreath.incNumbersChasing();
-            if (BadBreath.getNumberChasing() >= 2) {
-                badBreath.getBadBreathStateMachine().changeState(DECEIVE);
-            }
+            BadBreath.incNumberChasing();
         }
 
         @Override
         public void update(BadBreath badBreath) {
-            badBreath.chase();
+            if (BadBreath.getNumberChasing() >= 2 || !badBreath.getThomasNear()) {
+                badBreath.getBadBreathStateMachine().changeState(DECEIVE);
+                BadBreath.decNumberChasing();
+            }
             super.update(badBreath);
-        }
-
-        @Override
-        public void exit(BadBreath badBreath) {
-            badBreath.decNumberChasing();
+            badBreath.chase();
         }
 
         @Override
@@ -44,6 +40,9 @@ public enum BadBreathState implements State<BadBreath> {
     DECEIVE {
         @Override
         public void update(BadBreath badBreath) {
+            if(badBreath.getThomasNear()) {
+                badBreath.getBadBreathStateMachine().changeState(CHASE);
+            }
             super.update(badBreath);
             badBreath.deceive();
         }
@@ -65,8 +64,19 @@ public enum BadBreathState implements State<BadBreath> {
         }
     },
     DEFEND {
+
+        @Override
+        public void enter(BadBreath badBreath) {
+            BadBreath.incNumberDefending();
+            badBreath.setCounter(BadBreath.COUNT_LIMIT);
+        }
+
         @Override
         public void update(BadBreath badBreath) {
+            if (BadBreath.getNumberDefending() >= 2) {
+                badBreath.getBadBreathStateMachine().changeState(CHASE);
+                BadBreath.decNumberDefending();
+            }
             super.update(badBreath);
             badBreath.defend();
         }
@@ -93,13 +103,17 @@ public enum BadBreathState implements State<BadBreath> {
         @Override
         public boolean onMessage(BadBreath badBreath, Telegram telegram) {
             boolean status = super.onMessage(badBreath, telegram);
-
-            if (!status && telegram.message == MessageType.MOUTHWASH_EXPIRED) {
-                badBreath.getBadBreathStateMachine().revertToPreviousState();
-                return true;
+            if(!status) {
+                switch (telegram.message) {
+                    case MessageType.TOOTHBRUSH_COLLECTED:
+                        badBreath.getBadBreathStateMachine().changeState(DEFEND);
+                        return true;
+                    case MessageType.MOUTHWASH_EXPIRED:
+                        badBreath.getBadBreathStateMachine().revertToPreviousState();
+                        return true;
+                }
             }
-            else
-                return status;
+            return status;
         }
     },
     DIE {

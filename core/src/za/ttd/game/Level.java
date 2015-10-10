@@ -144,6 +144,8 @@ public class Level implements
 
                 if (map.isType(c, r, Map.BAD_BREATH)) {
                     Enemy badBreath = new BadBreath(position, .07f, "BadBreath");
+                    MessageManager.getInstance().addListener(badBreath,
+                            MessageType.SEND_TOOTHDECAY);
                     enemies.add(badBreath);
                 }
 
