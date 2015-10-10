@@ -2,7 +2,6 @@ package za.ttd.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -95,16 +94,17 @@ public class UserInputScreen extends AbstractScreen {
 
     private void validateInput(String name, String password) {
         if (!name.isEmpty()) {
-            Player loadedPlayer = ConnectDB.getPlayer(name);
-            if (loadedPlayer == null) {
-                loadedPlayer = new Player(name, 0, 1, 3);
-                Security.generateHash(loadedPlayer, password);
-                Game.getInstance().setPlayer(loadedPlayer);
+            if (!ConnectDB.checkPlayerExists(name)) {
+                Player player = Player.getInstance();
+                player.setName(name);
+                player.setHighestScore(0);
+                player.setHighestLevel(1);
+                player.setLives(3);
+                Security.generateHash(player, password);
                 setupNotFoundDialog();
                 dialog.show(stage);
             } else {
-                if(Security.hashMatch(loadedPlayer, password)) {
-                    Game.getInstance().setPlayer(loadedPlayer);
+                if(Security.hashMatch(Player.getInstance(), password)) {
                     Game.getInstance().setNewPlayer(false);
                     toMainMenu();
                 } else {

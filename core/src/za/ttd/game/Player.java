@@ -36,7 +36,14 @@ public class Player implements Telegraph {
         registerSelfAsListener();
     }
 
-    public Player(String name, int highestScore, int highestLevel, int lives, int playerID, byte[] salt, byte[] hash) {
+    public Player(String name,
+        int highestScore,
+        int highestLevel,
+        int lives,
+        int playerID,
+        byte[] salt,
+        byte[] hash)
+    {
         this.name = name;
         this.highestScore = highestScore;
         this.highestLevel = highestLevel;
@@ -159,6 +166,14 @@ public class Player implements Telegraph {
 
     public byte[] getHash() {
         return hash;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setHighestScore(int highestScore) {
+        this.highestScore = highestScore;
     }
 
     public class ScoringSystem {

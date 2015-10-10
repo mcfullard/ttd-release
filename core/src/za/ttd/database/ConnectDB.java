@@ -73,14 +73,16 @@ public class ConnectDB
             );
             PreparedStatement pstmt = con.prepareStatement(sql);
             ResultSet result = pstmt.executeQuery();
+            pstmt.close();
+            con.close();
             return result.next();
         } catch (ClassNotFoundException | SQLException | URISyntaxException e) {
             Gdx.app.log("CONNECTDB_CHECK", e.getMessage());
         }
     }
 
-    public static Player getPlayer(String name) {
-        Player player = null;
+    public static void populatePlayer(String name) {
+        Player player = Player.getInstance();
         try {
             Class.forName("org.postgresql.Driver");
             Connection con = getConnection();
@@ -98,13 +100,13 @@ public class ConnectDB
             Statement stmt = con.createStatement();
             ResultSet result = stmt.executeQuery(sql);
             while(result.next()) {
-                player = new Player(name,
-                        result.getInt(1),
-                        result.getInt(2),
-                        result.getInt(3),
-                        result.getInt(4),
-                        result.getBytes(5),
-                        result.getBytes(6));
+                player.setName(name);
+                player.setHighestScore(result.getInt(1));
+                player.setHighestLevel(result.getInt(2));
+                player.setLives(result.getInt(3));
+                player.setPlayerID(result.getInt(4));
+                player.setSalt(result.getBytes(5));
+                player.setHash(result.getBytes(6));
                 player.controls.setLeft(result.getInt(7));
                 player.controls.setRight(result.getInt(8));
                 player.controls.setUp(result.getInt(9));
@@ -120,10 +122,9 @@ public class ConnectDB
         } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
             Gdx.app.error("CONNECTDB_GETPLAYER", e.getMessage());
         }
-        return player;
     }
 
-    public static void addPlayer(Player player) {
+    public static void addPlayer() {
         try {
             Class.forName("org.postgresql.Driver");
             Connection connection = getConnection();
@@ -176,7 +177,7 @@ public class ConnectDB
         }
     }
 
-    private void updatePlayer(Player player) {
+    private void updatePlayer() {
         try {
             Class.forName("org.postgresql.Driver");
             Connection connection = getConnection();
@@ -295,7 +296,7 @@ public class ConnectDB
             case MessageType.UPDATE_DB:
                 Player player = Game.getInstance().getPlayer();
                 if (player != null) { // if the game actually has a current player
-                    if(getPlayer(player.getName()) != null) { // if the player's in the DB
+                    if(populatePlayer(player.getName()) != null) { // if the player's in the DB
                         updatePlayer(player);
                     } else {
                         addPlayer(player);
