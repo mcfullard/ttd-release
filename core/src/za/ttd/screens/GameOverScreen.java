@@ -27,7 +27,14 @@ public class GameOverScreen extends AbstractScreen {
         buttonViewHighScores.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ScreenController.getInstance().setScreen(ScreenTypes.HIGH_SCORES);
+                Game.getInstance().setScreen(new LoadingScreen(
+                        "Loading Highscores ...",
+                        () -> {
+                            MessageManager.getInstance().dispatchMessage(
+                                    Game.getInstance(),
+                                    MessageType.UPDATE_DB);
+                        },ScreenTypes.HIGH_SCORES
+                ));
             }
         });
         buttonViewPlayerStatistics.addListener(new ClickListener() {

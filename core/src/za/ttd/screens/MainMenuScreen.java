@@ -77,6 +77,7 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
         buttonCredits.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
                 screenController.setScreen(ScreenTypes.CREDITS);
             }
 
@@ -85,7 +86,15 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
         buttonHighScore.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                screenController.setScreen(ScreenTypes.HIGH_SCORES);
+                Game.getInstance().setScreen(new LoadingScreen(
+                        "Loading Highscores ...",
+                        () -> {
+                            MessageManager.getInstance().dispatchMessage(
+                                    Game.getInstance(),
+                                    MessageType.UPDATE_DB);
+                        },ScreenTypes.HIGH_SCORES
+                ));
+                //screenController.setScreen(ScreenTypes.HIGH_SCORES);
             }
         });
 
