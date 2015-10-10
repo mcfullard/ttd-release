@@ -118,7 +118,7 @@ public class UserInputScreen extends AbstractScreen {
 
     private void setupInvalidPasswordDialog() {
         dialog = new Dialog("Invalid Password", skin);
-        dialog.text("The password you supplied does not match the one on record. Please try again.");
+        dialog.text("The password you supplied does not match the one on record. Please try again.\n\n *If you are a New User please note that this Name is already in use");
         dialog.button("Ok");
     }
 
