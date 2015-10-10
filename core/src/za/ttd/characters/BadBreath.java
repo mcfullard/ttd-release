@@ -12,7 +12,7 @@ public class BadBreath extends Enemy {
     private static final int DECEIVE_RADIUS = 4;
     private static final int DEFEND_RADIUS = 1;
     public static final int COUNT_LIMIT = 10;
-    private static final int NEAR_DISTANCE = 3;
+    private static final int NEAR_DISTANCE = 5;
     private StateMachine<BadBreath> badBreathStateMachine;
     private static int numberChasing = 4;
     private static int numberDefending = 0;

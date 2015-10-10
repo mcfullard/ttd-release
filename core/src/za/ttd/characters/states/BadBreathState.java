@@ -73,7 +73,7 @@ public enum BadBreathState implements State<BadBreath> {
 
         @Override
         public void update(BadBreath badBreath) {
-            if (BadBreath.getNumberDefending() >= 2) {
+            if (BadBreath.getNumberDefending() >= 2 || badBreath.getThomasNear()) {
                 badBreath.getBadBreathStateMachine().changeState(CHASE);
                 BadBreath.decNumberDefending();
             }
