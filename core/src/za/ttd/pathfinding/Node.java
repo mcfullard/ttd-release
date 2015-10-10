@@ -56,9 +56,9 @@ public class Node {
     }
 
     public void updateDistanceVector(Collection<Node> allNodes) {
-        for(Edge edge : edges) {
-            Node adjacent = edge.getAdjacent(this);
-            for(Node other : allNodes) {
+        for(Edge edge : edges) { // for every edge incident to the node
+            Node adjacent = edge.getAdjacent(this); // get the adjacent node
+            for(Node other : allNodes) { // now for all nodes
                 EdgeContainer container = distanceVector.get(other.getOrigin());
                 Integer directDistance = container.distance;
                 Integer distanceViaAdjacent = adjacent
@@ -67,7 +67,7 @@ public class Node {
                         .distance;
                 // if it's shorter via the adjacent edge to the other node
                 if(distanceViaAdjacent + edge.getWeight() < directDistance) {
-                    // update the new distance and change the edge in the container
+                    // update the new distance and change the edge in the container to be the edge to the adjacent node
                     container.distance = edge.getWeight() + distanceViaAdjacent;
                     if(container.edge != null)
                         container.edge.setAdjacent(this, adjacent);
