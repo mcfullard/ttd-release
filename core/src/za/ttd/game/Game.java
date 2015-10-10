@@ -11,8 +11,7 @@ import za.ttd.characters.states.MessageType;
 import za.ttd.database.ConnectDB;
 import za.ttd.screens.*;
 
-public class Game extends com.badlogic.gdx.Game
-        implements Telegraph {
+public class Game extends com.badlogic.gdx.Game implements Telegraph {
     private Level level;
     private Player player;
     private Assets assets;
@@ -28,6 +27,7 @@ public class Game extends com.badlogic.gdx.Game
     private Game() {
         registerSelfAsListener();
         ConnectDB.getInstance();
+        this.player = Player.getInstance();
         newPlayer = true;
     }
 
@@ -52,15 +52,6 @@ public class Game extends com.badlogic.gdx.Game
 
     //Creates a new game depending on the players level
     public void createGame() {
-        /*Game.getInstance().setScreen(new LoadingScreen(
-                "Loading level...",
-                () -> {
-                    MessageManager.getInstance().dispatchMessage(
-                            Game.getInstance(),
-                            MessageType.LOAD_LEVEL);
-                },
-                ScreenTypes.GAME
-        ));*/
         newPlayer = false;
         player.scoring.setLvlScore(0);
         setLevel(new Level());
@@ -96,9 +87,6 @@ public class Game extends com.badlogic.gdx.Game
                 player.incHighestLevel();
                 createGame();
                 return true;
-            /*case MessageType.LOAD_LEVEL:
-                setLevel(new Level(player));
-                return true;*/
         }
         return false;
     }
@@ -135,10 +123,6 @@ public class Game extends com.badlogic.gdx.Game
         Json json = new Json();
         String data = json.prettyPrint(player);
         fout.writeString(data, false);
-    }
-
-    public Player getPlayer() {
-        return player;
     }
 
     public boolean isNewPlayer() {
