@@ -111,7 +111,7 @@ public abstract class Enemy extends Actor {
                         )
                 );
             } while(pf.getWithinRadiusOf(thomas.getPosition(), NEAR_THOMAS).contains(lastRandomDestination)
-                    && !position.getDirectionTo(lastRandomDestination)
+                    && position.getDirectionTo(lastRandomDestination)
                     .equals(position.getDirectionTo(thomas.getPosition())));
             updateCount = 0;
         }

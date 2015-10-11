@@ -24,14 +24,14 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="-47.388646"
-     inkscape:cy="83.473566"
+     inkscape:zoom="4.0000001"
+     inkscape:cx="91.213148"
+     inkscape:cy="349.7332"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="1280"
-     inkscape:window-height="748"
+     inkscape:window-width="1920"
+     inkscape:window-height="1028"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -382,7 +382,10 @@
     </g>
     <g
        id="thomFull"
-       inkscape:label="#g3136">
+       inkscape:label="#g3136"
+       inkscape:export-filename="/home/minnaar/projects/ttd/core/assets/textures/in/items/Plaque.png"
+       inkscape:export-xdpi="91.160004"
+       inkscape:export-ydpi="91.160004">
       <path
          style="fill:#000000;fill-opacity:1;stroke:none"
          d="m 101.41337,671.84528 0,51.7608 51.76077,0 0,-51.7608 -51.76077,0 z"
@@ -390,7 +393,7 @@
          inkscape:connector-curvature="0" />
       <path
          inkscape:label="#path2996"
-         transform="matrix(0.3137016,0,0,0.3137016,71.611719,646.00815)"
+         transform="matrix(0.11999598,0,0,0.11999598,105.99447,677.94288)"
          sodipodi:type="arc"
          style="fill:#ffff00;fill-rule:evenodd;stroke:none"
          id="tFull"
@@ -398,7 +401,7 @@
          sodipodi:cy="164.86218"
          sodipodi:rx="62.5"
          sodipodi:ry="62.5"
-         d="m 240,164.86218 c 0,34.5178 -27.9822,62.5 -62.5,62.5 -34.5178,0 -62.5,-27.9822 -62.5,-62.5 0,-34.51779 27.9822,-62.5 62.5,-62.5 34.5178,0 62.5,27.98221 62.5,62.5 z" />
+         d="m 240,164.86218 a 62.5,62.5 0 1 1 -125,0 62.5,62.5 0 1 1 125,0 z" />
     </g>
     <g
        id="thomLeft"
@@ -627,6 +630,30 @@
          id="path4201"
          d="m 63.363041,775.46289 -18.037838,-2.65165 0,2.65165 z"
          style="fill:#000000;fill-opacity:1;stroke:none" />
+    </g>
+    <g
+       inkscape:export-ydpi="91.160004"
+       inkscape:export-xdpi="91.160004"
+       inkscape:export-filename="/home/minnaar/projects/ttd/core/assets/textures/in/items/Plaque.png"
+       inkscape:label="#g3136"
+       id="g3085"
+       transform="matrix(0.61822882,0,0,0.61822847,110.2167,276.2522)">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3087"
+         d="m 101.41337,671.84528 0,51.7608 51.76077,0 0,-51.7608 -51.76077,0 z"
+         style="fill:none;stroke:none" />
+      <path
+         d="m 240,164.86218 c 0,34.5178 -27.9822,62.5 -62.5,62.5 -34.5178,0 -62.5,-27.9822 -62.5,-62.5 0,-34.51779 27.9822,-62.5 62.5,-62.5 34.5178,0 62.5,27.98221 62.5,62.5 z"
+         sodipodi:ry="62.5"
+         sodipodi:rx="62.5"
+         sodipodi:cy="164.86218"
+         sodipodi:cx="177.5"
+         id="path3089"
+         style="fill:#ff6600;fill-rule:evenodd;stroke:none"
+         sodipodi:type="arc"
+         transform="matrix(0.11999598,0,0,0.11999598,105.99447,677.94288)"
+         inkscape:label="#path2996" />
     </g>
   </g>
 </svg>
