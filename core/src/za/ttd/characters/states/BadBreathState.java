@@ -1,5 +1,6 @@
 package za.ttd.characters.states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
@@ -13,14 +14,16 @@ public enum BadBreathState implements State<BadBreath> {
     CHASE {
         @Override
         public void enter(BadBreath badBreath) {
-            BadBreath.incNumberChasing();
+            super.enter(badBreath);
         }
 
         @Override
         public void update(BadBreath badBreath) {
-            if (BadBreath.getNumberChasing() >= 2 || !badBreath.getThomasNear()) {
+            if (!badBreath.getThomasNear()) {
                 badBreath.getBadBreathStateMachine().changeState(DECEIVE);
-                BadBreath.decNumberChasing();
+            }
+            if(badBreath.getChance()) {
+                badBreath.getBadBreathStateMachine().changeState(DEFEND);
             }
             super.update(badBreath);
             badBreath.chase();
@@ -67,15 +70,13 @@ public enum BadBreathState implements State<BadBreath> {
 
         @Override
         public void enter(BadBreath badBreath) {
-            BadBreath.incNumberDefending();
             badBreath.setCounter(BadBreath.COUNT_LIMIT);
         }
 
         @Override
         public void update(BadBreath badBreath) {
-            if (BadBreath.getNumberDefending() >= 2 || badBreath.getThomasNear()) {
+            if (badBreath.getThomasNear()) {
                 badBreath.getBadBreathStateMachine().changeState(CHASE);
-                BadBreath.decNumberDefending();
             }
             super.update(badBreath);
             badBreath.defend();

@@ -6,16 +6,18 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import za.ttd.characters.objects.Position;
 import za.ttd.characters.states.BadBreathState;
 import za.ttd.characters.states.MessageType;
+import za.ttd.game.Player;
 import za.ttd.pathfinding.PathFinder;
+
+import java.util.Random;
 
 public class BadBreath extends Enemy {
     private static final int DECEIVE_RADIUS = 4;
     private static final int DEFEND_RADIUS = 1;
     public static final int COUNT_LIMIT = 10;
     private static final int NEAR_DISTANCE = 5;
+    private static final int CHANCE_UPPER_BOUND = 10;
     private StateMachine<BadBreath> badBreathStateMachine;
-    private static int numberChasing = 4;
-    private static int numberDefending = 0;
     private int counter = 0;
     protected ToothDecay toothDecay;
 
@@ -85,6 +87,19 @@ public class BadBreath extends Enemy {
         }
     }
 
+    public boolean getChance() {
+        boolean result = false;
+        counter++;
+        if(counter >= COUNT_LIMIT) {
+            int lowerBound = Player.getInstance().getHighestLevel();
+            int range = CHANCE_UPPER_BOUND - lowerBound + 1;
+            Random random = new Random(lowerBound);
+            result = random.nextInt((range < 1 ? 1 : range)) == 0;
+            counter = 0;
+        }
+        return result;
+    }
+
     public void setCounter(int counter) {
         this.counter = counter;
     }
@@ -94,25 +109,6 @@ public class BadBreath extends Enemy {
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static int getNumberChasing() {
-        return numberChasing;
-    }
-
-    public static int getNumberDefending() {
-        return numberDefending;
-    }
-
-    public static void incNumberChasing() {
-        ++numberChasing;
-    }
-
-    public static void decNumberChasing() {
-        --numberChasing;
-    }
-
-    public static void incNumberDefending() {++numberDefending;}
-
-    public static void decNumberDefending() {--numberDefending;}
 
     public StateMachine<BadBreath> getBadBreathStateMachine() {
         return badBreathStateMachine;
@@ -136,8 +132,6 @@ public class BadBreath extends Enemy {
             case MessageType.MOUTHWASH_COLLECTED:
             case MessageType.MOUTHWASH_EXPIRED:
             case MessageType.LEVEL_RESET:
-                numberDefending = 0;
-                numberChasing = 4;
                 badBreathStateMachine.handleMessage(msg);
                 break;
         }
