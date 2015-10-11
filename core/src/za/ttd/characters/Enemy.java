@@ -16,9 +16,9 @@ public abstract class Enemy extends Actor {
     protected PathFinder pathFinder;
     private StateMachine<Enemy> speedStateMachine;
 
-    private static final int FLEE_RADIUS = 10;
-    private static final int NEAR_THOMAS = 5;
-    private final int UPDATE_COUNT_LIMIT = 30;
+    private static final int FLEE_RADIUS = 20;
+    private static final int NEAR_THOMAS = 10;
+    private final int UPDATE_COUNT_LIMIT = 40;
     private int updateCount = 0;
     private Position lastRandomDestination = new Position(1,1);
 
@@ -110,7 +110,9 @@ public abstract class Enemy extends Actor {
                                 FLEE_RADIUS
                         )
                 );
-            } while(pf.getWithinRadiusOf(thomas.getPosition(), NEAR_THOMAS).contains(lastRandomDestination));
+            } while(pf.getWithinRadiusOf(thomas.getPosition(), NEAR_THOMAS).contains(lastRandomDestination)
+                    && !position.getDirectionTo(lastRandomDestination)
+                    .equals(position.getDirectionTo(thomas.getPosition())));
             updateCount = 0;
         }
         this.setDirection(
