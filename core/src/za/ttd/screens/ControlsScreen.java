@@ -8,14 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import za.ttd.game.Game;
 import za.ttd.game.Player;
 
 public class ControlsScreen extends AbstractScreen{
 
     private Stage stage = new Stage();
     private Table table = new Table();
-    private Skin skin = new Skin(Gdx.files.internal("core/assets/skins/uiskin.json"));
+    private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private TextButton btnBack = new TextButton("BACK", skin);
     private TextField txtUp, txtDown, txtLeft, txtRight;
     private Label lblUp, lblDown, lblLeft, lblRight, title = new Label("Controls", skin);
@@ -53,14 +52,18 @@ public class ControlsScreen extends AbstractScreen{
         txtUp.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                txtUp.setText("");
+                if (keycode != Input.Keys.TAB)
+                    txtUp.setText("");
+
                 return true;
             }
 
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
-                txtUp.setText(Input.Keys.toString(keycode));
-                player.controls.setUp(keycode);
+                if (keycode != Input.Keys.TAB) {
+                    txtUp.setText(Input.Keys.toString(keycode));
+                    player.controls.setUp(keycode);
+                }
                 return true;
             }
         });
@@ -68,14 +71,17 @@ public class ControlsScreen extends AbstractScreen{
         txtDown.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                txtDown.setText("");
+                if (keycode != Input.Keys.TAB)
+                    txtDown.setText("");
                 return true;
             }
 
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
-                txtDown.setText(Input.Keys.toString(keycode));
-                player.controls.setDown(keycode);
+                if (keycode != Input.Keys.TAB) {
+                    txtDown.setText(Input.Keys.toString(keycode));
+                    player.controls.setDown(keycode);
+                }
                 return true;
             }
         });
@@ -83,14 +89,17 @@ public class ControlsScreen extends AbstractScreen{
         txtLeft.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                txtLeft.setText("");
+                if (keycode != Input.Keys.TAB)
+                    txtLeft.setText("");
                 return true;
             }
 
             @Override
             public boolean keyUp(InputEvent event,int keycode) {
-                txtLeft.setText(Input.Keys.toString(keycode));
-                player.controls.setLeft(keycode);
+                if (keycode != Input.Keys.TAB) {
+                    txtLeft.setText(Input.Keys.toString(keycode));
+                    player.controls.setLeft(keycode);
+                }
                 return true;
             }
         });
@@ -98,14 +107,17 @@ public class ControlsScreen extends AbstractScreen{
         txtRight.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                txtRight.setText("");
+                if (keycode != Input.Keys.TAB)
+                    txtRight.setText("");
                 return true;
             }
 
             @Override
             public boolean keyUp(InputEvent event,int keycode) {
-                txtRight.setText(Input.Keys.toString(keycode));
-                player.controls.setRight(keycode);
+                if (keycode != Input.Keys.TAB) {
+                    txtRight.setText(Input.Keys.toString(keycode));
+                    player.controls.setRight(keycode);
+                }
                 return true;
             }
         });
