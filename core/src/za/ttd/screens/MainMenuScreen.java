@@ -53,12 +53,14 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
 
     @Override
     public void show() {
-        buttonContinue.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.createGame();
-            }
-        });
+
+        if (!game.isNewPlayer())
+            buttonContinue.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    game.createGame();
+                }
+            });
 
         buttonNewGame.addListener(new ClickListener() {
             @Override
@@ -94,7 +96,6 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
                                     MessageType.UPDATE_DB);
                         },ScreenTypes.HIGH_SCORES
                 ));
-                //screenController.setScreen(ScreenTypes.HIGH_SCORES);
             }
         });
 
