@@ -100,6 +100,7 @@ public class UserInputScreen extends AbstractScreen {
                 player.setHighestScore(0);
                 player.setHighestLevel(1);
                 player.setLives(3);
+                player.controls.defaultControls();
                 Security.generateHash(player, password);
                 setupNotFoundDialog();
                 dialog.show(stage);

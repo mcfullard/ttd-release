@@ -23,40 +23,6 @@ public class Player implements Telegraph {
         registerSelfAsListener();
     }
 
-    /*
-    public Player(String name, int highestScore, int highestLevel, int lives) {
-        this.name = name;
-        this.highestScore = highestScore;
-        this.highestLevel = highestLevel;
-        this.lives = lives;
-        this.scoring = new ScoringSystem();
-        this.controls = new Controls();
-        controls.defaultControls();
-        scoring.setTotals();
-        registerSelfAsListener();
-    }
-
-    public Player(String name,
-        int highestScore,
-        int highestLevel,
-        int lives,
-        int playerID,
-        byte[] salt,
-        byte[] hash)
-    {
-        this.name = name;
-        this.highestScore = highestScore;
-        this.highestLevel = highestLevel;
-        this.lives = lives;
-        this.playerID = playerID;
-        this.salt = salt;
-        this.hash = hash;
-        this.scoring = new ScoringSystem();
-        this.controls = new Controls();
-        registerSelfAsListener();
-    }
-    */
-
     public static Player getInstance() {
         if(instance == null) {
             instance = new Player();
@@ -79,7 +45,6 @@ public class Player implements Telegraph {
                 MessageType.MOUTHWASH_COLLECTED,
                 MessageType.PLAQUE_COLLECTED,
                 MessageType.TOOTHDECAY_DEAD,
-                MessageType.UPDATE_DB,
                 MessageType.NEXT_LEVEL
         );
     }
@@ -118,6 +83,7 @@ public class Player implements Telegraph {
         lives = 3;
         highestLevel = 1;
         scoring.totScore = 0;
+        scoring.lvlScore = 0;
     }
 
     @Override
@@ -129,11 +95,12 @@ public class Player implements Telegraph {
                     scoring.lifeUsed();
                     MessageManager.getInstance().dispatchMessage(this, MessageType.LEVEL_RESET);
                 } else {
+                    scoring.lifeUsed();
+                    scoring.calcTotScore();
                     MessageManager.getInstance().dispatchMessage(this, MessageType.GAME_OVER);
                 }
                 return true;
             case MessageType.NEXT_LEVEL:
-            case MessageType.UPDATE_DB:
                 scoring.calcTotScore();
                 return true;
             case MessageType.BADBREATH_DEAD:
@@ -184,16 +151,6 @@ public class Player implements Telegraph {
 
         public ScoringSystem() {
             lvlScore = 0;
-            powersUsed = 0;
-            badBreathKilled = 0;
-        }
-
-        public void setTotals() {
-            totCollectiblesFound = 0;
-            totLivesUsed = 0;
-            totBadBreathKilled = 0;
-            totCollectiblesFound = 0;
-            totScore = 0;
         }
 
         public void collectibleFound() {
@@ -285,10 +242,6 @@ public class Player implements Telegraph {
 
             if (lvlScore < 0) {
                 lvlScore = 0;
-                livesUsed = 0;
-                powersUsed = 0;
-                collectiblesFound = 0;
-                badBreathKilled = 0;
             }
         }
 
