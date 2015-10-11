@@ -18,7 +18,7 @@ public abstract class Enemy extends Actor {
 
     private static final int FLEE_RADIUS = 10;
     private static final int NEAR_THOMAS = 5;
-    private final int UPDATE_COUNT_LIMIT = 250;
+    private final int UPDATE_COUNT_LIMIT = 30;
     private int updateCount = 0;
     private Position lastRandomDestination = new Position(1,1);
 
