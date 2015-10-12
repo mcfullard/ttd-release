@@ -97,7 +97,8 @@ public class ConnectDB
                     "where p.name = '%s' and " +
                     "p.playerid = l.playerid and " +
                     "l.playerid = s.playerid and " +
-                    "s.playerid = c.playerid;",
+                    "s.playerid = c.playerid and " +
+                    "c.playerid = h.playerid;",
                     name
             );
             Statement stmt = con.createStatement();
@@ -174,6 +175,12 @@ public class ConnectDB
                     player.scoring.getTotPowersUsed()
             );
             stmt.execute(statsSql);
+            String highscoreSql = String.format(
+                    "insert into highscore values (%d, %d)",
+                    playerId,
+                    player.getHighestScore()
+            );
+            stmt.execute(highscoreSql);
             stmt.close();
             connection.close();
         } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
@@ -211,31 +218,6 @@ public class ConnectDB
                     "powersused = %d " +
                     "where playerid = %d; " +
 
-                    "delete from highscore " +
-                    "where playerid = ( " +
-                    "    select h.playerid " +
-                    "    from highscore h " +
-                    "    where h.highscore = ( " +
-                    "        select min(highscore) " +
-                    "        from highscore " +
-                    "    ) " +
-                    ") " +
-                    "and 10 = ( " +
-                    "    select count(highscore) " +
-                    "    from highscore " +
-                    "); " +
-
-                    "insert into highscore (playerid, highscore) " +
-                    "select %d, %d " +
-                    "where (select count(highscore) from highscore) >= 0 " +
-                    "and (select count(highscore) from highscore) <= 10 " +
-                    "and %d > (select min(highscore) from highscore) " +
-                    "and not exists (" +
-                    "   select playerid " +
-                    "   from highscore " +
-                    "   where playerid = %d" +
-                    "); " +
-
                     "update highscore " +
                     "set highscore = %d " +
                     "where playerid = %d;" +
@@ -255,10 +237,6 @@ public class ConnectDB
                     player.scoring.getTotCollectiblesFound(),
                     player.scoring.getTotBadBreathKilled(),
                     player.scoring.getTotPowersUsed(),
-                    player.getPlayerID(),
-                    player.getPlayerID(),
-                    player.getHighestScore(),
-                    player.getHighestScore(),
                     player.getPlayerID(),
                     player.getHighestScore(),
                     player.getPlayerID()
@@ -282,7 +260,8 @@ public class ConnectDB
             String sql = "select p.name, h.highscore " +
                     "from highscore h, player p " +
                     "where h.playerid = p.playerid " +
-                    "order by highscore DESC;";
+                    "order by highscore DESC " +
+                    "limit 10;";
             ResultSet result = stmt.executeQuery(sql);
             while(result.next()) {
                 highScores.add(new Pair<>(result.getString(1), result.getInt(2)));
