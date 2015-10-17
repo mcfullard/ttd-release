@@ -121,7 +121,7 @@ public class ConnectDB
                 player.scoring.setTotPowersUsed(result.getInt(14));
                 player.scoring.setTotScore(result.getInt(15));
             }
-
+            player.setAchievements(getAchievements());
             stmt.close();
             con.close();
         } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
@@ -221,7 +221,7 @@ public class ConnectDB
 
     private static void insertAchievementsObtained(PreparedStatement pstmt, Player player) {
         try {
-            for (Achievement achievement : player.getAchievements()) {
+            for (Achievement achievement : player.getAchievementsObtained()) {
                 String achievementSql = String.format(
                         "insert into achieved (achievementid, playerid) " +
                                 "select %d, %d " +
