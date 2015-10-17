@@ -1,16 +1,16 @@
 package za.ttd.game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Achievements {
     private Player player;
-    private ArrayList<Achievement> achievementsObtained, achievements;
+    private List<Achievement> achievementsObtained, achievements;
 
-    public Achievements() {
+    public Achievements(List<Achievement> achievements) {
         player = Player.getInstance();
         achievementsObtained = new ArrayList<>();
-        achievements = new ArrayList<>();
-
+        this.achievements = achievements;
     }
 
     public void updateAchievements() {
@@ -40,7 +40,6 @@ public class Achievements {
         }
     }
 
-
     public boolean doComparison(int metric,String condition, int bound){
         switch (condition) {
             case "<":
@@ -69,7 +68,7 @@ public class Achievements {
 
     }
 
-    public ArrayList<Achievement> getAchievements() {
+    public List<Achievement> getAchievements() {
         return achievementsObtained;
     }
 }
