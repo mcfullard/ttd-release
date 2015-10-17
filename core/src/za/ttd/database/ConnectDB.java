@@ -6,6 +6,7 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import javafx.util.Pair;
 import za.ttd.characters.states.MessageType;
+import za.ttd.game.Achievement;
 import za.ttd.game.Game;
 import za.ttd.game.Player;
 
@@ -148,7 +149,6 @@ public class ConnectDB
                 playerId = rs.getInt("playerid");
                 player.setPlayerID(playerId);
             }
-            pstmt.close();
             Statement stmt = connection.createStatement();
             String controlsSql = String.format(
                     "insert into controls values (%d, %d, %d, %d, %d)",
@@ -182,6 +182,23 @@ public class ConnectDB
             );
             stmt.execute(highscoreSql);
             stmt.close();
+            for(Achievement achievement : player.getAchievements()) {
+                String achievementSql = String.format(
+                        "insert into achieved (achievementid, playerid) " +
+                        "select %d, %d " +
+                        "where not exists ( " +
+                            "select achievementid " +
+                            "from achieved " +
+                            "where achievementid = %d " +
+                        ");",
+                        achievement.getId(),
+                        player.getPlayerID(),
+                        achievement.getId()
+                );
+                pstmt.addBatch(achievementSql);
+            }
+            pstmt.executeBatch();
+            pstmt.close();
             connection.close();
         } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
             Gdx.app.error("CONNECTDB_ADDPLAYER", e.getMessage());
