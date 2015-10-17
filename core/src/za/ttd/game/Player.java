@@ -248,6 +248,10 @@ public class Player implements Telegraph {
         public void calcTotScore() {
             totScore += lvlScore;
         }
+
+        public int getPowersUsed() {
+            return powersUsed;
+        }
     }
 
     public class Controls{
