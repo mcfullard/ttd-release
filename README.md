@@ -12,5 +12,13 @@ can download the game and see if you can beat your friends' highest scores :)
 
 ## Requirements
 - Active internet connection
-- Windows / Linux / Mac 
+- Windows / Linux / Mac
 - [JRE 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)
+
+## Release Notes
+
+### v1.0.0
+**Not Working**
+
+### v1.0.1
+Extract `ttd.zip` and run `ttd.jar` (ensure you have JRE 8 installed).
