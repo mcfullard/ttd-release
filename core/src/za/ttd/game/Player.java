@@ -42,8 +42,8 @@ public class Player implements Telegraph {
         this.achievements = new Achievements(achievements);
     }
 
-    public List<Achievement> getAchievements() {
-        return achievements.getAchievements();
+    public List<Achievement> getAchievementsObtained() {
+        return achievements.getAchievementsObtained();
     }
 
     public int getPlayerID() {
