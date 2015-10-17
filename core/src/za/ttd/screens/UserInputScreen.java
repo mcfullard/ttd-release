@@ -17,6 +17,8 @@ import za.ttd.game.Game;
 import za.ttd.game.Player;
 import za.ttd.game.Security;
 
+import java.util.ArrayList;
+
 /**
  * @author minnaar
  * @since 2015/09/24.
@@ -101,6 +103,7 @@ public class UserInputScreen extends AbstractScreen {
                 player.setHighestLevel(1);
                 player.setLives(3);
                 player.controls.defaultControls();
+                player.setAchievements(ConnectDB.getAchievements());
                 Security.generateHash(player, password);
                 setupNotFoundDialog();
                 dialog.show(stage);
