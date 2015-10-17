@@ -1,7 +1,6 @@
 # ttd-release
 This repository will serve as the main point for testers to download and
-run releases of our game *The Wrath of Thomas the Dentist*. Note: the game
-requires an internet connection to work properly.
+run releases of our game *The Wrath of Thomas the Dentist*.
 
 We're still actively developing so please be patient with us :) If you find any
 bugs or have any questions, please create an issue on this repository or contact
