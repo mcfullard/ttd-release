@@ -1,5 +1,5 @@
 # ttd-release
-This repository will server as the main point for testers to download and
+This repository will serve as the main point for testers to download and
 run releases of our game *The Wrath of Thomas the Dentist*. Note: the game
 requires an internet connection to work properly.
 
@@ -17,8 +17,8 @@ can download the game and see if you can beat your friends' highest scores :)
 
 ## Release Notes
 
-### v1.0.0
-**Not Working**
-
 ### v1.0.1
 Extract `ttd.zip` and run `ttd.jar` (ensure you have JRE 8 installed).
+
+### v1.0.0
+**Not Working**
