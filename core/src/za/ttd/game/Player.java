@@ -46,6 +46,10 @@ public class Player implements Telegraph {
         return achievements.getAchievementsObtained();
     }
 
+    public void updateAchievements() {
+        achievements.updateAchievements();
+    }
+
     public int getPlayerID() {
         return playerID;
     }
@@ -109,12 +113,10 @@ public class Player implements Telegraph {
                 } else {
                     scoring.lifeUsed();
                     scoring.calcTotScore();
-                    achievements.updateAchievements();
                     MessageManager.getInstance().dispatchMessage(this, MessageType.GAME_OVER);
                 }
                 return true;
             case MessageType.NEXT_LEVEL:
-                achievements.updateAchievements();
                 scoring.calcTotScore();
                 return true;
             case MessageType.BADBREATH_DEAD:

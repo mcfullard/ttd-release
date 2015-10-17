@@ -39,6 +39,8 @@ public class PlayerStatisticsScreen extends AbstractScreen {
 
     @Override
     public void show() {
+        player.updateAchievements();
+
         back.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -79,7 +81,7 @@ public class PlayerStatisticsScreen extends AbstractScreen {
     private void populateAchievementsTable(){
         for(Achievement achievement:player.getAchievementsObtained()){
             Label achievementLabel = new Label(achievement.getDescription(), skin);
-            achievementsTable.add(achievementLabel);
+            achievementsTable.add(achievementLabel).pad(10).center().row();
         }
     }
 
