@@ -178,6 +178,7 @@ public class ConnectDB
                 playerId = rs.getInt("playerid");
                 player.setPlayerID(playerId);
             }
+            pstmt.close();
             Statement stmt = connection.createStatement();
             String controlsSql = String.format(
                     "insert into controls values (%d, %d, %d, %d, %d)",
@@ -210,16 +211,15 @@ public class ConnectDB
                     player.getHighestScore()
             );
             stmt.execute(highscoreSql);
+            insertAchievementsObtained(stmt, player);
             stmt.close();
-            insertAchievementsObtained(pstmt, player);
-            pstmt.close();
             connection.close();
         } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
             Gdx.app.error("CONNECTDB_ADDPLAYER", e.getMessage());
         }
     }
 
-    private static void insertAchievementsObtained(PreparedStatement pstmt, Player player) {
+    private static void insertAchievementsObtained(Statement stmt, Player player) {
         try {
             for (Achievement achievement : player.getAchievementsObtained()) {
                 String achievementSql = String.format(
@@ -234,9 +234,9 @@ public class ConnectDB
                         player.getPlayerID(),
                         achievement.getId()
                 );
-                pstmt.addBatch(achievementSql);
+                stmt.addBatch(achievementSql);
             }
-            pstmt.executeBatch();
+            stmt.executeBatch();
         } catch (SQLException e) {
             Gdx.app.error("CONNECTDB_INSERTACHIEVEMENT", e.getMessage());
         }
@@ -297,8 +297,10 @@ public class ConnectDB
             );
             PreparedStatement pstmt = connection.prepareStatement(prepSql);
             pstmt.execute();
-            insertAchievementsObtained(pstmt, player);
             pstmt.close();
+            Statement stmt = connection.createStatement();
+            insertAchievementsObtained(stmt, player);
+            stmt.close();
             connection.close();
         } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
             Gdx.app.error("CONNECTDB_ADDPLAYER", e.getMessage());
