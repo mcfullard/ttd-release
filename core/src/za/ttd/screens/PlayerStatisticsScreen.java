@@ -37,8 +37,6 @@ public class PlayerStatisticsScreen extends AbstractScreen {
 
     private Label achievementsLabel = new Label("...Achievements...", skin);
 
-
-
     @Override
     public void show() {
         back.addListener(new ClickListener() {

@@ -109,6 +109,7 @@ public class Player implements Telegraph {
                 } else {
                     scoring.lifeUsed();
                     scoring.calcTotScore();
+                    achievements.updateAchievements();
                     MessageManager.getInstance().dispatchMessage(this, MessageType.GAME_OVER);
                 }
                 return true;
