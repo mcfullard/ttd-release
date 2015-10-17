@@ -6,15 +6,18 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import za.ttd.game.Game;
+import za.ttd.game.Achievement;
 import za.ttd.game.Player;
 
 public class PlayerStatisticsScreen extends AbstractScreen {
     private Player player = Player.getInstance();
     private Stage stage = new Stage();
     private Table table = new Table();
+    private Table achievementsTable = new Table();
     private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
     private Label playerStatsLabel = new Label("Player Statistics", skin);
+
+    private ScrollPane scrollPane = new ScrollPane(achievementsTable);
 
     private Label levelLives = new Label("Lives Used: ", skin);
     private Label livesValue = new Label("" + player.scoring.getTotLivesUsed(), skin);
@@ -31,6 +34,10 @@ public class PlayerStatisticsScreen extends AbstractScreen {
 
     private Label lblHighestScore = new Label("Highest Score: ", skin);
     private Label highestScore = new Label("" + player.getHighestScore(), skin);
+
+    private Label achievementsLabel = new Label("...Achievements...", skin);
+
+
 
     @Override
     public void show() {
@@ -56,11 +63,26 @@ public class PlayerStatisticsScreen extends AbstractScreen {
         table.add(collectiblesValue).right().row();
         table.add(powersUsed).size(200, 30).padBottom(5).center();
         table.add(powersUsedValue).right().row();
+
+        //populate achievements and add to main table
+        table.add(achievementsLabel).colspan(2).row();
+        populateAchievementsTable();
+        achievementsTable.setSize(600,400);
+        table.add(scrollPane).row();
+
         table.add(back).size(150, 40).padTop(20).colspan(2);
 
         table.setFillParent(true);
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
+    }
+
+
+    private void populateAchievementsTable(){
+        for(Achievement achievement:player.getAchievements()){
+            Label achievementLabel = new Label(achievement.getDescription(), skin);
+            achievementsTable.add(achievementLabel);
+        }
     }
 
     @Override
