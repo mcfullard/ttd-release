@@ -9,3 +9,8 @@ me or any of the other developers so that we may look into it.
 
 Once we're ready, we're planning to release the source code, but until then you
 can download the game and see if you can beat your friends' highest scores :)
+
+## Requirements
+- Active internet connection
+- Windows / Linux / Mac 
+- [JRE 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)
