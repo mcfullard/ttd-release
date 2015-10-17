@@ -121,7 +121,7 @@ public class ConnectDB
                 player.scoring.setTotPowersUsed(result.getInt(14));
                 player.scoring.setTotScore(result.getInt(15));
             }
-            populatePlayerAchievements(stmt, player);
+
             stmt.close();
             con.close();
         } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
@@ -129,7 +129,7 @@ public class ConnectDB
         }
     }
 
-    private static void populatePlayerAchievements(Statement stmt, Player player) {
+    private static List<Achievement> getAchievementsObtained(Statement stmt, Player player) {
         List<Achievement> achievements = new ArrayList<>();
         try {
             String sql = String.format(
@@ -155,7 +155,7 @@ public class ConnectDB
         } catch (SQLException e) {
             Gdx.app.error("CONNECTDB_GETPLAYERACHIEVEMENTS", e.getMessage());
         }
-        player.setAchievements(achievements);
+        return achievements;
     }
 
     public static void addPlayer() {
@@ -211,7 +211,7 @@ public class ConnectDB
             );
             stmt.execute(highscoreSql);
             stmt.close();
-            insertPlayerAchievements(pstmt, player);
+            insertAchievementsObtained(pstmt, player);
             pstmt.close();
             connection.close();
         } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
@@ -219,7 +219,7 @@ public class ConnectDB
         }
     }
 
-    private static void insertPlayerAchievements(PreparedStatement pstmt, Player player) {
+    private static void insertAchievementsObtained(PreparedStatement pstmt, Player player) {
         try {
             for (Achievement achievement : player.getAchievements()) {
                 String achievementSql = String.format(
@@ -297,7 +297,7 @@ public class ConnectDB
             );
             PreparedStatement pstmt = connection.prepareStatement(prepSql);
             pstmt.execute();
-            insertPlayerAchievements(pstmt, player);
+            insertAchievementsObtained(pstmt, player);
             pstmt.close();
             connection.close();
         } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
@@ -329,7 +329,7 @@ public class ConnectDB
         return highScores;
     }
 
-    public static List<Achievement> getPossibleAchievements() {
+    public static List<Achievement> getAchievements() {
         List<Achievement> achievements = new ArrayList<>();
         try {
             Connection connection = getConnection();
