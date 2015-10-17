@@ -68,7 +68,7 @@ public class Achievements {
 
     }
 
-    public List<Achievement> getAchievements() {
+    public List<Achievement> getAchievementsObtained() {
         return achievementsObtained;
     }
 }
