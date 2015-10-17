@@ -52,23 +52,25 @@ public class PlayerStatisticsScreen extends AbstractScreen {
             }
         });
 
-        table.add(playerStatsLabel).colspan(2).padBottom(20).row();
-        table.add(lblHighestScore).size(200, 30).padBottom(5).center();
+        table.add(playerStatsLabel).colspan(2).padBottom(20).center().row();
+        table.add(lblHighestScore).size(200, 30).padBottom(5).left();
         table.add(highestScore).right().row();
-        table.add(levelLives).size(200, 30).padBottom(5).center();
+        table.add(levelLives).size(200, 30).padBottom(5).left();
         table.add(livesValue).right().row();
-        table.add(badBreath).size(200, 30).padBottom(5).center();
+        table.add(badBreath).size(200, 30).padBottom(5).left();
         table.add(badBreathValue).right().row();
-        table.add(collectibles).size(200, 30).padBottom(5).center();
+        table.add(collectibles).size(200, 30).padBottom(5).left();
         table.add(collectiblesValue).right().row();
-        table.add(powersUsed).size(200, 30).padBottom(5).center();
+        table.add(powersUsed).size(200, 30).padBottom(5).left();
         table.add(powersUsedValue).right().row();
 
         //populate achievements and add to main table
-        table.add(achievementsLabel).colspan(2).row();
+        table.add(achievementsLabel).colspan(2).center().row();
         populateAchievementsTable();
-        achievementsTable.setSize(600,400);
+        achievementsTable.setSize(400,400);
+        scrollPane.setSize(400,400);
         table.add(scrollPane).row();
+        table.setSize(400,400);
 
         table.add(back).size(150, 40).padTop(20).colspan(2);
 
@@ -81,7 +83,7 @@ public class PlayerStatisticsScreen extends AbstractScreen {
     private void populateAchievementsTable(){
         for(Achievement achievement:player.getAchievementsObtained()){
             Label achievementLabel = new Label(achievement.getDescription(), skin);
-            achievementsTable.add(achievementLabel).pad(10).center().row();
+            achievementsTable.add(achievementLabel).pad(5).left().row();
         }
     }
 
