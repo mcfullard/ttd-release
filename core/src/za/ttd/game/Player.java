@@ -34,6 +34,10 @@ public class Player implements Telegraph {
         return instance;
     }
 
+    public void resetScoringSystem() {
+        this.scoring = new ScoringSystem();
+    }
+
     public void setPlayerID(int playerID) {
         this.playerID = playerID;
     }

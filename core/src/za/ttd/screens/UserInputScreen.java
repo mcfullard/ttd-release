@@ -102,6 +102,7 @@ public class UserInputScreen extends AbstractScreen {
                 player.setHighestScore(0);
                 player.setHighestLevel(1);
                 player.setLives(3);
+                player.resetScoringSystem();
                 player.controls.defaultControls();
                 player.setAchievements(ConnectDB.getAchievements());
                 Security.generateHash(player, password);
