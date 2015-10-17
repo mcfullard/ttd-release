@@ -7,7 +7,6 @@ import com.badlogic.gdx.ai.msg.Telegraph;
 import javafx.util.Pair;
 import za.ttd.characters.states.MessageType;
 import za.ttd.game.Achievement;
-import za.ttd.game.Game;
 import za.ttd.game.Player;
 
 import java.net.URISyntaxException;
@@ -122,11 +121,41 @@ public class ConnectDB
                 player.scoring.setTotPowersUsed(result.getInt(14));
                 player.scoring.setTotScore(result.getInt(15));
             }
+            populatePlayerAchievements(stmt, player);
             stmt.close();
             con.close();
         } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
             Gdx.app.error("CONNECTDB_GETPLAYER", e.getMessage());
         }
+    }
+
+    private static void populatePlayerAchievements(Statement stmt, Player player) {
+        List<Achievement> achievements = new ArrayList<>();
+        try {
+            String sql = String.format(
+                    "select t.achievementid, t.bound, m.value, c.value, t.description " +
+                            "from achievement t, metric m, condition c, achieved d " +
+                            "where d.playerid = %d and " +
+                            "d.achievementid = t.achievementid and " +
+                            "t.metricid = m.metricid and " +
+                            "t.conditionid = c.conditionid;",
+                    player.getPlayerID()
+            );
+            ResultSet result = stmt.executeQuery(sql);
+            while(result.next()) {
+                Achievement achievement = new Achievement(
+                    result.getInt(1),
+                    result.getInt(2),
+                    result.getString(3),
+                    result.getString(4),
+                    result.getString(5)
+                );
+                achievements.add(achievement);
+            }
+        } catch (SQLException e) {
+            Gdx.app.error("CONNECTDB_GETPLAYERACHIEVEMENTS", e.getMessage());
+        }
+        player.setAchievements(achievements);
     }
 
     public static void addPlayer() {
@@ -182,15 +211,25 @@ public class ConnectDB
             );
             stmt.execute(highscoreSql);
             stmt.close();
-            for(Achievement achievement : player.getAchievements()) {
+            insertPlayerAchievements(pstmt, player);
+            pstmt.close();
+            connection.close();
+        } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
+            Gdx.app.error("CONNECTDB_ADDPLAYER", e.getMessage());
+        }
+    }
+
+    private static void insertPlayerAchievements(PreparedStatement pstmt, Player player) {
+        try {
+            for (Achievement achievement : player.getAchievements()) {
                 String achievementSql = String.format(
                         "insert into achieved (achievementid, playerid) " +
-                        "select %d, %d " +
-                        "where not exists ( " +
-                            "select achievementid " +
-                            "from achieved " +
-                            "where achievementid = %d " +
-                        ");",
+                                "select %d, %d " +
+                                "where not exists ( " +
+                                "select achievementid " +
+                                "from achieved " +
+                                "where achievementid = %d " +
+                                ");",
                         achievement.getId(),
                         player.getPlayerID(),
                         achievement.getId()
@@ -198,10 +237,8 @@ public class ConnectDB
                 pstmt.addBatch(achievementSql);
             }
             pstmt.executeBatch();
-            pstmt.close();
-            connection.close();
-        } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
-            Gdx.app.error("CONNECTDB_ADDPLAYER", e.getMessage());
+        } catch (SQLException e) {
+            Gdx.app.error("CONNECTDB_INSERTACHIEVEMENT", e.getMessage());
         }
     }
 
@@ -260,6 +297,7 @@ public class ConnectDB
             );
             PreparedStatement pstmt = connection.prepareStatement(prepSql);
             pstmt.execute();
+            insertPlayerAchievements(pstmt, player);
             pstmt.close();
             connection.close();
         } catch (SQLException | URISyntaxException | ClassNotFoundException e) {
@@ -289,6 +327,34 @@ public class ConnectDB
             Gdx.app.error("CONNECTDB_GETHISCORES", e.getMessage());
         }
         return highScores;
+    }
+
+    public static List<Achievement> getPossibleAchievements() {
+        List<Achievement> achievements = new ArrayList<>();
+        try {
+            Connection connection = getConnection();
+            String sql = "select t.achievementid, t.bound, m.value, c.value, t.description " +
+                    "from achievement t, metric m, condition c " +
+                    "where t.metricid = m.metricid and " +
+                    "t.conditionid = c.conditionid;";
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            ResultSet result = pstmt.executeQuery();
+            while(result.next()) {
+                Achievement achievement = new Achievement(
+                        result.getInt(1),
+                        result.getInt(2),
+                        result.getString(3),
+                        result.getString(4),
+                        result.getString(5)
+                );
+                achievements.add(achievement);
+            }
+            pstmt.close();
+            connection.close();
+        } catch (SQLException | URISyntaxException e) {
+            Gdx.app.error("CONNECTDB_POSSIBLEACHIEVEMENTS", e.getMessage());
+        }
+        return achievements;
     }
 
     @Override
