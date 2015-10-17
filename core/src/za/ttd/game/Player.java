@@ -6,6 +6,8 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import za.ttd.characters.states.MessageType;
 
+import java.util.List;
+
 public class Player implements Telegraph {
 
     private int playerID;
@@ -16,6 +18,8 @@ public class Player implements Telegraph {
     public ScoringSystem scoring;
     public Controls controls;
     private static Player instance = null;
+
+    private Achievements achievements;
 
     private Player() {
         this.scoring = new ScoringSystem();
@@ -32,6 +36,14 @@ public class Player implements Telegraph {
 
     public void setPlayerID(int playerID) {
         this.playerID = playerID;
+    }
+
+    public void setAchievements(List<Achievement> achievements) {
+        this.achievements = new Achievements(achievements);
+    }
+
+    public List<Achievement> getAchievements() {
+        return achievements.getAchievements();
     }
 
     public int getPlayerID() {
@@ -101,6 +113,7 @@ public class Player implements Telegraph {
                 }
                 return true;
             case MessageType.NEXT_LEVEL:
+                achievements.updateAchievements();
                 scoring.calcTotScore();
                 return true;
             case MessageType.BADBREATH_DEAD:
