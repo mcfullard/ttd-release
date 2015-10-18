@@ -62,10 +62,10 @@ public class PlayerStatisticsScreen extends AbstractScreen {
         table.add(collectibles).size(200, 30).padBottom(5).left();
         table.add(collectiblesValue).right().row();
         table.add(powersUsed).size(200, 30).padBottom(5).left();
-        table.add(powersUsedValue).right().row();
+        table.add(powersUsedValue).right().padBottom(20).row();
 
         //populate achievements and add to main table
-        table.add(achievementsLabel).colspan(2).center().row();
+        table.add(achievementsLabel).colspan(2).padBottom(20).center().row();
         populateAchievementsTable();
         achievementsTable.setSize(400,400);
         scrollPane.setSize(400,400);
