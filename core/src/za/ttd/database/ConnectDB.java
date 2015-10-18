@@ -251,58 +251,58 @@ public class ConnectDB
             Player player = Player.getInstance();
             Class.forName("org.sqlite.JDBC");
             Connection connection = getConnection();
-            String prepSql = String.format(
-                    "begin; " +
+            Statement stmt = connection.createStatement();
+            stmt.addBatch(String.format(
                     "update player set " +
                     "lives = %d " +
-                    "where playerid=%d; "+
-
+                    "where playerid=%d; ",
+                    player.getLives(),
+                    player.getPlayerID()
+            ));
+            stmt.addBatch(String.format(
                     "update controls set " +
                     "left_key=%d, " +
                     "right_key=%d, " +
                     "up_key=%d, " +
                     "down_key=%d " +
-                    "where playerid=%d; " +
-
+                    "where playerid=%d; ",
+                    player.controls.getLeft(),
+                    player.controls.getRight(),
+                    player.controls.getUp(),
+                    player.controls.getDown(),
+                    player.getPlayerID()
+            ));
+            stmt.addBatch(String.format(
                     "update levels set " +
                     "level = %d, " +
                     "score = %d " +
-                    "where playerid = %d; " +
-
+                    "where playerid = %d; ",
+                    player.getHighestLevel(),
+                    player.scoring.getTotScore(),
+                    player.getPlayerID()
+            ));
+            stmt.addBatch(String.format(
                     "update statistics set " +
                     "levellives = %d, " +
                     "collectible = %d, " +
                     "badbreath = %d, " +
                     "powersused = %d " +
-                    "where playerid = %d; " +
-
-                    "update highscore " +
-                    "set highscore = %d " +
-                    "where playerid = %d;" +
-
-                    "commit;",
-                    player.getLives(),
-                    player.getPlayerID(),
-                    player.controls.getLeft(),
-                    player.controls.getRight(),
-                    player.controls.getUp(),
-                    player.controls.getDown(),
-                    player.getPlayerID(),
-                    player.getHighestLevel(),
-                    player.scoring.getTotScore(),
-                    player.getPlayerID(),
+                    "where playerid = %d; ",
                     player.scoring.getTotLivesUsed(),
                     player.scoring.getTotCollectiblesFound(),
                     player.scoring.getTotBadBreathKilled(),
                     player.scoring.getTotPowersUsed(),
-                    player.getPlayerID(),
+                    player.getPlayerID()
+            ));
+            stmt.addBatch(String.format(
+                    "update highscore " +
+                    "set highscore = %d " +
+                    "where playerid = %d;",
                     player.getHighestScore(),
                     player.getPlayerID()
-            );
-            PreparedStatement pstmt = connection.prepareStatement(prepSql);
-            pstmt.execute();
-            pstmt.close();
-            Statement stmt = connection.createStatement();
+            ));
+            stmt.executeBatch();
+            stmt.clearBatch();
             insertAchievementsObtained(stmt, player);
             stmt.close();
             connection.close();
