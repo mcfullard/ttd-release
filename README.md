@@ -16,4 +16,5 @@ can download the game and see if you can beat your friends' highest scores :)
 ## Release Notes
 
 ###v1.0.2
-After @gnmaritz very kindly pointed out our security loophole, we decided to revert to a build that does not make use of a remote database to track users. We'd definitely like to support that kind of functionality in future, but we just don't have the time to implement it properly right now. Until then you'll just have to play to beat the high scores on your local machine. 
+
+After @gnmaritz very kindly pointed out our security loophole, we decided to revert to a build that does not make use of a remote database to track users. We'd definitely like to support that kind of functionality in future, but we just don't have the time to implement it properly right now. Until then you'll just have to play to beat the high scores on your local machine.

@@ -1,0 +1,3 @@
+{
+connectionString: "jdbc:sqlite:core/assets/data/local.db"
+}

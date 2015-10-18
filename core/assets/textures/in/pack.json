@@ -1,0 +1,4 @@
+// see https://github.com/libgdx/libgdx/wiki/Texture-packer for configuration options
+{
+  "combineSubdirectories": true
+}
