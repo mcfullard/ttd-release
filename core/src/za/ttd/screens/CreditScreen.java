@@ -13,6 +13,7 @@ public class CreditScreen extends AbstractScreen {
     private BitmapFont theMessage;
     private String thankMessage;
     private String namesMessage;
+    private String exitMessage;
     private float elapsedTime;
 
     public CreditScreen() {
@@ -21,6 +22,7 @@ public class CreditScreen extends AbstractScreen {
         theMessage = new BitmapFont();
         thankMessage = "Thank You For Playing Our Game\n                  Team Sudo";
         namesMessage ="      Developers\n\nMinnaar Fullard\nSebastian Lasevicius\nPhilip Le Grange\nRhys Botes";
+        exitMessage="Press ESC to return";
 
         startX = (300-(30*theMessage.getSpaceWidth()));
         startY=0;
@@ -44,6 +46,7 @@ public class CreditScreen extends AbstractScreen {
             startY = -150;
 
         batch.begin();
+            theMessage.draw(batch,exitMessage,5,800);
             theMessage.draw(batch, thankMessage, startX-60, startY);
             theMessage.draw(batch, namesMessage,startX,startY+150);
             batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), x, 336);
