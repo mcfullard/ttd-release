@@ -1,6 +1,5 @@
 package za.ttd.characters.states;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
@@ -106,9 +105,6 @@ public enum BadBreathState implements State<BadBreath> {
             boolean status = super.onMessage(badBreath, telegram);
             if(!status) {
                 switch (telegram.message) {
-                    case MessageType.TOOTHBRUSH_COLLECTED:
-                        badBreath.getBadBreathStateMachine().changeState(DEFEND);
-                        return true;
                     case MessageType.MOUTHWASH_EXPIRED:
                         badBreath.getBadBreathStateMachine().revertToPreviousState();
                         return true;
