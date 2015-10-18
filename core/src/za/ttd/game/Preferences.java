@@ -5,8 +5,11 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 
 /**
  * @author minnaar
@@ -15,15 +18,24 @@ import java.io.IOException;
 public class Preferences {
     public String connectionString;
 
+    public boolean isDebugMode() {
+        return debugMode;
+    }
+
+    public void setDebugMode(boolean debugMode) {
+        this.debugMode = debugMode;
+    }
+
+    public boolean debugMode;
+
     public static Preferences getInstance() {
         Preferences instance = null;
         try {
             Json json = new Json();
-            FileHandle fin = Gdx.files.internal("core/assets/data/preferences");
-            String data = fin.readString();
+            String data = new Scanner(new File("core/assets/data/preferences")).useDelimiter("\\Z").next();
             instance = json.fromJson(Preferences.class, data);
-        } catch (GdxRuntimeException e) {
-            Gdx.app.error("CONFIG", e.getMessage());
+        } catch (FileNotFoundException e) {
+            System.out.print(e.getMessage());
         }
         return instance;
     }

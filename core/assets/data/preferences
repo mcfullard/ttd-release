@@ -1,3 +1,4 @@
 {
-connectionString: "jdbc:sqlite:core/assets/data/local.db"
+connectionString: "jdbc:sqlite:core/assets/data/local.db",
+debugMode: true
 }
