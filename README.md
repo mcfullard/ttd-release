@@ -10,10 +10,10 @@ Once we're ready, we're planning to release the source code, but until then you
 can download the game and see if you can beat your friends' highest scores :)
 
 ## Requirements
-- Active internet connection
 - Windows / Linux / Mac
 - [JRE 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)
 
 ## Release Notes
 
-We're dealing with some security issues currently and have therefore removed all releases to date. Check in soon for updates.
+###v1.0.2
+After @gnmaritz very kindly pointed out our security loophole, we decided to revert to a build that does not make use of a remote database to track users. We'd definitely like to support that kind of functionality in future, but we just don't have the time to implement it properly right now. Until then you'll just have to play to beat the high scores on your local machine. 
