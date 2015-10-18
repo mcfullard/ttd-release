@@ -122,7 +122,7 @@ public class ConnectDB
                 player.scoring.setTotCollectiblesFound(result.getInt(12));
                 player.scoring.setTotBadBreathKilled(result.getInt(13));
                 player.scoring.setTotPowersUsed(result.getInt(14));
-                player.scoring.setTotScore(result.getInt(15));
+                player.scoring.setCurrentTotalScore(result.getInt(15));
             }
             player.setAchievements(getAchievements());
             stmt.close();
@@ -278,7 +278,7 @@ public class ConnectDB
                     "score = %d " +
                     "where playerid = %d; ",
                     player.getHighestLevel(),
-                    player.scoring.getTotScore(),
+                    player.scoring.getCurrentTotalScore(),
                     player.getPlayerID()
             ));
             stmt.addBatch(String.format(

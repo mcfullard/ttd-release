@@ -70,8 +70,8 @@ public class Player implements Telegraph {
     }
 
     public int getHighestScore() {
-        if (scoring.totScore > highestScore)
-            highestScore = scoring.totScore;
+        if (scoring.currentTotalScore > highestScore)
+            highestScore = scoring.currentTotalScore;
         return highestScore;
     }
 
@@ -99,12 +99,20 @@ public class Player implements Telegraph {
         return name;
     }
 
-    public void reset(){
+    public void playerReset(){
         lives = 3;
         highestLevel = 1;
-        scoring.totScore = 0;
-        scoring.lvlScore = 0;
+        scoring.currentTotalScore = 0;
+        levelReset();
     }
+
+    public void levelReset() {
+        scoring.currentLvlScore = 0;
+        scoring.currentNumBadBreathKilled = 0;
+        scoring.currentNumCollectiblesFound = 0;
+        scoring.currentNumPowersUsed = 0;
+    }
+
 
     @Override
     public boolean handleMessage(Telegram msg) {
@@ -167,44 +175,40 @@ public class Player implements Telegraph {
 
     public class ScoringSystem {
 
-        private int lvlScore, totScore, totPowersUsed, totLivesUsed, totCollectiblesFound, totBadBreathKilled;
-        private final int collectibleValue = 5, powerUpValue = 10, badBreathValue = 100, lifeValue = 200, toothDecayValue = 300;
-        private int powersUsed, badBreathKilled, collectiblesFound, livesUsed, toothDecayDestroyed;
-
-        public ScoringSystem() {
-            lvlScore = 0;
-        }
+        private int currentLvlScore, currentTotalScore, totPowersUsed, totLivesUsed, totCollectiblesFound, totBadBreathKilled;
+        private final int collectibleValue = 5, powerUpValue = 10, badBreathValue = 100, lifeValue = 100, toothDecayValue = 300;
+        private int currentNumPowersUsed, currentNumBadBreathKilled, currentNumCollectiblesFound, currentNumLivesUsed, currentNumToothDecayDestroyed;
 
         public void collectibleFound() {
-            ++collectiblesFound;
+            ++currentNumCollectiblesFound;
             ++totCollectiblesFound;
         }
 
         public void powerUsed() {
-            ++powersUsed;
+            ++currentNumPowersUsed;
             ++totPowersUsed;
         }
 
         public void killedBadBreath() {
-            ++badBreathKilled;
+            ++currentNumBadBreathKilled;
             ++totBadBreathKilled;
         }
 
         public void killedToothDecay() {
-            ++toothDecayDestroyed;
+            ++currentNumToothDecayDestroyed;
         }
 
         public void lifeUsed() {
-            ++livesUsed;
+            ++currentNumLivesUsed;
             ++totLivesUsed;
         }
 
         //////////////////////////////////////////////////////Getters///////////////////////////////////////////////////
         /*
         * @return the current score of the player for this level*/
-        public int getLvlScore() {
+        public int getCurrentLvlScore() {
             calcLvlScore();
-            return lvlScore;
+            return currentLvlScore;
         }
 
         public int getTotLivesUsed() {
@@ -227,6 +231,10 @@ public class Player implements Telegraph {
             this.totLivesUsed = totLivesUsed;
         }
 
+        public int getCurrentNumPowersUsed() {
+            return currentNumPowersUsed;
+        }
+
         public void setTotCollectiblesFound(int totCollectiblesFound) {
             this.totCollectiblesFound = totCollectiblesFound;
         }
@@ -239,41 +247,39 @@ public class Player implements Telegraph {
             this.totPowersUsed = totPowersUsed;
         }
 
-        public void setLvlScore(int lvlScore) {
-            this.lvlScore = lvlScore;
+        public void setCurrentLvlScore(int currentLvlScore) {
+            this.currentLvlScore = currentLvlScore;
         }
 
-        public void setTotScore(int totScore) {
-            this.totScore = totScore;
+        public void setCurrentTotalScore(int currentTotalScore) {
+            this.currentTotalScore = currentTotalScore;
         }
 
-        public int getTotScore() {
+        public int getCurrentTotalScore() {
             calcTotScore();
-            return totScore;
+            return currentTotalScore;
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         /*Calculators*/
         private void calcLvlScore() {
-            lvlScore = collectibleValue * collectiblesFound
-                    + badBreathValue * badBreathKilled
-                    + toothDecayDestroyed * toothDecayValue
-                    - powerUpValue * powersUsed
-                    - livesUsed * lifeValue;
+            currentLvlScore = collectibleValue * currentNumCollectiblesFound
+                    + badBreathValue * currentNumBadBreathKilled
+                    + currentNumToothDecayDestroyed * toothDecayValue;
 
-            if (lvlScore < 0) {
-                lvlScore = 0;
+            if (currentLvlScore < 0) {
+                currentLvlScore = 0;
             }
         }
 
         public void calcTotScore() {
-            totScore += lvlScore;
+            currentTotalScore += currentLvlScore
+                    - powerUpValue * currentNumPowersUsed
+                    - currentNumLivesUsed * lifeValue;
         }
 
-        public int getPowersUsed() {
-            return powersUsed;
-        }
+
     }
 
     public class Controls{

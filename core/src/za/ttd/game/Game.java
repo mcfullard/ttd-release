@@ -46,14 +46,14 @@ public class Game extends com.badlogic.gdx.Game implements Telegraph {
     }
 
     public void newGame() {
-        player.reset();
+        player.playerReset();
         createGame();
     }
 
     //Creates a new game depending on the players level
     public void createGame() {
         newPlayer = false;
-        player.scoring.setLvlScore(0);
+        player.levelReset();
         setLevel(new Level());
 
         screenController.setScreen(ScreenTypes.GAME);
@@ -65,7 +65,7 @@ public class Game extends com.badlogic.gdx.Game implements Telegraph {
 
     private void gameOver() {
         newPlayer = true;
-        player.reset();
+        player.playerReset();
         ScreenController.getInstance().setScreen(ScreenTypes.GAME_OVER);
     }
 
