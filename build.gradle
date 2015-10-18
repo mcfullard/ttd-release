@@ -51,7 +51,7 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-ai:1.5.0"
         compile "org.apache.commons:commons-lang3:3.4"
         compile "junit:junit:4.12"
-        compile "postgresql:postgresql:9.0-801.jdbc4"
+        compile "org.xerial:sqlite-jdbc:3.7.2"
     }
 }
 

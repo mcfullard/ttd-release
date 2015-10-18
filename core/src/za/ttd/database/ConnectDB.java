@@ -36,8 +36,14 @@ public class ConnectDB
     }
 
     private static Connection getConnection() throws URISyntaxException, SQLException {
-        String url = Preferences.getInstance().getConnectionString();
-        return DriverManager.getConnection(url);
+        Connection connection = null;
+        try {
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection(Preferences.getInstance().getConnectionString());
+        } catch (ClassNotFoundException e) {
+            Gdx.app.error("CONNECTDB_GETCONNECTION", e.getMessage());
+        }
+        return connection;
     }
 
     /**
@@ -47,7 +53,7 @@ public class ConnectDB
      */
     public static boolean TestConnectivity() throws Exception
     {
-        Class.forName("org.postgresql.Driver");
+        Class.forName("org.sqlite.JDBC");
         try {
             Connection connection = getConnection();
             return true;
@@ -62,7 +68,7 @@ public class ConnectDB
     public static boolean checkPlayerExists(String name) {
         boolean check = false;
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName("org.sqlite.JDBC");
             Connection con = getConnection();
             String sql = String.format(
                     "select p.name " +
@@ -84,7 +90,7 @@ public class ConnectDB
     public static void populatePlayer(String name) {
         Player player = Player.getInstance();
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName("org.sqlite.JDBC");
             Connection con = getConnection();
             String sql = String.format(
                     "select h.highscore, l.level, p.lives, p.playerid, p.salt, p.hash, " +
@@ -158,21 +164,22 @@ public class ConnectDB
     public static void addPlayer() {
         try {
             Player player = Player.getInstance();
-            Class.forName("org.postgresql.Driver");
+            Class.forName("org.sqlite.JDBC");
             Connection connection = getConnection();
             int playerId = -1;
             String playerSql = String.format(
-                    "insert into player(name, salt, hash, lives) values (?, ?, ?, ?) " +
-                    "returning playerid"
+                    "insert into player(name, salt, hash, lives) values (?, ?, ?, ?);"
             );
-            PreparedStatement pstmt = connection.prepareStatement(playerSql);
+            PreparedStatement pstmt = connection.prepareStatement(playerSql,
+                    PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, player.getName());
             pstmt.setBytes(2, player.getSalt());
             pstmt.setBytes(3, player.getHash());
             pstmt.setInt(4, player.getLives());
-            ResultSet rs = pstmt.executeQuery();
+            pstmt.executeUpdate();
+            ResultSet rs = pstmt.getGeneratedKeys();
             while (rs.next()) {
-                playerId = rs.getInt("playerid");
+                playerId = rs.getInt(1);
                 player.setPlayerID(playerId);
             }
             pstmt.close();
@@ -242,7 +249,7 @@ public class ConnectDB
     private void updatePlayer() {
         try {
             Player player = Player.getInstance();
-            Class.forName("org.postgresql.Driver");
+            Class.forName("org.sqlite.JDBC");
             Connection connection = getConnection();
             String prepSql = String.format(
                     "begin; " +
@@ -308,7 +315,7 @@ public class ConnectDB
         List<Pair<String, Integer>> highScores = null;
         try {
             highScores = new ArrayList<>();
-            Class.forName("org.postgresql.Driver");
+            Class.forName("org.sqlite.JDBC");
             Connection connection = getConnection();
             Statement stmt = connection.createStatement();
             String sql = "select p.name, h.highscore " +
@@ -351,7 +358,7 @@ public class ConnectDB
             pstmt.close();
             connection.close();
         } catch (SQLException | URISyntaxException e) {
-            Gdx.app.error("CONNECTDB_POSSIBLEACHIEVEMENTS", e.getMessage());
+            Gdx.app.error("CONNECTDB_GETACHIEVEMENTS", e.getMessage());
         }
         return achievements;
     }
