@@ -12,6 +12,7 @@ public class DesktopLauncher {
 		if(Preferences.getInstance().isDebugMode()) {
 			TexturePacker.process("core/assets/textures/in", "core/assets/textures/out", "texture");
 		}
+		System.setProperty("org.lwjgl.opengl.Display.allowSoftwareOpenGL", "true");
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = Game.WIDTH;
 		config.height = Game.HEIGHT;

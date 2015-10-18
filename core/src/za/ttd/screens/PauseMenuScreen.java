@@ -53,10 +53,13 @@ public class PauseMenuScreen extends AbstractScreen implements Telegraph{
                 PauseMenuScreen.this.dispose();
                 Game.getInstance().setScreen(new LoadingScreen(
                         "Updating database...",
-                        () -> {
-                            MessageManager.getInstance().dispatchMessage(
-                                    Game.getInstance(),
-                                    MessageType.UPDATE_DB);
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                MessageManager.getInstance().dispatchMessage(
+                                        Game.getInstance(),
+                                        MessageType.UPDATE_DB);
+                            }
                         },
                         ScreenTypes.MAIN_MENU
                 ));

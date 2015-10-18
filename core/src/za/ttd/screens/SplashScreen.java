@@ -28,8 +28,11 @@ public class SplashScreen extends AbstractScreen {
                 Actions.alpha(0f),
                 Actions.fadeIn(0.5f),
                 Actions.delay(2),
-                Actions.run(() -> {
-                    ScreenController.getInstance().setScreen(ScreenTypes.USER_INPUT);
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        ScreenController.getInstance().setScreen(ScreenTypes.USER_INPUT);
+                    }
                 })
         ));
     }

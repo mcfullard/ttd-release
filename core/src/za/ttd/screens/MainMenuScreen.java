@@ -90,11 +90,14 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
             public void clicked(InputEvent event, float x, float y) {
                 Game.getInstance().setScreen(new LoadingScreen(
                         "Loading Highscores ...",
-                        () -> {
-                            MessageManager.getInstance().dispatchMessage(
-                                    Game.getInstance(),
-                                    MessageType.UPDATE_DB);
-                        },ScreenTypes.HIGH_SCORES
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                MessageManager.getInstance().dispatchMessage(
+                                        Game.getInstance(),
+                                        MessageType.UPDATE_DB);
+                            }
+                        }, ScreenTypes.HIGH_SCORES
                 ));
             }
         });

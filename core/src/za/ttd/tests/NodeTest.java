@@ -77,8 +77,12 @@ public class NodeTest {
         n4.addEdges(e3, e4);
         n5.addEdges(e4, e5);
         n6.addEdges(e5, e6);
-        nodes.forEach(node -> node.initDistanceVector(nodes));
-        nodes.forEach(node -> node.updateDistanceVector(nodes));
+        for(Node node : nodes) {
+            node.initDistanceVector(nodes);
+        }
+        for(Node node : nodes) {
+            node.updateDistanceVector(nodes);
+        }
         assertEquals(2, n1.getDistanceVector().get(n3.getOrigin()).distance.intValue());
         assertEquals(n2, n1.getDistanceVector().get(n3.getOrigin()).edge.getAdjacent(n1));
         assertEquals(null, n1.getDistanceVector().get(n4.getOrigin()).edge);
@@ -92,8 +96,12 @@ public class NodeTest {
         n4.addEdges(e3, e4);
         n5.addEdges(e4, e5);
         n6.addEdges(e5, e6);
-        nodes.forEach(node -> node.initDistanceVector(nodes));
-        nodes.forEach(node -> node.updateDistanceVector(nodes));
+        for(Node node : nodes) {
+            node.initDistanceVector(nodes);
+        }
+        for(Node node : nodes) {
+            node.updateDistanceVector(nodes);
+        }
         assertEquals(n2.getOrigin(), n1.shortestPathTo(n3.getOrigin()));
         exception.expect(AllPathsNotExploredException.class);
         n1.shortestPathTo(n4.getOrigin());
