@@ -12,3 +12,10 @@ me or any of the other developers so that we may look into it.
 ###v1.0.2
 
 After @gnmaritz very kindly pointed out our security loophole, we decided to revert to a build that does not make use of a remote database to track users. We'd definitely like to support that kind of functionality in future, but we just don't have the time to implement it properly right now. Until then you'll just have to play to beat the high scores on your local machine.
+
+## Developers
+- [Rhys Botes](https://github.com/RhysBotes)
+- [Minnaar-Colin Fullard](https://github.com/mcfullard)
+- [Sebastian Lasevicius](https://github.com/Bas24live)
+- [Philip Legrange](https://github.com/fubar42)
+
