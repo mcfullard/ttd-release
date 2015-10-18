@@ -1,11 +1,16 @@
 # The Wrath of Thomas the Dentist
-We're still actively developing so please be patient :) If you find any
-bugs or have any questions, please create an issue on this repository or contact
-me or any of the other developers so that we may look into it.
+This is our final year game project and is for educational purposes only.
 
-## Requirements
-- Windows / Linux / Mac
-- [JRE 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html)
+## Where can I find the game?
+You can download the latest release on the [releases page](https://github.com/mcfullard/ttd-release/releases)
+
+## What are the requirements to run a release?
+- Multi-platform support for Windows, Linux and Mac as long as you have at least OpenGL v2 (or a proprietary equivalent)
+- You need to have [JRE 8](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) installed
+
+## What do I need to start developing?
+- Java IDE (not strictly necessary, but it makes life easier) that has Gradle integration
+- Git (that goes without saying)
 
 ## Release Notes
 
