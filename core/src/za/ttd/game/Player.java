@@ -111,6 +111,7 @@ public class Player implements Telegraph {
         scoring.currentNumBadBreathKilled = 0;
         scoring.currentNumCollectiblesFound = 0;
         scoring.currentNumPowersUsed = 0;
+        scoring.currentNumToothDecayKilled = 0;
     }
 
 
@@ -131,13 +132,11 @@ public class Player implements Telegraph {
                 return true;
             case MessageType.NEXT_LEVEL:
                 achievements.updateAchievements();
+                scoring.killedToothDecay();
                 scoring.calcTotScore();
                 return true;
             case MessageType.BADBREATH_DEAD:
                 scoring.killedBadBreath();
-                return true;
-            case MessageType.TOOTHDECAY_DEAD:
-                scoring.killedToothDecay();
                 return true;
             case MessageType.PLAQUE_COLLECTED:
                 scoring.collectibleFound();
@@ -177,7 +176,7 @@ public class Player implements Telegraph {
 
         private int currentLvlScore, currentTotalScore, totPowersUsed, totLivesUsed, totCollectiblesFound, totBadBreathKilled;
         private final int collectibleValue = 5, powerUpValue = 10, badBreathValue = 100, lifeValue = 100, toothDecayValue = 300;
-        private int currentNumPowersUsed, currentNumBadBreathKilled, currentNumCollectiblesFound, currentNumLivesUsed, currentNumToothDecayDestroyed;
+        private int currentNumPowersUsed, currentNumBadBreathKilled, currentNumCollectiblesFound, currentNumLivesUsed, currentNumToothDecayKilled;
 
         public void collectibleFound() {
             ++currentNumCollectiblesFound;
@@ -195,7 +194,7 @@ public class Player implements Telegraph {
         }
 
         public void killedToothDecay() {
-            ++currentNumToothDecayDestroyed;
+            ++currentNumToothDecayKilled;
         }
 
         public void lifeUsed() {
@@ -266,17 +265,14 @@ public class Player implements Telegraph {
         private void calcLvlScore() {
             currentLvlScore = collectibleValue * currentNumCollectiblesFound
                     + badBreathValue * currentNumBadBreathKilled
-                    + currentNumToothDecayDestroyed * toothDecayValue;
-
-            if (currentLvlScore < 0) {
-                currentLvlScore = 0;
-            }
+                    + currentNumToothDecayKilled * toothDecayValue;
         }
 
         public void calcTotScore() {
             currentTotalScore += currentLvlScore
                     - powerUpValue * currentNumPowersUsed
                     - currentNumLivesUsed * lifeValue;
+            currentNumToothDecayKilled = 0;
         }
 
 
