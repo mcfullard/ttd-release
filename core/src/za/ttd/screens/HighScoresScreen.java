@@ -80,6 +80,11 @@ public class HighScoresScreen extends AbstractScreen {
     }
 
     @Override
+    public void hide() {
+        dispose();
+    }
+
+    @Override
     public void dispose() {
         stage.dispose();
         skin.dispose();

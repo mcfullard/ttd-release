@@ -56,4 +56,16 @@ public class CreditScreen extends AbstractScreen {
             ScreenController.getInstance().setScreen(ScreenTypes.MAIN_MENU);
         }
     }
+
+    @Override
+    public void hide() {
+        dispose();
+    }
+
+
+    @Override
+    public void dispose() {
+        batch.dispose();
+        theMessage.dispose();
+    }
 }

@@ -59,7 +59,6 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     game.createGame();
-                    MainMenuScreen.this.dispose();
                 }
             });
 
@@ -67,7 +66,6 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.newGame();
-                MainMenuScreen.this.dispose();
             }
         });
 
@@ -75,16 +73,13 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 screenController.setScreen(ScreenTypes.CONTROLS);
-                MainMenuScreen.this.dispose();
             }
         });
 
         buttonCredits.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
                 screenController.setScreen(ScreenTypes.CREDITS);
-                MainMenuScreen.this.dispose();
             }
 
         });
@@ -103,7 +98,6 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
                             }
                         }, ScreenTypes.HIGH_SCORES
                 ));
-                MainMenuScreen.this.dispose();
             }
         });
 
@@ -119,7 +113,6 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 screenController.setScreen(ScreenTypes.PLAYER_STATS);
-                MainMenuScreen.this.dispose();
             }
         });
 
@@ -154,6 +147,11 @@ public class MainMenuScreen extends AbstractScreen implements Telegraph, Telegra
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
+    }
+
+    @Override
+    public void hide() {
+        dispose();
     }
 
     @Override

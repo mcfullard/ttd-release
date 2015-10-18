@@ -104,7 +104,17 @@ public class GameOverScreen extends AbstractScreen implements Telegraph, Telegra
         stage.act();
         stage.draw();
     }
+    @Override
+    public void hide() {
+        dispose();
+    }
 
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+        skin.dispose();
+    }
 
     @Override
     public boolean handleMessage(Telegram msg) {

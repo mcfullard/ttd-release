@@ -1,7 +1,6 @@
 package za.ttd.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
@@ -35,7 +34,6 @@ public class PauseMenuScreen extends AbstractScreen implements Telegraph{
             public void clicked(InputEvent event, float x, float y) {
                 ScreenController.getInstance().setScreen(ScreenTypes.GAME);
                 MessageManager.getInstance().dispatchMessage(PauseMenuScreen.this, MessageType.LEVEL_STARTED);
-                PauseMenuScreen.this.dispose();
             }
         });
 
@@ -49,8 +47,6 @@ public class PauseMenuScreen extends AbstractScreen implements Telegraph{
         btnMainMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //Save game the exit
-                PauseMenuScreen.this.dispose();
                 Game.getInstance().setScreen(new LoadingScreen(
                         "Updating database...",
                         new Runnable() {
@@ -75,6 +71,11 @@ public class PauseMenuScreen extends AbstractScreen implements Telegraph{
         stage.addActor(table);
 
         Gdx.input.setInputProcessor(stage);
+    }
+
+    @Override
+    public void hide() {
+        dispose();
     }
 
     @Override

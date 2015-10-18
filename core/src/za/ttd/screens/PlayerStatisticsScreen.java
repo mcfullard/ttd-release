@@ -79,6 +79,11 @@ public class PlayerStatisticsScreen extends AbstractScreen {
         Gdx.input.setInputProcessor(stage);
     }
 
+    @Override
+    public void hide() {
+        dispose();
+    }
+
 
     private void populateAchievementsTable(){
         for(Achievement achievement:player.getAchievementsObtained()){
