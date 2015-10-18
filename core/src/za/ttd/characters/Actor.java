@@ -21,11 +21,13 @@ public abstract class Actor extends InGameObject
     protected float movementSpeed, pausedSpeed;
     protected Map<Position, InGameObject> gameItems;
     protected Direction direction;
+    protected String actorName;
 
     private final float defaultX, defaultY;
 
     public Actor(Position position, float movementSpeed, String actorName) {
         super(position);
+        this.actorName = actorName;
         defaultX = position.getX();
         defaultY = position.getY();
 
@@ -36,15 +38,27 @@ public abstract class Actor extends InGameObject
         pausedSpeed= 0;
 
         //Get animations
+        normAnimationSet();
+
+        currentAnimation = animationI;
+
+        registerSelfAsListener();
+    }
+
+    public void vulAnimationSet(){
+        animationI = assets.getAnimation(actorName, "Vul");
+        animationU = assets.getAnimation(actorName, "Vul");
+        animationD = assets.getAnimation(actorName, "Vul");
+        animationL = assets.getAnimation(actorName, "Vul");
+        animationR = assets.getAnimation(actorName, "Vul");
+    }
+
+    public void normAnimationSet(){
         animationI = assets.getAnimation(actorName, "Idle");
         animationU = assets.getAnimation(actorName, "Up");
         animationD = assets.getAnimation(actorName, "Down");
         animationL = assets.getAnimation(actorName, "Left");
         animationR = assets.getAnimation(actorName, "Right");
-
-        currentAnimation = animationI;
-
-        registerSelfAsListener();
     }
 
     private void registerSelfAsListener() {

@@ -94,10 +94,20 @@ public enum BadBreathState implements State<BadBreath> {
     },
     FLEE {
         @Override
+        public void enter(BadBreath badBreath) {
+            badBreath.vulAnimationSet();
+        }
+
+        @Override
         public void update(BadBreath badBreath) {
             badBreath.flee();
             if(badBreath.collided(badBreath.getThomas().getPosition()))
                 badBreath.getBadBreathStateMachine().changeState(DIE);
+        }
+
+        @Override
+        public void exit(BadBreath badBreath) {
+            badBreath.normAnimationSet();
         }
 
         @Override

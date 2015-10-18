@@ -56,6 +56,11 @@ public class Assets {
                     textureAtlas.findRegion(String.format("characters/%sR1", character)),
                     textureAtlas.findRegion(String.format("characters/%sR2", character)),
                     textureAtlas.findRegion(String.format("characters/%sR3", character))));
+            if (character.equals("BadBreath"))
+            animationType.put("Vul", new Animation(1/8f,
+                    textureAtlas.findRegion(String.format("characters/%sV1", character)),
+                    textureAtlas.findRegion(String.format("characters/%sV1", character)),
+                    textureAtlas.findRegion(String.format("characters/%sV1", character))));
             animations.put(character, animationType);
         }
 
