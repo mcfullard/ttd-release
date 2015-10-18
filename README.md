@@ -16,8 +16,4 @@ can download the game and see if you can beat your friends' highest scores :)
 
 ## Release Notes
 
-### v1.0.1
-Extract `ttd.zip` and run `ttd.jar` (ensure you have JRE 8 installed).
-
-### v1.0.0
-**Not Working**
+We're dealing with some security issues currently and have therefore removed all releases to date. Check in soon for updates.
