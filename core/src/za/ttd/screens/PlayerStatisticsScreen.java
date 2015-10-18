@@ -35,7 +35,7 @@ public class PlayerStatisticsScreen extends AbstractScreen {
     private Label lblHighestScore = new Label("Highest Score: ", skin);
     private Label highestScore = new Label("" + player.getHighestScore(), skin);
 
-    private Label achievementsLabel = new Label("...Achievements...", skin);
+    private Label achievementsLabel = new Label("Achievements", skin);
 
     @Override
     public void show() {
