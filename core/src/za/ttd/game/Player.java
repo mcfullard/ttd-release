@@ -64,8 +64,7 @@ public class Player implements Telegraph {
                 MessageType.BADBREATH_DEAD,
                 MessageType.MOUTHWASH_COLLECTED,
                 MessageType.PLAQUE_COLLECTED,
-                MessageType.TOOTHDECAY_DEAD,
-                MessageType.NEXT_LEVEL
+                MessageType.TOOTHDECAY_DEAD
         );
     }
 
@@ -130,10 +129,11 @@ public class Player implements Telegraph {
                     MessageManager.getInstance().dispatchMessage(this, MessageType.GAME_OVER);
                 }
                 return true;
-            case MessageType.NEXT_LEVEL:
-                achievements.updateAchievements();
+            case MessageType.TOOTHDECAY_DEAD:
                 scoring.killedToothDecay();
                 scoring.calcTotScore();
+                achievements.updateAchievements();
+                MessageManager.getInstance().dispatchMessage(this, MessageType.NEXT_LEVEL);
                 return true;
             case MessageType.BADBREATH_DEAD:
                 scoring.killedBadBreath();
@@ -255,7 +255,6 @@ public class Player implements Telegraph {
         }
 
         public int getCurrentTotalScore() {
-            calcTotScore();
             return currentTotalScore;
         }
 
@@ -272,7 +271,10 @@ public class Player implements Telegraph {
             currentTotalScore += currentLvlScore
                     - powerUpValue * currentNumPowersUsed
                     - currentNumLivesUsed * lifeValue;
-            currentNumToothDecayKilled = 0;
+
+            if (currentTotalScore < 0) {
+                currentTotalScore = 0;
+            }
         }
 
 

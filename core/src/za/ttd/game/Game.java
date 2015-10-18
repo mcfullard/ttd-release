@@ -72,8 +72,7 @@ public class Game extends com.badlogic.gdx.Game implements Telegraph {
     private void registerSelfAsListener() {
         MessageManager.getInstance().addListeners(this,
                 MessageType.GAME_OVER,
-                MessageType.NEXT_LEVEL,
-                MessageType.LOAD_LEVEL
+                MessageType.NEXT_LEVEL
         );
     }
 
