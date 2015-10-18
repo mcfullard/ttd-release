@@ -1,5 +1,6 @@
 package za.ttd.screens;
 
+import com.badlogic.gdx.Gdx;
 import za.ttd.game.Game;
 
 public class ScreenController {
@@ -23,10 +24,9 @@ public class ScreenController {
     }
 
     public void setScreen(ScreenTypes screen) {
-
-        try {
+        if(currentScreen != null) {
             previousScreen = currentScreen.getClass();
-        }catch (Exception e) {}
+        }
 
         switch (screen) {
             case MAIN_MENU:
