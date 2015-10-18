@@ -83,6 +83,7 @@ public class PlayerStatisticsScreen extends AbstractScreen {
     private void populateAchievementsTable(){
         for(Achievement achievement:player.getAchievementsObtained()){
             Label achievementLabel = new Label(achievement.getDescription(), skin);
+            achievementLabel.setSize(400,10);
             achievementsTable.add(achievementLabel).pad(5).left().row();
         }
     }
