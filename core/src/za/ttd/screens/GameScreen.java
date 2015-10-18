@@ -62,6 +62,11 @@ public class GameScreen extends AbstractScreen implements Telegraph{
     }
 
     @Override
+    public void hide() {
+        dispose();
+    }
+
+    @Override
     public void dispose() {
         super.dispose();
         stage.dispose();

@@ -51,7 +51,13 @@ public class LoadingScreen extends AbstractScreen{
     }
 
     @Override
+    public void hide() {
+        dispose();
+    }
+
+    @Override
     public void dispose() {
         batch.dispose();
+        theMessage.dispose();
     }
 }

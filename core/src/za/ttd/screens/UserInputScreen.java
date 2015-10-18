@@ -4,20 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import za.ttd.database.ConnectDB;
 import za.ttd.game.Game;
 import za.ttd.game.Player;
 import za.ttd.game.Security;
-
-import java.util.ArrayList;
 
 /**
  * @author minnaar
@@ -142,8 +135,12 @@ public class UserInputScreen extends AbstractScreen {
         dialog.button("Yes", true);
     }
 
+    @Override
+    public void hide() {
+        dispose();
+    }
+
     private void toMainMenu() {
-        UserInputScreen.this.dispose();
         ScreenController.getInstance().setScreen(ScreenTypes.MAIN_MENU);
     }
 }
