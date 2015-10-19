@@ -48,6 +48,7 @@ public class GameScreen extends AbstractScreen implements Telegraph{
         if(ConnectDB.checkPlayerExists(Player.getInstance().getName())) {
             dialog.show(stage);
         }
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -55,7 +56,6 @@ public class GameScreen extends AbstractScreen implements Telegraph{
         level.render();
         stage.act();
         stage.draw();
-        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
