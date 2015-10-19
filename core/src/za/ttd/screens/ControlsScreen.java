@@ -14,7 +14,7 @@ public class ControlsScreen extends AbstractScreen{
 
     private Stage stage = new Stage();
     private Table table = new Table();
-    private Skin skin = new Skin(Gdx.files.internal("core/assets/defaultui/uiskin.json"));
+    private Skin skin = new Skin(Gdx.files.local("defaultui/uiskin.json"));
     private TextButton btnBack = new TextButton("BACK", skin);
     private TextField txtUp, txtDown, txtLeft, txtRight;
     private Label lblUp, lblDown, lblLeft, lblRight, title = new Label("Controls", skin);

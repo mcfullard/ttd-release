@@ -32,7 +32,7 @@ public class Preferences {
         Preferences instance = null;
         try {
             Json json = new Json();
-            String data = new Scanner(new File("core/assets/data/preferences")).useDelimiter("\\Z").next();
+            String data = new Scanner(new File("data/preferences")).useDelimiter("\\Z").next();
             instance = json.fromJson(Preferences.class, data);
         } catch (FileNotFoundException e) {
             System.out.print(e.getMessage());
@@ -42,7 +42,7 @@ public class Preferences {
 
     public void storeInstance() {
         try {
-            FileWriter writer = new FileWriter("core/assets/data/preferences");
+            FileWriter writer = new FileWriter("data/preferences");
             Json json = new Json();
             String data = json.prettyPrint(this);
             writer.write(data);

@@ -12,7 +12,7 @@ import java.util.Map;
 public class Assets {
 
     private static Assets instance = null;
-    private final String atlasFilePath = "core/assets/textures/out/texture.atlas";
+    private final String atlasFilePath = "textures/out/texture.atlas";
     private TextureAtlas textureAtlas;
     private Map<String, Map<String, Animation>> animations;
     private Map<String, Animation> animationType;
@@ -22,7 +22,7 @@ public class Assets {
 
     private Assets() {
         loading = false;
-        textureAtlas = new TextureAtlas(Gdx.files.internal(atlasFilePath));
+        textureAtlas = new TextureAtlas(Gdx.files.local(atlasFilePath));
 
         animations = new HashMap<>();
         texturedObjects = new HashMap<>();
