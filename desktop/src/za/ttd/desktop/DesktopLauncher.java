@@ -9,7 +9,7 @@ import za.ttd.game.Preferences;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
-		//TexturePacker.process("textures/in", "textures/out", "texture");
+		TexturePacker.process("textures/in", "textures/out", "texture");
 		System.setProperty("org.lwjgl.opengl.Display.allowSoftwareOpenGL", "true");
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = Game.WIDTH;
