@@ -45,7 +45,7 @@ public class GameScreen extends AbstractScreen implements Telegraph{
         label.setAlignment(Align.center);
         dialog.text(label);
         dialog.button("Okay");
-        if(ConnectDB.checkPlayerExists(Player.getInstance().getName())) {
+        if(!ConnectDB.checkPlayerExists(Player.getInstance().getName())) {
             dialog.show(stage);
         }
     }
