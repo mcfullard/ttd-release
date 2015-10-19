@@ -14,7 +14,7 @@ public class PlayerStatisticsScreen extends AbstractScreen {
     private Stage stage = new Stage();
     private Table table = new Table();
     private Table achievementsTable = new Table();
-    private Skin skin = new Skin(Gdx.files.local("defaultui/uiskin.json"));
+    private Skin skin = new Skin(Gdx.files.internal("defaultui/uiskin.json"));
     private Label playerStatsLabel = new Label("Player Statistics", skin);
 
     private ScrollPane scrollPane = new ScrollPane(achievementsTable);

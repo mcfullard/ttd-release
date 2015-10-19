@@ -25,7 +25,7 @@ import za.ttd.game.Game;
 public class MainMenuScreen extends AbstractScreen implements Telegraph, TelegramProvider {
     private Stage stage = new Stage();
     private Table table = new Table();
-    private Skin skin = new Skin(Gdx.files.local("defaultui/uiskin.json"));
+    private Skin skin = new Skin(Gdx.files.internal("defaultui/uiskin.json"));
     private TextButton buttonContinue = new TextButton("Continue", skin);
     private TextButton buttonNewGame = new TextButton("New Game", skin);
     private TextButton buttonHighScore = new TextButton("High Scores", skin);

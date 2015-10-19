@@ -20,7 +20,7 @@ public class PauseMenuScreen extends AbstractScreen implements Telegraph{
 
     private Stage stage = new Stage();
     private Table table = new Table();
-    private Skin skin = new Skin(Gdx.files.local("defaultui/uiskin.json"));
+    private Skin skin = new Skin(Gdx.files.internal("defaultui/uiskin.json"));
     private TextButton btnContinue = new TextButton("Continue", skin);
     private TextButton btnControls = new TextButton("Controls", skin);
     private TextButton btnMainMenu = new TextButton("Main Menu", skin);

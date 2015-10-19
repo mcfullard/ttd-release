@@ -20,7 +20,7 @@ public class GameOverScreen extends AbstractScreen implements Telegraph, Telegra
 
     private Stage stage = new Stage();
     private Table table = new Table();
-    private Skin skin = new Skin(Gdx.files.local("defaultui/uiskin.json"));
+    private Skin skin = new Skin(Gdx.files.internal("defaultui/uiskin.json"));
     private Label gameOverLabel = new Label("GAME OVER!", skin);
     private TextButton buttonViewHighScores = new TextButton("High Scores", skin);
     private TextButton buttonViewPlayerStatistics = new TextButton("Statistics", skin);

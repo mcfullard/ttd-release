@@ -20,7 +20,7 @@ public class UserInputScreen extends AbstractScreen {
     private Stage stage = new Stage();
     private Table table = new Table();
     //private Skin skin = new Skin(Gdx.files.internal("core/assets/textures/out/texture.json"));
-    private Skin skin = new Skin(Gdx.files.local("defaultui/uiskin.json"));
+    private Skin skin = new Skin(Gdx.files.internal("defaultui/uiskin.json"));
     private Label labelName = new Label("Enter Name", skin);
     private Label labelPassword = new Label("Enter Password", skin);
     private Label labelInfo = new Label("(New players: consider this registration)", skin);

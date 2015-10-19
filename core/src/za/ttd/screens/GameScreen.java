@@ -20,7 +20,7 @@ public class GameScreen extends AbstractScreen implements Telegraph{
     private Level level;
     private Dialog dialog;
     private Stage stage = new Stage();
-    private Skin skin = new Skin(Gdx.files.local("defaultui/uiskin.json"));
+    private Skin skin = new Skin(Gdx.files.internal("defaultui/uiskin.json"));
     
     public GameScreen() {
         this.level = Game.getInstance().getLevel();

@@ -22,7 +22,7 @@ public class Assets {
 
     private Assets() {
         loading = false;
-        textureAtlas = new TextureAtlas(Gdx.files.local(atlasFilePath));
+        textureAtlas = new TextureAtlas(Gdx.files.internal(atlasFilePath));
 
         animations = new HashMap<>();
         texturedObjects = new HashMap<>();

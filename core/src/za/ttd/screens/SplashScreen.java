@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
  *
  */
 public class SplashScreen extends AbstractScreen {
-    private Texture texture = new Texture(Gdx.files.local("img/screens/splash.png"));
+    private Texture texture = new Texture(Gdx.files.internal("img/screens/splash.png"));
     private Image splashImage = new Image(texture);
     private Stage stage = new Stage();
 
