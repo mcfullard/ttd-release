@@ -1,5 +1,6 @@
 # The Wrath of Thomas the Dentist
-This is our final year game project and is for educational purposes only.
+This is our final year game project and is for educational purposes only. We hope you enjoy playing it as much as we enjoy making it.
+Please use the [issue tracker](https://github.com/mcfullard/ttd-release/issues) to report any bugs, suggestions or questions.
 
 ## Where can I find the game?
 You can download the latest release on the [releases page](https://github.com/mcfullard/ttd-release/releases)
@@ -12,7 +13,18 @@ You can download the latest release on the [releases page](https://github.com/mc
 - Java IDE (not strictly necessary, but it makes life easier) that has Gradle integration
 - Git (that goes without saying)
 
+## What are the licensing issues?
+The source code is distributed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license.
+
 ## Release Notes
+
+###v1.0.4
+
+- Fixed phantom menu buttons
+- Changed Bad Breath color on vulnerable
+- Added instruction dialog on first game
+- Fixed scoring system
+- Fixed non-vulnerable Bad Breath state on Defend
 
 ###v1.0.3
 
