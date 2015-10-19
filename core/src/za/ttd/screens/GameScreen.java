@@ -6,7 +6,9 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Align;
 import za.ttd.characters.states.MessageType;
 import za.ttd.database.ConnectDB;
 import za.ttd.game.Game;
@@ -35,11 +37,17 @@ public class GameScreen extends AbstractScreen implements Telegraph{
     public void show() {
         super.show();
         dialog = new Dialog("Instructions", skin);
-        dialog.text("Lorem ipsum dolar sit amet. Consecutor... I can't remember the rest");
+        Label label = new Label(
+                "Use the arrow keys to move around and \nevade the Bad Breath and Tooth Decay. \n" +
+                "Collect Minty Mouthwash bottles in the \ncorners to make Bad Breath temporarily \n" +
+                "vulnerable. Collect Benny the Brush to \ndefeat Tooth Decay and progress to the " +
+                "next level.", skin);
+        label.setAlignment(Align.center);
+        dialog.text(label);
+        dialog.button("Okay");
         if(ConnectDB.checkPlayerExists(Player.getInstance().getName())) {
             dialog.show(stage);
         }
-        dialog.button("Okay");
     }
 
     @Override
