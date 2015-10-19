@@ -126,6 +126,7 @@ public abstract class Enemy extends Actor {
     @Override
     public void revive() {
         super.revive();
+        this.speedStateMachine.changeState(EnemySpeedState.NORMAL);
         this.vulnerable = false;
     }
 

@@ -67,12 +67,16 @@ public enum EnemySpeedState implements State<Enemy> {
 
     @Override
     public boolean onMessage(Enemy enemy, Telegram telegram) {
-        if (telegram.message == MessageType.MOUTHWASH_COLLECTED) {
-            enemy.getSpeedStateMachine().changeState(SLOW);
-            return true;
-        }
-        else
-            return false;
 
+        switch(telegram.message){
+            case MessageType.MOUTHWASH_COLLECTED:
+                enemy.getSpeedStateMachine().changeState(SLOW);
+                return true;
+            case MessageType.LEVEL_RESET:
+                enemy.getSpeedStateMachine().changeState(NORMAL);
+                return true;
+            default:
+                return false;
+        }
     }
 }
