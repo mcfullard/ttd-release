@@ -1,4 +1,4 @@
 {
-connectionString: "jdbc:sqlite:data/local.db",
+connectionString: "jdbc:sqlite:local.db",
 debugMode: true
 }
