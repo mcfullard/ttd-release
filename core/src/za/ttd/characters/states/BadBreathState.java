@@ -115,6 +115,9 @@ public enum BadBreathState implements State<BadBreath> {
             boolean status = super.onMessage(badBreath, telegram);
             if(!status) {
                 switch (telegram.message) {
+                    case MessageType.TOOTHBRUSH_COLLECTED:
+                        badBreath.getBadBreathStateMachine().changeState(DEFEND);
+                        return true;
                     case MessageType.MOUTHWASH_EXPIRED:
                         badBreath.getBadBreathStateMachine().revertToPreviousState();
                         return true;
