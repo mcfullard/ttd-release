@@ -30,13 +30,10 @@ public class Preferences {
 
     public static Preferences getInstance() {
         Preferences instance = null;
-        try {
-            Json json = new Json();
-            String data = new Scanner(new File("data/preferences")).useDelimiter("\\Z").next();
-            instance = json.fromJson(Preferences.class, data);
-        } catch (FileNotFoundException e) {
-            System.out.print(e.getMessage());
-        }
+        Json json = new Json();
+        FileHandle fin = Gdx.files.local("data/preferences");
+        String data = fin.readString();
+        instance = json.fromJson(Preferences.class, data);
         return instance;
     }
 
