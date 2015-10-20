@@ -25,9 +25,9 @@ public class HudRenderer {
         int width = Game.WIDTH;
         int height = Game.HEIGHT;
         batch.begin();
-        lblLvlScore.draw(batch, "LEVEL SCORE: " + Player.getInstance().scoring.getCurrentLvlScore(), width*.05f, height*.95f);
+        lblLvlScore.draw(batch, "LEVEL SCORE : " + Player.getInstance().scoring.getCurrentLvlScore(), width*.05f, height*.95f);
         lblLvlNum.draw(batch, "LEVEL : " + Player.getInstance().getHighestLevel(), width*.45f, height*.95f);
-        lblLives.draw(batch, "Lives : " + Player.getInstance().getLives(), width*.85f, height*.95f);
+        lblLives.draw(batch, "LIVES : " + Player.getInstance().getLives(), width*.85f, height*.95f);
         batch.end();
     }
 
