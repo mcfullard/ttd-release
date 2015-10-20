@@ -15,7 +15,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="splash.svg">
+   sodipodi:docname="splash.svg"
+   inkscape:export-filename="/home/minnaar/projects/ttd-release/core/assets/img/screens/splash.png"
+   inkscape:export-xdpi="91.160004"
+   inkscape:export-ydpi="91.160004">
   <defs
      id="defs4">
     <linearGradient
@@ -141,6 +144,6 @@
          id="tspan5278"
          x="301.52344"
          y="1004.885"
-         style="font-size:20px;text-align:center;text-anchor:middle;fill:#ffdddd;fill-opacity:1">v 0.0.1</tspan></text>
+         style="font-size:20px;text-align:center;text-anchor:middle;fill:#ffdddd;fill-opacity:1">v 1.0.6</tspan></text>
   </g>
 </svg>
