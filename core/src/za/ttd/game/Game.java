@@ -43,19 +43,29 @@ public class Game extends com.badlogic.gdx.Game implements Telegraph {
         screenController.setScreen(ScreenTypes.SPLASH);
         assets = Assets.getInstance();
         assets.Load();
-        assets.loadCharacterAnimation("BadBreath",
+        assets.loadAnimation("characters",
+                "BadBreath",
                 "",
                 new String[]{"Idle", "Up", "Down", "Left", "Right"},
                 1,
                 9,
                 1/20f
         );
-        assets.loadCharacterAnimation("BadBreath",
+        assets.loadAnimation("characters",
+                "BadBreath",
                 "V",
                 new String[]{"Vul"},
                 1,
                 9,
-                1/20f
+                1 /20f
+        );
+        assets.loadAnimation("items",
+                "Benny",
+                "",
+                new String[]{"Idle"},
+                1,
+                11,
+                1/8f
         );
     }
 

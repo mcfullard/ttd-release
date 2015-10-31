@@ -33,6 +33,7 @@ public class Assets {
         gameCharacters.add("Thomas");
         gameCharacters.add("BadBreath");
         gameCharacters.add("ToothDecay");
+        gameCharacters.add("Benny");
     }
 
     public void Load() {
@@ -94,25 +95,27 @@ public class Assets {
         loading = false;
     }
 
-    public void loadCharacterAnimation(String characterName,
-                                       String identifier,
+    public void loadAnimation(String folder,
+                                       String name,
+                                       String typeIdentifier,
                                        String[] types,
                                        int startIndex,
                                        int endIndex,
                                        float frameDuration) {
-        animationType = animations.get(characterName);
+        animationType = animations.get(name);
         TextureRegion[] regions = new TextureRegion[endIndex - startIndex + 1];
         for(int i = startIndex; i <= endIndex; i++) {
             regions[i - startIndex] = (textureAtlas.findRegion(String.format(
-                    "characters/%s%s%d",
-                    characterName,
-                    identifier,
+                    "%s/%s%s%d",
+                    folder,
+                    name,
+                    typeIdentifier,
                     i
             )));
         }
         Animation animation = new Animation(frameDuration, regions);
         for(String character:gameCharacters) {
-           if(character.equals(characterName)) {
+           if(character.equals(name)) {
                for(String type : types) {
                    animationType.put(type, animation);
                }
