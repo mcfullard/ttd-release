@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Assets {
@@ -91,6 +92,33 @@ public class Assets {
 
         //Loading is complete, tell the rest of the world
         loading = false;
+    }
+
+    public void loadCharacterAnimation(String characterName,
+                                       String identifier,
+                                       String[] types,
+                                       int startIndex,
+                                       int endIndex,
+                                       float frameDuration) {
+        animationType = animations.get(characterName);
+        TextureRegion[] regions = new TextureRegion[endIndex - startIndex + 1];
+        for(int i = startIndex; i <= endIndex; i++) {
+            regions[i - startIndex] = (textureAtlas.findRegion(String.format(
+                    "characters/%s%s%d",
+                    characterName,
+                    identifier,
+                    i
+            )));
+        }
+        Animation animation = new Animation(frameDuration, regions);
+        for(String character:gameCharacters) {
+           if(character.equals(characterName)) {
+               for(String type : types) {
+                   animationType.put(type, animation);
+               }
+               animations.put(character, animationType);
+           }
+        }
     }
 
     public Animation getAnimation(String character, String animation) {
